@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>03 Physics Simulation</title>
+</head>
+<body>
+
+<h1>03 Physics Simulation</h1>
+<p data-status="not_started">Status: not_started</p>
+
+<section data-role="spec">
+  <h2>Spec</h2>
+  <p>Rapier 3D is the authoritative physics engine for v1. The simulation should be strict enough that repeated shots behave consistently, while still allowing table tuning for fair 3-5 minute games.</p>
+
+  <section id="rapier-world">
+    <h3>Rapier world</h3>
+    <p>The game creates a fixed-step Rapier world with stable gravity along the table slope. The render loop may interpolate, but gameplay rules read from the fixed simulation state.</p>
+  </section>
+
+  <section id="ball-body">
+    <h3>Ball body</h3>
+    <p>The pinball is a dynamic rigid body with spherical collision, material tuning, spin, restitution, friction, and velocity caps that prevent tunneling and unreadable speeds.</p>
+  </section>
+
+  <section id="flipper-actuation">
+    <h3>Flipper actuation</h3>
+    <p>Flippers are physical bodies or joint-driven devices that transfer force to the ball. They must support held, released, and rapid-tap states without clipping through the ball.</p>
+  </section>
+
+  <section id="colliders-and-sensors">
+    <h3>Colliders and sensors</h3>
+    <p>Walls, posts, rubbers, lanes, rollover switches, drain, targets, saucers, ramps, and bumper zones are represented with explicit colliders or sensors. Sensors must not apply physical force unless the device requires it.</p>
+  </section>
+
+  <section id="bumpers-and-slings">
+    <h3>Bumpers and slings</h3>
+    <p>Bumpers and slingshots apply impulse in readable directions and trigger audio, lamps, scoring, and device state changes from one collision event path.</p>
+  </section>
+
+  <section id="plunger-physics">
+    <h3>Plunger physics</h3>
+    <p>The plunger maps analog charge to launch impulse. The launch must allow a real skill-shot range rather than a single fixed strength.</p>
+  </section>
+
+  <section id="nudge-and-tilt">
+    <h3>Nudge and tilt</h3>
+    <p>Nudging applies table-relative impulses to the ball or world. Repeated or excessive nudges raise tilt warnings, and crossing the tilt threshold disables flippers until the current ball drains.</p>
+  </section>
+
+  <section id="drain-and-trough">
+    <h3>Drain and trough</h3>
+    <p>The drain sensor detects ball loss, routes balls into the trough, starts bonus count, and serves the next ball or ends the game when the three-ball session is complete.</p>
+  </section>
+
+  <section id="multiball-physics">
+    <h3>Multiball physics</h3>
+    <p>The simulation supports multiple active balls with independent rigid bodies, sensors, scoring ownership, and drain accounting. Multiball cannot rely on fake overlay balls.</p>
+  </section>
+</section>
+
+<section data-role="build-log">
+  <h2>Build log</h2>
+  <ul>
+    <li data-date="2026-06-09">Initial GDD draft created. Files: <code>docs/gdd/03-physics-simulation.html</code>. PR TBD.</li>
+  </ul>
+</section>
+
+</body>
+</html>

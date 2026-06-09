@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>01 Vision And Pillars</title>
+</head>
+<body>
+
+<h1>01 Vision And Pillars</h1>
+<p data-status="not_started">Status: not_started</p>
+
+<section data-role="spec">
+  <h2>Spec</h2>
+  <p>VibePinball v1 is a 3D web-native pinball game built around one polished classic physical table: <strong>Silverball Social</strong>. It should feel like a believable arcade cabinet that happens to run in a browser: real flippers, a real plunger lane, a strict ball simulation, visible table devices, mechanical audio, lamps, score chasing, and fast retries.</p>
+  <p>The v1 target is not a broad platform. It is a high-quality first table that can survive repeated play on stream and still feel fair, readable, and skillful.</p>
+
+  <section id="pillar-simulation-first">
+    <h3>Simulation first</h3>
+    <p>The ball, flippers, table collision, ramps, lanes, bumpers, nudging, tilt, drains, and multiball interactions are authored as a physical system. Tuning may improve playability, but the game should not feel scripted or fake.</p>
+  </section>
+
+  <section id="pillar-classic-arcade">
+    <h3>Classic arcade cabinet</h3>
+    <p>The table theme is Silverball Social: a warm arcade hall and league-night table with polished wood, chrome, plastics, incandescent-style lamps, score inserts, a DMD-style display, and familiar pinball objects.</p>
+  </section>
+
+  <section id="pillar-one-table">
+    <h3>One polished table</h3>
+    <p>All v1 work serves one complete table. More tables, an editor, mods, and cosmetic marketplaces are deferred until the first table is fun, stable, and complete.</p>
+  </section>
+
+  <section id="pillar-readable-3d">
+    <h3>Readable 3D</h3>
+    <p>The player gets a fixed tilted cabinet view that keeps the full playfield visible. 3D depth, lighting, and cabinet presence must improve clarity rather than hide the ball or make shots hard to read.</p>
+  </section>
+
+  <section id="pillar-streamable-runs">
+    <h3>Streamable runs</h3>
+    <p>A normal game should last about 3-5 minutes across three balls. Restarts are instant, scoring is visible, multiball creates a strong highlight moment, and the final score is easy to compare.</p>
+  </section>
+
+  <section id="success-criteria">
+    <h3>V1 success criteria</h3>
+    <ul>
+      <li>A new player can launch the game, start a three-ball session, operate the table, and understand the current score without instructions outside the game.</li>
+      <li>A skilled player can intentionally aim at lanes, ramps, targets, and lock shots.</li>
+      <li>Nudging is useful but risky, with visible warnings and an actual tilt penalty.</li>
+      <li>Lock and multiball are reachable in normal play and feel like the table centerpiece.</li>
+      <li>Scores persist locally and can be submitted to a global leaderboard with server-side sanity checks.</li>
+      <li>The 3D scene is nonblank, correctly framed, and responsive across supported browser viewports.</li>
+    </ul>
+  </section>
+</section>
+
+<section data-role="build-log">
+  <h2>Build log</h2>
+  <ul>
+    <li data-date="2026-06-09">Initial GDD draft created. Files: <code>docs/gdd/01-vision-and-pillars.html</code>. PR TBD.</li>
+  </ul>
+</section>
+
+</body>
+</html>

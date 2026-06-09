@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>08 State And Leaderboard</title>
+</head>
+<body>
+
+<h1>08 State And Leaderboard</h1>
+<p data-status="not_started">Status: not_started</p>
+
+<section data-role="spec">
+  <h2>Spec</h2>
+  <p>VibePinball persists local preferences and eligible scores, then submits completed games to a global leaderboard with server-side sanity checks. The game must remain playable when online services are unavailable.</p>
+
+  <section id="local-settings">
+    <h3>Local settings</h3>
+    <p>Audio levels, input preferences, initials, accessibility choices, and last-used options persist through Vibekit storage helpers with Zod validation.</p>
+  </section>
+
+  <section id="session-state">
+    <h3>Session state</h3>
+    <p>Active game state tracks score, ball number, active balls, tilt state, lock progress, multiball state, bonus counters, run start time, and table id.</p>
+  </section>
+
+  <section id="local-high-scores">
+    <h3>Local high scores</h3>
+    <p>The game stores a local high-score list so score chasing works offline and before leaderboard setup is complete.</p>
+  </section>
+
+  <section id="leaderboard-submit">
+    <h3>Leaderboard submit</h3>
+    <p>Completed games can submit score, initials, table id, duration, ball count, tilt count, multiball count, jackpot count, major scoring counters, and build version to the server.</p>
+  </section>
+
+  <section id="leaderboard-sanity">
+    <h3>Leaderboard sanity checks</h3>
+    <p>The server rejects impossible or malformed score summaries, including negative values, invalid initials, wrong table id, impossible duration, impossible ball count, and counters inconsistent with the ruleset.</p>
+  </section>
+
+  <section id="leaderboard-rate-limit">
+    <h3>Leaderboard rate limit</h3>
+    <p>Server routes use Vibekit server rate-limit helpers or equivalent Upstash-backed primitives to limit repeated submissions and protect the project-specific backing store.</p>
+  </section>
+
+  <section id="leaderboard-storage">
+    <h3>Leaderboard storage</h3>
+    <p>The global leaderboard uses a dedicated Upstash Redis resource attached only to the VibePinball Vercel project. It must not share another project's store.</p>
+  </section>
+
+  <section id="offline-degrade">
+    <h3>Offline degrade</h3>
+    <p>If the leaderboard service is unavailable, the game keeps local play, local scores, and clear non-blocking UI feedback. Failed submissions must not crash or erase a completed run.</p>
+  </section>
+</section>
+
+<section data-role="build-log">
+  <h2>Build log</h2>
+  <ul>
+    <li data-date="2026-06-09">Initial GDD draft created. Files: <code>docs/gdd/08-state-and-leaderboard.html</code>. PR TBD.</li>
+  </ul>
+</section>
+
+</body>
+</html>

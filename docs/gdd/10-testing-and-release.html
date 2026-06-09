@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>10 Testing And Release</title>
+</head>
+<body>
+
+<h1>10 Testing And Release</h1>
+<p data-status="not_started">Status: not_started</p>
+
+<section data-role="spec">
+  <h2>Spec</h2>
+  <p>VibePinball needs both mechanical verification and qualitative playtest gates. The project cannot stop because requirements are technically present if the table is not fun, readable, and fair.</p>
+
+  <section id="unit-tests">
+    <h3>Unit tests</h3>
+    <p>Pure scoring, rules, tilt, bonus, input mapping, storage schema, and leaderboard validation logic must have Vitest coverage.</p>
+  </section>
+
+  <section id="physics-tests">
+    <h3>Physics tests</h3>
+    <p>Physics tests or deterministic harnesses should verify flipper activation, drain detection, sensor events, plunger launch ranges, nudge accumulation, and multiball ball accounting where feasible.</p>
+  </section>
+
+  <section id="render-smoke">
+    <h3>Render smoke</h3>
+    <p>Playwright must verify that the 3D canvas renders nonblank pixels, the table is framed, the ball is visible after launch, and resize behavior does not hide the playfield.</p>
+  </section>
+
+  <section id="input-smoke">
+    <h3>Input smoke</h3>
+    <p>Automated or manual smoke checks must cover keyboard, touch emulation, and gamepad mapping where browser automation allows it.</p>
+  </section>
+
+  <section id="leaderboard-tests">
+    <h3>Leaderboard tests</h3>
+    <p>API route tests must cover valid submission, invalid schema, impossible score summary, rate-limit behavior, unavailable KV, and leaderboard read response shape.</p>
+  </section>
+
+  <section id="release-playtest">
+    <h3>Release playtest</h3>
+    <p>A release candidate must complete the playtest gate in <code>docs/PLAYTEST.html</code>: 3-5 minute target sessions, readable ball motion, reachable multiball, fair drains, useful nudging, and no blocking browser issues.</p>
+  </section>
+
+  <section id="fun-factor-audit">
+    <h3>Fun factor audit</h3>
+    <p>When GDD coverage reaches 80 percent, run <code>docs/FUN_FACTOR_AUDIT.html</code> and convert P0 or P1 gaps into release-blocking followups or dots.</p>
+  </section>
+</section>
+
+<section data-role="build-log">
+  <h2>Build log</h2>
+  <ul>
+    <li data-date="2026-06-09">Initial GDD draft created. Files: <code>docs/gdd/10-testing-and-release.html</code>. PR TBD.</li>
+  </ul>
+</section>
+
+</body>
+</html>

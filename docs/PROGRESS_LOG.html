@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Progress Log</title>
+</head>
+<body>
+
+<header>
+  <h1>Progress Log</h1>
+  <p>Newest entries first. Every implementation slice adds an entry. Append-only: never delete, never reorder, never edit a previous entry.</p>
+  <p>Each slice is an <code>&lt;article data-slice="..." data-date="YYYY-MM-DD"&gt;</code> with the following <code>&lt;dl&gt;</code> entries: <code>Branch</code>, <code>PR</code>, <code>Changed</code>, <code>Verification</code>, <code>Assumptions</code>, <code>GDD coverage</code>, <code>Followups</code>.</p>
+</header>
+
+<section id="template" data-role="entry-template">
+  <h2>How to add a slice entry</h2>
+  <p>Copy this template, fill in the values, and insert it as the new top entry under <code>&lt;main id="entries"&gt;</code>.</p>
+  <pre><code>&lt;article data-slice="short-title" data-date="YYYY-MM-DD"&gt;
+  &lt;h3&gt;Short Title&lt;/h3&gt;
+  &lt;dl&gt;
+    &lt;dt&gt;Branch&lt;/dt&gt;&lt;dd&gt;&lt;code&gt;feature/short-name&lt;/code&gt;&lt;/dd&gt;
+    &lt;dt&gt;PR&lt;/dt&gt;&lt;dd&gt;#N (when known)&lt;/dd&gt;
+    &lt;dt&gt;Changed&lt;/dt&gt;&lt;dd&gt;one paragraph naming the user-facing change and the key files / helpers / defaults that landed.&lt;/dd&gt;
+    &lt;dt&gt;Verification&lt;/dt&gt;&lt;dd&gt;dash checks, type-check, relevant unit tests, build, smoke (where applicable). Note any known-tolerated lint warnings or skipped checks.&lt;/dd&gt;
+    &lt;dt&gt;Assumptions&lt;/dt&gt;&lt;dd&gt;assumptions made under a Recommended default. One sentence per assumption.&lt;/dd&gt;
+    &lt;dt&gt;GDD coverage&lt;/dt&gt;&lt;dd&gt;which rows in &lt;code&gt;docs/GDD_COVERAGE.json&lt;/code&gt; flipped to &lt;code&gt;partial&lt;/code&gt; or &lt;code&gt;done&lt;/code&gt;, or which &lt;code&gt;docs/gdd/*.html&lt;/code&gt; files gained a Build log entry.&lt;/dd&gt;
+    &lt;dt&gt;Followups&lt;/dt&gt;&lt;dd&gt;any new &lt;code&gt;F-NNN&lt;/code&gt; entries created. Link to them.&lt;/dd&gt;
+  &lt;/dl&gt;
+&lt;/article&gt;</code></pre>
+</section>
+
+<main id="entries">
+
+  <article data-slice="initial-gdd-draft" data-date="2026-06-09">
+    <h3>Initial GDD Draft</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>docs/initial-gdd-draft</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>drafted the first VibePinball GDD pass for a 3D web-native, simulation-strict pinball game using Next.js, Three.js, Rapier 3D, and Vibekit. Added focused GDD section files for vision, table layout, physics, controls, scoring, rendering, audio, leaderboard, architecture, testing, and v1 out-of-scope fences. Replaced placeholder coverage rows with 82 atomic requirements and made the Vibekit dependency ledger entry project-specific.</dd>
+      <dt>Verification</dt><dd><code>jq empty docs/GDD_COVERAGE.json</code>; <code>bash /Users/randroid/.agents/skills/spiral-html/scripts/audit.sh</code>; <code>rg -n $'\u2014|\u2013' . -g '!/.git/**'</code>; <code>git diff --check</code>; coverage ref and anchor validation with Node.</dd>
+      <dt>Assumptions</dt><dd>VibePinball will follow the approved stack now recorded in <code>AGENTS.md</code>: Next.js App Router, React, TypeScript strict, Three.js, Rapier 3D, Zod, Vitest, Playwright, Vercel, Upstash Redis, and <code>@randroids-dojo/vibekit</code>.</dd>
+      <dt>GDD coverage</dt><dd><code>docs/GDD_COVERAGE.json</code> now tracks <code>REQ-001</code> through <code>REQ-082</code> at atomic requirement granularity. All rows remain <code>not_started</code> because this slice defines requirements but does not ship runtime implementation.</dd>
+      <dt>Followups</dt><dd>Resolved <code>F-001</code>. No new followups.</dd>
+    </dl>
+  </article>
+
+  <article data-slice="spiral-html-scaffold-initialized" data-date="2026-06-09">
+    <h3>Spiral-html Scaffold Initialized</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>setup/spiral-html</code></dd>
+      <dt>Changed</dt><dd>bootstrapped the VibePinball scaffold using the <code>spiral-html</code> skill. Created <code>AGENTS.md</code> (the Markdown contract), <code>CLAUDE.md</code> (one-line <code>@AGENTS.md</code> import), <code>docs/IMPLEMENTATION_PLAN.html</code>, <code>docs/WORKING_AGREEMENT.html</code>, <code>docs/gdd/index.html</code>, <code>docs/GDD_COVERAGE.json</code>, <code>docs/PROGRESS_LOG.html</code>, <code>docs/OPEN_QUESTIONS.html</code>, <code>docs/FOLLOWUPS.html</code>, <code>docs/DEPENDENCY_LEDGER.html</code>, <code>docs/PLAYTEST.html</code>, and <code>docs/FUN_FACTOR_AUDIT.html</code>.</dd>
+      <dt>Verification</dt><dd>em-dash grep returned nothing.</dd>
+      <dt>Assumptions</dt><dd>the GDD will be drafted under <code>docs/gdd/</code> at requirement granularity per the anti-Flatline guardrail in <code>docs/gdd/index.html</code>.</dd>
+      <dt>GDD coverage</dt><dd>ledger created with two example rows; replace these with real requirements before opening any feature PRs.</dd>
+      <dt>Followups</dt><dd>F-001 to draft the first GDD section (vision and pillars).</dd>
+    </dl>
+  </article>
+
+</main>
+
+</body>
+</html>

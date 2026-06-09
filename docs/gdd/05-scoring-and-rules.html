@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>05 Scoring And Rules</title>
+</head>
+<body>
+
+<h1>05 Scoring And Rules</h1>
+<p data-status="not_started">Status: not_started</p>
+
+<section data-role="spec">
+  <h2>Spec</h2>
+  <p>Silverball Social uses classic-simple pinball rules with one modern centerpiece: lock and multiball. The rules should be understandable from the table lights and DMD messages without a manual.</p>
+
+  <section id="three-ball-game">
+    <h3>Three-ball game</h3>
+    <p>A session starts with ball one, awards bonus after each drain, serves balls two and three, then ends with final score, initials entry if eligible, and leaderboard submission flow.</p>
+  </section>
+
+  <section id="base-scoring">
+    <h3>Base scoring</h3>
+    <p>Bumpers, slings, lanes, rollovers, targets, ramps, orbit shots, skill shots, locks, jackpots, bonus, and multiball events each award explicit point values.</p>
+  </section>
+
+  <section id="skill-shot">
+    <h3>Skill shot</h3>
+    <p>The analog plunger can land the ball in a lit skill-shot lane. The DMD announces the award and the table lights reset for normal play after the attempt is made or missed.</p>
+  </section>
+
+  <section id="target-progress">
+    <h3>Target progress</h3>
+    <p>Completing the target bank advances lock qualification. Target state is visible through inserts or target changes and survives until the current lock stage completes.</p>
+  </section>
+
+  <section id="ball-lock">
+    <h3>Ball lock</h3>
+    <p>Once qualified, a lock shot captures a ball or records a virtual lock if physical capture would harm play pacing. The table clearly shows lock count and serves the next ball when needed.</p>
+  </section>
+
+  <section id="multiball">
+    <h3>Multiball</h3>
+    <p>After enough locks, multiball launches multiple active balls, lights jackpots, plays heightened feedback, and ends when only one ball remains active.</p>
+  </section>
+
+  <section id="jackpots">
+    <h3>Jackpots</h3>
+    <p>During multiball, lit major shots award jackpots. Completing enough jackpots can light a super jackpot, but v1 keeps the sequence short enough for normal players to see it.</p>
+  </section>
+
+  <section id="bonus-count">
+    <h3>Bonus count</h3>
+    <p>After each non-tilted drain, the table counts bonus from lanes, targets, bumpers, and mode progress. Tilt cancels bonus for that ball.</p>
+  </section>
+
+  <section id="tilt-penalty">
+    <h3>Tilt penalty</h3>
+    <p>Tilt disables flippers and scoring for the current ball until it drains. The next ball begins normally with tilt warnings cleared.</p>
+  </section>
+
+  <section id="difficulty-target">
+    <h3>Difficulty target</h3>
+    <p>The default tuning is fair but demanding. New players should last a few minutes, while accurate shots, controlled catches, plunger skill, and nudge discipline produce meaningfully better scores.</p>
+  </section>
+</section>
+
+<section data-role="build-log">
+  <h2>Build log</h2>
+  <ul>
+    <li data-date="2026-06-09">Initial GDD draft created. Files: <code>docs/gdd/05-scoring-and-rules.html</code>. PR TBD.</li>
+  </ul>
+</section>
+
+</body>
+</html>

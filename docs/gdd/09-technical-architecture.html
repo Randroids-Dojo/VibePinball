@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>09 Technical Architecture</title>
+</head>
+<body>
+
+<h1>09 Technical Architecture</h1>
+<p data-status="not_started">Status: not_started</p>
+
+<section data-role="spec">
+  <h2>Spec</h2>
+  <p>VibePinball uses the same web-native game pattern as nearby Vibe projects: Next.js App Router, React, TypeScript strict, Three.js rendering, Rapier 3D physics, Vibekit shared utilities, Zod validation, Vitest unit tests, Playwright smoke tests, and Vercel deployment.</p>
+
+  <section id="next-app">
+    <h3>Next.js app</h3>
+    <p>The app uses a single primary game route with client-side runtime ownership of the render loop, input, and simulation. Server routes are limited to leaderboard and health-style needs.</p>
+  </section>
+
+  <section id="typescript-boundaries">
+    <h3>TypeScript boundaries</h3>
+    <p>Game logic, physics mapping, scoring rules, input action state, persistence schemas, and leaderboard validation are typed in strict TypeScript with explicit module boundaries.</p>
+  </section>
+
+  <section id="render-module">
+    <h3>Render module</h3>
+    <p>The render module owns Three.js scene creation, asset setup, material setup, camera framing, resize behavior, and syncing visible meshes to simulation state.</p>
+  </section>
+
+  <section id="physics-module">
+    <h3>Physics module</h3>
+    <p>The physics module owns Rapier world creation, fixed-step simulation, rigid body setup, colliders, sensors, event extraction, and table device impulses.</p>
+  </section>
+
+  <section id="rules-module">
+    <h3>Rules module</h3>
+    <p>The rules module consumes normalized physics and input events and produces scoring, lamps, DMD messages, ball state, tilt state, bonus state, and leaderboard-ready summaries.</p>
+  </section>
+
+  <section id="vibekit-usage">
+    <h3>Vibekit usage</h3>
+    <p>The project consumes Vibekit for shared math helpers, RNG when deterministic randomness is useful, storage helpers, audio context lifecycle, server KV helpers, and rate-limit primitives. Project-specific pinball rules stay local.</p>
+  </section>
+
+  <section id="asset-pipeline">
+    <h3>Asset pipeline</h3>
+    <p>v1 may use authored procedural geometry and lightweight generated assets. Asset loading must fail visibly in development and degrade clearly in production.</p>
+  </section>
+
+  <section id="deployment">
+    <h3>Deployment</h3>
+    <p>Vercel is the deployment target. Main branch deployment requires green verification, a healthy preview, and dedicated project storage before online leaderboard features are enabled.</p>
+  </section>
+</section>
+
+<section data-role="build-log">
+  <h2>Build log</h2>
+  <ul>
+    <li data-date="2026-06-09">Initial GDD draft created. Files: <code>docs/gdd/09-technical-architecture.html</code>. PR TBD.</li>
+  </ul>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>02 Table Layout</title>
+</head>
+<body>
+
+<h1>02 Table Layout</h1>
+<p data-status="not_started">Status: not_started</p>
+
+<section data-role="spec">
+  <h2>Spec</h2>
+  <p>Silverball Social is a single classic physical playfield with enough devices to support a simple ruleset, a skill shot, intentional aiming, and one lock-and-multiball centerpiece. Layout choices must favor readability from the fixed cabinet camera.</p>
+
+  <section id="playfield-boundaries">
+    <h3>Playfield boundaries</h3>
+    <p>The table has a sloped playfield, side walls, an apron, drain, two main flippers, inlanes, outlanes, a shooter lane, and a ball trough. Boundaries must be represented in both render geometry and physics collision.</p>
+  </section>
+
+  <section id="lower-playfield">
+    <h3>Lower playfield</h3>
+    <p>The lower third contains left and right flippers, slingshots, inlanes, outlanes, lane rollover sensors, and a central drain. The player should have meaningful save opportunities without making drains feel random or unfair.</p>
+  </section>
+
+  <section id="upper-playfield">
+    <h3>Upper playfield</h3>
+    <p>The upper third contains a bumper nest, rollover lanes, a skill-shot lane, and one orbit or return path that can feed the ball back toward the flippers.</p>
+  </section>
+
+  <section id="ramps-and-orbits">
+    <h3>Ramps and orbits</h3>
+    <p>The table includes at least one primary ramp and one orbit path. These shots are intentionally aimable from the flippers and support combo scoring without requiring deep modern rules.</p>
+  </section>
+
+  <section id="target-bank">
+    <h3>Target bank</h3>
+    <p>A bank of physical standup or drop targets advances lock progress. Targets must show clear hit, lit, and completed states.</p>
+  </section>
+
+  <section id="lock-device">
+    <h3>Lock device</h3>
+    <p>The lock device captures balls for multiball. It can be a saucer, scoop, or physical lane, but it must be readable, reachable, and visibly hold locked balls or represent them on the playfield.</p>
+  </section>
+
+  <section id="cabinet-props">
+    <h3>Cabinet props</h3>
+    <p>The scene includes a cabinet, rails, glass impression or rim, plunger housing, speaker panel or DMD area, and decorative arcade hall context. Props cannot block the ball or hide scoring information.</p>
+  </section>
+</section>
+
+<section data-role="build-log">
+  <h2>Build log</h2>
+  <ul>
+    <li data-date="2026-06-09">Initial GDD draft created. Files: <code>docs/gdd/02-table-layout.html</code>. PR TBD.</li>
+  </ul>
+</section>
+
+</body>
+</html>

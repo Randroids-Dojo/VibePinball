@@ -1,0 +1,745 @@
+{
+  "_comment_1": "ATOMIC GRANULARITY ONLY. One row per requirement, not per chapter. A 14-day project should produce on the order of 100 rows. If your row count is implausibly low for project age, the loop will self-terminate before the product is good. This is the Flatline failure mode.",
+  "_comment_2": "Allowed status values: not_started | partial | done. Every row should carry implementationRefs and testRefs once status >= partial. followupRefs link to F-NNN entries in FOLLOWUPS.html.",
+  "updatedAt": "2026-06-09",
+  "rows": [
+    {
+      "id": "REQ-001",
+      "requirement": "V1 presents VibePinball as one polished 3D web-native table named Silverball Social.",
+      "gddRef": "docs/gdd/01-vision-and-pillars.html#pillar-one-table",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-002",
+      "requirement": "Ball, flipper, table, ramp, lane, nudge, tilt, drain, and multiball behavior are authored as a physical simulation.",
+      "gddRef": "docs/gdd/01-vision-and-pillars.html#pillar-simulation-first",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-003",
+      "requirement": "The table visual theme reads as a classic arcade cabinet with league-night Silverball Social flavor.",
+      "gddRef": "docs/gdd/01-vision-and-pillars.html#pillar-classic-arcade",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-004",
+      "requirement": "The default camera keeps the playfield readable in a fixed tilted 3D cabinet view.",
+      "gddRef": "docs/gdd/01-vision-and-pillars.html#pillar-readable-3d",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-005",
+      "requirement": "A normal game targets a 3-5 minute three-ball session with fast restart and clear final score.",
+      "gddRef": "docs/gdd/01-vision-and-pillars.html#pillar-streamable-runs",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-006",
+      "requirement": "V1 success criteria are visible in the GDD and can be checked before release.",
+      "gddRef": "docs/gdd/01-vision-and-pillars.html#success-criteria",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-007",
+      "requirement": "The playfield includes sloped boundaries, side walls, apron, drain, main flippers, inlanes, outlanes, shooter lane, and trough.",
+      "gddRef": "docs/gdd/02-table-layout.html#playfield-boundaries",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-008",
+      "requirement": "The lower playfield includes flippers, slingshots, inlanes, outlanes, rollover sensors, and central drain.",
+      "gddRef": "docs/gdd/02-table-layout.html#lower-playfield",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-009",
+      "requirement": "The upper playfield includes bumper nest, rollover lanes, skill-shot lane, and a return path.",
+      "gddRef": "docs/gdd/02-table-layout.html#upper-playfield",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-010",
+      "requirement": "The table includes at least one aimable ramp and one aimable orbit path.",
+      "gddRef": "docs/gdd/02-table-layout.html#ramps-and-orbits",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-011",
+      "requirement": "A visible target bank advances lock progress and exposes hit, lit, and completed states.",
+      "gddRef": "docs/gdd/02-table-layout.html#target-bank",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-012",
+      "requirement": "A readable lock device captures or represents locked balls for multiball qualification.",
+      "gddRef": "docs/gdd/02-table-layout.html#lock-device",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-013",
+      "requirement": "The rendered scene includes cabinet, rails, plunger housing, speaker or DMD area, and arcade hall context.",
+      "gddRef": "docs/gdd/02-table-layout.html#cabinet-props",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-014",
+      "requirement": "The game runs a fixed-step Rapier 3D world with stable table-slope gravity.",
+      "gddRef": "docs/gdd/03-physics-simulation.html#rapier-world",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-015",
+      "requirement": "The pinball is a dynamic spherical rigid body with tuned restitution, friction, spin, and velocity caps.",
+      "gddRef": "docs/gdd/03-physics-simulation.html#ball-body",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-016",
+      "requirement": "Flippers transfer physical force through bodies or joints and support held, released, and rapid-tap states.",
+      "gddRef": "docs/gdd/03-physics-simulation.html#flipper-actuation",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-017",
+      "requirement": "Walls, posts, rubbers, lanes, rollovers, drain, targets, saucers, ramps, and bumpers use explicit colliders or sensors.",
+      "gddRef": "docs/gdd/03-physics-simulation.html#colliders-and-sensors",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-018",
+      "requirement": "Bumpers and slingshots apply readable impulses and emit scoring, audio, lamp, and device events.",
+      "gddRef": "docs/gdd/03-physics-simulation.html#bumpers-and-slings",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-019",
+      "requirement": "The plunger maps analog charge to launch impulse across a useful skill-shot range.",
+      "gddRef": "docs/gdd/03-physics-simulation.html#plunger-physics",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-020",
+      "requirement": "Nudging applies table-relative impulse and repeated excessive nudges trigger tilt warnings and tilt.",
+      "gddRef": "docs/gdd/03-physics-simulation.html#nudge-and-tilt",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-021",
+      "requirement": "Drain and trough logic detects ball loss, counts bonus, serves next ball, and ends completed games.",
+      "gddRef": "docs/gdd/03-physics-simulation.html#drain-and-trough",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-022",
+      "requirement": "Multiball uses multiple real active ball bodies with independent scoring and drain accounting.",
+      "gddRef": "docs/gdd/03-physics-simulation.html#multiball-physics",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-023",
+      "requirement": "Gameplay input is normalized into action state independent of keyboard, touch, or gamepad source.",
+      "gddRef": "docs/gdd/04-controls-and-input.html#input-actions",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-024",
+      "requirement": "Keyboard defaults cover flippers, plunger, nudges, start, pause, restart, confirm, and back.",
+      "gddRef": "docs/gdd/04-controls-and-input.html#keyboard-controls",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-025",
+      "requirement": "Touch controls provide large flipper regions, analog plunger control, and explicit nudge controls.",
+      "gddRef": "docs/gdd/04-controls-and-input.html#touch-controls",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-026",
+      "requirement": "Gamepad controls map flippers, plunger, nudges, pause, restart, confirm, and back.",
+      "gddRef": "docs/gdd/04-controls-and-input.html#gamepad-controls",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-027",
+      "requirement": "Flipper and plunger input are responsive on the next simulation tick and do not drop quick taps during frame drops.",
+      "gddRef": "docs/gdd/04-controls-and-input.html#input-buffering",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-028",
+      "requirement": "Active play controls prevent unsafe browser scrolling or focus loss while menus remain accessible.",
+      "gddRef": "docs/gdd/04-controls-and-input.html#focus-and-browser",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-029",
+      "requirement": "The start and pause states show concise device-aware control reminders.",
+      "gddRef": "docs/gdd/04-controls-and-input.html#control-reminders",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-030",
+      "requirement": "The game runs a three-ball session with bonus after each drain and final score after ball three.",
+      "gddRef": "docs/gdd/05-scoring-and-rules.html#three-ball-game",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-031",
+      "requirement": "Base scoring assigns explicit values to bumpers, slings, lanes, rollovers, targets, ramps, orbits, locks, jackpots, bonus, and multiball.",
+      "gddRef": "docs/gdd/05-scoring-and-rules.html#base-scoring",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-032",
+      "requirement": "Analog launch can award a skill shot through a lit lane and then resets to normal play.",
+      "gddRef": "docs/gdd/05-scoring-and-rules.html#skill-shot",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-033",
+      "requirement": "Completing the target bank advances visible lock qualification state.",
+      "gddRef": "docs/gdd/05-scoring-and-rules.html#target-progress",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-034",
+      "requirement": "A qualified lock shot captures or records locked balls and serves replacement balls when needed.",
+      "gddRef": "docs/gdd/05-scoring-and-rules.html#ball-lock",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-035",
+      "requirement": "Multiball launches multiple active balls, lights jackpots, and ends when one active ball remains.",
+      "gddRef": "docs/gdd/05-scoring-and-rules.html#multiball",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-036",
+      "requirement": "Multiball jackpots and super jackpot state are short, visible, and achievable in normal play.",
+      "gddRef": "docs/gdd/05-scoring-and-rules.html#jackpots",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-037",
+      "requirement": "Bonus count awards lane, target, bumper, and mode progress after non-tilted drains.",
+      "gddRef": "docs/gdd/05-scoring-and-rules.html#bonus-count",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-038",
+      "requirement": "Tilt disables flippers and scoring for the current ball, cancels bonus, and clears on the next ball.",
+      "gddRef": "docs/gdd/05-scoring-and-rules.html#tilt-penalty",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-039",
+      "requirement": "Default rules tuning is fair but demanding and rewards accurate shots, catches, plunger skill, and nudge discipline.",
+      "gddRef": "docs/gdd/05-scoring-and-rules.html#difficulty-target",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-040",
+      "requirement": "The default camera is fixed and shows the full playfield without chasing the ball.",
+      "gddRef": "docs/gdd/06-camera-and-rendering.html#fixed-cabinet-camera",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-041",
+      "requirement": "Responsive framing keeps the ball and flippers readable on desktop, tablet, and phone viewports.",
+      "gddRef": "docs/gdd/06-camera-and-rendering.html#responsive-framing",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-042",
+      "requirement": "Three.js renders cabinet, playfield, ball, devices, lamps, DMD or HUD, and arcade hall context.",
+      "gddRef": "docs/gdd/06-camera-and-rendering.html#three-scene",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-043",
+      "requirement": "Table materials and lighting communicate wood, metal, rubber, plastics, lamps, painted art, and ball reflections without hiding play.",
+      "gddRef": "docs/gdd/06-camera-and-rendering.html#materials-and-lighting",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-044",
+      "requirement": "The ball remains readable against the playfield during high-speed motion.",
+      "gddRef": "docs/gdd/06-camera-and-rendering.html#ball-readability",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-045",
+      "requirement": "HUD or DMD shows score, ball number, tilt warnings, lock count, multiball state, and major awards.",
+      "gddRef": "docs/gdd/06-camera-and-rendering.html#hud-and-dmd",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-046",
+      "requirement": "Rendering exposes performance controls or fallbacks for heavy visual effects.",
+      "gddRef": "docs/gdd/06-camera-and-rendering.html#render-performance",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-047",
+      "requirement": "The game uses Vibekit audio context helpers and safely no-ops when Web Audio is unavailable.",
+      "gddRef": "docs/gdd/07-audio-and-feedback.html#audio-context",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-048",
+      "requirement": "Flippers, slingshots, bumpers, rollovers, targets, plunger, lock, drain, trough, tilt warning, and tilt have distinct audio cues.",
+      "gddRef": "docs/gdd/07-audio-and-feedback.html#mechanical-sounds",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-049",
+      "requirement": "The table includes a subtle music bed that does not mask mechanical pinball sounds.",
+      "gddRef": "docs/gdd/07-audio-and-feedback.html#music-bed",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-050",
+      "requirement": "Lamps and inserts communicate current objectives, progress, multiball, jackpots, warnings, and bonus count.",
+      "gddRef": "docs/gdd/07-audio-and-feedback.html#lamp-feedback",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-051",
+      "requirement": "DMD messages announce start, skill shot, awards, locks, multiball, jackpots, tilt, bonus, game over, and leaderboard eligibility.",
+      "gddRef": "docs/gdd/07-audio-and-feedback.html#dmd-messages",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-052",
+      "requirement": "Major hits combine audio, lamp flash, score or DMD update, and optional impulse without harming ball tracking.",
+      "gddRef": "docs/gdd/07-audio-and-feedback.html#hit-feedback",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-053",
+      "requirement": "Music and sound-effect settings persist locally through Vibekit storage helpers.",
+      "gddRef": "docs/gdd/07-audio-and-feedback.html#settings",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-054",
+      "requirement": "Audio levels, input preferences, initials, accessibility choices, and last-used options persist with Zod validation.",
+      "gddRef": "docs/gdd/08-state-and-leaderboard.html#local-settings",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-055",
+      "requirement": "Active session state tracks score, ball number, active balls, tilt, locks, multiball, bonus, run start, and table id.",
+      "gddRef": "docs/gdd/08-state-and-leaderboard.html#session-state",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-056",
+      "requirement": "The game stores a local high-score list for offline play and local score chasing.",
+      "gddRef": "docs/gdd/08-state-and-leaderboard.html#local-high-scores",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-057",
+      "requirement": "Completed games submit score, initials, table id, duration, ball count, tilt count, multiball count, jackpot count, counters, and build version.",
+      "gddRef": "docs/gdd/08-state-and-leaderboard.html#leaderboard-submit",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-058",
+      "requirement": "The server rejects impossible or malformed leaderboard score summaries.",
+      "gddRef": "docs/gdd/08-state-and-leaderboard.html#leaderboard-sanity",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-059",
+      "requirement": "Leaderboard routes rate-limit repeated submissions using Vibekit server helpers or equivalent Upstash-backed primitives.",
+      "gddRef": "docs/gdd/08-state-and-leaderboard.html#leaderboard-rate-limit",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-060",
+      "requirement": "The global leaderboard uses a dedicated VibePinball Upstash Redis resource and never shares another project's store.",
+      "gddRef": "docs/gdd/08-state-and-leaderboard.html#leaderboard-storage",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-061",
+      "requirement": "Leaderboard outages do not block local play, local scores, or completed-run UI.",
+      "gddRef": "docs/gdd/08-state-and-leaderboard.html#offline-degrade",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-062",
+      "requirement": "The app uses Next.js App Router with client-owned simulation and server routes limited to online services.",
+      "gddRef": "docs/gdd/09-technical-architecture.html#next-app",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-063",
+      "requirement": "Game logic, physics mapping, scoring, input, persistence, and leaderboard validation use strict TypeScript boundaries.",
+      "gddRef": "docs/gdd/09-technical-architecture.html#typescript-boundaries",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-064",
+      "requirement": "The render module owns Three.js scene setup, assets, materials, camera, resize, and mesh sync.",
+      "gddRef": "docs/gdd/09-technical-architecture.html#render-module",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-065",
+      "requirement": "The physics module owns Rapier world setup, fixed steps, bodies, colliders, sensors, events, and device impulses.",
+      "gddRef": "docs/gdd/09-technical-architecture.html#physics-module",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-066",
+      "requirement": "The rules module consumes physics and input events and produces scoring, lamps, DMD, ball, tilt, bonus, and summary state.",
+      "gddRef": "docs/gdd/09-technical-architecture.html#rules-module",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-067",
+      "requirement": "Vibekit is used for shared math, RNG, storage, audio context lifecycle, server KV, and rate-limit primitives where applicable.",
+      "gddRef": "docs/gdd/09-technical-architecture.html#vibekit-usage",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-068",
+      "requirement": "Asset loading fails visibly in development and degrades clearly in production.",
+      "gddRef": "docs/gdd/09-technical-architecture.html#asset-pipeline",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-069",
+      "requirement": "Vercel deployment requires green verification, a healthy preview, and dedicated storage before leaderboard features are enabled.",
+      "gddRef": "docs/gdd/09-technical-architecture.html#deployment",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-070",
+      "requirement": "Pure scoring, rules, tilt, bonus, input mapping, storage, and leaderboard validation logic have Vitest coverage.",
+      "gddRef": "docs/gdd/10-testing-and-release.html#unit-tests",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-071",
+      "requirement": "Physics harnesses verify flipper activation, drain detection, sensors, plunger ranges, nudge accumulation, and multiball accounting where feasible.",
+      "gddRef": "docs/gdd/10-testing-and-release.html#physics-tests",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-072",
+      "requirement": "Playwright verifies nonblank 3D canvas pixels, table framing, visible ball after launch, and resize safety.",
+      "gddRef": "docs/gdd/10-testing-and-release.html#render-smoke",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-073",
+      "requirement": "Smoke coverage exercises keyboard, touch emulation, and gamepad mapping where browser automation allows it.",
+      "gddRef": "docs/gdd/10-testing-and-release.html#input-smoke",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-074",
+      "requirement": "Leaderboard API tests cover valid submission, invalid schema, impossible score, rate limit, unavailable KV, and read response shape.",
+      "gddRef": "docs/gdd/10-testing-and-release.html#leaderboard-tests",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-075",
+      "requirement": "Release candidates pass a playtest gate for session length, readability, multiball, drains, nudging, and browser health.",
+      "gddRef": "docs/gdd/10-testing-and-release.html#release-playtest",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-076",
+      "requirement": "At 80 percent GDD coverage, the fun-factor audit converts P0 or P1 gaps into release-blocking work.",
+      "gddRef": "docs/gdd/10-testing-and-release.html#fun-factor-audit",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-077",
+      "requirement": "V1 excludes table editor, layout editor, scripting tools, and public creation workflow.",
+      "gddRef": "docs/gdd/99-out-of-scope.html#no-editor",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-078",
+      "requirement": "V1 excludes second tables, themed variants, and alternate layouts.",
+      "gddRef": "docs/gdd/99-out-of-scope.html#no-multiple-tables",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-079",
+      "requirement": "V1 excludes mods, skins marketplace, user-generated assets, table sharing, and paid cosmetic systems.",
+      "gddRef": "docs/gdd/99-out-of-scope.html#no-mod-marketplace",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-080",
+      "requirement": "V1 excludes deep modern wizard rules, long mission stacks, complex mode stacking, and advanced rule chains.",
+      "gddRef": "docs/gdd/99-out-of-scope.html#no-deep-wizard-rules",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-081",
+      "requirement": "V1 excludes coin-door, operator-menu, service diagnostic, maintenance, and real-money operation simulation.",
+      "gddRef": "docs/gdd/99-out-of-scope.html#no-cabinet-service-sim",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    },
+    {
+      "id": "REQ-082",
+      "requirement": "V1 excludes replay-verified leaderboard validation and full anti-cheat replay adjudication.",
+      "gddRef": "docs/gdd/99-out-of-scope.html#no-replay-verification",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": []
+    }
+  ]
+}

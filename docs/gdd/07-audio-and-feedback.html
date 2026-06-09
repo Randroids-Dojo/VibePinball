@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>07 Audio And Feedback</title>
+</head>
+<body>
+
+<h1>07 Audio And Feedback</h1>
+<p data-status="not_started">Status: not_started</p>
+
+<section data-role="spec">
+  <h2>Spec</h2>
+  <p>Presentation should feel arcade complete: mechanical impacts, flipper snaps, bumper hits, plunger tension, lamp responses, DMD messages, score ticks, and a restrained music bed that supports the classic table mood.</p>
+
+  <section id="audio-context">
+    <h3>Audio context lifecycle</h3>
+    <p>The game uses Vibekit audio context helpers to create and resume Web Audio from the first user gesture. Audio must no-op safely when unavailable.</p>
+  </section>
+
+  <section id="mechanical-sounds">
+    <h3>Mechanical sounds</h3>
+    <p>Flippers, slingshots, bumpers, rollovers, targets, plunger, ball lock, drain, trough serve, tilt warning, and tilt all have distinct audio cues.</p>
+  </section>
+
+  <section id="music-bed">
+    <h3>Music bed</h3>
+    <p>The table can use a subtle arcade hall or league-night music bed. It must duck or stay out of the way during mechanical event bursts.</p>
+  </section>
+
+  <section id="lamp-feedback">
+    <h3>Lamp feedback</h3>
+    <p>Lamps and inserts show current objectives, completed lanes, target progress, lock qualification, multiball, jackpots, warnings, and bonus count.</p>
+  </section>
+
+  <section id="dmd-messages">
+    <h3>DMD messages</h3>
+    <p>The DMD announces start, skill shot, awards, lock progress, multiball, jackpot, tilt warning, tilt, bonus count, game over, and leaderboard eligibility.</p>
+  </section>
+
+  <section id="hit-feedback">
+    <h3>Hit feedback</h3>
+    <p>Major hits combine sound, lamp flash, score popup or DMD update, and optional table vibration or camera impulse. Feedback must not make ball tracking harder.</p>
+  </section>
+
+  <section id="settings">
+    <h3>Settings</h3>
+    <p>Players can adjust or mute music and sound effects. Settings persist locally through Vibekit storage helpers.</p>
+  </section>
+</section>
+
+<section data-role="build-log">
+  <h2>Build log</h2>
+  <ul>
+    <li data-date="2026-06-09">Initial GDD draft created. Files: <code>docs/gdd/07-audio-and-feedback.html</code>. PR TBD.</li>
+  </ul>
+</section>
+
+</body>
+</html>

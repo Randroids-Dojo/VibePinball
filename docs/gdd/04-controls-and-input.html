@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>04 Controls And Input</title>
+</head>
+<body>
+
+<h1>04 Controls And Input</h1>
+<p data-status="not_started">Status: not_started</p>
+
+<section data-role="spec">
+  <h2>Spec</h2>
+  <p>Keyboard, touch, and gamepad are all first-class v1 inputs. All input paths feed the same gameplay intent layer so rules, physics, tutorials, and tests do not depend on device-specific branches.</p>
+
+  <section id="input-actions">
+    <h3>Input actions</h3>
+    <p>The action layer exposes left flipper, right flipper, plunger charge, plunger release, nudge left, nudge right, nudge up, start, pause, restart, menu confirm, menu back, and view toggle if a future slice adds inspection camera support.</p>
+  </section>
+
+  <section id="keyboard-controls">
+    <h3>Keyboard controls</h3>
+    <p>Keyboard defaults should be playable on common desktop layouts: left and right flippers on opposite hands, plunger on a hold/release key, nudges on nearby directional keys, and pause/restart separated from active play controls.</p>
+  </section>
+
+  <section id="touch-controls">
+    <h3>Touch controls</h3>
+    <p>Touch controls provide large left and right flipper regions, an analog plunger drag or hold control, and explicit nudge controls. Touch UI must not cover the lower flipper area or the ball path.</p>
+  </section>
+
+  <section id="gamepad-controls">
+    <h3>Gamepad controls</h3>
+    <p>Gamepad controls map flippers to shoulder or trigger inputs, plunger to an analog trigger or hold/release button, nudges to stick or d-pad, and pause/restart to standard menu buttons.</p>
+  </section>
+
+  <section id="input-buffering">
+    <h3>Input buffering</h3>
+    <p>Flipper and plunger input must be responsive on the next simulation tick. The game should not lose quick taps during frame drops.</p>
+  </section>
+
+  <section id="focus-and-browser">
+    <h3>Focus and browser behavior</h3>
+    <p>The game prevents browser scrolling or focus loss from active play controls where safe. Menus remain keyboard accessible and do not trap input after closing.</p>
+  </section>
+
+  <section id="control-reminders">
+    <h3>Control reminders</h3>
+    <p>The start state shows concise device-aware controls. During play, reminders are hidden unless paused or the player has not launched the first ball.</p>
+  </section>
+</section>
+
+<section data-role="build-log">
+  <h2>Build log</h2>
+  <ul>
+    <li data-date="2026-06-09">Initial GDD draft created. Files: <code>docs/gdd/04-controls-and-input.html</code>. PR TBD.</li>
+  </ul>
+</section>
+
+</body>
+</html>

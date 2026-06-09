@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>06 Camera And Rendering</title>
+</head>
+<body>
+
+<h1>06 Camera And Rendering</h1>
+<p data-status="not_started">Status: not_started</p>
+
+<section data-role="spec">
+  <h2>Spec</h2>
+  <p>The game renders a full 3D pinball cabinet with a fixed tilted playfield camera. The camera must keep the ball, flippers, shooter lane, major shots, and DMD/HUD readable during normal play.</p>
+
+  <section id="fixed-cabinet-camera">
+    <h3>Fixed cabinet camera</h3>
+    <p>The default camera is a stable angled view showing the whole playfield. It does not chase the ball during active play.</p>
+  </section>
+
+  <section id="responsive-framing">
+    <h3>Responsive framing</h3>
+    <p>The table remains framed on desktop, tablet, and phone viewports. Mobile may letterbox or scale the playfield, but the ball and flippers must remain readable.</p>
+  </section>
+
+  <section id="three-scene">
+    <h3>Three.js scene</h3>
+    <p>Three.js owns the visible cabinet, playfield, ball, devices, lamps, DMD plane or overlay, and arcade hall context. Render objects follow physics transforms where applicable.</p>
+  </section>
+
+  <section id="materials-and-lighting">
+    <h3>Materials and lighting</h3>
+    <p>The table uses classic physical materials: wood, metal rails, rubber, plastics, lamps, painted playfield art, and glossy ball reflections. Lighting must not obscure the ball.</p>
+  </section>
+
+  <section id="ball-readability">
+    <h3>Ball readability</h3>
+    <p>The ball uses contrast, highlight, shadow, and optional subtle trail or glint treatment so it is visible against the playfield during high-speed motion.</p>
+  </section>
+
+  <section id="hud-and-dmd">
+    <h3>HUD and DMD</h3>
+    <p>The game shows score, ball number, tilt warnings, lock count, multiball state, and key awards through a DMD-style display or tight HUD that fits the cabinet presentation.</p>
+  </section>
+
+  <section id="render-performance">
+    <h3>Render performance</h3>
+    <p>The first release should target smooth play on common desktop browsers and acceptable play on modern mobile devices. Visual effects must have budget controls or graceful fallback.</p>
+  </section>
+</section>
+
+<section data-role="build-log">
+  <h2>Build log</h2>
+  <ul>
+    <li data-date="2026-06-09">Initial GDD draft created. Files: <code>docs/gdd/06-camera-and-rendering.html</code>. PR TBD.</li>
+  </ul>
+</section>
+
+</body>
+</html>
