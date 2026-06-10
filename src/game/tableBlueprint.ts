@@ -423,6 +423,8 @@ export interface PlungerDevice {
   housing: Segment;
   lowerGuides: Segment[];
   gate: Segment;
+  gateHingePost: Post;
+  gateStopPost: Post;
 }
 
 export interface PlungerSpring {
@@ -1658,7 +1660,9 @@ export const silverballSocialBlueprint: TableBlueprint = {
       { id: "shooter.lower-left-guide", x: 2.86, z: 5.42, width: 0.07, depth: 2.2, angle: -0.03, kind: "metal" },
       { id: "shooter.lower-right-guide", x: 3.56, z: 5.36, width: 0.07, depth: 2.24, angle: 0.03, kind: "metal" }
     ],
-    gate: { id: "shooter.one-way-gate", x: 3.06, z: -5.78, width: 0.66, depth: 0.08, angle: 0.34, kind: "metal" }
+    gate: { id: "shooter.one-way-gate", x: 3.06, z: -5.78, width: 0.66, depth: 0.08, angle: 0.34, kind: "metal" },
+    gateHingePost: { id: "shooter.one-way-gate.hinge-post", x: 2.74, z: -5.9, radius: 0.07, kind: "metal" },
+    gateStopPost: { id: "shooter.one-way-gate.stop-post", x: 3.36, z: -5.64, radius: 0.06, kind: "metal" }
   },
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
@@ -1666,7 +1670,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
     { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit"] },
-    { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.shooter.skill", "rollover.shooter.skill"] }
+    { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.shooter.skill", "rollover.shooter.skill", "shooter.one-way-gate", "shooter.one-way-gate.hinge-post", "shooter.one-way-gate.stop-post"] }
   ]
 };
 

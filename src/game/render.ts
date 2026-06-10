@@ -829,6 +829,8 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
   group.add(knob);
 
   addSegment(group, plunger.gate, 0.42);
+  addPost(group, plunger.gateHingePost);
+  addPost(group, plunger.gateStopPost);
 };
 
 const createFlipper = (flipperDevice: FlipperDevice, color: number) => {

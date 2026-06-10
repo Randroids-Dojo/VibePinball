@@ -596,6 +596,8 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
   blueprint.slings.forEach((sling) => addSegment(sling.rubberFace));
   blueprint.plunger.lowerGuides.forEach(addSegment);
   addSegment(blueprint.plunger.gate);
+  addPost(blueprint.plunger.gateHingePost.x, blueprint.plunger.gateHingePost.z, blueprint.plunger.gateHingePost.radius, 0.58);
+  addPost(blueprint.plunger.gateStopPost.x, blueprint.plunger.gateStopPost.z, blueprint.plunger.gateStopPost.radius, 0.58);
   blueprint.ramps.forEach(addRamp);
   blueprint.handoffs
     .flatMap((handoff) => handoff.segments)
