@@ -35,7 +35,7 @@
     <h3>Ramp Entrance Lip Fasteners</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/ramp-entrance-lip-fasteners</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd>PR #61</dd>
       <dt>Changed</dt><dd>added authored metal screw heads to the left ramp entrance lip so the ramp mouth reads as bolted entry hardware instead of a bare metal strip. Rendering now draws those lip fasteners from the shared ramp blueprint, and physics keeps the same metal lip collider tuned from the typed lip record.</dd>
       <dt>Verification</dt><dd><code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code> passed before final verification.</dd>
       <dt>Assumptions</dt><dd>The ramp entrance lip fasteners are visual mounting hardware and do not need separate physics colliders because the existing ramp lip collider remains the active entry transition geometry.</dd>
