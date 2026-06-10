@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="lower-lane-guide-covers" data-date="2026-06-10">
+    <h3>Lower Lane Guide Covers</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/lower-lane-guide-covers</code></dd>
+      <dt>PR</dt><dd>PR #22</dd>
+      <dt>Changed</dt><dd>made the lower inlane and outlane mouths closer to real playfield hardware by adding authored plastic guide-cover records and metal fasteners to each lower lane. Rendering now draws those lane-mouth plastics from shared lane data instead of relying only on broad elevated cover pieces.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-lower-lane-guide-covers.png</code> confirmed a nonblank WebGL board with lower-lane guide covers visible around the inlane and outlane mouths.</dd>
+      <dt>Assumptions</dt><dd>The lower-lane guide covers are visual elevated plastics for this slice because the existing lane walls, posts, and rollover wires remain the active ball-routing hardware.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-008</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for lower-lane physical density and material layering.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="pop-bumper-chrome-ring-hardware" data-date="2026-06-10">
     <h3>Pop Bumper Chrome Ring Hardware</h3>
     <dl>
