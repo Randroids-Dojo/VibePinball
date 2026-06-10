@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="target-bank-frame-fastener-shot-path" data-date="2026-06-10">
+    <h3>Target Bank Frame Fastener Shot Path</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/target-bank-frame-fastener-shot-path</code></dd>
+      <dt>PR</dt><dd>pending</dd>
+      <dt>Changed</dt><dd>linked the center-bank shot path to the authored target-bank frame fastener IDs so the SOCIAL target shot references the screw heads that mount the rails and divider blades.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
+      <dt>Assumptions</dt><dd>The target-bank frame fasteners belong to the center-bank shot path because they are visible metal hardware mounting the same rail and divider assembly that constrains the aimed targets.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-011</code>, <code>REQ-017</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="target-bank-cap-shot-path" data-date="2026-06-10">
     <h3>Target Bank Cap Shot Path</h3>
     <dl>
