@@ -131,6 +131,14 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     );
     bumper.position.set(device.x, 0.32, device.z);
     group.add(bumper);
+    device.capFasteners.forEach((fastener) => {
+      const screw = mesh(
+        new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.035, 16),
+        new THREE.MeshStandardMaterial({ color: 0xe0e7e8, roughness: 0.16, metalness: 0.86 })
+      );
+      screw.position.set(fastener.x, 0.535, fastener.z);
+      group.add(screw);
+    });
     const skirt = mesh(
       new THREE.CylinderGeometry(device.skirtRadius, device.skirtRadius, 0.08, 32),
       bumperMaterial
