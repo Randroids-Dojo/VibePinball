@@ -35,7 +35,7 @@
     <h3>Apron Card Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/apron-card-hardware</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd>#14</dd>
       <dt>Changed</dt><dd>made the lower apron closer to the physical blueprint by adding two authored instruction-card plates and eight metal mounting screws to the shared drain and apron hardware. Rendering now draws the card plates, raised card labels, and screw heads from the shared blueprint records.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-apron-card-hardware-unobstructed.png</code> confirmed a nonblank WebGL board with the authored lower apron cards and metal screw heads visible.</dd>
       <dt>Assumptions</dt><dd>The apron cards are visual cabinet hardware and do not need separate collision because the drain guides and trough pieces remain the active lower-ball routing colliders.</dd>
