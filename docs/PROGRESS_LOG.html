@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="flipper-pivot-cap-hardware" data-date="2026-06-10">
+    <h3>Flipper Pivot Cap Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/flipper-pivot-cap-hardware</code></dd>
+      <dt>PR</dt><dd>#17</dd>
+      <dt>Changed</dt><dd>made the main flippers closer to real-machine hardware by adding stable metal pivot-cap records to each flipper in the shared blueprint. Rendering now draws the pivot caps from those flipper records above the existing pivot posts.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-flipper-pivot-cap-hardware.png</code> confirmed a nonblank WebGL board with authored metal pivot caps visible above both main flipper posts.</dd>
+      <dt>Assumptions</dt><dd>The pivot caps are visual flipper hardware and do not need separate collision because the existing kinematic flipper pivot collider remains authoritative.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-008</code>, <code>REQ-016</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for flipper hardware shape and metal material detail.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="rubber-post-cap-hardware" data-date="2026-06-10">
     <h3>Rubber Post Cap Hardware</h3>
     <dl>
