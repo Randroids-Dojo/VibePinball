@@ -324,6 +324,10 @@ describe("Silverball Social physical board blueprint", () => {
       expect.arrayContaining([
         "boundary.shooter-arch.top",
         "boundary.top-arch.right-curve",
+        "lane.top.right",
+        "rollover.top.right",
+        "lane.top.right.guide-cover",
+        "lane.top.right.rubber-band",
         "lane.shooter.skill.guide-cover",
         "lane.shooter.skill.rubber-band",
         "insert.skill-shot"
