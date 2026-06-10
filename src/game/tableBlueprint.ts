@@ -221,6 +221,9 @@ export interface PlungerDevice {
   rodZ: number;
   rodLength: number;
   springZ: number;
+  laneGroove: Segment;
+  housing: Segment;
+  lowerGuides: Segment[];
   gate: Segment;
 }
 
@@ -845,6 +848,12 @@ export const silverballSocialBlueprint: TableBlueprint = {
     rodZ: 5.92,
     rodLength: 1.28,
     springZ: 6.18,
+    laneGroove: { id: "shooter.lane-groove", x: 3.18, z: 5.3, width: 0.72, depth: 4.1, kind: "wood" },
+    housing: { id: "shooter.plunger-housing", x: 3.42, z: 6.12, width: 0.36, depth: 1.28, kind: "metal" },
+    lowerGuides: [
+      { id: "shooter.lower-left-guide", x: 2.86, z: 5.42, width: 0.07, depth: 2.2, angle: -0.03, kind: "metal" },
+      { id: "shooter.lower-right-guide", x: 3.56, z: 5.36, width: 0.07, depth: 2.24, angle: 0.03, kind: "metal" }
+    ],
     gate: { id: "shooter.one-way-gate", x: 3.06, z: -5.78, width: 0.66, depth: 0.08, angle: 0.34, kind: "metal" }
   },
   shots: [

@@ -591,6 +591,7 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
   addSegment(blueprint.drain.trough.feedGuide);
   blueprint.flipperStops.forEach(addSegment);
   blueprint.slings.forEach((sling) => addSegment(sling.rubberFace));
+  blueprint.plunger.lowerGuides.forEach(addSegment);
   addSegment(blueprint.plunger.gate);
   blueprint.ramps.forEach(addRamp);
   blueprint.handoffs

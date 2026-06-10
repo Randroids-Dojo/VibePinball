@@ -7,6 +7,7 @@ import {
   type DrainDevice,
   type LampInsert,
   type FlipperDevice,
+  type PlungerDevice,
   type RampPath,
   type SlingDevice,
   type WireformPath
@@ -82,7 +83,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   });
   addDrainAndTrough(group, blueprint.drain);
   blueprint.plastics.forEach((cover) => addPlasticCover(group, cover));
-  addPlungerHardware(group);
+  addPlungerHardware(group, blueprint.plunger);
 
   const leftFlipperDevice = blueprint.flippers.find((item) => item.side === "left")!;
   const leftFlipper = createFlipper(leftFlipperDevice, 0xd9d3c4);
@@ -182,13 +183,6 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     addSegment(group, sling.rubberFace, 0.46);
     addLampInsert(group, sling.lamp);
   });
-
-  const shooter = mesh(
-    new THREE.BoxGeometry(0.7, 0.08, 4.1),
-    new THREE.MeshStandardMaterial({ color: 0x141b1b, roughness: 0.7 })
-  );
-  shooter.position.set(3.18, 0.06, 5.3);
-  group.add(shooter);
 
   const cabinet = mesh(
     new THREE.BoxGeometry(9.8, 1.3, 17.2),
@@ -660,8 +654,17 @@ const addTargetDecal = (
   group.add(decal);
 };
 
-const addPlungerHardware = (group: THREE.Group) => {
-  const plunger = silverballSocialBlueprint.plunger;
+const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
+  const groove = mesh(
+    new THREE.BoxGeometry(plunger.laneGroove.width, 0.08, plunger.laneGroove.depth),
+    new THREE.MeshStandardMaterial({ color: 0x141b1b, roughness: 0.7 })
+  );
+  groove.position.set(plunger.laneGroove.x, 0.06, plunger.laneGroove.z);
+  group.add(groove);
+
+  plunger.lowerGuides.forEach((segment) => addSegment(group, segment, 0.3));
+  addSegment(group, plunger.housing, 0.34);
+
   const rod = mesh(
     new THREE.CylinderGeometry(0.045, 0.045, plunger.rodLength, 20),
     new THREE.MeshStandardMaterial({ color: 0xd4dee0, roughness: 0.18, metalness: 0.88 })
