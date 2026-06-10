@@ -11,6 +11,22 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.scale.ballRadius).toBeCloseTo(0.2125);
   });
 
+  it("models the playfield deck slope and gravity as authored physical attributes", () => {
+    expect(blueprint.playfield.id).toBe("playfield.deck");
+    expect(blueprint.playfield.width).toBeGreaterThanOrEqual(blueprint.scale.playfieldWidth);
+    expect(blueprint.playfield.width).toBeLessThanOrEqual(blueprint.scale.playfieldWidth + 0.2);
+    expect(blueprint.playfield.depth).toBeGreaterThan(blueprint.scale.playfieldLength * 0.85);
+    expect(blueprint.playfield.depth).toBeLessThanOrEqual(blueprint.scale.playfieldLength);
+    expect(blueprint.playfield.thickness).toBeGreaterThan(0.1);
+    expect(blueprint.playfield.surfaceY).toBe(0);
+    expect(blueprint.playfield.slopeAngle).toBeGreaterThan(0.04);
+    expect(blueprint.playfield.slopeAngle).toBeLessThan(0.12);
+    expect(blueprint.playfield.gravity.z).toBeGreaterThan(0);
+    expect(blueprint.playfield.gravity.y).toBe(0);
+    expect(Math.hypot(blueprint.playfield.gravity.x, blueprint.playfield.gravity.z)).toBeGreaterThan(8);
+    expect(blueprint.playfield.woodColor).toBeGreaterThan(0);
+  });
+
   it("models cabinet rails, glass rim, and lockdown bar as authored hardware", () => {
     expect(blueprint.cabinet.body.id).toBe("cabinet.body");
     expect(blueprint.cabinet.backbox.id).toBe("cabinet.backbox");

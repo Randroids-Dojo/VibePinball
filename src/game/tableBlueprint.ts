@@ -5,6 +5,23 @@ export interface TableScale {
   ballRadius: number;
 }
 
+export interface PlayfieldDeck {
+  id: "playfield.deck";
+  x: number;
+  z: number;
+  width: number;
+  depth: number;
+  thickness: number;
+  surfaceY: number;
+  slopeAngle: number;
+  woodColor: number;
+  gravity: {
+    x: number;
+    y: number;
+    z: number;
+  };
+}
+
 export interface Segment {
   id: string;
   x: number;
@@ -403,6 +420,7 @@ export interface ShotPath {
 export interface TableBlueprint {
   id: "silverball-social-v1";
   scale: TableScale;
+  playfield: PlayfieldDeck;
   cabinet: CabinetHardware;
   boundaries: Segment[];
   laneWalls: Segment[];
@@ -448,6 +466,22 @@ export const silverballSocialBlueprint: TableBlueprint = {
     playfieldWidth: 8.1,
     playfieldLength: 16.8,
     ballRadius: 0.2125
+  },
+  playfield: {
+    id: "playfield.deck",
+    x: 0,
+    z: 0,
+    width: 8.2,
+    depth: 15.2,
+    thickness: 0.18,
+    surfaceY: 0,
+    slopeAngle: 0.08,
+    woodColor: 0x8d3f2f,
+    gravity: {
+      x: -1.25,
+      y: 0,
+      z: 8.8
+    }
   },
   cabinet: {
     body: {
