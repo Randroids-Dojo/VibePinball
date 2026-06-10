@@ -797,6 +797,9 @@ describe("Silverball Social physical board blueprint", () => {
         "target-bank.divider-4"
       ])
     );
+    expect(blueprint.shots.find((shot) => shot.id === "shot.center-bank")?.deviceIds).toEqual(
+      expect.arrayContaining(frameIds)
+    );
     expect(blueprint.targetBank.posts).toHaveLength(4);
     expect(blueprint.targetBank.frameSegments.every((segment) => segment.kind === "metal")).toBe(true);
     expect(blueprint.targetBank.frameSegments.every((segment) => segment.fasteners.length === 2)).toBe(true);
