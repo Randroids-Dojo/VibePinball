@@ -22,6 +22,7 @@ import {
   type RolloverWire,
   type SlingDevice,
   type TargetDevice,
+  type TargetBankFrameSegment,
   type TargetBankHardware,
   type TroughFastener,
   type WireformPath
@@ -741,9 +742,21 @@ const addLaneGuideCover = (group: THREE.Group, cover: LaneGuideCover) => {
 };
 
 const addTargetBankHardware = (group: THREE.Group, targetBank: TargetBankHardware) => {
-  targetBank.frameSegments.forEach((segment) => addSegment(group, segment, 0.48));
+  targetBank.frameSegments.forEach((segment) => addTargetBankFrameSegment(group, segment));
   targetBank.posts.forEach((post) => addPost(group, post));
   addDeckLabel(group, targetBank.label, 0, -1.7, 2.5, 0.24, 0);
+};
+
+const addTargetBankFrameSegment = (group: THREE.Group, segment: TargetBankFrameSegment) => {
+  addSegment(group, segment, 0.48);
+  segment.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, 0.705, fastener.z);
+    group.add(screw);
+  });
 };
 
 const addTargetMountHardware = (group: THREE.Group, target: TargetDevice) => {
