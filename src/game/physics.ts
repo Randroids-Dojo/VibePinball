@@ -409,6 +409,7 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
   const addRamp = (ramp: RampPath) => {
     const pitch = Math.atan2(ramp.endY - ramp.startY, ramp.depth);
     const centerY = (ramp.startY + ramp.endY) / 2;
+    const sideRailY = centerY + ramp.floorThickness / 2 + ramp.sideRailHeight / 2;
     addBoxCollider(
       ramp.x,
       centerY,
@@ -425,7 +426,7 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
       const side = rampSidePoint(ramp, offset);
       addBoxCollider(
         side.x,
-        centerY + ramp.sideRailHeight / 2,
+        sideRailY,
         side.z,
         0.035,
         ramp.sideRailHeight / 2,

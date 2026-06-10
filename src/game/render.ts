@@ -298,7 +298,7 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
   floor.rotation.set(pitch, ramp.angle, 0);
   group.add(floor);
 
-  const sideRailY = centerY + ramp.sideRailHeight / 2;
+  const sideRailY = centerY + ramp.floorThickness / 2 + ramp.sideRailHeight / 2;
   const leftRail = rampSidePoint(ramp, -ramp.sideRailOffset);
   const rightRail = rampSidePoint(ramp, ramp.sideRailOffset);
   addRail(group, leftRail.x, leftRail.z, 0.07, ramp.depth, ramp.angle, 0x9fd0ff, sideRailY, pitch, ramp.sideRailHeight);
