@@ -3,6 +3,8 @@ import type { PhysicsSnapshot } from "./physics";
 import {
   rampSidePoint,
   silverballSocialBlueprint,
+  type ApronCard,
+  type ApronFastener,
   type CabinetHardware,
   type DrainDevice,
   type LampInsert,
@@ -609,7 +611,8 @@ const addDeckLabel = (
   z: number,
   width: number,
   depth: number,
-  angle: number
+  angle: number,
+  y = 0.07
 ) => {
   const canvas = document.createElement("canvas");
   canvas.width = 128;
@@ -632,7 +635,7 @@ const addDeckLabel = (
     new THREE.BoxGeometry(width, 0.025, depth),
     new THREE.MeshStandardMaterial({ map: texture, roughness: 0.45 })
   );
-  labelMesh.position.set(x, 0.07, z);
+  labelMesh.position.set(x, y, z);
   labelMesh.rotation.y = angle;
   group.add(labelMesh);
 };
@@ -749,6 +752,8 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
   drain.drainGuides.forEach((segment) => addSegment(group, segment, 0.28));
   drain.trough.walls.forEach((segment) => addSegment(group, segment, 0.28));
   addSegment(group, drain.trough.feedGuide, 0.3);
+  drain.apronCards.forEach((card) => addApronCard(group, card));
+  drain.apronFasteners.forEach((fastener) => addApronFastener(group, fastener));
   drain.trough.ballSlots.forEach((slot) => {
     const slotMesh = mesh(
       new THREE.CylinderGeometry(slot.radius, slot.radius, 0.035, 24),
@@ -758,4 +763,24 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
     group.add(slotMesh);
   });
   addDeckLabel(group, "SILVERBALL SOCIAL", drain.apron.x, drain.apron.z - 0.05, 3.4, 0.28, 0);
+};
+
+const addApronCard = (group: THREE.Group, card: ApronCard) => {
+  const cardMesh = mesh(
+    new THREE.BoxGeometry(card.width, 0.028, card.depth),
+    new THREE.MeshStandardMaterial({ color: card.color, roughness: 0.32, metalness: 0.02 })
+  );
+  cardMesh.position.set(card.x, 0.105, card.z);
+  cardMesh.rotation.y = card.angle ?? 0;
+  group.add(cardMesh);
+  addDeckLabel(group, card.label, card.x, card.z, card.width * 0.8, card.depth * 0.5, card.angle ?? 0, 0.145);
+};
+
+const addApronFastener = (group: THREE.Group, fastener: ApronFastener) => {
+  const screw = mesh(
+    new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.025, 18),
+    new THREE.MeshStandardMaterial({ color: 0xc8d3d5, roughness: 0.18, metalness: 0.85 })
+  );
+  screw.position.set(fastener.x, 0.135, fastener.z);
+  group.add(screw);
 };

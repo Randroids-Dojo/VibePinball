@@ -271,6 +271,12 @@ describe("Silverball Social physical board blueprint", () => {
   it("models the apron, drain mouth, trough, and shooter feed as authored hardware", () => {
     expect(blueprint.drain.apron.id).toBe("apron.lower-card");
     expect(blueprint.drain.apron.width).toBeGreaterThan(5);
+    expect(blueprint.drain.apronCards.map((card) => card.id)).toEqual(
+      expect.arrayContaining(["apron.card-left", "apron.card-right"])
+    );
+    expect(blueprint.drain.apronCards.every((card) => card.width > 1)).toBe(true);
+    expect(blueprint.drain.apronFasteners).toHaveLength(8);
+    expect(blueprint.drain.apronFasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
     expect(blueprint.drain.drainGuides.map((guide) => guide.id)).toEqual(
       expect.arrayContaining(["drain.left-guide", "drain.right-guide", "drain.center-mouth"])
     );
@@ -368,6 +374,8 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.drain.id,
       blueprint.drain.apron.id,
       ...blueprint.drain.drainGuides.map((item) => item.id),
+      ...blueprint.drain.apronCards.map((item) => item.id),
+      ...blueprint.drain.apronFasteners.map((item) => item.id),
       blueprint.drain.trough.id,
       ...blueprint.drain.trough.ballSlots.map((item) => item.id),
       ...blueprint.drain.trough.walls.map((item) => item.id),
