@@ -12,6 +12,8 @@ describe("Silverball Social physical board blueprint", () => {
   });
 
   it("models cabinet rails, glass rim, and lockdown bar as authored hardware", () => {
+    expect(blueprint.cabinet.body.id).toBe("cabinet.body");
+    expect(blueprint.cabinet.backbox.id).toBe("cabinet.backbox");
     expect(blueprint.cabinet.sideRails.map((rail) => rail.id)).toEqual(
       expect.arrayContaining(["cabinet.left-side-rail", "cabinet.right-side-rail"])
     );
@@ -22,6 +24,12 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.cabinet.sideRails.every((rail) => rail.depth > blueprint.scale.playfieldLength * 0.9)).toBe(true);
     expect(blueprint.cabinet.glassRims.every((rim) => rim.depth > blueprint.scale.playfieldLength * 0.85)).toBe(true);
     expect(blueprint.cabinet.lockdownBar.width).toBeGreaterThan(blueprint.scale.playfieldWidth * 0.55);
+    expect(blueprint.cabinet.dmdPanel.id).toBe("cabinet.dmd-panel");
+    expect(blueprint.cabinet.dmdPanel.label).toBe("SILVERBALL SOCIAL");
+    expect(blueprint.cabinet.speakerGrilles.map((grille) => grille.id)).toEqual(
+      expect.arrayContaining(["cabinet.left-speaker-grille", "cabinet.right-speaker-grille"])
+    );
+    expect(blueprint.cabinet.speakerGrilles.every((grille) => grille.holeCount >= 6)).toBe(true);
   });
 
   it("contains the lower playfield devices required by the reference-board acceptance criteria", () => {
@@ -376,6 +384,13 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.drain.drainGuides.map((item) => item.id),
       ...blueprint.drain.apronCards.map((item) => item.id),
       ...blueprint.drain.apronFasteners.map((item) => item.id),
+      blueprint.cabinet.body.id,
+      blueprint.cabinet.backbox.id,
+      blueprint.cabinet.dmdPanel.id,
+      ...blueprint.cabinet.sideRails.map((item) => item.id),
+      ...blueprint.cabinet.glassRims.map((item) => item.id),
+      blueprint.cabinet.lockdownBar.id,
+      ...blueprint.cabinet.speakerGrilles.map((item) => item.id),
       blueprint.drain.trough.id,
       ...blueprint.drain.trough.ballSlots.map((item) => item.id),
       ...blueprint.drain.trough.walls.map((item) => item.id),

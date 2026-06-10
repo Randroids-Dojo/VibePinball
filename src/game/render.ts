@@ -189,27 +189,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     addLampInsert(group, sling.lamp);
   });
 
-  const cabinet = mesh(
-    new THREE.BoxGeometry(9.8, 1.3, 17.2),
-    new THREE.MeshStandardMaterial({ color: 0x24140f, roughness: 0.48 })
-  );
-  cabinet.position.set(0, -0.92, 0.25);
-  cabinet.receiveShadow = true;
-  scene.add(cabinet);
-
-  const backbox = mesh(
-    new THREE.BoxGeometry(8.8, 3.2, 0.7),
-    new THREE.MeshStandardMaterial({ color: 0x161b1b, roughness: 0.38 })
-  );
-  backbox.position.set(0, 1.4, -8.9);
-  scene.add(backbox);
-
-  const dmd = mesh(
-    new THREE.BoxGeometry(5.4, 0.9, 0.08),
-    new THREE.MeshStandardMaterial({ color: 0xf1c453, emissive: 0x6f3f06, roughness: 0.2 })
-  );
-  dmd.position.set(0, 1.55, -8.5);
-  scene.add(dmd);
+  addCabinetShell(scene, blueprint.cabinet);
 
   const resize = () => {
     const width = canvas.clientWidth;
@@ -560,6 +540,54 @@ const addTargetBankHardware = (group: THREE.Group, targetBank: TargetBankHardwar
   targetBank.frameSegments.forEach((segment) => addSegment(group, segment, 0.48));
   targetBank.posts.forEach((post) => addPost(group, post.x, post.z, post.radius, post.kind));
   addDeckLabel(group, targetBank.label, 0, -1.7, 2.5, 0.24, 0);
+};
+
+const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
+  const body = mesh(
+    new THREE.BoxGeometry(cabinet.body.width, cabinet.body.height, cabinet.body.depth),
+    new THREE.MeshStandardMaterial({ color: cabinet.body.color, roughness: 0.48 })
+  );
+  body.position.set(cabinet.body.x, cabinet.body.y, cabinet.body.z);
+  body.receiveShadow = true;
+  scene.add(body);
+
+  const backbox = mesh(
+    new THREE.BoxGeometry(cabinet.backbox.width, cabinet.backbox.height, cabinet.backbox.depth),
+    new THREE.MeshStandardMaterial({ color: cabinet.backbox.color, roughness: 0.38 })
+  );
+  backbox.position.set(cabinet.backbox.x, cabinet.backbox.y, cabinet.backbox.z);
+  scene.add(backbox);
+
+  const dmd = mesh(
+    new THREE.BoxGeometry(cabinet.dmdPanel.width, cabinet.dmdPanel.height, cabinet.dmdPanel.depth),
+    new THREE.MeshStandardMaterial({
+      color: cabinet.dmdPanel.color,
+      emissive: cabinet.dmdPanel.emissive,
+      roughness: 0.2
+    })
+  );
+  dmd.position.set(cabinet.dmdPanel.x, cabinet.dmdPanel.y, cabinet.dmdPanel.z);
+  scene.add(dmd);
+
+  cabinet.speakerGrilles.forEach((grille) => {
+    const panel = mesh(
+      new THREE.BoxGeometry(grille.width, grille.height, grille.depth),
+      new THREE.MeshStandardMaterial({ color: grille.color, roughness: 0.34 })
+    );
+    panel.position.set(grille.x, grille.y, grille.z);
+    scene.add(panel);
+
+    const slotCount = Math.max(grille.holeCount, 1);
+    for (let index = 0; index < slotCount; index += 1) {
+      const xOffset = ((index + 0.5) / slotCount - 0.5) * grille.width * 0.78;
+      const slot = mesh(
+        new THREE.BoxGeometry(grille.width / (slotCount * 2.8), grille.height * 0.72, grille.depth + 0.012),
+        new THREE.MeshStandardMaterial({ color: 0x22282a, roughness: 0.22, metalness: 0.2 })
+      );
+      slot.position.set(grille.x + xOffset, grille.y, grille.z + grille.depth * 0.62);
+      scene.add(slot);
+    }
+  });
 };
 
 const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {

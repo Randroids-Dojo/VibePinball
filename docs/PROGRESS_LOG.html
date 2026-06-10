@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="cabinet-speaker-panel-hardware" data-date="2026-06-10">
+    <h3>Cabinet Speaker Panel Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/cabinet-speaker-panel-hardware</code></dd>
+      <dt>PR</dt><dd>#15</dd>
+      <dt>Changed</dt><dd>moved the cabinet body, backbox, DMD panel, and paired speaker grilles into authored cabinet hardware records. Rendering now draws the cabinet shell, glowing DMD panel, and visible speaker grille slots from the shared blueprint instead of hardcoded render-only dimensions.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-cabinet-speaker-panel-hardware.png</code> confirmed a nonblank WebGL board with the authored backbox DMD panel and paired speaker grilles visible.</dd>
+      <dt>Assumptions</dt><dd>The speaker grilles are visual cabinet hardware and do not need colliders because they sit on the backbox outside the playable ball area.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-003</code>, <code>REQ-013</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for authored cabinet presentation and material detail.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="apron-card-hardware" data-date="2026-06-10">
     <h3>Apron Card Hardware</h3>
     <dl>

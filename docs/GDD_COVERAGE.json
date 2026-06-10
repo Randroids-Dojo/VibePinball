@@ -41,9 +41,11 @@
       "status": "partial",
       "implementationRefs": [
         "app/globals.css",
+        "src/game/tableBlueprint.ts",
         "src/game/render.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []
@@ -193,9 +195,11 @@
       "gddRef": "docs/gdd/02-table-layout.html#cabinet-props",
       "status": "partial",
       "implementationRefs": [
+        "src/game/tableBlueprint.ts",
         "src/game/render.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []
@@ -603,10 +607,12 @@
       "gddRef": "docs/gdd/06-camera-and-rendering.html#materials-and-lighting",
       "status": "partial",
       "implementationRefs": [
+        "src/game/tableBlueprint.ts",
         "src/game/render.ts",
         "app/globals.css"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []
