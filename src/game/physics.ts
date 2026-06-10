@@ -520,15 +520,17 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
           0.7
         );
       }
+    }
 
+    for (const tie of wireform.ties) {
       addBoxCollider(
-        segment.x,
+        tie.x,
         wireform.railY,
-        segment.z,
-        wireform.tieWidth / 2,
+        tie.z,
+        tie.width / 2,
         0.025,
-        0.03,
-        segment.angle ?? 0,
+        tie.depth / 2,
+        tie.angle ?? 0,
         0,
         0.62
       );

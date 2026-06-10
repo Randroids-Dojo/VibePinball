@@ -215,6 +215,11 @@ describe("Silverball Social physical board blueprint", () => {
       expect(wireform.railOffset * 2 - railHalfWidth * 2).toBeGreaterThan(ballDiameter);
       expect(wireform.tieWidth).toBeGreaterThan(wireform.railOffset * 2);
       expect(wireform.segments.length).toBeGreaterThanOrEqual(2);
+      expect(wireform.ties.length).toBeGreaterThanOrEqual(wireform.segments.length * 3);
+      expect(wireform.ties.every((tie) => tie.id.startsWith(`${wireform.id}.tie-`))).toBe(true);
+      expect(wireform.ties.every((tie) => tie.kind === "wire")).toBe(true);
+      expect(wireform.ties.every((tie) => tie.width >= wireform.tieWidth)).toBe(true);
+      expect(wireform.ties.every((tie) => tie.depth > 0)).toBe(true);
       expect(wireform.supports.length).toBeGreaterThanOrEqual(3);
       expect(wireform.supports.every((support) => support.kind === "metal")).toBe(true);
       expect(wireform.supports.every((support) => support.height <= wireform.railY)).toBe(true);
@@ -460,6 +465,7 @@ describe("Silverball Social physical board blueprint", () => {
         wireform.id,
         wireform.exit.id,
         ...wireform.segments.map((segment) => segment.id),
+        ...wireform.ties.map((tie) => tie.id),
         ...wireform.supports.map((support) => support.id)
       ]),
       ...blueprint.orbits.flatMap((orbit) => [orbit.id, orbit.entry.id, orbit.exit.id]),

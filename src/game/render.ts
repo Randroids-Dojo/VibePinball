@@ -456,6 +456,18 @@ const addRing = (group: THREE.Group, x: number, z: number, radius: number, color
 
 const addWireformPath = (group: THREE.Group, wireform: WireformPath) => {
   wireform.segments.forEach((segment) => addWireformPair(group, wireform, segment));
+  wireform.ties.forEach((tie) => addRail(
+    group,
+    tie.x,
+    tie.z,
+    tie.width,
+    tie.depth,
+    tie.angle ?? 0,
+    0xf4d35e,
+    wireform.railY,
+    0,
+    0.035
+  ));
   wireform.supports.forEach((support) => {
     const supportMesh = mesh(
       new THREE.CylinderGeometry(support.radius, support.radius, support.height, 16),
@@ -496,13 +508,6 @@ const addWireformPair = (
     0,
     wireform.railHeight
   );
-  const tie = mesh(
-    new THREE.BoxGeometry(wireform.tieWidth, 0.035, 0.055),
-    new THREE.MeshStandardMaterial({ color: 0xf4d35e, roughness: 0.18, metalness: 0.8 })
-  );
-  tie.position.set(segment.x, wireform.railY, segment.z);
-  tie.rotation.y = segment.angle ?? 0;
-  group.add(tie);
 };
 
 const addPlasticCover = (
