@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="playfield-art-decals" data-date="2026-06-10">
+    <h3>Playfield Art Decals</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/playfield-art-decals</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>replaced the anonymous playfield art slab with authored playfield-art records for the base deck tint, bumper burst, lower-lane stripes, ramp and orbit arrows, lock label, and SOCIAL target-bank sweep. Rendering now draws those deck details from shared blueprint data, and the shot paths reference the relevant decal IDs.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-playfield-art-decals.png</code> confirmed a nonblank WebGL board with authored deck zones, lane stripes, and shot arrows visible under the existing hardware.</dd>
+      <dt>Assumptions</dt><dd>These deck decals are visual playfield-surface details and do not need colliders because the GDD treats inserts, lane art, and decals as playfield deck overlays.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-003</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for painted playfield art, shot labels, and shared physical board IDs.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="top-lane-guide-covers" data-date="2026-06-10">
     <h3>Top Lane Guide Covers</h3>
     <dl>

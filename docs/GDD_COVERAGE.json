@@ -593,10 +593,12 @@
       "gddRef": "docs/gdd/06-camera-and-rendering.html#three-scene",
       "status": "partial",
       "implementationRefs": [
+        "src/game/tableBlueprint.ts",
         "src/game/render.ts",
         "src/game/VibePinballGame.tsx"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []
