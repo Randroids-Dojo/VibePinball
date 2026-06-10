@@ -35,7 +35,7 @@
     <h3>Ramp Cross Brace Screw Shot Path</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/ramp-cross-brace-screw-shot-path</code></dd>
-      <dt>PR</dt><dd>pending</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/90">PR 90</a></dd>
       <dt>Changed</dt><dd>linked the left-ramp shot path to each authored cross-brace screw ID so the ramp shot references the paired metal fasteners mounted on the brace plates under the elevated ramp floor.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
       <dt>Assumptions</dt><dd>The cross-brace screws belong to the left-ramp shot path because they visibly mount the metal brace plates supporting the raised ramp lane.</dd>
