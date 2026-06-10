@@ -32,6 +32,21 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.flipperStops.every((stop) => stop.kind === "rubber")).toBe(true);
   });
 
+  it("models flippers as blueprint-authored capsule-like bat hardware", () => {
+    for (const flipper of blueprint.flippers) {
+      expect(flipper.length).toBeCloseTo(1.2);
+      expect(flipper.batRadius).toBeGreaterThan(blueprint.scale.ballRadius * 0.65);
+      expect(flipper.batRadius).toBeLessThan(blueprint.scale.ballRadius);
+      expect(flipper.pivotRadius).toBeGreaterThanOrEqual(flipper.batRadius);
+      expect(flipper.rubberWidth).toBeGreaterThan(0.08);
+      expect(flipper.rubberWidth).toBeLessThan(flipper.batRadius);
+      expect(Math.abs(flipper.activeAngle - flipper.restAngle)).toBeGreaterThan(0.7);
+    }
+
+    expect(blueprint.flippers.find((flipper) => flipper.side === "left")?.activeAngle).toBeGreaterThan(0);
+    expect(blueprint.flippers.find((flipper) => flipper.side === "right")?.activeAngle).toBeLessThan(0);
+  });
+
   it("models slingshots as triangular rubber assemblies with lit inserts and active normals", () => {
     const postIds = new Set(blueprint.posts.map((post) => post.id));
 
