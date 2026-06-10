@@ -643,7 +643,7 @@ const createFlipper = (flipperDevice: FlipperDevice, color: number) => {
     new THREE.MeshStandardMaterial({ color, roughness: 0.28 })
   );
   body.rotation.z = Math.PI / 2;
-  body.position.x = flipperDevice.length / 2 - flipperDevice.batRadius * 0.5;
+  body.position.x = flipperDevice.length / 2;
   flipper.add(body);
   const post = mesh(
     new THREE.CylinderGeometry(flipperDevice.pivotRadius, flipperDevice.pivotRadius, 0.26, 24),

@@ -35,7 +35,7 @@
     <h3>Kinematic Flipper Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/flipper-kinematic-hardware</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd>#4</dd>
       <dt>Changed</dt><dd>made the main flippers closer to the physical blueprint by moving bat radius, pivot radius, and rubber width into the shared table definition. Rendering now sizes the capsule bats and pivots from those records, while physics replaces fixed rectangular flipper wall proxies with position-based kinematic flipper bodies carrying compound bat, end-cap, and pivot colliders.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot confirmed a nonblank WebGL board and exercised flipper controls without breaking the scene.</dd>
       <dt>Assumptions</dt><dd>The kinematic flippers keep the existing manual impulse assist for playability while introducing real moving flipper bodies for collision and shape fidelity.</dd>
