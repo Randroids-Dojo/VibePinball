@@ -16,9 +16,49 @@ export interface Segment {
 }
 
 export interface CabinetHardware {
+  body: CabinetBox;
+  backbox: CabinetBox;
   sideRails: Segment[];
   glassRims: Segment[];
   lockdownBar: Segment;
+  dmdPanel: CabinetDisplayPanel;
+  speakerGrilles: SpeakerGrille[];
+}
+
+export interface CabinetBox {
+  id: string;
+  x: number;
+  y: number;
+  z: number;
+  width: number;
+  height: number;
+  depth: number;
+  color: number;
+}
+
+export interface CabinetDisplayPanel {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+  z: number;
+  width: number;
+  height: number;
+  depth: number;
+  color: number;
+  emissive: number;
+}
+
+export interface SpeakerGrille {
+  id: string;
+  x: number;
+  y: number;
+  z: number;
+  width: number;
+  height: number;
+  depth: number;
+  holeCount: number;
+  color: number;
 }
 
 export interface Post {
@@ -309,6 +349,26 @@ export const silverballSocialBlueprint: TableBlueprint = {
     ballRadius: 0.2125
   },
   cabinet: {
+    body: {
+      id: "cabinet.body",
+      x: 0,
+      y: -0.92,
+      z: 0.25,
+      width: 9.8,
+      height: 1.3,
+      depth: 17.2,
+      color: 0x24140f
+    },
+    backbox: {
+      id: "cabinet.backbox",
+      x: 0,
+      y: 1.4,
+      z: -8.9,
+      width: 8.8,
+      height: 3.2,
+      depth: 0.7,
+      color: 0x161b1b
+    },
     sideRails: [
       { id: "cabinet.left-side-rail", x: -4.32, z: 0.1, width: 0.18, depth: 16.05, kind: "metal" },
       { id: "cabinet.right-side-rail", x: 4.32, z: 0.1, width: 0.18, depth: 16.05, kind: "metal" }
@@ -317,7 +377,43 @@ export const silverballSocialBlueprint: TableBlueprint = {
       { id: "cabinet.left-glass-rim", x: -3.86, z: 0.1, width: 0.06, depth: 15.35, kind: "metal" },
       { id: "cabinet.right-glass-rim", x: 3.86, z: 0.1, width: 0.06, depth: 15.35, kind: "metal" }
     ],
-    lockdownBar: { id: "cabinet.lockdown-bar", x: 0, z: 7.68, width: 4.9, depth: 0.22, kind: "metal" }
+    lockdownBar: { id: "cabinet.lockdown-bar", x: 0, z: 7.68, width: 4.9, depth: 0.22, kind: "metal" },
+    dmdPanel: {
+      id: "cabinet.dmd-panel",
+      label: "SILVERBALL SOCIAL",
+      x: 0,
+      y: 1.55,
+      z: -8.5,
+      width: 5.4,
+      height: 0.9,
+      depth: 0.08,
+      color: 0xf1c453,
+      emissive: 0x6f3f06
+    },
+    speakerGrilles: [
+      {
+        id: "cabinet.left-speaker-grille",
+        x: -3.45,
+        y: 1.52,
+        z: -8.48,
+        width: 1.08,
+        height: 0.72,
+        depth: 0.09,
+        holeCount: 8,
+        color: 0x090b0b
+      },
+      {
+        id: "cabinet.right-speaker-grille",
+        x: 3.45,
+        y: 1.52,
+        z: -8.48,
+        width: 1.08,
+        height: 0.72,
+        depth: 0.09,
+        holeCount: 8,
+        color: 0x090b0b
+      }
+    ]
   },
   boundaries: [
     { id: "boundary.left-wall", x: -4.05, z: 0, width: 0.18, depth: 7.9, kind: "metal" },
