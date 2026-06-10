@@ -35,7 +35,7 @@
     <h3>Upper Orbit Gate Posts</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/upper-orbit-gate-posts</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd>PR #42</dd>
       <dt>Changed</dt><dd>added authored capped metal hinge and stop posts to the upper orbit gate handoff so the left and right orbit gates read as mounted mechanical assemblies rather than loose metal blades. Rendering draws the new capped posts from shared handoff blueprint data, and physics consumes them as fixed post colliders.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-upper-orbit-gate-posts.png</code> confirmed a nonblank WebGL board with the upper orbit gate area still correctly framed.</dd>
       <dt>Assumptions</dt><dd>The upper orbit gate posts use the existing post collider path because they are fixed physical hardware bracketing the gate blades, not moving flaps.</dd>
