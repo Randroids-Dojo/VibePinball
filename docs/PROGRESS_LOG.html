@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="plunger-housing-fasteners" data-date="2026-06-10">
+    <h3>Plunger Housing Fasteners</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/plunger-housing-fasteners</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added authored metal screw heads to the shooter plunger housing so the lower launch assembly reads as mounted cabinet hardware instead of a bare metal box. Rendering now draws those housing fasteners from the shared plunger blueprint data.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-plunger-housing-fasteners.png</code> confirmed a nonblank WebGL board with the plunger lane still framed.</dd>
+      <dt>Assumptions</dt><dd>The plunger housing fasteners are visual mounting hardware and do not need separate physics colliders because the existing plunger housing segment remains the active launch-lane hardware body.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-013</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for shooter plunger housing mounting hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="shooter-lower-guide-fasteners" data-date="2026-06-10">
     <h3>Shooter Lower Guide Fasteners</h3>
     <dl>
