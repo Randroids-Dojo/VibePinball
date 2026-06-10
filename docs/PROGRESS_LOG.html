@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="target-mount-fastener-shot-path" data-date="2026-06-10">
+    <h3>Target Mount Fastener Shot Path</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/target-mount-fastener-shot-path</code></dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/87">PR 87</a></dd>
+      <dt>Changed</dt><dd>linked the center-bank shot path to each SOCIAL target mount screw ID so the target-bank shot references the metal fasteners that bolt every standup target to its mount plate.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
+      <dt>Assumptions</dt><dd>The standup target mount screws belong to the center-bank shot path because they are visible metal hardware on the individually aimed target assemblies.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-011</code>, <code>REQ-017</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="target-bank-frame-fastener-shot-path" data-date="2026-06-10">
     <h3>Target Bank Frame Fastener Shot Path</h3>
     <dl>
