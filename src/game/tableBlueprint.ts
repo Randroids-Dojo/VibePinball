@@ -382,6 +382,14 @@ export interface WireformSupport {
   z: number;
   height: number;
   radius: number;
+  cap: WireformSupportCap;
+  kind: "metal";
+}
+
+export interface WireformSupportCap {
+  id: string;
+  radius: number;
+  height: number;
   kind: "metal";
 }
 
@@ -1516,9 +1524,33 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "wireform.left-return.tie-lower-exit", x: -2.3, z: 3.58, width: 0.58, depth: 0.055, angle: 0.08, kind: "wire" }
       ],
       supports: [
-        { id: "wireform.left-return.support.upper", x: -2.54, z: -2.42, height: 1.02, radius: 0.04, kind: "metal" },
-        { id: "wireform.left-return.support.mid", x: -2.62, z: 0.12, height: 1.04, radius: 0.04, kind: "metal" },
-        { id: "wireform.left-return.support.exit", x: -2.24, z: 3.86, height: 0.98, radius: 0.04, kind: "metal" }
+        {
+          id: "wireform.left-return.support.upper",
+          x: -2.54,
+          z: -2.42,
+          height: 1.02,
+          radius: 0.04,
+          cap: { id: "wireform.left-return.support.upper.cap", radius: 0.07, height: 0.032, kind: "metal" },
+          kind: "metal"
+        },
+        {
+          id: "wireform.left-return.support.mid",
+          x: -2.62,
+          z: 0.12,
+          height: 1.04,
+          radius: 0.04,
+          cap: { id: "wireform.left-return.support.mid.cap", radius: 0.07, height: 0.032, kind: "metal" },
+          kind: "metal"
+        },
+        {
+          id: "wireform.left-return.support.exit",
+          x: -2.24,
+          z: 3.86,
+          height: 0.98,
+          radius: 0.04,
+          cap: { id: "wireform.left-return.support.exit.cap", radius: 0.07, height: 0.032, kind: "metal" },
+          kind: "metal"
+        }
       ]
     },
     {
@@ -1542,9 +1574,33 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "wireform.right-orbit-return.tie-lower-exit", x: 2.32, z: 2.74, width: 0.6, depth: 0.055, angle: -0.08, kind: "wire" }
       ],
       supports: [
-        { id: "wireform.right-orbit-return.support.upper", x: 2.78, z: -4.42, height: 1.1, radius: 0.04, kind: "metal" },
-        { id: "wireform.right-orbit-return.support.mid", x: 2.72, z: -1.08, height: 1.12, radius: 0.04, kind: "metal" },
-        { id: "wireform.right-orbit-return.support.exit", x: 2.28, z: 3.78, height: 1.02, radius: 0.04, kind: "metal" }
+        {
+          id: "wireform.right-orbit-return.support.upper",
+          x: 2.78,
+          z: -4.42,
+          height: 1.1,
+          radius: 0.04,
+          cap: { id: "wireform.right-orbit-return.support.upper.cap", radius: 0.07, height: 0.032, kind: "metal" },
+          kind: "metal"
+        },
+        {
+          id: "wireform.right-orbit-return.support.mid",
+          x: 2.72,
+          z: -1.08,
+          height: 1.12,
+          radius: 0.04,
+          cap: { id: "wireform.right-orbit-return.support.mid.cap", radius: 0.07, height: 0.032, kind: "metal" },
+          kind: "metal"
+        },
+        {
+          id: "wireform.right-orbit-return.support.exit",
+          x: 2.28,
+          z: 3.78,
+          height: 1.02,
+          radius: 0.04,
+          cap: { id: "wireform.right-orbit-return.support.exit.cap", radius: 0.07, height: 0.032, kind: "metal" },
+          kind: "metal"
+        }
       ]
     }
   ],

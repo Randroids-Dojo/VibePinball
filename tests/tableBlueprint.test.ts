@@ -362,6 +362,13 @@ describe("Silverball Social physical board blueprint", () => {
       expect(wireform.supports.every((support) => support.kind === "metal")).toBe(true);
       expect(wireform.supports.every((support) => support.height <= wireform.railY)).toBe(true);
       expect(wireform.supports.every((support) => support.height >= 0.85)).toBe(true);
+      for (const support of wireform.supports) {
+        expect(support.cap.id).toBe(`${support.id}.cap`);
+        expect(support.cap.kind).toBe("metal");
+        expect(support.cap.radius).toBeGreaterThan(support.radius);
+        expect(support.cap.height).toBeGreaterThan(0);
+        expect(support.height + support.cap.height).toBeLessThanOrEqual(wireform.railY + wireform.railHeight);
+      }
     }
 
     expect(blueprint.orbits.find((orbit) => orbit.id === "orbit.left")?.returnWireformId).toBe("wireform.left-return");
@@ -705,7 +712,7 @@ describe("Silverball Social physical board blueprint", () => {
         wireform.exit.id,
         ...wireform.segments.map((segment) => segment.id),
         ...wireform.ties.map((tie) => tie.id),
-        ...wireform.supports.map((support) => support.id)
+        ...wireform.supports.flatMap((support) => [support.id, support.cap.id])
       ]),
       ...blueprint.orbits.flatMap((orbit) => [orbit.id, orbit.entry.id, orbit.exit.id]),
       ...blueprint.plastics.map((item) => item.id),
