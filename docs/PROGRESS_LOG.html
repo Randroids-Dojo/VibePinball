@@ -35,7 +35,7 @@
     <h3>Plastic Standoff Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/plastic-standoff-hardware</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd>#12</dd>
       <dt>Changed</dt><dd>made the elevated playfield plastics closer to the physical blueprint by adding authored metal standoffs and screw-cap dimensions to every plastic cover. Rendering now draws those supports from the shared plastic records before the translucent covers, so the plastics read as mounted hardware instead of floating rectangles.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-plastic-standoff-hardware.png</code> confirmed a nonblank WebGL board with the authored plastic standoffs visible.</dd>
       <dt>Assumptions</dt><dd>The plastic standoffs are visual hardware for this slice because the GDD defines plastic covers as mostly visual unless they physically contain the ball path.</dd>
