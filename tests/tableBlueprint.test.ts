@@ -1256,6 +1256,9 @@ describe("Silverball Social physical board blueprint", () => {
       expect.arrayContaining([
         "handoff.left-orbit-entry.inner-guide",
         "handoff.left-orbit-entry.outer-guide",
+        ...((entryHandoff?.segments ?? []).flatMap((segment) =>
+          segment.fasteners.map((fastener) => fastener.id)
+        )),
         ...((entryHandoff?.posts ?? []).flatMap((post) => post.cap ? [post.id, post.cap.id] : [post.id])),
         "orbit.left.outer.lower",
         "orbit.left.inner.lower",
