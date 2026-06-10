@@ -735,6 +735,14 @@ const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {
     0,
     0.2
   );
+  cabinet.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.028, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, fastener.y, fastener.z);
+    group.add(screw);
+  });
 };
 
 const addDeckLabel = (

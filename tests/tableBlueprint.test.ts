@@ -46,6 +46,22 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.cabinet.sideRails.every((rail) => rail.depth > blueprint.scale.playfieldLength * 0.9)).toBe(true);
     expect(blueprint.cabinet.glassRims.every((rim) => rim.depth > blueprint.scale.playfieldLength * 0.85)).toBe(true);
     expect(blueprint.cabinet.lockdownBar.width).toBeGreaterThan(blueprint.scale.playfieldWidth * 0.55);
+    expect(blueprint.cabinet.fasteners).toHaveLength(18);
+    expect(blueprint.cabinet.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+    expect(blueprint.cabinet.fasteners.every((fastener) => fastener.radius > 0.03)).toBe(true);
+    expect(blueprint.cabinet.fasteners.filter((fastener) => fastener.targetId.endsWith("side-rail"))).toHaveLength(8);
+    expect(blueprint.cabinet.fasteners.filter((fastener) => fastener.targetId.endsWith("glass-rim"))).toHaveLength(6);
+    expect(blueprint.cabinet.fasteners.filter((fastener) => fastener.targetId === "cabinet.lockdown-bar")).toHaveLength(4);
+    expect(new Set(blueprint.cabinet.fasteners.map((fastener) => fastener.targetId))).toEqual(
+      new Set([
+        "cabinet.left-side-rail",
+        "cabinet.right-side-rail",
+        "cabinet.left-glass-rim",
+        "cabinet.right-glass-rim",
+        "cabinet.lockdown-bar"
+      ])
+    );
+    expect(blueprint.cabinet.fasteners.every((fastener) => fastener.y > 0.6 && fastener.y < 0.95)).toBe(true);
     expect(blueprint.cabinet.dmdPanel.id).toBe("cabinet.dmd-panel");
     expect(blueprint.cabinet.dmdPanel.label).toBe("SILVERBALL SOCIAL");
     expect(blueprint.cabinet.speakerGrilles.map((grille) => grille.id)).toEqual(
@@ -593,6 +609,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.cabinet.glassRims.map((item) => item.id),
       blueprint.cabinet.glassPanel.id,
       blueprint.cabinet.lockdownBar.id,
+      ...blueprint.cabinet.fasteners.map((item) => item.id),
       ...blueprint.cabinet.speakerGrilles.map((item) => item.id),
       blueprint.drain.trough.id,
       ...blueprint.drain.trough.ballSlots.map((item) => item.id),
