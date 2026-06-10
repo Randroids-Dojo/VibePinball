@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import type { PhysicsSnapshot } from "./physics";
 import {
-  rampSidePoint,
   silverballSocialBlueprint,
   type ApronCard,
   type ApronFastener,
@@ -22,6 +21,7 @@ import {
   type Post,
   type RampEntranceLip,
   type RampPath,
+  type RampSideRailFastener,
   type RolloverWire,
   type SaucerWallSegment,
   type SlingDevice,
@@ -323,11 +323,21 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
   floor.rotation.set(pitch, ramp.angle, 0);
   group.add(floor);
 
-  const sideRailY = centerY + ramp.floorThickness / 2 + ramp.sideRailHeight / 2;
-  const leftRail = rampSidePoint(ramp, -ramp.sideRailOffset);
-  const rightRail = rampSidePoint(ramp, ramp.sideRailOffset);
-  addRail(group, leftRail.x, leftRail.z, 0.07, slopedDepth, ramp.angle, 0x9fd0ff, sideRailY, pitch, ramp.sideRailHeight);
-  addRail(group, rightRail.x, rightRail.z, 0.07, slopedDepth, ramp.angle, 0x9fd0ff, sideRailY, pitch, ramp.sideRailHeight);
+  ramp.sideRails.forEach((rail) => {
+    addRail(
+      group,
+      rail.x,
+      rail.z,
+      rail.width,
+      rail.depth,
+      rail.angle,
+      0x9fd0ff,
+      (rail.startY + rail.endY) / 2,
+      rail.pitch,
+      rail.height
+    );
+    rail.fasteners.forEach((fastener) => addRampSideRailFastener(group, fastener));
+  });
   addRampEntranceLip(group, ramp.entranceLip, ramp.startY + 0.12);
 
   ramp.supports.forEach((support) => {
@@ -345,6 +355,15 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
     cap.position.set(support.x, support.height + support.cap.height / 2, support.z);
     group.add(cap);
   });
+};
+
+const addRampSideRailFastener = (group: THREE.Group, fastener: RampSideRailFastener) => {
+  const screw = mesh(
+    new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
+    new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+  );
+  screw.position.set(fastener.x, fastener.y, fastener.z);
+  group.add(screw);
 };
 
 const addSegment = (

@@ -1,7 +1,6 @@
 import type { ActionState, TableEvent } from "./types";
 import type { RigidBody, World } from "@dimforge/rapier3d-compat";
 import {
-  rampSidePoint,
   silverballSocialBlueprint,
   type FlipperDevice,
   type RampPath,
@@ -455,7 +454,6 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
     const pitch = Math.atan2(rise, ramp.depth);
     const slopedDepth = Math.hypot(ramp.depth, rise);
     const centerY = (ramp.startY + ramp.endY) / 2;
-    const sideRailY = centerY + ramp.floorThickness / 2 + ramp.sideRailHeight / 2;
     addBoxCollider(
       ramp.x,
       centerY,
@@ -468,17 +466,16 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
       0.5
     );
 
-    for (const offset of [-ramp.sideRailOffset, ramp.sideRailOffset]) {
-      const side = rampSidePoint(ramp, offset);
+    for (const rail of ramp.sideRails) {
       addBoxCollider(
-        side.x,
-        sideRailY,
-        side.z,
-        0.035,
-        ramp.sideRailHeight / 2,
-        slopedDepth / 2,
-        ramp.angle,
-        pitch,
+        rail.x,
+        (rail.startY + rail.endY) / 2,
+        rail.z,
+        rail.width / 2,
+        rail.height / 2,
+        rail.depth / 2,
+        rail.angle,
+        rail.pitch,
         0.68
       );
     }
