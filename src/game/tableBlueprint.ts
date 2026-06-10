@@ -203,6 +203,17 @@ export interface PlasticCover {
   angle?: number;
   color: number;
   layerY: number;
+  standoffs: PlasticStandoff[];
+}
+
+export interface PlasticStandoff {
+  id: string;
+  x: number;
+  z: number;
+  height: number;
+  radius: number;
+  capRadius: number;
+  kind: "metal";
 }
 
 export interface LampInsert {
@@ -819,12 +830,90 @@ export const silverballSocialBlueprint: TableBlueprint = {
     }
   },
   plastics: [
-    { id: "plastic.left-lane-cover", x: -2.72, z: 3.72, width: 1.42, depth: 1.05, angle: -0.36, color: 0xf6d174, layerY: 0.62 },
-    { id: "plastic.right-lane-cover", x: 2.72, z: 3.72, width: 1.42, depth: 1.05, angle: 0.36, color: 0xf6d174, layerY: 0.62 },
-    { id: "plastic.left-sling-cover", x: -1.92, z: 3.34, width: 1.32, depth: 0.72, angle: -0.5, color: 0xffe6ac, layerY: 0.58 },
-    { id: "plastic.right-sling-cover", x: 1.92, z: 3.34, width: 1.32, depth: 0.72, angle: 0.5, color: 0xffe6ac, layerY: 0.58 },
-    { id: "plastic.bumper-nest-cover", x: 0, z: -4.8, width: 3.4, depth: 1.72, color: 0xf3cf6e, layerY: 0.78 },
-    { id: "plastic.shooter-arch-cover", x: 2.9, z: -5.75, width: 1.2, depth: 1.55, angle: 0.18, color: 0x9fd0ff, layerY: 0.68 }
+    {
+      id: "plastic.left-lane-cover",
+      x: -2.72,
+      z: 3.72,
+      width: 1.42,
+      depth: 1.05,
+      angle: -0.36,
+      color: 0xf6d174,
+      layerY: 0.62,
+      standoffs: [
+        { id: "plastic.left-lane-cover.standoff.lower", x: -3.14, z: 4.08, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" },
+        { id: "plastic.left-lane-cover.standoff.upper", x: -2.18, z: 3.28, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }
+      ]
+    },
+    {
+      id: "plastic.right-lane-cover",
+      x: 2.72,
+      z: 3.72,
+      width: 1.42,
+      depth: 1.05,
+      angle: 0.36,
+      color: 0xf6d174,
+      layerY: 0.62,
+      standoffs: [
+        { id: "plastic.right-lane-cover.standoff.lower", x: 3.14, z: 4.08, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" },
+        { id: "plastic.right-lane-cover.standoff.upper", x: 2.18, z: 3.28, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }
+      ]
+    },
+    {
+      id: "plastic.left-sling-cover",
+      x: -1.92,
+      z: 3.34,
+      width: 1.32,
+      depth: 0.72,
+      angle: -0.5,
+      color: 0xffe6ac,
+      layerY: 0.58,
+      standoffs: [
+        { id: "plastic.left-sling-cover.standoff.outer", x: -2.5, z: 3.12, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" },
+        { id: "plastic.left-sling-cover.standoff.inner", x: -1.42, z: 3.56, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" }
+      ]
+    },
+    {
+      id: "plastic.right-sling-cover",
+      x: 1.92,
+      z: 3.34,
+      width: 1.32,
+      depth: 0.72,
+      angle: 0.5,
+      color: 0xffe6ac,
+      layerY: 0.58,
+      standoffs: [
+        { id: "plastic.right-sling-cover.standoff.outer", x: 2.5, z: 3.12, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" },
+        { id: "plastic.right-sling-cover.standoff.inner", x: 1.42, z: 3.56, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" }
+      ]
+    },
+    {
+      id: "plastic.bumper-nest-cover",
+      x: 0,
+      z: -4.8,
+      width: 3.4,
+      depth: 1.72,
+      color: 0xf3cf6e,
+      layerY: 0.74,
+      standoffs: [
+        { id: "plastic.bumper-nest-cover.standoff.left", x: -1.72, z: -4.22, height: 0.7, radius: 0.045, capRadius: 0.08, kind: "metal" },
+        { id: "plastic.bumper-nest-cover.standoff.center", x: -0.02, z: -5.62, height: 0.7, radius: 0.045, capRadius: 0.08, kind: "metal" },
+        { id: "plastic.bumper-nest-cover.standoff.right", x: 1.72, z: -4.28, height: 0.7, radius: 0.045, capRadius: 0.08, kind: "metal" }
+      ]
+    },
+    {
+      id: "plastic.shooter-arch-cover",
+      x: 2.9,
+      z: -5.75,
+      width: 1.2,
+      depth: 1.55,
+      angle: 0.18,
+      color: 0x9fd0ff,
+      layerY: 0.68,
+      standoffs: [
+        { id: "plastic.shooter-arch-cover.standoff.lower", x: 2.5, z: -5.08, height: 0.64, radius: 0.04, capRadius: 0.07, kind: "metal" },
+        { id: "plastic.shooter-arch-cover.standoff.upper", x: 3.3, z: -6.36, height: 0.64, radius: 0.04, capRadius: 0.07, kind: "metal" }
+      ]
+    }
   ],
   lampInserts: [
     { id: "insert.bonus-1", label: "Bonus 1", x: -0.66, z: 2.72, radius: 0.14, color: 0xffe08a, shape: "circle" },

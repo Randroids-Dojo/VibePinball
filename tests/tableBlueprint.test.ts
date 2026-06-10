@@ -266,9 +266,26 @@ describe("Silverball Social physical board blueprint", () => {
   it("includes layered plastics and shooter hardware from the physical reference", () => {
     expect(blueprint.plastics.length).toBeGreaterThanOrEqual(6);
     expect(blueprint.plastics.every((cover) => cover.layerY >= 0.45)).toBe(true);
+    expect(blueprint.plastics.every((cover) => cover.layerY <= 0.75)).toBe(true);
     expect(blueprint.plunger.id).toBe("shooter.plunger");
     expect(blueprint.plunger.rodLength).toBeGreaterThan(1);
     expect(blueprint.plunger.gate.id).toBe("shooter.one-way-gate");
+  });
+
+  it("mounts every plastic cover on authored metal standoffs", () => {
+    for (const cover of blueprint.plastics) {
+      expect(cover.standoffs.length, cover.id).toBeGreaterThanOrEqual(2);
+
+      for (const standoff of cover.standoffs) {
+        expect(standoff.id.startsWith(`${cover.id}.standoff.`), standoff.id).toBe(true);
+        expect(standoff.kind).toBe("metal");
+        expect(standoff.height).toBeGreaterThan(0.45);
+        expect(standoff.height).toBeLessThanOrEqual(cover.layerY);
+        expect(standoff.radius).toBeGreaterThan(0.025);
+        expect(standoff.radius).toBeLessThanOrEqual(0.05);
+        expect(standoff.capRadius).toBeGreaterThan(standoff.radius);
+      }
+    }
   });
 
   it("models the shooter lane groove, housing, and lower guide hardware", () => {
@@ -368,6 +385,7 @@ describe("Silverball Social physical board blueprint", () => {
       ]),
       ...blueprint.orbits.flatMap((orbit) => [orbit.id, orbit.entry.id, orbit.exit.id]),
       ...blueprint.plastics.map((item) => item.id),
+      ...blueprint.plastics.flatMap((item) => item.standoffs.map((standoff) => standoff.id)),
       ...blueprint.lampInserts.map((item) => item.id),
       blueprint.plunger.id,
       blueprint.plunger.laneGroove.id,
