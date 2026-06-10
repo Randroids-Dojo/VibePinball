@@ -876,6 +876,14 @@ const createFlipper = (flipperDevice: FlipperDevice, color: number) => {
   );
   pivotCap.position.y = 0.16;
   flipper.add(pivotCap);
+  flipperDevice.batFasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.localX, 0.18, fastener.localZ);
+    flipper.add(screw);
+  });
   return flipper;
 };
 

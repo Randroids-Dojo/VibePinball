@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="flipper-bat-fasteners" data-date="2026-06-10">
+    <h3>Flipper Bat Fasteners</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/flipper-bat-fasteners</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added authored metal screw heads to each main flipper bat so the lower playfield flippers read as mounted mechanical assemblies instead of plain capsule bats. Rendering now attaches those screws to the flipper groups so they rotate with bat movement.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-flipper-bat-fasteners.png</code> confirmed a nonblank WebGL board with visible flipper bat fasteners.</dd>
+      <dt>Assumptions</dt><dd>The flipper bat screws are visual top hardware and do not need separate physics colliders because the existing capsule flipper body remains the active contact surface.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-014</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for flipper material detail and shared physical-board IDs.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="cabinet-rail-fasteners" data-date="2026-06-10">
     <h3>Cabinet Rail Fasteners</h3>
     <dl>
