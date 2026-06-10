@@ -500,6 +500,14 @@ describe("Silverball Social physical board blueprint", () => {
       expect(wireform.ties.every((tie) => tie.kind === "wire")).toBe(true);
       expect(wireform.ties.every((tie) => tie.width >= wireform.tieWidth)).toBe(true);
       expect(wireform.ties.every((tie) => tie.depth > 0)).toBe(true);
+      expect(wireform.ties.every((tie) => tie.fasteners.length === 2)).toBe(true);
+      for (const tie of wireform.ties) {
+        expect(tie.fasteners.every((fastener) => fastener.id.startsWith(`${tie.id}.screw-`)), tie.id).toBe(true);
+        expect(tie.fasteners.every((fastener) => fastener.targetId === tie.id), tie.id).toBe(true);
+        expect(tie.fasteners.every((fastener) => fastener.kind === "metal"), tie.id).toBe(true);
+        expect(tie.fasteners.every((fastener) => fastener.radius >= 0.024), tie.id).toBe(true);
+        expect(tie.fasteners.every((fastener) => fastener.y > wireform.railY), tie.id).toBe(true);
+      }
       expect(wireform.supports.length).toBeGreaterThanOrEqual(3);
       expect(wireform.supports.every((support) => support.kind === "metal")).toBe(true);
       expect(wireform.supports.every((support) => support.height <= wireform.railY)).toBe(true);
@@ -1092,6 +1100,7 @@ describe("Silverball Social physical board blueprint", () => {
         ...wireform.rails.map((rail) => rail.id),
         ...wireform.rails.flatMap((rail) => rail.fasteners.map((fastener) => fastener.id)),
         ...wireform.ties.map((tie) => tie.id),
+        ...wireform.ties.flatMap((tie) => tie.fasteners.map((fastener) => fastener.id)),
         ...wireform.supports.flatMap((support) => [support.id, support.cap.id])
       ]),
       ...blueprint.orbits.flatMap((orbit) => [orbit.id, orbit.entry.id, orbit.exit.id]),

@@ -30,6 +30,7 @@ import {
   type TargetBankHardware,
   type TroughFastener,
   type WireformRailFastener,
+  type WireformTieFastener,
   type WireformPath
 } from "./tableBlueprint";
 
@@ -694,18 +695,21 @@ const addWireformPath = (group: THREE.Group, wireform: WireformPath) => {
     );
     rail.fasteners.forEach((fastener) => addWireformRailFastener(group, fastener));
   });
-  wireform.ties.forEach((tie) => addRail(
-    group,
-    tie.x,
-    tie.z,
-    tie.width,
-    tie.depth,
-    tie.angle ?? 0,
-    0xf4d35e,
-    wireform.railY,
-    0,
-    0.035
-  ));
+  wireform.ties.forEach((tie) => {
+    addRail(
+      group,
+      tie.x,
+      tie.z,
+      tie.width,
+      tie.depth,
+      tie.angle ?? 0,
+      0xf4d35e,
+      wireform.railY,
+      0,
+      0.035
+    );
+    tie.fasteners.forEach((fastener) => addWireformTieFastener(group, fastener));
+  });
   wireform.supports.forEach((support) => {
     const supportMesh = mesh(
       new THREE.CylinderGeometry(support.radius, support.radius, support.height, 16),
@@ -731,6 +735,15 @@ const addWireformRailFastener = (group: THREE.Group, fastener: WireformRailFaste
   );
   clamp.position.set(fastener.x, fastener.y, fastener.z);
   group.add(clamp);
+};
+
+const addWireformTieFastener = (group: THREE.Group, fastener: WireformTieFastener) => {
+  const screw = mesh(
+    new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.02, 16),
+    new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+  );
+  screw.position.set(fastener.x, fastener.y, fastener.z);
+  group.add(screw);
 };
 
 const addPlasticCover = (
