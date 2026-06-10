@@ -763,6 +763,9 @@ describe("Silverball Social physical board blueprint", () => {
       expect(target.mountFasteners.every((fastener) => fastener.id.startsWith(`${target.id}.mount-screw-`))).toBe(true);
       expect(target.mountFasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
       expect(target.mountFasteners.every((fastener) => fastener.radius > 0.025)).toBe(true);
+      expect(centerBankShot?.deviceIds).toEqual(
+        expect.arrayContaining(target.mountFasteners.map((fastener) => fastener.id))
+      );
       expect(target.decalColor).toBeGreaterThan(0);
       expect(centerBankShot?.deviceIds).toContain(target.face.id);
       expect(target.lampInsertId).toBe(expectedInsertIds[index]);
