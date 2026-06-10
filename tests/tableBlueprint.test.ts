@@ -800,6 +800,9 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.shots.find((shot) => shot.id === "shot.center-bank")?.deviceIds).toEqual(
       expect.arrayContaining(frameIds)
     );
+    expect(blueprint.shots.find((shot) => shot.id === "shot.center-bank")?.deviceIds).toEqual(
+      expect.arrayContaining(blueprint.targetBank.frameSegments.flatMap((segment) => segment.fasteners.map((fastener) => fastener.id)))
+    );
     expect(blueprint.targetBank.posts).toHaveLength(4);
     expect(blueprint.shots.find((shot) => shot.id === "shot.center-bank")?.deviceIds).toEqual(
       expect.arrayContaining(blueprint.targetBank.posts.map((post) => post.id))
