@@ -49,6 +49,7 @@ export interface LaneDevice extends SensorZone {
   label: string;
   clearance: number;
   side: "left" | "right" | "top";
+  guidePostIds?: string[];
 }
 
 export interface SlingDevice {
@@ -334,7 +335,15 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "post.upper-left", x: -2.15, z: -2.55, radius: 0.12, kind: "rubber" },
     { id: "post.upper-right", x: 2.15, z: -2.55, radius: 0.12, kind: "rubber" },
     { id: "post.top-lane-left", x: -1.8, z: -6.05, radius: 0.1, kind: "rubber" },
+    { id: "post.top-lane-left-outer", x: -1.48, z: -6.02, radius: 0.08, kind: "rubber" },
+    { id: "post.top-lane-left-inner", x: -0.62, z: -6.08, radius: 0.08, kind: "rubber" },
+    { id: "post.top-lane-center-left", x: -0.34, z: -6.2, radius: 0.08, kind: "rubber" },
+    { id: "post.top-lane-center-right", x: 0.34, z: -6.2, radius: 0.08, kind: "rubber" },
+    { id: "post.top-lane-right-inner", x: 0.62, z: -6.08, radius: 0.08, kind: "rubber" },
+    { id: "post.top-lane-right-outer", x: 1.48, z: -6.02, radius: 0.08, kind: "rubber" },
     { id: "post.top-lane-right", x: 1.8, z: -6.05, radius: 0.1, kind: "rubber" },
+    { id: "post.shooter-skill-lane-inner", x: 2.7, z: -5.92, radius: 0.08, kind: "rubber" },
+    { id: "post.shooter-skill-lane-outer", x: 3.42, z: -5.88, radius: 0.08, kind: "rubber" },
     { id: "post.pop-a.upper", x: -1.28, z: -5.62, radius: 0.095, kind: "rubber" },
     { id: "post.pop-a.outer", x: -1.86, z: -4.96, radius: 0.095, kind: "rubber" },
     { id: "post.pop-a.inner", x: -0.68, z: -4.96, radius: 0.095, kind: "rubber" },
@@ -352,10 +361,46 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "lane.lower.left-in", label: "Left inlane", x: -1.98, z: 5.18, radius: 0.32, clearance: 0.63, side: "left" },
     { id: "lane.lower.right-in", label: "Right inlane", x: 1.98, z: 5.18, radius: 0.32, clearance: 0.63, side: "right" },
     { id: "lane.lower.right-out", label: "Right outlane", x: 3.2, z: 5.1, radius: 0.32, clearance: 0.66, side: "right" },
-    { id: "lane.top.left", label: "Top left rollover", x: -1.05, z: -6.48, radius: 0.36, clearance: 0.7, side: "top" },
-    { id: "lane.top.center", label: "Top center rollover", x: 0, z: -6.62, radius: 0.36, clearance: 0.7, side: "top" },
-    { id: "lane.top.right", label: "Top right rollover", x: 1.05, z: -6.48, radius: 0.36, clearance: 0.7, side: "top" },
-    { id: "lane.shooter.skill", label: "Skill shot lane", x: 3.05, z: -6.35, radius: 0.34, clearance: 0.68, side: "top" }
+    {
+      id: "lane.top.left",
+      label: "Top left rollover",
+      x: -1.05,
+      z: -6.48,
+      radius: 0.36,
+      clearance: 0.7,
+      side: "top",
+      guidePostIds: ["post.top-lane-left", "post.top-lane-left-outer", "post.top-lane-left-inner"]
+    },
+    {
+      id: "lane.top.center",
+      label: "Top center rollover",
+      x: 0,
+      z: -6.62,
+      radius: 0.36,
+      clearance: 0.7,
+      side: "top",
+      guidePostIds: ["post.top-lane-center-left", "post.top-lane-center-right"]
+    },
+    {
+      id: "lane.top.right",
+      label: "Top right rollover",
+      x: 1.05,
+      z: -6.48,
+      radius: 0.36,
+      clearance: 0.7,
+      side: "top",
+      guidePostIds: ["post.top-lane-right-inner", "post.top-lane-right-outer", "post.top-lane-right"]
+    },
+    {
+      id: "lane.shooter.skill",
+      label: "Skill shot lane",
+      x: 3.05,
+      z: -6.35,
+      radius: 0.34,
+      clearance: 0.68,
+      side: "top",
+      guidePostIds: ["post.shooter-skill-lane-inner", "post.shooter-skill-lane-outer"]
+    }
   ],
   flippers: [
     {
