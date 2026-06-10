@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="lock-saucer-cup-fasteners" data-date="2026-06-10">
+    <h3>Lock Saucer Cup Fasteners</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/lock-saucer-cup-fasteners</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added authored metal fastener records to the lock saucer cup rim so the center lock device reads as mounted capture hardware rather than a plain bowl. Rendering now draws those cup fasteners from shared saucer blueprint data.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-lock-saucer-cup-fasteners.png</code> confirmed a nonblank WebGL board with the center lock device still correctly framed.</dd>
+      <dt>Assumptions</dt><dd>The saucer cup fasteners are visual rim hardware and do not need separate physics colliders because the existing saucer cup, walls, and entry posts remain the active capture geometry.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-012</code>, <code>REQ-017</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for lock-device capture hardware and shared physical-board IDs.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="lock-saucer-post-caps" data-date="2026-06-10">
     <h3>Lock Saucer Post Caps</h3>
     <dl>
