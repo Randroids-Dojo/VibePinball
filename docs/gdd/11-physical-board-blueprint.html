@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>11 Physical Board Blueprint</title>
+</head>
+<body>
+
+<h1>11 Physical Board Blueprint</h1>
+<p data-status="not_started">Status: not_started</p>
+
+<section data-role="spec">
+  <h2>Spec</h2>
+  <p>This file translates the supplied real pinball reference photo into a physically plausible Silverball Social board architecture. It copies the mechanical density, shot staging, device layering, and readable physical composition of a real machine. It must not copy licensed character art, names, decals, or exact theme assets from the reference photo.</p>
+
+  <section id="physical-scale">
+    <h3>Physical scale</h3>
+    <p>The canonical playfield uses a real-machine scale before camera framing. One game unit represents 2.5 inches. The playable area is 8.1 units wide by 16.8 units long, matching an approximately 20.25 inch by 42 inch modern playfield. The current x axis remains left to right. The current z axis remains top negative and apron positive. The playfield surface is y 0. The ball radius is 0.2125 units, which maps to a 1.0625 inch pinball.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Part</th>
+          <th>Physical size</th>
+          <th>Game units</th>
+          <th>Implementation note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ball diameter</td>
+          <td>1.0625 in</td>
+          <td>0.425</td>
+          <td>Use a Rapier sphere radius of 0.2125 to 0.24 units, keeping the current radius acceptable.</td>
+        </tr>
+        <tr>
+          <td>Flipper bat</td>
+          <td>3.0 in</td>
+          <td>1.2</td>
+          <td>Use tapered capsule or compound colliders, not a rectangular box.</td>
+        </tr>
+        <tr>
+          <td>Lane clearance</td>
+          <td>1.35 to 1.75 ball widths</td>
+          <td>0.58 to 0.74</td>
+          <td>Inlanes, outlanes, and return lanes must be narrow enough to read as real gates.</td>
+        </tr>
+        <tr>
+          <td>Orbit clearance</td>
+          <td>1.6 to 2.0 ball widths</td>
+          <td>0.68 to 0.85</td>
+          <td>Side orbit guides need two curved wall rails plus rollover sensors where appropriate.</td>
+        </tr>
+        <tr>
+          <td>Ramp lane width</td>
+          <td>2.0 to 2.5 ball widths</td>
+          <td>0.85 to 1.06</td>
+          <td>Ramp floors should have side walls, entrance lips, and explicit exit handoffs.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="board-zones">
+    <h3>Board zones</h3>
+    <p>The board should be built as five physical zones so future slices can replace sparse procedural geometry with stable authored devices.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Zone</th>
+          <th>Bounds</th>
+          <th>Purpose</th>
+          <th>Reference cue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Apron and drain</td>
+          <td>z 6.4 to 8.4</td>
+          <td>Apron, trough entry, center drain, ball save messaging, shooter feed.</td>
+          <td>The lower printed apron and central drain below the flippers.</td>
+        </tr>
+        <tr>
+          <td>Lower playfield</td>
+          <td>z 3.1 to 6.4</td>
+          <td>Flippers, slingshots, outlanes, inlanes, rubber posts, lane rollover switches.</td>
+          <td>Dense lower guide plastics and two main flippers.</td>
+        </tr>
+        <tr>
+          <td>Mid playfield</td>
+          <td>z -1.8 to 3.1</td>
+          <td>Target bank, lock entry, ramp mouths, return feeds, central posts.</td>
+          <td>Central standup bank and raised red bumper caps above it.</td>
+        </tr>
+        <tr>
+          <td>Upper playfield</td>
+          <td>z -6.2 to -1.8</td>
+          <td>Pop bumper nest, top lanes, skill shot, upper orbit handoffs.</td>
+          <td>Triangular pop bumper nest and top rollover region.</td>
+        </tr>
+        <tr>
+          <td>Shooter lane</td>
+          <td>x 3.35 to 4.05</td>
+          <td>Plunger launch, skill-shot tuning, one-way entry to upper lanes.</td>
+          <td>Right-side launch lane wrapping to the top arch.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="component-decomposition">
+    <h3>Component decomposition</h3>
+    <p>The table must be authored from named device records that can produce render meshes, Rapier colliders, sensors, lamp state, and rule events from one source of truth.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>ID group</th>
+          <th>Physical components</th>
+          <th>Collider contract</th>
+          <th>Sensor and event contract</th>
+          <th>Render contract</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="boundary-components">
+          <td><code>boundary.*</code></td>
+          <td>Side walls, top arch, shooter divider, apron rails, rebound rubbers.</td>
+          <td>Fixed wall segments. Curves are approximated by short tangent cuboids or convex hulls.</td>
+          <td>No scoring events. Drain and trough sensors are separate.</td>
+          <td>Metal side rails, black inner walls, visible glass rim.</td>
+        </tr>
+        <tr id="lower-lane-components">
+          <td><code>lane.lower.*</code></td>
+          <td>Left and right outlanes, left and right inlanes, rollover wire switches, divider posts.</td>
+          <td>Two wall rails per lane, post colliders at each gate, rubber rings on exposed posts.</td>
+          <td><code>lane</code> events for inlane, outlane, and return rollover IDs.</td>
+          <td>Lit arrow inserts, rollover wires, plastic guides above lane mouths.</td>
+        </tr>
+        <tr id="flipper-components">
+          <td><code>flipper.*</code></td>
+          <td>Two main bats, pivot posts, end rubber, return stops.</td>
+          <td>Joint-driven kinematic bat or motorized rigid body with capsule-like collision.</td>
+          <td>No direct score event. Flipper state is input state and physics state.</td>
+          <td>White or cream bats with colored rubber and metal pivot caps.</td>
+        </tr>
+        <tr id="sling-components">
+          <td><code>sling.*</code></td>
+          <td>Left and right triangular slingshot rubbers.</td>
+          <td>Angled rubber wall with active impulse normal away from the sling face.</td>
+          <td><code>sling</code> events with side ID and cooldown.</td>
+          <td>Triangular plastic, two posts, pulsing lamp under plastic.</td>
+        </tr>
+        <tr id="pop-components">
+          <td><code>pop.*</code></td>
+          <td>Three pop bumpers in a triangular nest.</td>
+          <td>Circular skirt sensor plus fixed round cap collision. Impulse radiates from center.</td>
+          <td><code>bumper</code> events for <code>pop-a</code>, <code>pop-b</code>, and <code>pop-c</code>.</td>
+          <td>Red bumper caps, chrome rings, lamp pulse on hit.</td>
+        </tr>
+        <tr id="target-components">
+          <td><code>target.bank.*</code></td>
+          <td>Five central standup or drop targets, not just three spaced boxes.</td>
+          <td>Thin vertical face collider with small rear stop and hit deflection.</td>
+          <td><code>target</code> events with hit, lit, and completed states.</td>
+          <td>Individual decals, lamp inserts below each target, completion flash.</td>
+        </tr>
+        <tr id="lock-components">
+          <td><code>lock.saucer</code></td>
+          <td>Central saucer or scoop behind the target bank.</td>
+          <td>Bowl entry walls, capture sensor, hold point, eject vector.</td>
+          <td><code>lockEnter</code>, <code>lockHeld</code>, and <code>lockEject</code> events once rules support them.</td>
+          <td>Visible saucer cup, lit "lock" insert, ball visibly held or represented.</td>
+        </tr>
+        <tr id="ramp-components">
+          <td><code>ramp.left</code></td>
+          <td>Left ramp entrance, raised ramp floor, yellow-style wireform return to left inlane.</td>
+          <td>Inclined floor collider, side rail colliders, entrance lip, elevated return rail.</td>
+          <td><code>rampMade</code> at entrance and exit, with combo eligibility from exit.</td>
+          <td>Transparent ramp at the mouth, bright wire return above the playfield.</td>
+        </tr>
+        <tr id="orbit-components">
+          <td><code>orbit.right</code></td>
+          <td>Right orbit lane wrapping around upper playfield into a green-style wireform return.</td>
+          <td>Curved side-wall chain, upper gate, return rail, exit guide to right inlane.</td>
+          <td><code>orbitMade</code> and top-lane rollovers where the ball crosses the arch.</td>
+          <td>Raised wire guide that visually traces the ball path.</td>
+        </tr>
+        <tr id="shooter-components">
+          <td><code>shooter.*</code></td>
+          <td>Shooter lane, plunger rod, top one-way gate, skill-shot rollover lanes.</td>
+          <td>Narrow fixed walls, plunger impulse, one-way gate represented as angled guide geometry.</td>
+          <td><code>skillShot</code> when the charged launch lands in the lit top lane.</td>
+          <td>Plunger housing, lane groove, lit top lane target.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="shot-map">
+    <h3>Shot map</h3>
+    <p>The table must give each flipper multiple readable shots. These are physical ball paths, not only scoring concepts.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Shot</th>
+          <th>Primary flipper</th>
+          <th>Path</th>
+          <th>Outcome</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Left orbit</td>
+          <td>Right flipper</td>
+          <td>Right flipper to left side lane, around top arch, through bumper entry or full orbit.</td>
+          <td>Feeds upper bumpers, awards orbit when completed, can chain to right return.</td>
+        </tr>
+        <tr>
+          <td>Left ramp</td>
+          <td>Right flipper</td>
+          <td>Right flipper through left ramp mouth, up raised lane, onto left wireform return.</td>
+          <td>Awards ramp, returns safely to left inlane, starts combo timer.</td>
+        </tr>
+        <tr>
+          <td>Center target bank</td>
+          <td>Either flipper</td>
+          <td>Direct shot into five standups below the bumper nest.</td>
+          <td>Advances lock qualification and rebounds dangerously toward lower playfield.</td>
+        </tr>
+        <tr>
+          <td>Lock saucer</td>
+          <td>Left flipper preferred</td>
+          <td>Left flipper through center-right gap behind or beside target bank.</td>
+          <td>Captures qualified balls, otherwise awards scoop value and ejects to right return.</td>
+        </tr>
+        <tr>
+          <td>Right orbit</td>
+          <td>Left flipper</td>
+          <td>Left flipper to right side orbit, around upper right guide, into return wireform.</td>
+          <td>Awards orbit or lights jackpot during multiball.</td>
+        </tr>
+        <tr>
+          <td>Skill shot</td>
+          <td>Plunger</td>
+          <td>Shooter lane to top rollover lane before the bumpers.</td>
+          <td>Awards skill shot if the lit rollover is crossed before any major device.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="layering-and-height">
+    <h3>Layering and height</h3>
+    <p>A real board is not flat art with pegs on top. The implementation must separate physical layers so the camera sees depth and the ball can travel under or over devices where appropriate.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Y range</th>
+          <th>Contents</th>
+          <th>Collision behavior</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Playfield deck</td>
+          <td>0.00 to 0.08</td>
+          <td>Painted wood surface, inserts, lane art, decals.</td>
+          <td>Static floor with low friction. Inserts are visual or sensor overlays.</td>
+        </tr>
+        <tr>
+          <td>Ball center</td>
+          <td>0.2125 to 0.24</td>
+          <td>Ball rigid bodies.</td>
+          <td>Dynamic spheres with capped speed and tuned restitution.</td>
+        </tr>
+        <tr>
+          <td>Low devices</td>
+          <td>0.15 to 0.55</td>
+          <td>Flippers, rubbers, targets, posts, slings, bumpers.</td>
+          <td>Primary gameplay collision layer.</td>
+        </tr>
+        <tr>
+          <td>Plastic covers</td>
+          <td>0.45 to 0.75</td>
+          <td>Decorative plastics and lamp covers.</td>
+          <td>Mostly visual. Add collision only where a plastic physically contains the ball path.</td>
+        </tr>
+        <tr>
+          <td>Ramps</td>
+          <td>0.18 to 0.95</td>
+          <td>Ramp floors, entrance flaps, rail sides.</td>
+          <td>Elevated floor and rail collision. Transition points must be explicit.</td>
+        </tr>
+        <tr>
+          <td>Wireforms</td>
+          <td>0.85 to 1.45</td>
+          <td>Raised metal return rails and habitrail paths.</td>
+          <td>Constrained path collision with clear entrance and exit handoffs.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="data-architecture">
+    <h3>Data architecture</h3>
+    <p>The next implementation slice should introduce a declarative board definition instead of scattering coordinates through render and physics modules.</p>
+    <pre><code>TableBlueprint
+  id: "silverball-social-v1"
+  scale:
+    inchesPerUnit: 2.5
+    playfieldWidth: 8.1
+    playfieldLength: 16.8
+    ballRadius: 0.2125
+  devices:
+    boundaries: BoundarySegment[]
+    posts: Post[]
+    rubbers: RubberSegment[]
+    lanes: Lane[]
+    rollovers: RolloverSensor[]
+    flippers: FlipperDevice[]
+    slings: SlingDevice[]
+    bumpers: PopBumper[]
+    targets: TargetBank[]
+    saucers: Saucer[]
+    ramps: RampPath[]
+    wireforms: WireformPath[]
+    inserts: LampInsert[]
+  shots:
+    ShotPath[]
+</code></pre>
+    <p>Suggested module ownership:</p>
+    <ul>
+      <li><code>src/game/tableBlueprint.ts</code>: declarative component records, IDs, dimensions, and shot paths.</li>
+      <li><code>src/game/physicsTable.ts</code>: converts blueprint records into Rapier bodies, colliders, sensors, and device impulses.</li>
+      <li><code>src/game/renderTable.ts</code>: converts the same records into Three.js meshes, lamps, plastics, rails, ramps, and debug overlays.</li>
+      <li><code>src/game/rules.ts</code>: consumes normalized device events, never raw collider coordinates.</li>
+      <li><code>tests/tableBlueprint.test.ts</code>: validates IDs, clearances, lane widths, shot endpoints, and sensor coverage.</li>
+    </ul>
+  </section>
+
+  <section id="acceptance-criteria">
+    <h3>Acceptance criteria</h3>
+    <ul>
+      <li>The board contains at least two full lower inlane and outlane pairs, two slings, two main flippers, a central drain, and shooter lane.</li>
+      <li>The upper playfield contains three pop bumpers, three top rollover lanes, and at least one orbit path that can feed the bumpers.</li>
+      <li>The mid playfield contains a five-target bank and a readable lock saucer or scoop.</li>
+      <li>The left ramp and right orbit each have elevated return geometry, visible rails, entrance sensors, exit sensors, and safe inlane feeds.</li>
+      <li>Every physical scoring device has a stable ID shared by render, physics, rules, lamps, and tests.</li>
+      <li>Every lane has two wall boundaries, a rollover or entry sensor where relevant, and a measured clearance compatible with the ball radius.</li>
+      <li>No major shot is represented only by flat art. Shots must have colliders, sensors, and visible physical guides.</li>
+      <li>The reference photo inspires mechanical layout density only. Final art, characters, names, and decorative IP are original Silverball Social assets.</li>
+    </ul>
+  </section>
+</section>
+
+<section data-role="build-log">
+  <h2>Build log</h2>
+  <ul>
+    <li data-date="2026-06-09">Initial physical board blueprint drafted from the supplied real pinball reference photo. Files: <code>docs/gdd/11-physical-board-blueprint.html</code>. PR TBD.</li>
+  </ul>
+</section>
+
+</body>
+</html>

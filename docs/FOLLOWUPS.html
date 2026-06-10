@@ -36,6 +36,15 @@
 <main>
 <section id="blocks-release">
   <h2>Blocks Release</h2>
+  <section data-f="F-003" data-priority="blocks-release">
+    <h3>F-003: Implement physical board blueprint</h3>
+    <dl>
+      <dt>Context</dt><dd>The current playable board is sparse procedural geometry. The supplied real pinball reference photo shows the level of physical density needed: lower lanes, rubbers, posts, slings, target bank, lock device, orbit, ramp, and raised returns.</dd>
+      <dt>Blocker</dt><dd>None. This is a release-quality table-layout slice that should follow <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Unblock condition</dt><dd>Start from the blueprint and replace scattered render and physics coordinates with shared table component records.</dd>
+      <dt>PR / Dot reference</dt><dd><code>VibePinball-implement-physical-pinball-11e5121f</code></dd>
+    </dl>
+  </section>
   <section data-f="F-002" data-priority="blocks-release">
     <h3>F-002: Resolve audio context helper path</h3>
     <dl>

@@ -1006,6 +1006,17 @@
       "implementationRefs": [],
       "testRefs": [],
       "followupRefs": []
+    },
+    {
+      "id": "REQ-083",
+      "requirement": "The Silverball Social table follows a physically plausible real-machine board blueprint with measured scale, layered devices, explicit shot paths, shared device IDs, and collider-backed playfield features.",
+      "gddRef": "docs/gdd/11-physical-board-blueprint.html#acceptance-criteria",
+      "status": "not_started",
+      "implementationRefs": [],
+      "testRefs": [],
+      "followupRefs": [
+        "F-003"
+      ]
     }
   ]
 }

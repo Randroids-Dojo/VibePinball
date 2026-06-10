@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="physical-board-blueprint" data-date="2026-06-09">
+    <h3>Physical Board Blueprint</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/playable-game-scaffold</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>added a physical board blueprint derived from the supplied real pinball reference photo, with real-machine scale, board zones, device decomposition, shot paths, height layers, data architecture, and acceptance criteria for replacing the sparse procedural table. Added the GDD index link, coverage row, and an HTML dot-backed release followup.</dd>
+      <dt>Verification</dt><dd><code>gh api repos/Randroids-Dojo/VibeKit/releases/latest --jq .tag_name</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>dot-html ls</code>; <code>rg -n $'\u2014|\u2013' docs .dots AGENTS.md README.md src app tests package.json pnpm-lock.yaml</code>; <code>git diff --check</code>; <code>pnpm type-check</code>; Node coverage reference and index-link validation.</dd>
+      <dt>Assumptions</dt><dd>The reference photo is used for physical board architecture only. Final Silverball Social art, names, character assets, decals, and theme details stay original.</dd>
+      <dt>GDD coverage</dt><dd>Added <code>REQ-083</code> for a physically plausible real-machine board blueprint and linked <code>docs/gdd/11-physical-board-blueprint.html</code> from the GDD index.</dd>
+      <dt>Followups</dt><dd>Created <code>F-003</code> and dot <code>VibePinball-implement-physical-pinball-11e5121f</code> to implement the blueprint as a release-blocking table-layout slice.</dd>
+    </dl>
+  </article>
+
   <article data-slice="playable-game-scaffold" data-date="2026-06-09">
     <h3>Playable Game Scaffold</h3>
     <dl>
