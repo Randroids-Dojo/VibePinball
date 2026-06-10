@@ -216,6 +216,7 @@ export interface WireformPath {
   railOffset: number;
   tieWidth: number;
   segments: Segment[];
+  ties: Segment[];
   supports: WireformSupport[];
   exit: SensorZone;
 }
@@ -935,6 +936,14 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "wireform.left-return.upper", x: -2.72, z: -1.4, width: 0.08, depth: 2.9, angle: -0.2, kind: "wire" },
         { id: "wireform.left-return.lower", x: -2.44, z: 2.28, width: 0.08, depth: 3.5, angle: 0.08, kind: "wire" }
       ],
+      ties: [
+        { id: "wireform.left-return.tie-upper-entry", x: -2.98, z: -2.46, width: 0.58, depth: 0.055, angle: -0.2, kind: "wire" },
+        { id: "wireform.left-return.tie-upper-mid", x: -2.72, z: -1.4, width: 0.58, depth: 0.055, angle: -0.2, kind: "wire" },
+        { id: "wireform.left-return.tie-upper-exit", x: -2.46, z: -0.34, width: 0.58, depth: 0.055, angle: -0.2, kind: "wire" },
+        { id: "wireform.left-return.tie-lower-entry", x: -2.58, z: 0.98, width: 0.58, depth: 0.055, angle: 0.08, kind: "wire" },
+        { id: "wireform.left-return.tie-lower-mid", x: -2.44, z: 2.28, width: 0.58, depth: 0.055, angle: 0.08, kind: "wire" },
+        { id: "wireform.left-return.tie-lower-exit", x: -2.3, z: 3.58, width: 0.58, depth: 0.055, angle: 0.08, kind: "wire" }
+      ],
       supports: [
         { id: "wireform.left-return.support.upper", x: -2.54, z: -2.42, height: 1.02, radius: 0.04, kind: "metal" },
         { id: "wireform.left-return.support.mid", x: -2.62, z: 0.12, height: 1.04, radius: 0.04, kind: "metal" },
@@ -952,6 +961,14 @@ export const silverballSocialBlueprint: TableBlueprint = {
       segments: [
         { id: "wireform.right-orbit-return.upper", x: 2.88, z: -3.2, width: 0.08, depth: 3.3, angle: 0.22, kind: "wire" },
         { id: "wireform.right-orbit-return.lower", x: 2.5, z: 1.15, width: 0.08, depth: 4.4, angle: -0.08, kind: "wire" }
+      ],
+      ties: [
+        { id: "wireform.right-orbit-return.tie-upper-entry", x: 2.52, z: -4.42, width: 0.6, depth: 0.055, angle: 0.22, kind: "wire" },
+        { id: "wireform.right-orbit-return.tie-upper-mid", x: 2.88, z: -3.2, width: 0.6, depth: 0.055, angle: 0.22, kind: "wire" },
+        { id: "wireform.right-orbit-return.tie-upper-exit", x: 3.24, z: -1.98, width: 0.6, depth: 0.055, angle: 0.22, kind: "wire" },
+        { id: "wireform.right-orbit-return.tie-lower-entry", x: 2.68, z: -0.44, width: 0.6, depth: 0.055, angle: -0.08, kind: "wire" },
+        { id: "wireform.right-orbit-return.tie-lower-mid", x: 2.5, z: 1.15, width: 0.6, depth: 0.055, angle: -0.08, kind: "wire" },
+        { id: "wireform.right-orbit-return.tie-lower-exit", x: 2.32, z: 2.74, width: 0.6, depth: 0.055, angle: -0.08, kind: "wire" }
       ],
       supports: [
         { id: "wireform.right-orbit-return.support.upper", x: 2.78, z: -4.42, height: 1.1, radius: 0.04, kind: "metal" },
