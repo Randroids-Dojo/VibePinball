@@ -35,7 +35,7 @@
     <h3>Target Bank Divider Rails</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/target-bank-divider-rails</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd>#19</dd>
       <dt>Changed</dt><dd>made the SOCIAL target bank closer to a real standup-target assembly by adding four authored metal divider rails between the five targets. Rendering and physics consume the rails through the existing shared target-bank frame segment path.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-target-bank-divider-rails.png</code> confirmed a nonblank WebGL board with authored target-bank divider rails visible between the SOCIAL standups.</dd>
       <dt>Assumptions</dt><dd>The divider rails are physical metal frame pieces and use the same render and Rapier collider contract as the existing target-bank rails.</dd>
