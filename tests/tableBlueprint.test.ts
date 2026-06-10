@@ -55,6 +55,19 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
+  it("models exposed rubber posts with metal washer caps", () => {
+    const rubberPosts = blueprint.posts.filter((post) => post.kind === "rubber");
+
+    expect(rubberPosts.length).toBeGreaterThan(20);
+
+    for (const post of rubberPosts) {
+      expect(post.cap?.id).toBe(`${post.id}.cap`);
+      expect(post.cap?.kind).toBe("metal");
+      expect(post.cap?.radius).toBeGreaterThan(post.radius);
+      expect(post.cap?.height).toBeGreaterThan(0);
+    }
+  });
+
   it("includes rollover wire switches and flipper return hardware", () => {
     expect(blueprint.rolloverWires).toHaveLength(blueprint.lanes.length);
     expect(blueprint.rolloverWires.every((wire) => wire.kind === "wire")).toBe(true);
@@ -400,6 +413,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.rolloverWires.map((item) => item.id),
       ...blueprint.flipperStops.map((item) => item.id),
       ...blueprint.posts.map((item) => item.id),
+      ...blueprint.posts.flatMap((item) => item.cap ? [item.cap.id] : []),
       ...blueprint.lanes.map((item) => item.id),
       ...blueprint.flippers.map((item) => item.id),
       ...blueprint.slings.flatMap((sling) => [

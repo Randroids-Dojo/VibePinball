@@ -67,6 +67,14 @@ export interface Post {
   z: number;
   radius: number;
   kind: "rubber" | "metal";
+  cap?: PostCap;
+}
+
+export interface PostCap {
+  id: string;
+  radius: number;
+  height: number;
+  kind: "metal";
 }
 
 export interface SensorZone {
@@ -340,6 +348,19 @@ export interface TableBlueprint {
   shots: ShotPath[];
 }
 
+const withRubberPostCaps = (posts: Post[]): Post[] =>
+  posts.map((post) => post.kind === "rubber"
+    ? {
+        ...post,
+        cap: {
+          id: `${post.id}.cap`,
+          radius: post.radius + 0.035,
+          height: 0.032,
+          kind: "metal"
+        }
+      }
+    : post);
+
 export const silverballSocialBlueprint: TableBlueprint = {
   id: "silverball-social-v1",
   scale: {
@@ -478,7 +499,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "flipper.right.return-stop", x: 0.66, z: 4.42, width: 0.38, depth: 0.1, angle: -0.28, kind: "rubber" },
     { id: "flipper.right.end-rubber", x: 1.93, z: 4.5, width: 0.32, depth: 0.1, angle: 0.34, kind: "rubber" }
   ],
-  posts: [
+  posts: withRubberPostCaps([
     { id: "post.left-out-top", x: -3.18, z: 3.92, radius: 0.13, kind: "rubber" },
     { id: "post.left-out-lower", x: -3.48, z: 5.58, radius: 0.12, kind: "rubber" },
     { id: "post.left-in-top", x: -2.02, z: 4.18, radius: 0.13, kind: "rubber" },
@@ -516,7 +537,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "post.pop-c.upper", x: -0.04, z: -4.56, radius: 0.095, kind: "rubber" },
     { id: "post.drain-left", x: -0.52, z: 6.66, radius: 0.13, kind: "rubber" },
     { id: "post.drain-right", x: 0.52, z: 6.66, radius: 0.13, kind: "rubber" }
-  ],
+  ]),
   lanes: [
     {
       id: "lane.lower.left-out",
