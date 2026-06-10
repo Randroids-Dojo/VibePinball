@@ -726,12 +726,20 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
   group.add(rod);
 
   const spring = mesh(
-    new THREE.TorusGeometry(0.16, 0.018, 8, 18),
+    new THREE.TorusGeometry(plunger.spring.radius, plunger.spring.tubeRadius, 8, 18),
     new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.2, metalness: 0.8 })
   );
-  spring.position.set(plunger.rodX, 0.28, plunger.springZ);
+  spring.position.set(plunger.spring.x, 0.28, plunger.spring.z);
   spring.rotation.x = Math.PI / 2;
   group.add(spring);
+
+  const knob = mesh(
+    new THREE.CylinderGeometry(plunger.knob.radius, plunger.knob.radius, plunger.knob.depth, 24),
+    new THREE.MeshStandardMaterial({ color: 0x121416, roughness: 0.34, metalness: 0.08 })
+  );
+  knob.rotation.x = Math.PI / 2;
+  knob.position.set(plunger.knob.x, 0.28, plunger.knob.z);
+  group.add(knob);
 
   addSegment(group, plunger.gate, 0.42);
 };
