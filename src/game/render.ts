@@ -8,6 +8,7 @@ import {
   type CabinetHardware,
   type DrainDevice,
   type DrainGuide,
+  type ElevatedSupportFoot,
   type FlipperStop,
   type HandoffSegment,
   type LampInsert,
@@ -343,6 +344,8 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
   addRampEntranceLip(group, ramp.entranceLip, ramp.startY + 0.12);
 
   ramp.supports.forEach((support) => {
+    addElevatedSupportFoot(group, support.x, support.z, support.foot);
+
     const supportMesh = mesh(
       new THREE.CylinderGeometry(support.radius, support.radius, support.height, 16),
       new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.18, metalness: 0.82 })
@@ -711,6 +714,8 @@ const addWireformPath = (group: THREE.Group, wireform: WireformPath) => {
     tie.fasteners.forEach((fastener) => addWireformTieFastener(group, fastener));
   });
   wireform.supports.forEach((support) => {
+    addElevatedSupportFoot(group, support.x, support.z, support.foot);
+
     const supportMesh = mesh(
       new THREE.CylinderGeometry(support.radius, support.radius, support.height, 16),
       new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.18, metalness: 0.82 })
@@ -744,6 +749,29 @@ const addWireformTieFastener = (group: THREE.Group, fastener: WireformTieFastene
   );
   screw.position.set(fastener.x, fastener.y, fastener.z);
   group.add(screw);
+};
+
+const addElevatedSupportFoot = (
+  group: THREE.Group,
+  x: number,
+  z: number,
+  foot: ElevatedSupportFoot
+) => {
+  const plate = mesh(
+    new THREE.CylinderGeometry(foot.radius, foot.radius, foot.height, 24),
+    new THREE.MeshStandardMaterial({ color: 0xc7d0d2, roughness: 0.2, metalness: 0.82 })
+  );
+  plate.position.set(x, 0.085, z);
+  group.add(plate);
+
+  foot.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
+      new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, 0.112, fastener.z);
+    group.add(screw);
+  });
 };
 
 const addPlasticCover = (
