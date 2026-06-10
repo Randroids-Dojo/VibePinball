@@ -35,7 +35,7 @@
     <h3>Pop Bumper Guard Fasteners</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/pop-bumper-guard-fasteners</code></dd>
-      <dt>PR</dt><dd>pending</dd>
+      <dt>PR</dt><dd>PR #59</dd>
       <dt>Changed</dt><dd>added authored metal screw heads to every pop bumper rubber guard so the upper bumper nest reads as mounted rebound hardware instead of bare rubber strips. Rendering now draws those guard fasteners from the shared bumper blueprint data.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-pop-bumper-guard-fasteners.png</code> confirmed a nonblank WebGL board with pop bumper guard hardware still framed.</dd>
       <dt>Assumptions</dt><dd>The pop bumper guard fasteners are visual mounting hardware and do not need separate physics colliders because the existing guard rubber segments and bumper skirt sensors remain the active bumper nest geometry.</dd>
