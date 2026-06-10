@@ -35,7 +35,7 @@
     <h3>Left Ramp Elevation Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/ramp-elevation-fidelity</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd><code>#2</code></dd>
       <dt>Changed</dt><dd>made the left ramp physically closer to the blueprint by adding authored start and crest heights, floor thickness, side rail height, side rail offsets, an entrance lip, and metal support posts to the shared table definition. Rendering now draws the ramp as a raised translucent floor with sloped rails, entrance hardware, and support posts, while physics consumes the same ramp records as an inclined floor collider with raised rail colliders and support cylinders.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local browser screenshot confirmed a nonblank WebGL board with the raised left ramp, rail pair, and supports visible.</dd>
       <dt>Assumptions</dt><dd>The ramp height profile remains an authored Silverball Social approximation tuned to reference-board proportions. The exit sensor still represents the safe inlane handoff after the wireform return.</dd>

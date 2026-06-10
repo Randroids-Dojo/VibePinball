@@ -1,6 +1,7 @@
 import type { ActionState, TableEvent } from "./types";
 import type { RigidBody, World } from "@dimforge/rapier3d-compat";
 import {
+  rampSidePoint,
   silverballSocialBlueprint,
   type RampPath,
   type Segment,
@@ -26,11 +27,6 @@ export interface PhysicsSnapshot {
 }
 
 const blueprint = silverballSocialBlueprint;
-
-const rampSidePoint = (ramp: RampPath, offset: number) => ({
-  x: ramp.x + Math.cos(ramp.angle) * offset,
-  z: ramp.z - Math.sin(ramp.angle) * offset
-});
 
 export class PinballPhysics {
   private readonly rapier: RapierModule;
@@ -440,7 +436,19 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
       );
     }
 
-    addSegment(ramp.entranceLip);
+    const lipY = ramp.startY + 0.12;
+    const lipBounce = ramp.entranceLip.kind === "rubber" ? 0.86 : 0.62;
+    addBoxCollider(
+      ramp.entranceLip.x,
+      lipY,
+      ramp.entranceLip.z,
+      ramp.entranceLip.width / 2,
+      0.2,
+      ramp.entranceLip.depth / 2,
+      ramp.entranceLip.angle ?? 0,
+      0,
+      lipBounce
+    );
     for (const support of ramp.supports) {
       const body = world.createRigidBody(rapier.RigidBodyDesc.fixed().setTranslation(support.x, support.height / 2, support.z));
       world.createCollider(

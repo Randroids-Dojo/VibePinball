@@ -122,6 +122,11 @@ export interface RampSupport {
   kind: "metal";
 }
 
+export const rampSidePoint = (ramp: RampPath, offset: number) => ({
+  x: ramp.x + Math.cos(ramp.angle) * offset,
+  z: ramp.z - Math.sin(ramp.angle) * offset
+});
+
 export interface HandoffDevice {
   id: string;
   label: string;

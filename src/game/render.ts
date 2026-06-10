@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { PhysicsSnapshot } from "./physics";
-import { silverballSocialBlueprint, type LampInsert, type RampPath, type SlingDevice } from "./tableBlueprint";
+import { rampSidePoint, silverballSocialBlueprint, type LampInsert, type RampPath, type SlingDevice } from "./tableBlueprint";
 
 export interface PinballScene {
   resize: () => void;
@@ -314,11 +314,6 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
     group.add(supportMesh);
   });
 };
-
-const rampSidePoint = (ramp: RampPath, offset: number) => ({
-  x: ramp.x + Math.cos(ramp.angle) * offset,
-  z: ramp.z - Math.sin(ramp.angle) * offset
-});
 
 const addSegment = (
   group: THREE.Group,
