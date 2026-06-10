@@ -575,6 +575,13 @@ const addWireformPath = (group: THREE.Group, wireform: WireformPath) => {
     );
     supportMesh.position.set(support.x, support.height / 2, support.z);
     group.add(supportMesh);
+
+    const supportCap = mesh(
+      new THREE.CylinderGeometry(support.cap.radius, support.cap.radius, support.cap.height, 18),
+      new THREE.MeshStandardMaterial({ color: 0xe0e7e8, roughness: 0.16, metalness: 0.88 })
+    );
+    supportCap.position.set(support.x, support.height + support.cap.height / 2, support.z);
+    group.add(supportCap);
   });
   addInsert(group, wireform.exit.x, wireform.exit.z, 0x76ff8f);
 };
