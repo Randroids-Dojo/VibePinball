@@ -602,6 +602,16 @@ describe("Silverball Social physical board blueprint", () => {
       expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
       expect(segment.fasteners.every((fastener) => fastener.radius >= 0.032), segment.id).toBe(true);
     }
+    const leftGateSegment = upperGates?.segments.find((segment) => segment.id === "handoff.upper-orbit-gates.left");
+    const leftGatePosts = (upperGates?.posts ?? []).filter((post) => post.id.startsWith("handoff.upper-orbit-gates.left"));
+    expect(leftGateSegment).toBeDefined();
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-orbit")?.deviceIds).toEqual(
+      expect.arrayContaining([
+        leftGateSegment?.id ?? "",
+        ...((leftGateSegment?.fasteners ?? []).map((fastener) => fastener.id)),
+        ...leftGatePosts.flatMap((post) => [post.id, post.cap?.id ?? ""])
+      ])
+    );
   });
 
   it("models wireform returns as elevated rail pairs with supports", () => {
