@@ -427,6 +427,16 @@ describe("Silverball Social physical board blueprint", () => {
       expect(support.cap.kind).toBe("metal");
       expect(support.cap.radius).toBeGreaterThan(support.radius);
       expect(support.cap.height).toBeGreaterThan(0);
+      expect(support.foot.id).toBe(`${support.id}.foot`);
+      expect(support.foot.targetId).toBe(support.id);
+      expect(support.foot.kind).toBe("metal");
+      expect(support.foot.radius).toBeGreaterThan(support.radius * 2);
+      expect(support.foot.height).toBeGreaterThan(0);
+      expect(support.foot.fasteners).toHaveLength(2);
+      expect(support.foot.fasteners.every((fastener) => fastener.id.startsWith(`${support.foot.id}.screw-`))).toBe(true);
+      expect(support.foot.fasteners.every((fastener) => fastener.targetId === support.foot.id)).toBe(true);
+      expect(support.foot.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+      expect(support.foot.fasteners.every((fastener) => fastener.radius >= 0.026)).toBe(true);
     }
   });
 
@@ -517,6 +527,16 @@ describe("Silverball Social physical board blueprint", () => {
         expect(support.cap.kind).toBe("metal");
         expect(support.cap.radius).toBeGreaterThan(support.radius);
         expect(support.cap.height).toBeGreaterThan(0);
+        expect(support.foot.id).toBe(`${support.id}.foot`);
+        expect(support.foot.targetId).toBe(support.id);
+        expect(support.foot.kind).toBe("metal");
+        expect(support.foot.radius).toBeGreaterThan(support.radius * 2);
+        expect(support.foot.height).toBeGreaterThan(0);
+        expect(support.foot.fasteners).toHaveLength(2);
+        expect(support.foot.fasteners.every((fastener) => fastener.id.startsWith(`${support.foot.id}.screw-`)), support.id).toBe(true);
+        expect(support.foot.fasteners.every((fastener) => fastener.targetId === support.foot.id), support.id).toBe(true);
+        expect(support.foot.fasteners.every((fastener) => fastener.kind === "metal"), support.id).toBe(true);
+        expect(support.foot.fasteners.every((fastener) => fastener.radius >= 0.026), support.id).toBe(true);
         expect(support.height + support.cap.height).toBeLessThanOrEqual(wireform.railY + wireform.railHeight);
       }
     }
@@ -1085,7 +1105,12 @@ describe("Silverball Social physical board blueprint", () => {
         ...ramp.sideRails.flatMap((rail) => rail.fasteners.map((fastener) => fastener.id)),
         ramp.entranceLip.id,
         ...ramp.entranceLip.fasteners.map((fastener) => fastener.id),
-        ...ramp.supports.flatMap((support) => [support.id, support.cap.id])
+        ...ramp.supports.flatMap((support) => [
+          support.id,
+          support.cap.id,
+          support.foot.id,
+          ...support.foot.fasteners.map((fastener) => fastener.id)
+        ])
       ]),
       ...blueprint.handoffs.flatMap((handoff) => [
         handoff.id,
@@ -1101,7 +1126,12 @@ describe("Silverball Social physical board blueprint", () => {
         ...wireform.rails.flatMap((rail) => rail.fasteners.map((fastener) => fastener.id)),
         ...wireform.ties.map((tie) => tie.id),
         ...wireform.ties.flatMap((tie) => tie.fasteners.map((fastener) => fastener.id)),
-        ...wireform.supports.flatMap((support) => [support.id, support.cap.id])
+        ...wireform.supports.flatMap((support) => [
+          support.id,
+          support.cap.id,
+          support.foot.id,
+          ...support.foot.fasteners.map((fastener) => fastener.id)
+        ])
       ]),
       ...blueprint.orbits.flatMap((orbit) => [orbit.id, orbit.entry.id, orbit.exit.id]),
       ...blueprint.plastics.map((item) => item.id),
