@@ -162,7 +162,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
 
   blueprint.saucers.forEach((saucer) => {
     const cup = mesh(
-      new THREE.CylinderGeometry(0.5, 0.62, 0.16, 32),
+      new THREE.CylinderGeometry(saucer.cup.innerRadius, saucer.cup.outerRadius, saucer.cup.height, 32),
       new THREE.MeshStandardMaterial({ color: 0x151515, roughness: 0.25, metalness: 0.65 })
     );
     cup.position.set(saucer.x, 0.18, saucer.z);

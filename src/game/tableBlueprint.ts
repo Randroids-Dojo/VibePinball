@@ -188,6 +188,7 @@ export interface FlipperPivotCap {
 
 export interface SaucerDevice extends SensorZone {
   label: string;
+  cup: SaucerCup;
   holdX: number;
   holdZ: number;
   ejectX: number;
@@ -195,6 +196,14 @@ export interface SaucerDevice extends SensorZone {
   ejectStrength: number;
   walls: Segment[];
   posts: Post[];
+}
+
+export interface SaucerCup {
+  id: string;
+  innerRadius: number;
+  outerRadius: number;
+  height: number;
+  kind: "metal";
 }
 
 export interface RampPath {
@@ -933,6 +942,13 @@ export const silverballSocialBlueprint: TableBlueprint = {
       x: 0.92,
       z: -3.42,
       radius: 0.48,
+      cup: {
+        id: "lock.saucer.cup",
+        innerRadius: 0.5,
+        outerRadius: 0.62,
+        height: 0.16,
+        kind: "metal"
+      },
       holdX: 0.92,
       holdZ: -3.42,
       ejectX: 1.8,
@@ -1264,7 +1280,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["orbit.left.entry", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
     { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["ramp.left.entry", "ramp.left.exit", "wireform.left-return.exit"] },
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.rear-stop"] },
-    { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["lock.saucer", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
+    { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
     { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit"] },
     { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.shooter.skill", "rollover.shooter.skill"] }
   ]
