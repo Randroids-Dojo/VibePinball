@@ -147,6 +147,14 @@ export interface FlipperDevice {
   batRadius: number;
   pivotRadius: number;
   rubberWidth: number;
+  pivotCap: FlipperPivotCap;
+}
+
+export interface FlipperPivotCap {
+  id: string;
+  radius: number;
+  height: number;
+  kind: "metal";
 }
 
 export interface SaucerDevice extends SensorZone {
@@ -631,7 +639,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
       length: 1.2,
       batRadius: 0.17,
       pivotRadius: 0.2,
-      rubberWidth: 0.13
+      rubberWidth: 0.13,
+      pivotCap: { id: "flipper.left.pivot-cap", radius: 0.25, height: 0.055, kind: "metal" }
     },
     {
       id: "flipper.right",
@@ -643,7 +652,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
       length: 1.2,
       batRadius: 0.17,
       pivotRadius: 0.2,
-      rubberWidth: 0.13
+      rubberWidth: 0.13,
+      pivotCap: { id: "flipper.right.pivot-cap", radius: 0.25, height: 0.055, kind: "metal" }
     }
   ],
   slings: [

@@ -90,6 +90,10 @@ describe("Silverball Social physical board blueprint", () => {
       expect(flipper.pivotRadius).toBeGreaterThanOrEqual(flipper.batRadius);
       expect(flipper.rubberWidth).toBeGreaterThan(0.08);
       expect(flipper.rubberWidth).toBeLessThan(flipper.batRadius);
+      expect(flipper.pivotCap.id).toBe(`${flipper.id}.pivot-cap`);
+      expect(flipper.pivotCap.kind).toBe("metal");
+      expect(flipper.pivotCap.radius).toBeGreaterThan(flipper.pivotRadius);
+      expect(flipper.pivotCap.height).toBeGreaterThan(0);
       expect(Math.abs(flipper.activeAngle - flipper.restAngle)).toBeGreaterThan(0.7);
     }
 
@@ -416,6 +420,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.posts.flatMap((item) => item.cap ? [item.cap.id] : []),
       ...blueprint.lanes.map((item) => item.id),
       ...blueprint.flippers.map((item) => item.id),
+      ...blueprint.flippers.map((item) => item.pivotCap.id),
       ...blueprint.slings.flatMap((sling) => [
         sling.id,
         sling.rubberFace.id,

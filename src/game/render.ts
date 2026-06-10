@@ -751,6 +751,12 @@ const createFlipper = (flipperDevice: FlipperDevice, color: number) => {
     new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.22, metalness: 0.75 })
   );
   flipper.add(post);
+  const pivotCap = mesh(
+    new THREE.CylinderGeometry(flipperDevice.pivotCap.radius, flipperDevice.pivotCap.radius, flipperDevice.pivotCap.height, 28),
+    new THREE.MeshStandardMaterial({ color: 0xd5dddf, roughness: 0.14, metalness: 0.86 })
+  );
+  pivotCap.position.y = 0.16;
+  flipper.add(pivotCap);
   return flipper;
 };
 
