@@ -156,11 +156,20 @@ describe("Silverball Social physical board blueprint", () => {
 
   it("defines shot paths with stable device ids present in the blueprint", () => {
     const deviceIds = new Set([
+      blueprint.drain.id,
       ...blueprint.boundaries.map((item) => item.id),
       ...blueprint.laneWalls.map((item) => item.id),
       ...blueprint.rolloverWires.map((item) => item.id),
       ...blueprint.flipperStops.map((item) => item.id),
+      ...blueprint.posts.map((item) => item.id),
       ...blueprint.lanes.map((item) => item.id),
+      ...blueprint.flippers.map((item) => item.id),
+      ...blueprint.slings.flatMap((sling) => [
+        sling.id,
+        sling.rubberFace.id,
+        sling.lamp.id,
+        ...sling.postIds
+      ]),
       ...blueprint.targets.map((item) => item.id),
       ...blueprint.targets.map((item) => item.rearStop.id),
       ...blueprint.saucers.map((item) => item.id),

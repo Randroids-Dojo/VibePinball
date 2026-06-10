@@ -9,6 +9,7 @@ const eventScores: Record<TableEvent["type"], number> = {
   target: 1000,
   lane: 500,
   lockEnter: 2500,
+  rampEnter: 0,
   rampMade: 1500,
   orbitMade: 1250,
   skillShot: 5000,

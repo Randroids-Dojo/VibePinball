@@ -195,8 +195,10 @@ export class PinballPhysics {
     }
 
     for (const lane of blueprint.lanes) {
-      if (this.isNear(pos.x, pos.z, lane.x, lane.z, lane.radius, `lane-${lane.id}`, 1.2)) {
-        if (lane.id === "lane.shooter.skill" && this.skillShotEligible()) {
+      const cooldownKey = this.laneCooldownKey(lane.id);
+      const isSkillShotEligible = lane.id === "lane.shooter.skill" && this.skillShotEligible(lane.id);
+      if (this.isNear(pos.x, pos.z, lane.x, lane.z, lane.radius, cooldownKey, 1.2)) {
+        if (isSkillShotEligible) {
           events.push({ type: "skillShot" });
         } else {
           events.push({ type: "lane", id: lane.id });
@@ -213,10 +215,10 @@ export class PinballPhysics {
 
     for (const ramp of blueprint.ramps) {
       if (this.isNearZone(pos.x, pos.z, ramp.entry, `ramp-entry-${ramp.id}`, 0.8)) {
-        events.push({ type: "rampMade", id: ramp.id });
+        events.push({ type: "rampEnter", id: ramp.id });
       }
       if (this.isNearZone(pos.x, pos.z, ramp.exit, `ramp-exit-${ramp.id}`, 0.8)) {
-        events.push({ type: "lane", id: ramp.exit.id });
+        events.push({ type: "rampMade", id: ramp.id });
       }
     }
 
@@ -301,8 +303,12 @@ export class PinballPhysics {
     return this.isNear(x, z, zone.x, zone.z, zone.radius, cooldownKey, cooldownSeconds);
   }
 
-  private skillShotEligible(): boolean {
-    return this.launched && !this.cooldowns.has("skill-shot");
+  private skillShotEligible(laneId: string): boolean {
+    return this.launched && !this.cooldowns.has(this.laneCooldownKey(laneId));
+  }
+
+  private laneCooldownKey(laneId: string): string {
+    return `lane-${laneId}`;
   }
 
   private isInsideDrain(x: number, z: number): boolean {

@@ -231,7 +231,10 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
         object.geometry.dispose();
         const material = object.material;
         if (Array.isArray(material)) {
-          material.forEach((item) => item.dispose());
+          material.forEach((item) => {
+            item.map?.dispose();
+            item.dispose();
+          });
         } else {
           material.map?.dispose();
           material.dispose();

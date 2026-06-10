@@ -26,9 +26,16 @@ describe("pinball rules", () => {
 
   it("lights lock after completing the five target bank", () => {
     let state = startGame();
-    for (const id of ["target-bank-1", "target-bank-2", "target-bank-3", "target-bank-4", "target-bank-5"]) {
+    for (const id of ["target-bank-1", "target-bank-2", "target-bank-3", "target-bank-4"]) {
       state = applyTableEvent(state, { type: "target", id });
     }
+    state = applyTableEvent(state, { type: "lockEnter", id: "lock.saucer" });
+
+    expect(state.targets).toBe(4);
+    expect(state.locks).toBe(0);
+    expect(state.message).not.toContain("Ball lock");
+
+    state = applyTableEvent(state, { type: "target", id: "target-bank-5" });
     state = applyTableEvent(state, { type: "lockEnter", id: "lock.saucer" });
 
     expect(state.targets).toBe(5);
