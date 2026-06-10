@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="top-lane-shot-hardware" data-date="2026-06-10">
+    <h3>Top Lane Shot Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/top-lane-shot-hardware</code></dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/77">PR 77</a></dd>
+      <dt>Changed</dt><dd>linked the left-orbit and skill-shot paths to their authored top-lane rollover wires, guide covers, rubber bands, and skill-shot insert so those shots reference the physical lane hardware they pass through.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
+      <dt>Assumptions</dt><dd>The left orbit enters through the left top rollover lane, while the skill shot uses the shooter skill lane and its visible insert hardware.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-009</code>, <code>REQ-010</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code> and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="target-bank-insert-links" data-date="2026-06-10">
     <h3>Target Bank Insert Links</h3>
     <dl>

@@ -321,7 +321,13 @@ describe("Silverball Social physical board blueprint", () => {
     expect(shooterArchSegments).toHaveLength(3);
     expect(shooterArchSegments.every((segment) => segment.kind === "metal")).toBe(true);
     expect(skillShot?.deviceIds).toEqual(
-      expect.arrayContaining(["boundary.shooter-arch.top", "boundary.top-arch.right-curve"])
+      expect.arrayContaining([
+        "boundary.shooter-arch.top",
+        "boundary.top-arch.right-curve",
+        "lane.shooter.skill.guide-cover",
+        "lane.shooter.skill.rubber-band",
+        "insert.skill-shot"
+      ])
     );
   });
 
@@ -351,6 +357,15 @@ describe("Silverball Social physical board blueprint", () => {
         expect(band?.depth).toBeGreaterThan(blueprint.scale.ballRadius * 2.5);
       }
     }
+
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-orbit")?.deviceIds).toEqual(
+      expect.arrayContaining([
+        "lane.top.left",
+        "rollover.top.left",
+        "lane.top.left.guide-cover",
+        "lane.top.left.rubber-band"
+      ])
+    );
   });
 
   it("models each upper rollover and skill lane with an authored plastic guide cover", () => {
