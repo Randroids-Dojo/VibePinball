@@ -35,7 +35,7 @@
     <h3>Drain Guide Fasteners</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/drain-guide-fasteners</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd>PR #52</dd>
       <dt>Changed</dt><dd>added authored metal screw heads to the center drain mouth and its left and right guide rubbers so the lower drain assembly reads as mounted hardware instead of loose guide blocks. Rendering now draws those guide fasteners from the shared drain blueprint data.</dd>
       <dt>Verification</dt><dd><code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code> passed before final verification.</dd>
       <dt>Assumptions</dt><dd>The drain guide fasteners are visual mounting hardware and do not need separate physics colliders because the existing drain guide segments remain the active drain-mouth rebound bodies.</dd>
