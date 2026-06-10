@@ -35,7 +35,7 @@
     <h3>Rubber Post Cap Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/rubber-post-cap-hardware</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd>#16</dd>
       <dt>Changed</dt><dd>made exposed rubber posts closer to real pinball hardware by adding stable metal washer-cap records to every authored rubber post in the shared blueprint. Rendering now draws the cap hardware from each post record instead of leaving posts as plain black cylinders.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-rubber-post-cap-hardware.png</code> confirmed a nonblank WebGL board with authored metal washer caps visible on exposed rubber posts.</dd>
       <dt>Assumptions</dt><dd>The washer caps are visual post hardware and do not need separate collision because each rubber post already supplies the active cylindrical collider.</dd>
