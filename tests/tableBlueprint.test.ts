@@ -400,6 +400,11 @@ describe("Silverball Social physical board blueprint", () => {
   it("models the lock saucer with bowl walls, entry posts, hold point, and eject vector", () => {
     const saucer = blueprint.saucers.find((item) => item.id === "lock.saucer");
     expect(saucer).toBeDefined();
+    expect(saucer?.cup.id).toBe("lock.saucer.cup");
+    expect(saucer?.cup.kind).toBe("metal");
+    expect(saucer?.cup.innerRadius).toBeGreaterThan(blueprint.scale.ballRadius);
+    expect(saucer?.cup.outerRadius).toBeGreaterThan(saucer?.cup.innerRadius ?? 0);
+    expect(saucer?.cup.height).toBeGreaterThan(0);
     expect(saucer?.walls.length).toBeGreaterThanOrEqual(4);
     expect(saucer?.posts.length).toBeGreaterThanOrEqual(2);
     expect(saucer?.holdX).toBeCloseTo(saucer?.x ?? 0);
@@ -480,6 +485,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.targetBank.posts.map((item) => item.id),
       ...blueprint.saucers.map((item) => item.id),
       ...blueprint.saucers.flatMap((saucer) => [
+        saucer.cup.id,
         ...saucer.walls.map((segment) => segment.id),
         ...saucer.posts.map((post) => post.id)
       ]),
