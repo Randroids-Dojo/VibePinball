@@ -73,6 +73,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
 
   blueprint.boundaries.forEach((segment) => addSegment(group, segment, 0.28));
   blueprint.laneWalls.forEach((segment) => addSegment(group, segment, 0.36));
+  blueprint.rubberBands.forEach((segment) => addSegment(group, segment, 0.44));
   blueprint.rolloverWires.forEach((segment) => addSegment(group, segment, 0.18));
   blueprint.flipperStops.forEach((segment) => addSegment(group, segment, 0.32));
   blueprint.posts.forEach((post) => addPost(group, post));

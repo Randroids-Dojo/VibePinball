@@ -150,7 +150,14 @@ export interface LaneDevice extends SensorZone {
   clearance: number;
   side: "left" | "right" | "top";
   guidePostIds?: string[];
+  rubberBandIds?: string[];
   guideCover?: LaneGuideCover;
+}
+
+export interface RubberBand extends Segment {
+  kind: "rubber";
+  startPostId: string;
+  endPostId: string;
 }
 
 export interface LaneGuideCover {
@@ -450,6 +457,7 @@ export interface TableBlueprint {
   cabinet: CabinetHardware;
   boundaries: Segment[];
   laneWalls: Segment[];
+  rubberBands: RubberBand[];
   rolloverWires: Segment[];
   flipperStops: Segment[];
   posts: Post[];
@@ -635,6 +643,52 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "lane.shooter.skill.outer", x: 2.7, z: -6.42, width: 0.08, depth: 0.98, angle: -0.06, kind: "metal" },
     { id: "lane.shooter.skill.inner", x: 3.42, z: -6.32, width: 0.08, depth: 1.1, angle: 0.08, kind: "metal" }
   ],
+  rubberBands: [
+    {
+      id: "lane.lower.left-out.rubber-band",
+      x: -3.34,
+      z: 4.75,
+      width: 0.075,
+      depth: 1.62,
+      angle: -0.18,
+      kind: "rubber",
+      startPostId: "post.left-out-top",
+      endPostId: "post.left-out-lower"
+    },
+    {
+      id: "lane.lower.left-in.rubber-band",
+      x: -1.84,
+      z: 4.87,
+      width: 0.075,
+      depth: 1.42,
+      angle: 0.16,
+      kind: "rubber",
+      startPostId: "post.left-in-top",
+      endPostId: "post.left-in-lower"
+    },
+    {
+      id: "lane.lower.right-in.rubber-band",
+      x: 1.84,
+      z: 4.87,
+      width: 0.075,
+      depth: 1.42,
+      angle: -0.16,
+      kind: "rubber",
+      startPostId: "post.right-in-top",
+      endPostId: "post.right-in-lower"
+    },
+    {
+      id: "lane.lower.right-out.rubber-band",
+      x: 3.34,
+      z: 4.75,
+      width: 0.075,
+      depth: 1.62,
+      angle: 0.18,
+      kind: "rubber",
+      startPostId: "post.right-out-top",
+      endPostId: "post.right-out-lower"
+    }
+  ],
   rolloverWires: [
     { id: "rollover.lower.left-out", x: -3.2, z: 5.1, width: 0.48, depth: 0.035, angle: -0.12, kind: "wire" },
     { id: "rollover.lower.left-in", x: -1.98, z: 5.18, width: 0.48, depth: 0.035, angle: 0.1, kind: "wire" },
@@ -700,6 +754,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       clearance: 0.66,
       side: "left",
       guidePostIds: ["post.left-out-top", "post.left-out-lower"],
+      rubberBandIds: ["lane.lower.left-out.rubber-band"],
       guideCover: {
         id: "lane.lower.left-out.guide-cover",
         x: -3.3,
@@ -724,6 +779,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       clearance: 0.63,
       side: "left",
       guidePostIds: ["post.left-in-top", "post.left-in-lower", "post.drain-left"],
+      rubberBandIds: ["lane.lower.left-in.rubber-band"],
       guideCover: {
         id: "lane.lower.left-in.guide-cover",
         x: -2.08,
@@ -748,6 +804,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       clearance: 0.63,
       side: "right",
       guidePostIds: ["post.right-in-top", "post.right-in-lower", "post.drain-right"],
+      rubberBandIds: ["lane.lower.right-in.rubber-band"],
       guideCover: {
         id: "lane.lower.right-in.guide-cover",
         x: 2.08,
@@ -772,6 +829,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       clearance: 0.66,
       side: "right",
       guidePostIds: ["post.right-out-top", "post.right-out-lower"],
+      rubberBandIds: ["lane.lower.right-out.rubber-band"],
       guideCover: {
         id: "lane.lower.right-out.guide-cover",
         x: 3.3,
