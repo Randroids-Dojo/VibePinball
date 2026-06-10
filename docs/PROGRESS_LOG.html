@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="speaker-grille-fasteners" data-date="2026-06-10">
+    <h3>Speaker Grille Fasteners</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/speaker-grille-fasteners</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added authored metal screw heads to both backbox speaker grilles so the DMD speaker panel reads as a mounted cabinet assembly instead of plain black grille plates. Rendering now draws those grille fasteners from the shared cabinet blueprint.</dd>
+      <dt>Verification</dt><dd><code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code> passed before final verification.</dd>
+      <dt>Assumptions</dt><dd>The speaker grille fasteners are visual cabinet hardware and do not need separate physics colliders because they sit on the backbox outside active ball travel.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-013</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for mounted backbox speaker hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="ramp-entrance-lip-fasteners" data-date="2026-06-10">
     <h3>Ramp Entrance Lip Fasteners</h3>
     <dl>

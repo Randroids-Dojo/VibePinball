@@ -868,6 +868,15 @@ const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
       slot.position.set(grille.x + xOffset, grille.y, grille.z + grille.depth * 0.62);
       scene.add(slot);
     }
+    grille.fasteners.forEach((fastener) => {
+      const screw = mesh(
+        new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
+        new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      );
+      screw.rotation.x = Math.PI / 2;
+      screw.position.set(fastener.x, fastener.y, fastener.z);
+      scene.add(screw);
+    });
   });
 };
 
