@@ -1211,11 +1211,16 @@ describe("Silverball Social physical board blueprint", () => {
     }
 
     const leftRampShot = blueprint.shots.find((shot) => shot.id === "shot.left-ramp");
+    const entryPostIds = (entryHandoff?.posts ?? []).flatMap((post) =>
+      post.cap ? [post.id, post.cap.id] : [post.id]
+    );
+
     expect(leftRampShot?.deviceIds).toEqual(
       expect.arrayContaining([
         "handoff.ramp-left-entry.flap",
         "handoff.ramp-left-entry.left-guide",
-        "handoff.ramp-left-entry.right-guide"
+        "handoff.ramp-left-entry.right-guide",
+        ...entryPostIds
       ])
     );
   });
