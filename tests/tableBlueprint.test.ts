@@ -96,6 +96,26 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.rubberBands.filter((band) => band.id.includes("lane.lower"))).toHaveLength(4);
   });
 
+  it("models lane wall rails as mounted hardware", () => {
+    expect(blueprint.laneWalls).toHaveLength(28);
+    expect(blueprint.laneWalls.every((segment) => segment.fasteners.length === 2)).toBe(true);
+    expect(blueprint.laneWalls.filter((segment) => segment.kind === "rubber")).toHaveLength(8);
+    expect(blueprint.laneWalls.filter((segment) => segment.kind === "metal")).toHaveLength(20);
+
+    for (const segment of blueprint.laneWalls) {
+      expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.radius >= 0.028), segment.id).toBe(true);
+      for (const fastener of segment.fasteners) {
+        expect(
+          Math.hypot(fastener.x - segment.x, fastener.z - segment.z),
+          fastener.id
+        ).toBeLessThanOrEqual(Math.max(segment.width, segment.depth) / 2);
+      }
+    }
+  });
+
   it("ties the lower inlanes and outlanes to authored rubber guide posts and bands", () => {
     const postById = new Map(blueprint.posts.map((post) => [post.id, post]));
     const bandById = new Map(blueprint.rubberBands.map((band) => [band.id, band]));
@@ -877,6 +897,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.boundaries.map((item) => item.id),
       ...blueprint.boundaries.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
       ...blueprint.laneWalls.map((item) => item.id),
+      ...blueprint.laneWalls.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
       ...blueprint.rubberBands.map((item) => item.id),
       ...blueprint.rolloverWires.map((item) => item.id),
       ...blueprint.rolloverWires.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),

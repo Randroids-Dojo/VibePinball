@@ -60,6 +60,20 @@ export interface RolloverWireFastener {
   kind: "metal";
 }
 
+export interface LaneWallSegment extends Segment {
+  kind: "metal" | "rubber";
+  fasteners: LaneWallFastener[];
+}
+
+export interface LaneWallFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
 export interface FlipperStop extends Segment {
   kind: "rubber";
   fasteners: FlipperStopFastener[];
@@ -641,7 +655,7 @@ export interface TableBlueprint {
   playfield: PlayfieldDeck;
   cabinet: CabinetHardware;
   boundaries: BoundarySegment[];
-  laneWalls: Segment[];
+  laneWalls: LaneWallSegment[];
   rubberBands: RubberBand[];
   rolloverWires: RolloverWire[];
   flipperStops: FlipperStop[];
@@ -740,6 +754,44 @@ const withRolloverWireFasteners = (wires: Array<Omit<RolloverWire, "fasteners">>
           x: wire.x + offsetX,
           z: wire.z + offsetZ,
           radius: 0.028,
+          kind: "metal"
+        }
+      ]
+    };
+  });
+
+const withLaneWallFasteners = (segments: Array<Omit<LaneWallSegment, "fasteners">>): LaneWallSegment[] =>
+  segments.map((segment) => {
+    const angle = segment.angle ?? 0;
+    const fastenerRadius = segment.kind === "rubber" ? 0.028 : 0.032;
+    const halfSpan = Math.max(segment.width, segment.depth) * 0.38;
+    const offset = segment.width >= segment.depth
+      ? {
+          x: Math.cos(angle) * halfSpan,
+          z: -Math.sin(angle) * halfSpan
+        }
+      : {
+          x: Math.sin(angle) * halfSpan,
+          z: Math.cos(angle) * halfSpan
+        };
+
+    return {
+      ...segment,
+      fasteners: [
+        {
+          id: `${segment.id}.screw-a`,
+          targetId: segment.id,
+          x: segment.x - offset.x,
+          z: segment.z - offset.z,
+          radius: fastenerRadius,
+          kind: "metal"
+        },
+        {
+          id: `${segment.id}.screw-b`,
+          targetId: segment.id,
+          x: segment.x + offset.x,
+          z: segment.z + offset.z,
+          radius: fastenerRadius,
           kind: "metal"
         }
       ]
@@ -886,7 +938,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "boundary.shooter-divider", x: 2.72, z: 4.38, width: 0.12, depth: 2.72, kind: "metal" },
     { id: "boundary.plunger-stop", x: 3.2, z: 6.55, width: 0.68, depth: 0.16, angle: -0.18, kind: "rubber" }
   ]),
-  laneWalls: [
+  laneWalls: withLaneWallFasteners([
     { id: "lane.lower.left-out.outer", x: -3.55, z: 4.7, width: 0.1, depth: 1.55, angle: -0.12, kind: "rubber" },
     { id: "lane.lower.left-out.inner", x: -2.86, z: 4.86, width: 0.1, depth: 1.18, angle: 0.22, kind: "rubber" },
     { id: "lane.lower.left-in.outer", x: -2.3, z: 5.08, width: 0.1, depth: 1.0, angle: -0.28, kind: "rubber" },
@@ -915,7 +967,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "lane.top.right.outer", x: 1.48, z: -6.52, width: 0.08, depth: 0.96, angle: 0.05, kind: "metal" },
     { id: "lane.shooter.skill.outer", x: 2.7, z: -6.42, width: 0.08, depth: 0.98, angle: -0.06, kind: "metal" },
     { id: "lane.shooter.skill.inner", x: 3.42, z: -6.32, width: 0.08, depth: 1.1, angle: 0.08, kind: "metal" }
-  ],
+  ]),
   rubberBands: [
     {
       id: "lane.lower.left-out.rubber-band",
