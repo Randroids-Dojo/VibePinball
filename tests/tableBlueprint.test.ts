@@ -59,20 +59,33 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.slings).toHaveLength(2);
     expect(blueprint.lanes.filter((lane) => lane.id.includes("lower"))).toHaveLength(4);
     expect(blueprint.laneWalls.filter((segment) => segment.id.includes("lane.lower"))).toHaveLength(8);
+    expect(blueprint.rubberBands.filter((band) => band.id.includes("lane.lower"))).toHaveLength(4);
   });
 
-  it("ties the lower inlanes and outlanes to authored rubber guide posts", () => {
+  it("ties the lower inlanes and outlanes to authored rubber guide posts and bands", () => {
     const postById = new Map(blueprint.posts.map((post) => [post.id, post]));
+    const bandById = new Map(blueprint.rubberBands.map((band) => [band.id, band]));
     const lowerLanes = blueprint.lanes.filter((lane) => lane.id.startsWith("lane.lower"));
 
     for (const lane of lowerLanes) {
       expect(lane.guidePostIds?.length, lane.id).toBeGreaterThanOrEqual(2);
+      expect(lane.rubberBandIds, lane.id).toHaveLength(1);
 
       for (const id of lane.guidePostIds ?? []) {
         const post = postById.get(id);
         expect(post, `${lane.id} references ${id}`).toBeDefined();
         expect(post?.kind).toBe("rubber");
         expect(Math.abs((post?.z ?? 0) - lane.z)).toBeLessThan(1.6);
+      }
+
+      for (const id of lane.rubberBandIds ?? []) {
+        const band = bandById.get(id);
+        expect(band, `${lane.id} references ${id}`).toBeDefined();
+        expect(band?.kind).toBe("rubber");
+        expect(lane.guidePostIds).toContain(band?.startPostId);
+        expect(lane.guidePostIds).toContain(band?.endPostId);
+        expect(band?.width).toBeLessThanOrEqual(0.08);
+        expect(band?.depth).toBeGreaterThan(blueprint.scale.ballRadius * 2.5);
       }
     }
   });
@@ -546,6 +559,7 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.drain.trough.feedGuide.id,
       ...blueprint.boundaries.map((item) => item.id),
       ...blueprint.laneWalls.map((item) => item.id),
+      ...blueprint.rubberBands.map((item) => item.id),
       ...blueprint.rolloverWires.map((item) => item.id),
       ...blueprint.flipperStops.map((item) => item.id),
       ...blueprint.posts.map((item) => item.id),

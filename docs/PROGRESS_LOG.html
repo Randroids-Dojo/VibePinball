@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="lower-lane-rubber-bands" data-date="2026-06-10">
+    <h3>Lower Lane Rubber Bands</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/lower-lane-rubber-bands</code></dd>
+      <dt>PR</dt><dd>PR #29</dd>
+      <dt>Changed</dt><dd>added authored stretched rubber-band records for the four lower inlane and outlane mouths, with each band tied to its guide-post IDs. Rendering and physics now consume those bands from the shared table blueprint.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-lower-lane-rubber-bands.png</code> confirmed a nonblank WebGL board with visible post-to-post lower-lane rubber bands.</dd>
+      <dt>Assumptions</dt><dd>The rubber bands are low playfield hardware and share the existing rubber segment collider behavior because they are stretched post-to-post rebound surfaces.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-008</code>, <code>REQ-017</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for lower-lane rubber density and shared physical-board IDs.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="playfield-glass-panel" data-date="2026-06-10">
     <h3>Playfield Glass Panel</h3>
     <dl>
