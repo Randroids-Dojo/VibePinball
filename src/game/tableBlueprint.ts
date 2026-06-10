@@ -228,10 +228,24 @@ export interface TargetMountFastener {
   kind: "metal";
 }
 
+export interface TargetBankFrameSegment extends Segment {
+  kind: "metal";
+  fasteners: TargetBankFrameFastener[];
+}
+
+export interface TargetBankFrameFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
 export interface TargetBankHardware {
   id: string;
   label: string;
-  frameSegments: Segment[];
+  frameSegments: TargetBankFrameSegment[];
   posts: Post[];
 }
 
@@ -792,6 +806,45 @@ const withLaneWallFasteners = (segments: Array<Omit<LaneWallSegment, "fasteners"
           x: segment.x + offset.x,
           z: segment.z + offset.z,
           radius: fastenerRadius,
+          kind: "metal"
+        }
+      ]
+    };
+  });
+
+const withTargetBankFrameFasteners = (
+  segments: Array<Omit<TargetBankFrameSegment, "fasteners">>
+): TargetBankFrameSegment[] =>
+  segments.map((segment) => {
+    const angle = segment.angle ?? 0;
+    const halfSpan = Math.max(segment.width, segment.depth) * 0.38;
+    const offset = segment.width >= segment.depth
+      ? {
+          x: Math.cos(angle) * halfSpan,
+          z: -Math.sin(angle) * halfSpan
+        }
+      : {
+          x: Math.sin(angle) * halfSpan,
+          z: Math.cos(angle) * halfSpan
+        };
+
+    return {
+      ...segment,
+      fasteners: [
+        {
+          id: `${segment.id}.screw-a`,
+          targetId: segment.id,
+          x: segment.x - offset.x,
+          z: segment.z - offset.z,
+          radius: 0.028,
+          kind: "metal"
+        },
+        {
+          id: `${segment.id}.screw-b`,
+          targetId: segment.id,
+          x: segment.x + offset.x,
+          z: segment.z + offset.z,
+          radius: 0.028,
           kind: "metal"
         }
       ]
@@ -1548,7 +1601,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
   targetBank: {
     id: "target-bank.social",
     label: "SOCIAL",
-    frameSegments: [
+    frameSegments: withTargetBankFrameFasteners([
       { id: "target-bank.frame-top-rail", x: 0, z: -3.02, width: 3.18, depth: 0.07, kind: "metal" },
       { id: "target-bank.frame-bottom-rail", x: 0, z: -2.14, width: 3.0, depth: 0.06, kind: "metal" },
       { id: "target-bank.frame-left-cheek", x: -1.68, z: -2.58, width: 0.06, depth: 0.78, angle: 0.16, kind: "metal" },
@@ -1557,7 +1610,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       { id: "target-bank.divider-2", x: -0.32, z: -2.66, width: 0.045, depth: 0.72, angle: 0.04, kind: "metal" },
       { id: "target-bank.divider-3", x: 0.32, z: -2.66, width: 0.045, depth: 0.72, angle: -0.04, kind: "metal" },
       { id: "target-bank.divider-4", x: 0.96, z: -2.56, width: 0.045, depth: 0.72, angle: -0.12, kind: "metal" }
-    ],
+    ]),
     posts: [
       {
         id: "target-bank.post-left-upper",
