@@ -567,6 +567,13 @@ describe("Silverball Social physical board blueprint", () => {
       expect.arrayContaining(["shooter.lower-left-guide", "shooter.lower-right-guide"])
     );
     expect(blueprint.plunger.lowerGuides.every((guide) => guide.kind === "metal")).toBe(true);
+    expect(blueprint.plunger.guideFasteners).toHaveLength(4);
+    expect(blueprint.plunger.guideFasteners.every((fastener) => fastener.id.startsWith(`${fastener.targetId}.screw-`))).toBe(true);
+    expect(blueprint.plunger.guideFasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+    expect(blueprint.plunger.guideFasteners.every((fastener) => fastener.radius > 0)).toBe(true);
+    expect(new Set(blueprint.plunger.guideFasteners.map((fastener) => fastener.targetId))).toEqual(
+      new Set(["shooter.lower-left-guide", "shooter.lower-right-guide"])
+    );
   });
 
   it("models the shooter one-way gate as hinged physical hardware", () => {
@@ -869,6 +876,7 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.plunger.spring.id,
       blueprint.plunger.knob.id,
       ...blueprint.plunger.lowerGuides.map((guide) => guide.id),
+      ...blueprint.plunger.guideFasteners.map((fastener) => fastener.id),
       blueprint.plunger.gate.id,
       blueprint.plunger.gateHingePost.id,
       blueprint.plunger.gateStopPost.id,

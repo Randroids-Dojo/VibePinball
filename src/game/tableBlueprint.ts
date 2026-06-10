@@ -519,9 +519,19 @@ export interface PlungerDevice {
   laneGroove: Segment;
   housing: Segment;
   lowerGuides: Segment[];
+  guideFasteners: PlungerGuideFastener[];
   gate: Segment;
   gateHingePost: Post;
   gateStopPost: Post;
+}
+
+export interface PlungerGuideFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface PlungerSpring {
@@ -2227,6 +2237,12 @@ export const silverballSocialBlueprint: TableBlueprint = {
     lowerGuides: [
       { id: "shooter.lower-left-guide", x: 2.86, z: 5.42, width: 0.07, depth: 2.2, angle: -0.03, kind: "metal" },
       { id: "shooter.lower-right-guide", x: 3.56, z: 5.36, width: 0.07, depth: 2.24, angle: 0.03, kind: "metal" }
+    ],
+    guideFasteners: [
+      { id: "shooter.lower-left-guide.screw-lower", targetId: "shooter.lower-left-guide", x: 2.86, z: 6.26, radius: 0.034, kind: "metal" },
+      { id: "shooter.lower-left-guide.screw-upper", targetId: "shooter.lower-left-guide", x: 2.81, z: 4.58, radius: 0.034, kind: "metal" },
+      { id: "shooter.lower-right-guide.screw-lower", targetId: "shooter.lower-right-guide", x: 3.56, z: 6.22, radius: 0.034, kind: "metal" },
+      { id: "shooter.lower-right-guide.screw-upper", targetId: "shooter.lower-right-guide", x: 3.61, z: 4.5, radius: 0.034, kind: "metal" }
     ],
     gate: { id: "shooter.one-way-gate", x: 3.06, z: -5.78, width: 0.66, depth: 0.08, angle: 0.34, kind: "metal" },
     gateHingePost: {
