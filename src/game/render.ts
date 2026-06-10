@@ -17,6 +17,7 @@ import {
   type PlayfieldArt,
   type PlasticCover,
   type PlungerDevice,
+  type PopBumperGuardSegment,
   type Post,
   type RampPath,
   type RolloverWire,
@@ -154,7 +155,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     skirt.position.set(device.x, 0.12, device.z);
     group.add(skirt);
     addRing(group, device.x, device.z, device.chromeRing.radius, device.chromeRing.tubeRadius, 0xb7c4c7);
-    device.guardSegments.forEach((segment) => addSegment(group, segment, 0.4));
+    device.guardSegments.forEach((segment) => addPopBumperGuardSegment(group, segment));
   });
 
   const targetMaterial = new THREE.MeshStandardMaterial({
@@ -367,6 +368,18 @@ const addBoundarySegment = (group: THREE.Group, segment: BoundarySegment) => {
       new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.49, fastener.z);
+    group.add(screw);
+  });
+};
+
+const addPopBumperGuardSegment = (group: THREE.Group, segment: PopBumperGuardSegment) => {
+  addSegment(group, segment, 0.4);
+  segment.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, 0.61, fastener.z);
     group.add(screw);
   });
 };

@@ -478,6 +478,17 @@ describe("Silverball Social physical board blueprint", () => {
       expect(bumper.guardSegments.length).toBeGreaterThanOrEqual(2);
       expect(bumper.guardSegments.every((segment) => segment.id.startsWith(`${bumper.id}.`))).toBe(true);
       expect(bumper.guardSegments.every((segment) => segment.kind === "rubber")).toBe(true);
+      expect(bumper.guardSegments.every((segment) => segment.fasteners.length === 2)).toBe(true);
+      for (const segment of bumper.guardSegments) {
+        expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
+        expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
+        expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
+        expect(segment.fasteners.every((fastener) => fastener.radius >= 0.026), segment.id).toBe(true);
+        for (const fastener of segment.fasteners) {
+          expect(Math.hypot(fastener.x - segment.x, fastener.z - segment.z), fastener.id)
+            .toBeLessThanOrEqual(Math.max(segment.width, segment.depth) / 2);
+        }
+      }
 
       for (const id of bumper.ringPostIds) {
         expect(postIds.has(id), id).toBe(true);
@@ -998,7 +1009,8 @@ describe("Silverball Social physical board blueprint", () => {
         item.chromeRing.id,
         ...item.capFasteners.map((fastener) => fastener.id),
         ...item.ringPostIds,
-        ...item.guardSegments.map((segment) => segment.id)
+        ...item.guardSegments.map((segment) => segment.id),
+        ...item.guardSegments.flatMap((segment) => segment.fasteners.map((fastener) => fastener.id))
       ])
     ]);
 
