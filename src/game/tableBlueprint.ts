@@ -136,8 +136,22 @@ export interface HandoffDevice {
 export interface WireformPath {
   id: string;
   label: string;
+  railY: number;
+  railHeight: number;
+  railOffset: number;
+  tieWidth: number;
   segments: Segment[];
+  supports: WireformSupport[];
   exit: SensorZone;
+}
+
+export interface WireformSupport {
+  id: string;
+  x: number;
+  z: number;
+  height: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface OrbitPath {
@@ -507,19 +521,37 @@ export const silverballSocialBlueprint: TableBlueprint = {
     {
       id: "wireform.left-return",
       label: "Left ramp return",
+      railY: 1.08,
+      railHeight: 0.22,
+      railOffset: 0.18,
+      tieWidth: 0.42,
       exit: { id: "wireform.left-return.exit", x: -2.18, z: 4.86, radius: 0.4 },
       segments: [
         { id: "wireform.left-return.upper", x: -2.72, z: -1.4, width: 0.08, depth: 2.9, angle: -0.2, kind: "wire" },
         { id: "wireform.left-return.lower", x: -2.44, z: 2.28, width: 0.08, depth: 3.5, angle: 0.08, kind: "wire" }
+      ],
+      supports: [
+        { id: "wireform.left-return.support.upper", x: -2.54, z: -2.42, height: 1.02, radius: 0.04, kind: "metal" },
+        { id: "wireform.left-return.support.mid", x: -2.62, z: 0.12, height: 1.04, radius: 0.04, kind: "metal" },
+        { id: "wireform.left-return.support.exit", x: -2.24, z: 3.86, height: 0.98, radius: 0.04, kind: "metal" }
       ]
     },
     {
       id: "wireform.right-orbit-return",
       label: "Right orbit return",
+      railY: 1.16,
+      railHeight: 0.24,
+      railOffset: 0.2,
+      tieWidth: 0.46,
       exit: { id: "wireform.right-orbit-return.exit", x: 2.18, z: 4.86, radius: 0.4 },
       segments: [
         { id: "wireform.right-orbit-return.upper", x: 2.88, z: -3.2, width: 0.08, depth: 3.3, angle: 0.22, kind: "wire" },
         { id: "wireform.right-orbit-return.lower", x: 2.5, z: 1.15, width: 0.08, depth: 4.4, angle: -0.08, kind: "wire" }
+      ],
+      supports: [
+        { id: "wireform.right-orbit-return.support.upper", x: 2.78, z: -4.42, height: 1.1, radius: 0.04, kind: "metal" },
+        { id: "wireform.right-orbit-return.support.mid", x: 2.72, z: -1.08, height: 1.12, radius: 0.04, kind: "metal" },
+        { id: "wireform.right-orbit-return.support.exit", x: 2.28, z: 3.78, height: 1.02, radius: 0.04, kind: "metal" }
       ]
     }
   ],
@@ -537,7 +569,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
         "orbit.left.inner.mid",
         "orbit.left.inner.upper"
       ],
-      returnWireformId: "wireform.right-orbit-return"
+      returnWireformId: "wireform.left-return"
     },
     {
       id: "orbit.right",

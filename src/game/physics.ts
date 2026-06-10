@@ -6,7 +6,8 @@ import {
   type RampPath,
   type Segment,
   type SaucerDevice,
-  type SensorZone
+  type SensorZone,
+  type WireformPath
 } from "./tableBlueprint";
 
 type RapierModule = typeof import("@dimforge/rapier3d-compat");
@@ -461,6 +462,46 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
     }
   };
 
+  const addWireform = (wireform: WireformPath) => {
+    for (const segment of wireform.segments) {
+      for (const offset of [-wireform.railOffset, wireform.railOffset]) {
+        addBoxCollider(
+          segment.x + offset,
+          wireform.railY,
+          segment.z,
+          0.025,
+          wireform.railHeight / 2,
+          segment.depth / 2,
+          segment.angle ?? 0,
+          0,
+          0.7
+        );
+      }
+
+      addBoxCollider(
+        segment.x,
+        wireform.railY,
+        segment.z,
+        wireform.tieWidth / 2,
+        0.025,
+        0.03,
+        segment.angle ?? 0,
+        0,
+        0.62
+      );
+    }
+
+    for (const support of wireform.supports) {
+      const body = world.createRigidBody(
+        rapier.RigidBodyDesc.fixed().setTranslation(support.x, support.height / 2, support.z)
+      );
+      world.createCollider(
+        rapier.ColliderDesc.cylinder(support.height / 2, support.radius).setRestitution(0.58).setFriction(0.22),
+        body
+      );
+    }
+  };
+
   blueprint.boundaries.forEach(addSegment);
   blueprint.laneWalls.forEach(addSegment);
   blueprint.flipperStops.forEach(addSegment);
@@ -470,27 +511,7 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
   blueprint.handoffs
     .flatMap((handoff) => handoff.segments)
     .forEach(addSegment);
-  blueprint.wireforms
-    .flatMap((wireform) => wireform.segments)
-    .forEach((segment) => {
-      const offset = 0.18;
-      addWall(
-        segment.x - offset,
-        segment.z,
-        0.025,
-        segment.depth / 2,
-        segment.angle ?? 0,
-        0.7
-      );
-      addWall(
-        segment.x + offset,
-        segment.z,
-        0.025,
-        segment.depth / 2,
-        segment.angle ?? 0,
-        0.7
-      );
-    });
+  blueprint.wireforms.forEach(addWireform);
   blueprint.posts.forEach((post) => addPost(post.x, post.z, post.radius));
   blueprint.bumpers.forEach((bumper) => addPost(bumper.x, bumper.z, bumper.capRadius, 0.92));
   blueprint.targets.forEach((target) => {
