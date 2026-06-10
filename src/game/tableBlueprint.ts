@@ -432,8 +432,13 @@ export interface DrainDevice extends SensorZone {
   apron: Segment;
   apronCards: ApronCard[];
   apronFasteners: ApronFastener[];
-  drainGuides: Segment[];
+  drainGuides: DrainGuide[];
   trough: TroughDevice;
+}
+
+export interface DrainGuide extends Segment {
+  kind: "metal" | "rubber";
+  fasteners: DrainGuideFastener[];
 }
 
 export interface ApronCard {
@@ -449,6 +454,15 @@ export interface ApronCard {
 
 export interface ApronFastener {
   id: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
+export interface DrainGuideFastener {
+  id: string;
+  targetId: string;
   x: number;
   z: number;
   radius: number;
@@ -2034,9 +2048,44 @@ export const silverballSocialBlueprint: TableBlueprint = {
       { id: "apron.card-right.screw-lower-right", x: 1.9, z: 7.11, radius: 0.045, kind: "metal" }
     ],
     drainGuides: [
-      { id: "drain.left-guide", x: -0.82, z: 6.58, width: 0.08, depth: 0.92, angle: -0.42, kind: "rubber" },
-      { id: "drain.right-guide", x: 0.82, z: 6.58, width: 0.08, depth: 0.92, angle: 0.42, kind: "rubber" },
-      { id: "drain.center-mouth", x: 0, z: 6.92, width: 1.08, depth: 0.08, kind: "metal" }
+      {
+        id: "drain.left-guide",
+        x: -0.82,
+        z: 6.58,
+        width: 0.08,
+        depth: 0.92,
+        angle: -0.42,
+        kind: "rubber",
+        fasteners: [
+          { id: "drain.left-guide.screw-upper", targetId: "drain.left-guide", x: -0.98, z: 6.24, radius: 0.034, kind: "metal" },
+          { id: "drain.left-guide.screw-lower", targetId: "drain.left-guide", x: -0.66, z: 6.92, radius: 0.034, kind: "metal" }
+        ]
+      },
+      {
+        id: "drain.right-guide",
+        x: 0.82,
+        z: 6.58,
+        width: 0.08,
+        depth: 0.92,
+        angle: 0.42,
+        kind: "rubber",
+        fasteners: [
+          { id: "drain.right-guide.screw-upper", targetId: "drain.right-guide", x: 0.98, z: 6.24, radius: 0.034, kind: "metal" },
+          { id: "drain.right-guide.screw-lower", targetId: "drain.right-guide", x: 0.66, z: 6.92, radius: 0.034, kind: "metal" }
+        ]
+      },
+      {
+        id: "drain.center-mouth",
+        x: 0,
+        z: 6.92,
+        width: 1.08,
+        depth: 0.08,
+        kind: "metal",
+        fasteners: [
+          { id: "drain.center-mouth.screw-left", targetId: "drain.center-mouth", x: -0.42, z: 6.92, radius: 0.034, kind: "metal" },
+          { id: "drain.center-mouth.screw-right", targetId: "drain.center-mouth", x: 0.42, z: 6.92, radius: 0.034, kind: "metal" }
+        ]
+      }
     ],
     trough: {
       id: "trough.ball-return",

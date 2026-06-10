@@ -7,6 +7,7 @@ import {
   type ApronFastener,
   type CabinetHardware,
   type DrainDevice,
+  type DrainGuide,
   type FlipperStop,
   type LampInsert,
   type LaneGuideCover,
@@ -1030,7 +1031,7 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
   trough.position.set(drain.trough.x, 0.12, drain.trough.z);
   group.add(trough);
 
-  drain.drainGuides.forEach((segment) => addSegment(group, segment, 0.28));
+  drain.drainGuides.forEach((guide) => addDrainGuide(group, guide));
   drain.trough.walls.forEach((segment) => addSegment(group, segment, 0.28));
   addSegment(group, drain.trough.feedGuide, 0.3);
   drain.apronCards.forEach((card) => addApronCard(group, card));
@@ -1058,6 +1059,18 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
     group.add(ringMesh);
   });
   addDeckLabel(group, "SILVERBALL SOCIAL", drain.apron.x, drain.apron.z - 0.05, 3.4, 0.28, 0);
+};
+
+const addDrainGuide = (group: THREE.Group, guide: DrainGuide) => {
+  addSegment(group, guide, 0.28);
+  guide.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, 0.43, fastener.z);
+    group.add(screw);
+  });
 };
 
 const addApronCard = (group: THREE.Group, card: ApronCard) => {

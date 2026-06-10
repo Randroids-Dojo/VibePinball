@@ -511,6 +511,16 @@ describe("Silverball Social physical board blueprint", () => {
       expect.arrayContaining(["drain.left-guide", "drain.right-guide", "drain.center-mouth"])
     );
     expect(blueprint.drain.drainGuides.every((guide) => guide.kind === "rubber" || guide.kind === "metal")).toBe(true);
+    expect(blueprint.drain.drainGuides.every((guide) => guide.fasteners.length === 2)).toBe(true);
+    for (const guide of blueprint.drain.drainGuides) {
+      expect(guide.fasteners.every((fastener) => fastener.id.startsWith(`${guide.id}.screw-`)), guide.id).toBe(true);
+      expect(guide.fasteners.every((fastener) => fastener.targetId === guide.id), guide.id).toBe(true);
+      expect(guide.fasteners.every((fastener) => fastener.kind === "metal"), guide.id).toBe(true);
+      expect(guide.fasteners.every((fastener) => fastener.radius > 0.03), guide.id).toBe(true);
+      for (const fastener of guide.fasteners) {
+        expect(Math.hypot(fastener.x - guide.x, fastener.z - guide.z), fastener.id).toBeLessThan(0.55);
+      }
+    }
 
     expect(blueprint.drain.trough.id).toBe("trough.ball-return");
     expect(blueprint.drain.trough.ballSlots).toHaveLength(3);
@@ -811,6 +821,7 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.drain.id,
       blueprint.drain.apron.id,
       ...blueprint.drain.drainGuides.map((item) => item.id),
+      ...blueprint.drain.drainGuides.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
       ...blueprint.drain.apronCards.map((item) => item.id),
       ...blueprint.drain.apronFasteners.map((item) => item.id),
       blueprint.cabinet.body.id,
