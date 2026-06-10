@@ -11,6 +11,7 @@ import {
   type FlipperDevice,
   type PlasticCover,
   type PlungerDevice,
+  type Post,
   type RampPath,
   type SlingDevice,
   type TargetBankHardware,
@@ -77,7 +78,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   blueprint.laneWalls.forEach((segment) => addSegment(group, segment, 0.36));
   blueprint.rolloverWires.forEach((segment) => addSegment(group, segment, 0.18));
   blueprint.flipperStops.forEach((segment) => addSegment(group, segment, 0.32));
-  blueprint.posts.forEach((post) => addPost(group, post.x, post.z, post.radius, post.kind));
+  blueprint.posts.forEach((post) => addPost(group, post));
   addCabinetHardware(group, blueprint.cabinet);
   blueprint.lanes.forEach((lane) => addInsert(group, lane.x, lane.z, lane.side === "top" ? 0x5fd4ff : 0xf1c453));
   blueprint.lampInserts.forEach((insert) => addLampInsert(group, insert));
@@ -161,7 +162,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     cup.position.set(saucer.x, 0.18, saucer.z);
     group.add(cup);
     saucer.walls.forEach((segment) => addSegment(group, segment, segment.kind === "wire" ? 0.5 : 0.32));
-    saucer.posts.forEach((post) => addPost(group, post.x, post.z, post.radius, post.kind));
+    saucer.posts.forEach((post) => addPost(group, post));
     const heldBall = mesh(
       new THREE.SphereGeometry(blueprint.scale.ballRadius * 0.72, 24, 14),
       new THREE.MeshStandardMaterial({ color: 0xbec7ca, roughness: 0.18, metalness: 0.82 })
@@ -320,23 +321,26 @@ const addSegment = (
   addRail(group, segment.x, segment.z, segment.width, segment.depth, segment.angle ?? 0, color, y);
 };
 
-const addPost = (
-  group: THREE.Group,
-  x: number,
-  z: number,
-  radius: number,
-  kind: "rubber" | "metal"
-) => {
+const addPost = (group: THREE.Group, postRecord: Post) => {
   const post = mesh(
-    new THREE.CylinderGeometry(radius, radius, 0.42, 20),
+    new THREE.CylinderGeometry(postRecord.radius, postRecord.radius, 0.42, 20),
     new THREE.MeshStandardMaterial({
-      color: kind === "rubber" ? 0x111111 : 0xb7c4c7,
+      color: postRecord.kind === "rubber" ? 0x111111 : 0xb7c4c7,
       roughness: 0.24,
-      metalness: kind === "metal" ? 0.75 : 0.05
+      metalness: postRecord.kind === "metal" ? 0.75 : 0.05
     })
   );
-  post.position.set(x, 0.32, z);
+  post.position.set(postRecord.x, 0.32, postRecord.z);
   group.add(post);
+
+  if (postRecord.cap) {
+    const cap = mesh(
+      new THREE.CylinderGeometry(postRecord.cap.radius, postRecord.cap.radius, postRecord.cap.height, 20),
+      new THREE.MeshStandardMaterial({ color: 0xc7d0d2, roughness: 0.16, metalness: 0.82 })
+    );
+    cap.position.set(postRecord.x, 0.545, postRecord.z);
+    group.add(cap);
+  }
 };
 
 const addSlingTriangle = (group: THREE.Group, sling: SlingDevice) => {
@@ -538,7 +542,7 @@ const addPlasticCover = (
 
 const addTargetBankHardware = (group: THREE.Group, targetBank: TargetBankHardware) => {
   targetBank.frameSegments.forEach((segment) => addSegment(group, segment, 0.48));
-  targetBank.posts.forEach((post) => addPost(group, post.x, post.z, post.radius, post.kind));
+  targetBank.posts.forEach((post) => addPost(group, post));
   addDeckLabel(group, targetBank.label, 0, -1.7, 2.5, 0.24, 0);
 };
 
