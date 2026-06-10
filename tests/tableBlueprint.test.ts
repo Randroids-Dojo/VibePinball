@@ -411,6 +411,12 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.shots.find((shot) => shot.id === "shot.left-orbit")?.deviceIds).toEqual(
       expect.arrayContaining([
         "lane.top.left",
+        "lane.top.left.outer",
+        "lane.top.left.outer.screw-a",
+        "lane.top.left.outer.screw-b",
+        "lane.top.left.inner",
+        "lane.top.left.inner.screw-a",
+        "lane.top.left.inner.screw-b",
         "rollover.top.left",
         "lane.top.left.guide-cover",
         "lane.top.left.guide-cover.screw-left",
