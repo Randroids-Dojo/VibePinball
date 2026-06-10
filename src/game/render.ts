@@ -4,6 +4,7 @@ import {
   rampSidePoint,
   silverballSocialBlueprint,
   type LampInsert,
+  type FlipperDevice,
   type RampPath,
   type SlingDevice,
   type WireformPath
@@ -80,14 +81,14 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   blueprint.plastics.forEach((cover) => addPlasticCover(group, cover));
   addPlungerHardware(group);
 
-  const leftFlipper = createFlipper(0xd9d3c4);
   const leftFlipperDevice = blueprint.flippers.find((item) => item.side === "left")!;
+  const leftFlipper = createFlipper(leftFlipperDevice, 0xd9d3c4);
   leftFlipper.position.set(leftFlipperDevice.x, 0.25, leftFlipperDevice.z);
   leftFlipper.rotation.y = leftFlipperDevice.restAngle;
   group.add(leftFlipper);
 
-  const rightFlipper = createFlipper(0xd9d3c4);
   const rightFlipperDevice = blueprint.flippers.find((item) => item.side === "right")!;
+  const rightFlipper = createFlipper(rightFlipperDevice, 0xd9d3c4);
   rightFlipper.position.set(rightFlipperDevice.x, 0.25, rightFlipperDevice.z);
   rightFlipper.rotation.y = Math.PI + rightFlipperDevice.restAngle;
   group.add(rightFlipper);
@@ -634,17 +635,18 @@ const addPlungerHardware = (group: THREE.Group) => {
   addSegment(group, plunger.gate, 0.42);
 };
 
-const createFlipper = (color: number) => {
+const createFlipper = (flipperDevice: FlipperDevice, color: number) => {
   const flipper = new THREE.Group();
+  const capsuleLength = Math.max(flipperDevice.length - flipperDevice.batRadius * 2, 0.1);
   const body = mesh(
-    new THREE.CapsuleGeometry(0.17, 0.86, 8, 18),
+    new THREE.CapsuleGeometry(flipperDevice.batRadius, capsuleLength, 8, 18),
     new THREE.MeshStandardMaterial({ color, roughness: 0.28 })
   );
   body.rotation.z = Math.PI / 2;
-  body.position.x = 0.52;
+  body.position.x = flipperDevice.length / 2;
   flipper.add(body);
   const post = mesh(
-    new THREE.CylinderGeometry(0.2, 0.2, 0.26, 24),
+    new THREE.CylinderGeometry(flipperDevice.pivotRadius, flipperDevice.pivotRadius, 0.26, 24),
     new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.22, metalness: 0.75 })
   );
   flipper.add(post);

@@ -80,6 +80,9 @@ export interface FlipperDevice {
   restAngle: number;
   activeAngle: number;
   length: number;
+  batRadius: number;
+  pivotRadius: number;
+  rubberWidth: number;
 }
 
 export interface SaucerDevice extends SensorZone {
@@ -326,8 +329,30 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "lane.shooter.skill", label: "Skill shot lane", x: 3.05, z: -6.35, radius: 0.34, clearance: 0.68, side: "top" }
   ],
   flippers: [
-    { id: "flipper.left", side: "left", x: -1.35, z: 4.72, restAngle: -0.22, activeAngle: 0.58, length: 1.2 },
-    { id: "flipper.right", side: "right", x: 1.35, z: 4.72, restAngle: 0.22, activeAngle: -0.58, length: 1.2 }
+    {
+      id: "flipper.left",
+      side: "left",
+      x: -1.35,
+      z: 4.72,
+      restAngle: -0.22,
+      activeAngle: 0.58,
+      length: 1.2,
+      batRadius: 0.17,
+      pivotRadius: 0.2,
+      rubberWidth: 0.13
+    },
+    {
+      id: "flipper.right",
+      side: "right",
+      x: 1.35,
+      z: 4.72,
+      restAngle: 0.22,
+      activeAngle: -0.58,
+      length: 1.2,
+      batRadius: 0.17,
+      pivotRadius: 0.2,
+      rubberWidth: 0.13
+    }
   ],
   slings: [
     {

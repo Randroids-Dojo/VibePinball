@@ -22,9 +22,16 @@
       "id": "REQ-002",
       "requirement": "Ball, flipper, table, ramp, lane, nudge, tilt, drain, and multiball behavior are authored as a physical simulation.",
       "gddRef": "docs/gdd/01-vision-and-pillars.html#pillar-simulation-first",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/tableBlueprint.ts",
+        "src/game/physics.ts",
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/tableBlueprint.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {

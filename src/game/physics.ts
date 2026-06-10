@@ -3,6 +3,7 @@ import type { RigidBody, World } from "@dimforge/rapier3d-compat";
 import {
   rampSidePoint,
   silverballSocialBlueprint,
+  type FlipperDevice,
   type RampPath,
   type Segment,
   type SaucerDevice,
@@ -11,6 +12,15 @@ import {
 } from "./tableBlueprint";
 
 type RapierModule = typeof import("@dimforge/rapier3d-compat");
+
+interface FlipperBodies {
+  left: RigidBody;
+  right: RigidBody;
+}
+
+interface TableColliderBodies {
+  flippers: FlipperBodies;
+}
 
 export interface BallSnapshot {
   x: number;
@@ -33,6 +43,7 @@ export class PinballPhysics {
   private readonly rapier: RapierModule;
   private readonly world: World;
   private readonly ball: RigidBody;
+  private readonly flipperBodies: FlipperBodies;
   private readonly cooldowns = new Map<string, number>();
   private accumulator = 0;
   private plungerCharge = 0;
@@ -41,10 +52,11 @@ export class PinballPhysics {
   private saucerHoldSeconds = 0;
   private saucerHeldBy: SaucerDevice | null = null;
 
-  private constructor(rapier: RapierModule, world: World, ball: RigidBody) {
+  private constructor(rapier: RapierModule, world: World, ball: RigidBody, tableBodies: TableColliderBodies) {
     this.rapier = rapier;
     this.world = world;
     this.ball = ball;
+    this.flipperBodies = tableBodies.flippers;
   }
 
   static async create(): Promise<PinballPhysics> {
@@ -63,8 +75,8 @@ export class PinballPhysics {
       ballBody
     );
 
-    createTableColliders(rapier, world);
-    return new PinballPhysics(rapier, world, ballBody);
+    const tableBodies = createTableColliders(rapier, world);
+    return new PinballPhysics(rapier, world, ballBody, tableBodies);
   }
 
   resetBall(): void {
@@ -81,11 +93,14 @@ export class PinballPhysics {
 
   step(actions: ActionState, dt: number, scoringEnabled: boolean): PhysicsSnapshot {
     const events: TableEvent[] = [];
+    const leftFlipperAngle = this.flipperAngle("left", actions.leftFlipper);
+    const rightFlipperAngle = this.flipperAngle("right", actions.rightFlipper);
     this.accumulator += Math.min(dt, 0.05);
     this.tickSaucerHold(dt);
     this.tickInput(actions, dt, events, scoringEnabled);
 
     while (this.accumulator >= 1 / 60) {
+      this.updateFlipperBodies(leftFlipperAngle, rightFlipperAngle);
       this.world.step();
       this.accumulator -= 1 / 60;
     }
@@ -116,11 +131,35 @@ export class PinballPhysics {
       saucerHold: this.saucerHeldBy
         ? { id: this.saucerHeldBy.id, x: this.saucerHeldBy.holdX, z: this.saucerHeldBy.holdZ }
         : null,
-      leftFlipperAngle: actions.leftFlipper ? 0.58 : -0.22,
-      rightFlipperAngle: actions.rightFlipper ? -0.58 : 0.22,
+      leftFlipperAngle,
+      rightFlipperAngle,
       plungerCharge: this.plungerCharge,
       events
     };
+  }
+
+  private flipperAngle(side: "left" | "right", active: boolean): number {
+    const flipper = blueprint.flippers.find((item) => item.side === side);
+    if (!flipper) {
+      return 0;
+    }
+    return active ? flipper.activeAngle : flipper.restAngle;
+  }
+
+  private updateFlipperBodies(leftFlipperAngle: number, rightFlipperAngle: number): void {
+    const leftFlipper = blueprint.flippers.find((item) => item.side === "left");
+    const rightFlipper = blueprint.flippers.find((item) => item.side === "right");
+    if (leftFlipper) {
+      this.setFlipperBodyPose(this.flipperBodies.left, leftFlipper, leftFlipperAngle);
+    }
+    if (rightFlipper) {
+      this.setFlipperBodyPose(this.flipperBodies.right, rightFlipper, rightFlipperAngle);
+    }
+  }
+
+  private setFlipperBodyPose(body: RigidBody, flipper: FlipperDevice, angle: number): void {
+    body.setNextKinematicTranslation({ x: flipper.x, y: 0.25, z: flipper.z });
+    body.setNextKinematicRotation(createFlipperRotation(flipper, angle));
   }
 
   private tickInput(
@@ -338,29 +377,33 @@ export class PinballPhysics {
   }
 }
 
-const createTableColliders = (rapier: RapierModule, world: World): void => {
-  const createYawPitchRotation = (yaw: number, pitch = 0) => {
-    const yawRotation = {
-      x: 0,
-      y: Math.sin(yaw / 2),
-      z: 0,
-      w: Math.cos(yaw / 2)
-    };
-    const pitchRotation = {
-      x: Math.sin(pitch / 2),
-      y: 0,
-      z: 0,
-      w: Math.cos(pitch / 2)
-    };
-
-    return {
-      w: pitchRotation.w * yawRotation.w - pitchRotation.x * yawRotation.x - pitchRotation.y * yawRotation.y - pitchRotation.z * yawRotation.z,
-      x: pitchRotation.w * yawRotation.x + pitchRotation.x * yawRotation.w + pitchRotation.y * yawRotation.z - pitchRotation.z * yawRotation.y,
-      y: pitchRotation.w * yawRotation.y - pitchRotation.x * yawRotation.z + pitchRotation.y * yawRotation.w + pitchRotation.z * yawRotation.x,
-      z: pitchRotation.w * yawRotation.z + pitchRotation.x * yawRotation.y - pitchRotation.y * yawRotation.x + pitchRotation.z * yawRotation.w
-    };
+const createYawPitchRotation = (yaw: number, pitch = 0) => {
+  const yawRotation = {
+    x: 0,
+    y: Math.sin(yaw / 2),
+    z: 0,
+    w: Math.cos(yaw / 2)
+  };
+  const pitchRotation = {
+    x: Math.sin(pitch / 2),
+    y: 0,
+    z: 0,
+    w: Math.cos(pitch / 2)
   };
 
+  return {
+    w: pitchRotation.w * yawRotation.w - pitchRotation.x * yawRotation.x - pitchRotation.y * yawRotation.y - pitchRotation.z * yawRotation.z,
+    x: pitchRotation.w * yawRotation.x + pitchRotation.x * yawRotation.w + pitchRotation.y * yawRotation.z - pitchRotation.z * yawRotation.y,
+    y: pitchRotation.w * yawRotation.y - pitchRotation.x * yawRotation.z + pitchRotation.y * yawRotation.w + pitchRotation.z * yawRotation.x,
+    z: pitchRotation.w * yawRotation.z + pitchRotation.x * yawRotation.y - pitchRotation.y * yawRotation.x + pitchRotation.z * yawRotation.w
+  };
+};
+
+const createFlipperRotation = (flipper: FlipperDevice, angle: number) => {
+  return createYawPitchRotation(flipper.side === "left" ? angle : Math.PI + angle);
+};
+
+const createTableColliders = (rapier: RapierModule, world: World): TableColliderBodies => {
   const addBoxCollider = (
     x: number,
     y: number,
@@ -502,6 +545,45 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
     }
   };
 
+  const addFlipper = (flipper: FlipperDevice) => {
+    const body = world.createRigidBody(
+      rapier.RigidBodyDesc.kinematicPositionBased()
+        .setTranslation(flipper.x, 0.25, flipper.z)
+        .setRotation(createFlipperRotation(flipper, flipper.restAngle))
+    );
+    const straightLength = Math.max(flipper.length - flipper.batRadius * 2, 0.1);
+    const centerX = flipper.batRadius + straightLength / 2;
+    const tipX = flipper.length - flipper.batRadius;
+    world.createCollider(
+      rapier.ColliderDesc.cuboid(straightLength / 2, flipper.rubberWidth, flipper.batRadius * 0.62)
+        .setTranslation(centerX, 0, 0)
+        .setRestitution(0.88)
+        .setFriction(0.12),
+      body
+    );
+    world.createCollider(
+      rapier.ColliderDesc.ball(flipper.batRadius)
+        .setTranslation(flipper.batRadius, 0, 0)
+        .setRestitution(0.88)
+        .setFriction(0.12),
+      body
+    );
+    world.createCollider(
+      rapier.ColliderDesc.ball(flipper.batRadius)
+        .setTranslation(tipX, 0, 0)
+        .setRestitution(0.9)
+        .setFriction(0.1),
+      body
+    );
+    world.createCollider(
+      rapier.ColliderDesc.cylinder(0.18, flipper.pivotRadius)
+        .setRestitution(0.72)
+        .setFriction(0.18),
+      body
+    );
+    return body;
+  };
+
   blueprint.boundaries.forEach(addSegment);
   blueprint.laneWalls.forEach(addSegment);
   blueprint.flipperStops.forEach(addSegment);
@@ -522,15 +604,16 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
     saucer.posts.forEach((post) => addPost(post.x, post.z, post.radius, 0.6));
     saucer.walls.forEach(addSegment);
   });
-  blueprint.flippers.forEach((flipper) => {
-    const direction = flipper.side === "left" ? 1 : -1;
-    addWall(
-      flipper.x + direction * flipper.length * 0.32,
-      flipper.z,
-      flipper.length / 2,
-      0.08,
-      flipper.restAngle,
-      0.88
-    );
-  });
+  const leftFlipper = blueprint.flippers.find((flipper) => flipper.side === "left");
+  const rightFlipper = blueprint.flippers.find((flipper) => flipper.side === "right");
+  if (!leftFlipper || !rightFlipper) {
+    throw new Error("Blueprint must define left and right flippers.");
+  }
+
+  return {
+    flippers: {
+      left: addFlipper(leftFlipper),
+      right: addFlipper(rightFlipper)
+    }
+  };
 };
