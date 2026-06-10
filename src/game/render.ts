@@ -7,6 +7,7 @@ import {
   type DrainDevice,
   type LampInsert,
   type FlipperDevice,
+  type PlasticCover,
   type PlungerDevice,
   type RampPath,
   type SlingDevice,
@@ -518,16 +519,24 @@ const addWireformPair = (
 
 const addPlasticCover = (
   group: THREE.Group,
-  cover: {
-    x: number;
-    z: number;
-    width: number;
-    depth: number;
-    angle?: number;
-    color: number;
-    layerY: number;
-  }
+  cover: PlasticCover
 ) => {
+  cover.standoffs.forEach((standoff) => {
+    const post = mesh(
+      new THREE.CylinderGeometry(standoff.radius, standoff.radius, standoff.height, 18),
+      new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.18, metalness: 0.82 })
+    );
+    post.position.set(standoff.x, standoff.height / 2, standoff.z);
+    group.add(post);
+
+    const cap = mesh(
+      new THREE.CylinderGeometry(standoff.capRadius, standoff.capRadius, 0.035, 18),
+      new THREE.MeshStandardMaterial({ color: 0xe2e9ea, roughness: 0.16, metalness: 0.88 })
+    );
+    cap.position.set(standoff.x, cover.layerY + 0.045, standoff.z);
+    group.add(cap);
+  });
+
   const plastic = mesh(
     new THREE.BoxGeometry(cover.width, 0.055, cover.depth),
     new THREE.MeshStandardMaterial({
