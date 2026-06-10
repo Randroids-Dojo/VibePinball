@@ -320,6 +320,20 @@ describe("Silverball Social physical board blueprint", () => {
     expect(topArchSegments.filter((segment) => segment.angle !== undefined)).toHaveLength(2);
     expect(shooterArchSegments).toHaveLength(3);
     expect(shooterArchSegments.every((segment) => segment.kind === "metal")).toBe(true);
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-orbit")?.deviceIds).toEqual(
+      expect.arrayContaining([
+        "boundary.top-arch.left-curve",
+        "boundary.top-arch.center",
+        "boundary.top-arch.right-curve"
+      ])
+    );
+    expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
+      expect.arrayContaining([
+        "boundary.top-arch.left-curve",
+        "boundary.top-arch.center",
+        "boundary.top-arch.right-curve"
+      ])
+    );
     expect(skillShot?.deviceIds).toEqual(
       expect.arrayContaining([
         "boundary.shooter-arch.top",
