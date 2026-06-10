@@ -168,22 +168,24 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     device.guardSegments.forEach((segment) => addPopBumperGuardSegment(group, segment));
   });
 
-  const targetMaterial = new THREE.MeshStandardMaterial({
-    color: 0xd94b4b,
-    emissive: 0x3a0707,
-    roughness: 0.35
-  });
   addTargetBankHardware(group, blueprint.targetBank);
   blueprint.targets.forEach((device) => {
     addTargetMountHardware(group, device);
-    const target = mesh(new THREE.BoxGeometry(0.36, 0.72, 0.14), targetMaterial);
-    target.position.set(device.x, 0.38, device.z);
-    target.rotation.y = device.angle;
+    const target = mesh(
+      new THREE.BoxGeometry(device.face.width, device.face.height, device.face.thickness),
+      new THREE.MeshStandardMaterial({
+        color: device.face.color,
+        emissive: 0x3a0707,
+        roughness: 0.35
+      })
+    );
+    target.position.set(device.face.x, 0.38, device.face.z);
+    target.rotation.y = device.face.angle ?? 0;
     group.add(target);
     addSegment(group, device.rearStop, 0.28);
-    addTargetDecal(group, device.label, device.x, device.z + 0.075, device.angle, device.decalColor);
-    addDeckLabel(group, device.label, device.x, device.z - 0.05, 0.34, 0.28, device.angle);
-    addInsert(group, device.x, device.z + 0.42, 0xffd56f);
+    addTargetDecal(group, device.label, device.face.x, device.face.z + 0.075, device.face.angle ?? 0, device.decalColor);
+    addDeckLabel(group, device.label, device.face.x, device.face.z - 0.05, 0.34, 0.28, device.face.angle ?? 0);
+    addInsert(group, device.face.x, device.face.z + 0.42, 0xffd56f);
   });
 
   blueprint.saucers.forEach((saucer) => {

@@ -694,6 +694,15 @@ describe("Silverball Social physical board blueprint", () => {
 
   it("models each standup target with a rear stop and face decal color", () => {
     for (const target of blueprint.targets) {
+      expect(target.face.id).toBe(`${target.id}.face`);
+      expect(target.face.kind).toBe("plastic");
+      expect(target.face.x).toBeCloseTo(target.x);
+      expect(target.face.z).toBeCloseTo(target.z);
+      expect(target.face.angle ?? 0).toBeCloseTo(target.angle);
+      expect(target.face.width).toBeGreaterThan(0.3);
+      expect(target.face.height).toBeGreaterThan(0.65);
+      expect(target.face.thickness).toBeGreaterThan(0.1);
+      expect(target.face.color).toBeGreaterThan(0);
       expect(target.rearStop.id).toBe(`${target.id}.rear-stop`);
       expect(target.rearStop.kind).toBe("rubber");
       expect(target.rearStop.depth).toBeGreaterThan(0);
@@ -1194,6 +1203,7 @@ describe("Silverball Social physical board blueprint", () => {
         ...sling.postIds
       ]),
       ...blueprint.targets.map((item) => item.id),
+      ...blueprint.targets.map((item) => item.face.id),
       ...blueprint.targets.map((item) => item.rearStop.id),
       ...blueprint.targets.map((item) => item.mountPlate.id),
       ...blueprint.targets.flatMap((item) => item.mountFasteners.map((fastener) => fastener.id)),
