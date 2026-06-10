@@ -41,6 +41,15 @@ describe("pinball rules", () => {
     expect(state.targets).toBe(5);
     expect(state.locks).toBe(1);
     expect(state.message).toContain("Ball lock");
+
+    state = applyTableEvent(state, { type: "lockEnter", id: "lock.saucer" });
+    expect(state.locks).toBe(2);
+    const scoreAtFullLock = state.score;
+
+    state = applyTableEvent(state, { type: "lockEnter", id: "lock.saucer" });
+    expect(state.locks).toBe(2);
+    expect(state.score).toBe(scoreAtFullLock);
+    expect(state.message).toContain("Lock is already full");
   });
 
   it("ends after the third drain and adds non-tilted bonus", () => {

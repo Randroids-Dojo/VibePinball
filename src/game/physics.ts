@@ -17,6 +17,7 @@ export interface BallSnapshot {
 
 export interface PhysicsSnapshot {
   ball: BallSnapshot;
+  saucerHold: { id: string; x: number; z: number } | null;
   leftFlipperAngle: number;
   rightFlipperAngle: number;
   plungerCharge: number;
@@ -66,6 +67,10 @@ export class PinballPhysics {
   resetBall(): void {
     this.launched = false;
     this.plungerCharge = 0;
+    this.nudgeHeat = 0;
+    this.cooldowns.clear();
+    this.saucerHeldBy = null;
+    this.saucerHoldSeconds = 0;
     this.ball.setTranslation({ x: 3.18, y: 0.35, z: 5.55 }, true);
     this.ball.setLinvel({ x: 0, y: 0, z: 0 }, true);
     this.ball.setAngvel({ x: 0, y: 0, z: 0 }, true);
@@ -85,10 +90,11 @@ export class PinballPhysics {
     this.clampBallSpeed();
     this.detectDeviceHits(events, scoringEnabled);
 
-    const pos = this.ball.translation();
+    let pos = this.ball.translation();
     if (this.isInsideDrain(pos.x, pos.z)) {
       events.push({ type: "drain" });
       this.resetBall();
+      pos = this.ball.translation();
     }
 
     this.cooldowns.forEach((value, key) => {
@@ -104,6 +110,9 @@ export class PinballPhysics {
 
     return {
       ball: { x: pos.x, y: pos.y, z: pos.z },
+      saucerHold: this.saucerHeldBy
+        ? { id: this.saucerHeldBy.id, x: this.saucerHeldBy.holdX, z: this.saucerHeldBy.holdZ }
+        : null,
       leftFlipperAngle: actions.leftFlipper ? 0.58 : -0.22,
       rightFlipperAngle: actions.rightFlipper ? -0.58 : 0.22,
       plungerCharge: this.plungerCharge,

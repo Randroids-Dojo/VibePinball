@@ -95,11 +95,17 @@ export const applyTableEvent = (
 
   if (event.type === "lockEnter") {
     const isQualified = state.hitTargets.size >= targetBankSize;
+    const canLock = isQualified && state.lockedBalls < 2;
+    const nextLockedBalls = canLock ? state.lockedBalls + 1 : state.lockedBalls;
     return {
-      ...award(state, eventScores.lockEnter),
-      locks: isQualified ? Math.min(2, state.lockedBalls + 1) : state.lockedBalls,
-      lockedBalls: isQualified ? Math.min(2, state.lockedBalls + 1) : state.lockedBalls,
-      message: isQualified ? `Ball lock ${Math.min(2, state.lockedBalls + 1)}/2.` : "Saucer award. Complete SOCIAL to light lock."
+      ...award(state, canLock ? eventScores.lockEnter : 0),
+      locks: nextLockedBalls,
+      lockedBalls: nextLockedBalls,
+      message: !isQualified
+        ? "Saucer award. Complete SOCIAL to light lock."
+        : canLock
+          ? `Ball lock ${nextLockedBalls}/2.`
+          : "Lock is already full."
     };
   }
 

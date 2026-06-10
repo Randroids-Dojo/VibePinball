@@ -91,6 +91,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   );
   ball.castShadow = true;
   group.add(ball);
+  const saucerHoldMarkers = new Map<string, THREE.Mesh>();
 
   const bumperMaterial = new THREE.MeshStandardMaterial({
     color: 0xf1c453,
@@ -148,7 +149,9 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
       new THREE.MeshStandardMaterial({ color: 0xbec7ca, roughness: 0.18, metalness: 0.82 })
     );
     heldBall.position.set(saucer.holdX, 0.35, saucer.holdZ);
+    heldBall.visible = false;
     group.add(heldBall);
+    saucerHoldMarkers.set(saucer.id, heldBall);
     addInsert(group, saucer.x, saucer.z + 0.64, 0xff4b4b);
   });
 
@@ -218,6 +221,13 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
 
   const render = (snapshot: PhysicsSnapshot) => {
     ball.position.set(snapshot.ball.x, snapshot.ball.y + blueprint.scale.ballRadius, snapshot.ball.z);
+    saucerHoldMarkers.forEach((marker, saucerId) => {
+      const isHeld = snapshot.saucerHold?.id === saucerId;
+      marker.visible = isHeld;
+      if (isHeld && snapshot.saucerHold) {
+        marker.position.set(snapshot.saucerHold.x, 0.35, snapshot.saucerHold.z);
+      }
+    });
     leftFlipper.rotation.y = snapshot.leftFlipperAngle;
     rightFlipper.rotation.y = Math.PI + snapshot.rightFlipperAngle;
     const lampPulse = Math.sin(performance.now() * 0.006) * 0.16;
