@@ -32,6 +32,20 @@ export interface Segment {
   kind: "metal" | "rubber" | "wood" | "plastic" | "wire";
 }
 
+export interface RolloverWire extends Segment {
+  kind: "wire";
+  fasteners: RolloverWireFastener[];
+}
+
+export interface RolloverWireFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
 export interface FlipperStop extends Segment {
   kind: "rubber";
   fasteners: FlipperStopFastener[];
@@ -615,7 +629,7 @@ export interface TableBlueprint {
   boundaries: Segment[];
   laneWalls: Segment[];
   rubberBands: RubberBand[];
-  rolloverWires: Segment[];
+  rolloverWires: RolloverWire[];
   flipperStops: FlipperStop[];
   posts: Post[];
   lanes: LaneDevice[];
@@ -649,6 +663,36 @@ const withRubberPostCaps = (posts: Post[]): Post[] =>
         }
       }
     : post);
+
+const withRolloverWireFasteners = (wires: Array<Omit<RolloverWire, "fasteners">>): RolloverWire[] =>
+  wires.map((wire) => {
+    const angle = wire.angle ?? 0;
+    const halfSpan = wire.width * 0.42;
+    const offsetX = Math.cos(angle) * halfSpan;
+    const offsetZ = -Math.sin(angle) * halfSpan;
+
+    return {
+      ...wire,
+      fasteners: [
+        {
+          id: `${wire.id}.screw-left`,
+          targetId: wire.id,
+          x: wire.x - offsetX,
+          z: wire.z - offsetZ,
+          radius: 0.028,
+          kind: "metal"
+        },
+        {
+          id: `${wire.id}.screw-right`,
+          targetId: wire.id,
+          x: wire.x + offsetX,
+          z: wire.z + offsetZ,
+          radius: 0.028,
+          kind: "metal"
+        }
+      ]
+    };
+  });
 
 export const silverballSocialBlueprint: TableBlueprint = {
   id: "silverball-social-v1",
@@ -909,7 +953,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       endPostId: "post.shooter-skill-lane-outer"
     }
   ],
-  rolloverWires: [
+  rolloverWires: withRolloverWireFasteners([
     { id: "rollover.lower.left-out", x: -3.2, z: 5.1, width: 0.48, depth: 0.035, angle: -0.12, kind: "wire" },
     { id: "rollover.lower.left-in", x: -1.98, z: 5.18, width: 0.48, depth: 0.035, angle: 0.1, kind: "wire" },
     { id: "rollover.lower.right-in", x: 1.98, z: 5.18, width: 0.48, depth: 0.035, angle: -0.1, kind: "wire" },
@@ -918,7 +962,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "rollover.top.center", x: 0, z: -6.62, width: 0.5, depth: 0.035, kind: "wire" },
     { id: "rollover.top.right", x: 1.05, z: -6.48, width: 0.5, depth: 0.035, angle: 0.04, kind: "wire" },
     { id: "rollover.shooter.skill", x: 3.05, z: -6.35, width: 0.48, depth: 0.035, angle: 0.08, kind: "wire" }
-  ],
+  ]),
   flipperStops: [
     {
       id: "flipper.left.return-stop",

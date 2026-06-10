@@ -144,6 +144,16 @@ describe("Silverball Social physical board blueprint", () => {
   it("includes rollover wire switches and flipper return hardware", () => {
     expect(blueprint.rolloverWires).toHaveLength(blueprint.lanes.length);
     expect(blueprint.rolloverWires.every((wire) => wire.kind === "wire")).toBe(true);
+    expect(blueprint.rolloverWires.every((wire) => wire.fasteners.length === 2)).toBe(true);
+    for (const wire of blueprint.rolloverWires) {
+      expect(wire.fasteners.every((fastener) => fastener.id.startsWith(`${wire.id}.screw-`)), wire.id).toBe(true);
+      expect(wire.fasteners.every((fastener) => fastener.targetId === wire.id), wire.id).toBe(true);
+      expect(wire.fasteners.every((fastener) => fastener.kind === "metal"), wire.id).toBe(true);
+      expect(wire.fasteners.every((fastener) => fastener.radius >= 0.028), wire.id).toBe(true);
+      for (const fastener of wire.fasteners) {
+        expect(Math.hypot(fastener.x - wire.x, fastener.z - wire.z), fastener.id).toBeLessThanOrEqual(wire.width / 2);
+      }
+    }
     expect(blueprint.flipperStops.map((stop) => stop.id)).toEqual(
       expect.arrayContaining([
         "flipper.left.return-stop",
@@ -850,6 +860,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.laneWalls.map((item) => item.id),
       ...blueprint.rubberBands.map((item) => item.id),
       ...blueprint.rolloverWires.map((item) => item.id),
+      ...blueprint.rolloverWires.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
       ...blueprint.flipperStops.map((item) => item.id),
       ...blueprint.flipperStops.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
       ...blueprint.posts.map((item) => item.id),
