@@ -1331,7 +1331,13 @@ describe("Silverball Social physical board blueprint", () => {
       ])
     );
     expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining(["handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"])
+      expect.arrayContaining([
+        "handoff.right-orbit-exit.left-guide",
+        "handoff.right-orbit-exit.right-guide",
+        ...((returnHandoffs.find((handoff) => handoff.id === "handoff.right-orbit-exit")?.posts ?? []).flatMap((post) =>
+          post.cap ? [post.id, post.cap.id] : [post.id]
+        ))
+      ])
     );
   });
 
