@@ -773,6 +773,11 @@ describe("Silverball Social physical board blueprint", () => {
       expect.arrayContaining(["apron.card-left", "apron.card-right"])
     );
     expect(blueprint.drain.apronCards.every((card) => card.width > 1)).toBe(true);
+    expect(blueprint.drain.apronCards.every((card) => card.protector.id === `${card.id}.protector`)).toBe(true);
+    expect(blueprint.drain.apronCards.every((card) => card.protector.kind === "clear-plastic")).toBe(true);
+    expect(blueprint.drain.apronCards.every((card) => card.protector.width > card.width)).toBe(true);
+    expect(blueprint.drain.apronCards.every((card) => card.protector.depth > card.depth)).toBe(true);
+    expect(blueprint.drain.apronCards.every((card) => card.protector.thickness > 0)).toBe(true);
     expect(blueprint.drain.apronFasteners).toHaveLength(8);
     expect(blueprint.drain.apronFasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
     expect(blueprint.drain.drainGuides.map((guide) => guide.id)).toEqual(
@@ -1142,6 +1147,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.drain.drainGuides.map((item) => item.id),
       ...blueprint.drain.drainGuides.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
       ...blueprint.drain.apronCards.map((item) => item.id),
+      ...blueprint.drain.apronCards.map((item) => item.protector.id),
       ...blueprint.drain.apronFasteners.map((item) => item.id),
       blueprint.cabinet.body.id,
       blueprint.cabinet.backbox.id,

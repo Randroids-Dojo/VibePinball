@@ -813,6 +813,18 @@ export interface ApronCard {
   depth: number;
   angle?: number;
   color: number;
+  protector: ApronCardProtector;
+}
+
+export interface ApronCardProtector {
+  id: string;
+  x: number;
+  z: number;
+  width: number;
+  depth: number;
+  angle?: number;
+  thickness: number;
+  kind: "clear-plastic";
 }
 
 export interface ApronFastener {
@@ -3039,8 +3051,46 @@ export const silverballSocialBlueprint: TableBlueprint = {
     troughZ: 7.55,
     apron: { id: "apron.lower-card", x: 0, z: 7.0, width: 5.25, depth: 1.04, kind: "wood" },
     apronCards: [
-      { id: "apron.card-left", label: "BALL SAVE", x: -1.28, z: 6.96, width: 1.45, depth: 0.34, angle: 0.03, color: 0xf8e7b5 },
-      { id: "apron.card-right", label: "SHOOT AGAIN", x: 1.28, z: 6.96, width: 1.45, depth: 0.34, angle: -0.03, color: 0xf8e7b5 }
+      {
+        id: "apron.card-left",
+        label: "BALL SAVE",
+        x: -1.28,
+        z: 6.96,
+        width: 1.45,
+        depth: 0.34,
+        angle: 0.03,
+        color: 0xf8e7b5,
+        protector: {
+          id: "apron.card-left.protector",
+          x: -1.28,
+          z: 6.96,
+          width: 1.54,
+          depth: 0.43,
+          angle: 0.03,
+          thickness: 0.018,
+          kind: "clear-plastic"
+        }
+      },
+      {
+        id: "apron.card-right",
+        label: "SHOOT AGAIN",
+        x: 1.28,
+        z: 6.96,
+        width: 1.45,
+        depth: 0.34,
+        angle: -0.03,
+        color: 0xf8e7b5,
+        protector: {
+          id: "apron.card-right.protector",
+          x: 1.28,
+          z: 6.96,
+          width: 1.54,
+          depth: 0.43,
+          angle: -0.03,
+          thickness: 0.018,
+          kind: "clear-plastic"
+        }
+      }
     ],
     apronFasteners: [
       { id: "apron.card-left.screw-upper-left", x: -1.9, z: 6.81, radius: 0.045, kind: "metal" },

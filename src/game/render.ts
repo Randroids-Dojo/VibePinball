@@ -3,6 +3,7 @@ import type { PhysicsSnapshot } from "./physics";
 import {
   silverballSocialBlueprint,
   type ApronCard,
+  type ApronCardProtector,
   type ApronFastener,
   type BoundarySegment,
   type CabinetHardware,
@@ -1401,6 +1402,23 @@ const addApronCard = (group: THREE.Group, card: ApronCard) => {
   cardMesh.rotation.y = card.angle ?? 0;
   group.add(cardMesh);
   addDeckLabel(group, card.label, card.x, card.z, card.width * 0.8, card.depth * 0.5, card.angle ?? 0, 0.145);
+  addApronCardProtector(group, card.protector);
+};
+
+const addApronCardProtector = (group: THREE.Group, protector: ApronCardProtector) => {
+  const plate = mesh(
+    new THREE.BoxGeometry(protector.width, protector.thickness, protector.depth),
+    new THREE.MeshStandardMaterial({
+      color: 0xccecff,
+      transparent: true,
+      opacity: 0.32,
+      roughness: 0.08,
+      metalness: 0.02
+    })
+  );
+  plate.position.set(protector.x, 0.18, protector.z);
+  plate.rotation.y = protector.angle ?? 0;
+  group.add(plate);
 };
 
 const addApronFastener = (group: THREE.Group, fastener: ApronFastener) => {

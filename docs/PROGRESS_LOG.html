@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="apron-card-protectors" data-date="2026-06-10">
+    <h3>Apron Card Protectors</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/apron-card-protectors</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added authored clear plastic protector plate records to both lower apron instruction cards so the apron reads as layered physical hardware instead of printed card art only.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright canvas readback at <code>1400x900</code> returned <code>1,260,000</code> nonblack and <code>1,260,000</code> nonTransparent pixels.</dd>
+      <dt>Assumptions</dt><dd>The clear apron card protectors are visual hardware and do not need physics colliders because they sit flush on the apron above the drain area.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/06-camera-and-rendering.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="lamp-insert-lenses" data-date="2026-06-10">
     <h3>Lamp Insert Lenses</h3>
     <dl>
