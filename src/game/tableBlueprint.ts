@@ -435,11 +435,25 @@ export interface RampPath {
   floorThickness: number;
   sideRailHeight: number;
   sideRailOffset: number;
-  entranceLip: Segment;
+  entranceLip: RampEntranceLip;
   supports: RampSupport[];
   entry: SensorZone;
   exit: SensorZone;
   returnSide: "left" | "right";
+}
+
+export interface RampEntranceLip extends Segment {
+  kind: "metal";
+  fasteners: RampEntranceLipFastener[];
+}
+
+export interface RampEntranceLipFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface RampSupport {
@@ -1009,6 +1023,44 @@ const withHandoffFasteners = (
       ]
     };
   });
+
+const withRampEntranceLipFasteners = (
+  lip: Omit<RampEntranceLip, "fasteners">
+): RampEntranceLip => {
+  const angle = lip.angle ?? 0;
+  const halfSpan = Math.max(lip.width, lip.depth) * 0.36;
+  const offset = lip.width >= lip.depth
+    ? {
+        x: Math.cos(angle) * halfSpan,
+        z: -Math.sin(angle) * halfSpan
+      }
+    : {
+        x: Math.sin(angle) * halfSpan,
+        z: Math.cos(angle) * halfSpan
+      };
+
+  return {
+    ...lip,
+    fasteners: [
+      {
+        id: `${lip.id}.screw-a`,
+        targetId: lip.id,
+        x: lip.x - offset.x,
+        z: lip.z - offset.z,
+        radius: 0.032,
+        kind: "metal"
+      },
+      {
+        id: `${lip.id}.screw-b`,
+        targetId: lip.id,
+        x: lip.x + offset.x,
+        z: lip.z + offset.z,
+        radius: 0.032,
+        kind: "metal"
+      }
+    ]
+  };
+};
 
 export const silverballSocialBlueprint: TableBlueprint = {
   id: "silverball-social-v1",
@@ -1946,7 +1998,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       floorThickness: 0.08,
       sideRailHeight: 0.42,
       sideRailOffset: 0.52,
-      entranceLip: { id: "ramp.left.entrance-lip", x: -2.02, z: 1.38, width: 0.94, depth: 0.08, angle: -0.2, kind: "metal" },
+      entranceLip: withRampEntranceLipFasteners({ id: "ramp.left.entrance-lip", x: -2.02, z: 1.38, width: 0.94, depth: 0.08, angle: -0.2, kind: "metal" }),
       supports: [
         {
           id: "ramp.left.support.entry",

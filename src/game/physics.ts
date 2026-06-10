@@ -484,7 +484,6 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
     }
 
     const lipY = ramp.startY + 0.12;
-    const lipBounce = ramp.entranceLip.kind === "rubber" ? 0.86 : 0.62;
     addBoxCollider(
       ramp.entranceLip.x,
       lipY,
@@ -494,7 +493,7 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
       ramp.entranceLip.depth / 2,
       ramp.entranceLip.angle ?? 0,
       0,
-      lipBounce
+      0.62
     );
     for (const support of ramp.supports) {
       const body = world.createRigidBody(rapier.RigidBodyDesc.fixed().setTranslation(support.x, support.height / 2, support.z));

@@ -372,6 +372,17 @@ describe("Silverball Social physical board blueprint", () => {
     expect(ramp?.sideRailOffset).toBeGreaterThan((ramp?.width ?? 0) / 2);
     expect(ramp?.entranceLip.id).toBe("ramp.left.entrance-lip");
     expect(ramp?.entranceLip.kind).toBe("metal");
+    expect(ramp?.entranceLip.fasteners).toHaveLength(2);
+    expect(ramp?.entranceLip.fasteners.every((fastener) => fastener.id.startsWith(`${ramp?.entranceLip.id}.screw-`))).toBe(true);
+    expect(ramp?.entranceLip.fasteners.every((fastener) => fastener.targetId === ramp?.entranceLip.id)).toBe(true);
+    expect(ramp?.entranceLip.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+    expect(ramp?.entranceLip.fasteners.every((fastener) => fastener.radius >= 0.032)).toBe(true);
+    for (const fastener of ramp?.entranceLip.fasteners ?? []) {
+      expect(
+        Math.hypot(fastener.x - (ramp?.entranceLip.x ?? 0), fastener.z - (ramp?.entranceLip.z ?? 0)),
+        fastener.id
+      ).toBeLessThanOrEqual(Math.max(ramp?.entranceLip.width ?? 0, ramp?.entranceLip.depth ?? 0) / 2);
+    }
     expect(ramp?.supports).toHaveLength(4);
     expect(ramp?.supports.every((support) => support.kind === "metal")).toBe(true);
     expect(ramp?.supports.every((support) => support.height >= (ramp?.startY ?? 0))).toBe(true);
@@ -1002,6 +1013,7 @@ describe("Silverball Social physical board blueprint", () => {
         ramp.entry.id,
         ramp.exit.id,
         ramp.entranceLip.id,
+        ...ramp.entranceLip.fasteners.map((fastener) => fastener.id),
         ...ramp.supports.flatMap((support) => [support.id, support.cap.id])
       ]),
       ...blueprint.handoffs.flatMap((handoff) => [
