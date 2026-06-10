@@ -563,6 +563,11 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.plunger.laneGroove.width).toBeGreaterThan(blueprint.scale.ballRadius * 2);
     expect(blueprint.plunger.housing.id).toBe("shooter.plunger-housing");
     expect(blueprint.plunger.housing.kind).toBe("metal");
+    expect(blueprint.plunger.housingFasteners).toHaveLength(4);
+    expect(blueprint.plunger.housingFasteners.every((fastener) => fastener.id.startsWith(`${fastener.targetId}.screw-`))).toBe(true);
+    expect(blueprint.plunger.housingFasteners.every((fastener) => fastener.targetId === blueprint.plunger.housing.id)).toBe(true);
+    expect(blueprint.plunger.housingFasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+    expect(blueprint.plunger.housingFasteners.every((fastener) => fastener.radius > 0)).toBe(true);
     expect(blueprint.plunger.lowerGuides.map((guide) => guide.id)).toEqual(
       expect.arrayContaining(["shooter.lower-left-guide", "shooter.lower-right-guide"])
     );
@@ -873,6 +878,7 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.plunger.id,
       blueprint.plunger.laneGroove.id,
       blueprint.plunger.housing.id,
+      ...blueprint.plunger.housingFasteners.map((fastener) => fastener.id),
       blueprint.plunger.spring.id,
       blueprint.plunger.knob.id,
       ...blueprint.plunger.lowerGuides.map((guide) => guide.id),

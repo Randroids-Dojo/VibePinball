@@ -903,6 +903,14 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
     group.add(screw);
   });
   addSegment(group, plunger.housing, 0.34);
+  plunger.housingFasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 18),
+      new THREE.MeshStandardMaterial({ color: 0xc8d3d5, roughness: 0.18, metalness: 0.85 })
+    );
+    screw.position.set(fastener.x, 0.375, fastener.z);
+    group.add(screw);
+  });
 
   const rod = mesh(
     new THREE.CylinderGeometry(0.045, 0.045, plunger.rodLength, 20),

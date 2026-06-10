@@ -518,11 +518,21 @@ export interface PlungerDevice {
   knob: PlungerKnob;
   laneGroove: Segment;
   housing: Segment;
+  housingFasteners: PlungerHousingFastener[];
   lowerGuides: Segment[];
   guideFasteners: PlungerGuideFastener[];
   gate: Segment;
   gateHingePost: Post;
   gateStopPost: Post;
+}
+
+export interface PlungerHousingFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface PlungerGuideFastener {
@@ -2234,6 +2244,12 @@ export const silverballSocialBlueprint: TableBlueprint = {
     knob: { id: "shooter.plunger-knob", x: 3.42, z: 6.82, radius: 0.18, depth: 0.16, kind: "plastic" },
     laneGroove: { id: "shooter.lane-groove", x: 3.18, z: 5.3, width: 0.72, depth: 4.1, kind: "wood" },
     housing: { id: "shooter.plunger-housing", x: 3.42, z: 6.12, width: 0.36, depth: 1.28, kind: "metal" },
+    housingFasteners: [
+      { id: "shooter.plunger-housing.screw-front-left", targetId: "shooter.plunger-housing", x: 3.29, z: 6.58, radius: 0.034, kind: "metal" },
+      { id: "shooter.plunger-housing.screw-front-right", targetId: "shooter.plunger-housing", x: 3.55, z: 6.58, radius: 0.034, kind: "metal" },
+      { id: "shooter.plunger-housing.screw-back-left", targetId: "shooter.plunger-housing", x: 3.29, z: 5.66, radius: 0.034, kind: "metal" },
+      { id: "shooter.plunger-housing.screw-back-right", targetId: "shooter.plunger-housing", x: 3.55, z: 5.66, radius: 0.034, kind: "metal" }
+    ],
     lowerGuides: [
       { id: "shooter.lower-left-guide", x: 2.86, z: 5.42, width: 0.07, depth: 2.2, angle: -0.03, kind: "metal" },
       { id: "shooter.lower-right-guide", x: 3.56, z: 5.36, width: 0.07, depth: 2.24, angle: 0.03, kind: "metal" }
