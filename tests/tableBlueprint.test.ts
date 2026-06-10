@@ -99,6 +99,22 @@ describe("Silverball Social physical board blueprint", () => {
     );
   });
 
+  it("ties the top rollover lanes to authored rubber guide posts", () => {
+    const postById = new Map(blueprint.posts.map((post) => [post.id, post]));
+    const topLanes = blueprint.lanes.filter((lane) => lane.side === "top");
+
+    for (const lane of topLanes) {
+      expect(lane.guidePostIds?.length, lane.id).toBeGreaterThanOrEqual(2);
+
+      for (const id of lane.guidePostIds ?? []) {
+        const post = postById.get(id);
+        expect(post, `${lane.id} references ${id}`).toBeDefined();
+        expect(post?.kind).toBe("rubber");
+        expect(Math.abs((post?.z ?? 0) - lane.z)).toBeLessThan(0.8);
+      }
+    }
+  });
+
   it("models the left ramp as raised hardware with rails, lip, and supports", () => {
     const ramp = blueprint.ramps.find((item) => item.id === "ramp.left");
     expect(ramp).toBeDefined();

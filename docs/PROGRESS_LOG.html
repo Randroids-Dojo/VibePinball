@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="top-lane-post-hardware" data-date="2026-06-10">
+    <h3>Top Lane Post Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/top-lane-post-hardware</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>made the top rollover and shooter skill lanes closer to the physical blueprint by adding authored rubber guide posts and linking each top lane to its post IDs. Rendering and physics consume those posts through the shared post pipeline, so the upper lane separators now have visible and colliding post hardware.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-top-lane-post-hardware.png</code> confirmed a nonblank WebGL board with the authored top lane guide posts visible.</dd>
+      <dt>Assumptions</dt><dd>The top lane post locations are original Silverball Social hardware approximations tuned to fit the existing lane wall clearances and fixed camera readability.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-009</code>, <code>REQ-017</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for top rollover lane physical hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="bumper-nest-hardware" data-date="2026-06-10">
     <h3>Bumper Nest Hardware</h3>
     <dl>
