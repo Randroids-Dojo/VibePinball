@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="cabinet-glass-rim-hardware" data-date="2026-06-10">
+    <h3>Cabinet Glass Rim Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/cabinet-glass-rim-hardware</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>made the physical cabinet presentation closer to the blueprint by adding authored side rail, glass rim, and lockdown bar records to the shared table definition. Rendering now draws those cabinet hardware pieces from the blueprint, including transparent glass rim strips along the playfield edges.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-cabinet-glass-rim-hardware.png</code> confirmed a nonblank WebGL board with the authored side rails and glass rim strips visible.</dd>
+      <dt>Assumptions</dt><dd>The glass rim is visual-only for v1 because the existing side walls remain the authoritative ball containment colliders.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code> and <code>REQ-083</code> gain stronger implementation and test coverage for physical cabinet props and glass rim presentation.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="lower-lane-post-hardware" data-date="2026-06-10">
     <h3>Lower Lane Post Hardware</h3>
     <dl>

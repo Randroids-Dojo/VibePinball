@@ -11,6 +11,19 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.scale.ballRadius).toBeCloseTo(0.2125);
   });
 
+  it("models cabinet rails, glass rim, and lockdown bar as authored hardware", () => {
+    expect(blueprint.cabinet.sideRails.map((rail) => rail.id)).toEqual(
+      expect.arrayContaining(["cabinet.left-side-rail", "cabinet.right-side-rail"])
+    );
+    expect(blueprint.cabinet.glassRims.map((rim) => rim.id)).toEqual(
+      expect.arrayContaining(["cabinet.left-glass-rim", "cabinet.right-glass-rim"])
+    );
+    expect(blueprint.cabinet.lockdownBar.id).toBe("cabinet.lockdown-bar");
+    expect(blueprint.cabinet.sideRails.every((rail) => rail.depth > blueprint.scale.playfieldLength * 0.9)).toBe(true);
+    expect(blueprint.cabinet.glassRims.every((rim) => rim.depth > blueprint.scale.playfieldLength * 0.85)).toBe(true);
+    expect(blueprint.cabinet.lockdownBar.width).toBeGreaterThan(blueprint.scale.playfieldWidth * 0.55);
+  });
+
   it("contains the lower playfield devices required by the reference-board acceptance criteria", () => {
     expect(blueprint.flippers).toHaveLength(2);
     expect(blueprint.slings).toHaveLength(2);
