@@ -1,7 +1,9 @@
 import type { ActionState, TableEvent } from "./types";
 import type { RigidBody, World } from "@dimforge/rapier3d-compat";
 import {
+  rampSidePoint,
   silverballSocialBlueprint,
+  type RampPath,
   type Segment,
   type SaucerDevice,
   type SensorZone
@@ -336,19 +338,52 @@ export class PinballPhysics {
 }
 
 const createTableColliders = (rapier: RapierModule, world: World): void => {
-  const addWall = (x: number, z: number, hx: number, hz: number, angle = 0, restitution = 0.62) => {
+  const createYawPitchRotation = (yaw: number, pitch = 0) => {
+    const yawRotation = {
+      x: 0,
+      y: Math.sin(yaw / 2),
+      z: 0,
+      w: Math.cos(yaw / 2)
+    };
+    const pitchRotation = {
+      x: Math.sin(pitch / 2),
+      y: 0,
+      z: 0,
+      w: Math.cos(pitch / 2)
+    };
+
+    return {
+      w: pitchRotation.w * yawRotation.w - pitchRotation.x * yawRotation.x - pitchRotation.y * yawRotation.y - pitchRotation.z * yawRotation.z,
+      x: pitchRotation.w * yawRotation.x + pitchRotation.x * yawRotation.w + pitchRotation.y * yawRotation.z - pitchRotation.z * yawRotation.y,
+      y: pitchRotation.w * yawRotation.y - pitchRotation.x * yawRotation.z + pitchRotation.y * yawRotation.w + pitchRotation.z * yawRotation.x,
+      z: pitchRotation.w * yawRotation.z + pitchRotation.x * yawRotation.y - pitchRotation.y * yawRotation.x + pitchRotation.z * yawRotation.w
+    };
+  };
+
+  const addBoxCollider = (
+    x: number,
+    y: number,
+    z: number,
+    hx: number,
+    hy: number,
+    hz: number,
+    angle = 0,
+    pitch = 0,
+    restitution = 0.62
+  ) => {
     const body = world.createRigidBody(
-      rapier.RigidBodyDesc.fixed().setTranslation(x, 0.16, z).setRotation({
-        x: 0,
-        y: Math.sin(angle / 2),
-        z: 0,
-        w: Math.cos(angle / 2)
-      })
+      rapier.RigidBodyDesc.fixed()
+        .setTranslation(x, y, z)
+        .setRotation(createYawPitchRotation(angle, pitch))
     );
     world.createCollider(
-      rapier.ColliderDesc.cuboid(hx, 0.32, hz).setRestitution(restitution).setFriction(0.18),
+      rapier.ColliderDesc.cuboid(hx, hy, hz).setRestitution(restitution).setFriction(0.18),
       body
     );
+  };
+
+  const addWall = (x: number, z: number, hx: number, hz: number, angle = 0, restitution = 0.62) => {
+    addBoxCollider(x, 0.16, z, hx, 0.32, hz, angle, 0, restitution);
   };
 
   const addSegment = (segment: Segment) => {
@@ -371,16 +406,67 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
     );
   };
 
+  const addRamp = (ramp: RampPath) => {
+    const rise = ramp.endY - ramp.startY;
+    const pitch = Math.atan2(rise, ramp.depth);
+    const slopedDepth = Math.hypot(ramp.depth, rise);
+    const centerY = (ramp.startY + ramp.endY) / 2;
+    const sideRailY = centerY + ramp.floorThickness / 2 + ramp.sideRailHeight / 2;
+    addBoxCollider(
+      ramp.x,
+      centerY,
+      ramp.z,
+      ramp.width / 2,
+      ramp.floorThickness / 2,
+      slopedDepth / 2,
+      ramp.angle,
+      pitch,
+      0.5
+    );
+
+    for (const offset of [-ramp.sideRailOffset, ramp.sideRailOffset]) {
+      const side = rampSidePoint(ramp, offset);
+      addBoxCollider(
+        side.x,
+        sideRailY,
+        side.z,
+        0.035,
+        ramp.sideRailHeight / 2,
+        slopedDepth / 2,
+        ramp.angle,
+        pitch,
+        0.68
+      );
+    }
+
+    const lipY = ramp.startY + 0.12;
+    const lipBounce = ramp.entranceLip.kind === "rubber" ? 0.86 : 0.62;
+    addBoxCollider(
+      ramp.entranceLip.x,
+      lipY,
+      ramp.entranceLip.z,
+      ramp.entranceLip.width / 2,
+      0.2,
+      ramp.entranceLip.depth / 2,
+      ramp.entranceLip.angle ?? 0,
+      0,
+      lipBounce
+    );
+    for (const support of ramp.supports) {
+      const body = world.createRigidBody(rapier.RigidBodyDesc.fixed().setTranslation(support.x, support.height / 2, support.z));
+      world.createCollider(
+        rapier.ColliderDesc.cylinder(support.height / 2, support.radius).setRestitution(0.58).setFriction(0.22),
+        body
+      );
+    }
+  };
+
   blueprint.boundaries.forEach(addSegment);
   blueprint.laneWalls.forEach(addSegment);
   blueprint.flipperStops.forEach(addSegment);
   blueprint.slings.forEach((sling) => addSegment(sling.rubberFace));
   addSegment(blueprint.plunger.gate);
-  blueprint.ramps.forEach((ramp) => {
-    addWall(ramp.x, ramp.z, ramp.width / 2, ramp.depth / 2, ramp.angle, 0.5);
-    addWall(ramp.x - 0.42, ramp.z, 0.05, ramp.depth / 2, ramp.angle, 0.68);
-    addWall(ramp.x + 0.42, ramp.z, 0.05, ramp.depth / 2, ramp.angle, 0.68);
-  });
+  blueprint.ramps.forEach(addRamp);
   blueprint.handoffs
     .flatMap((handoff) => handoff.segments)
     .forEach(addSegment);

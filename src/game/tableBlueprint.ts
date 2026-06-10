@@ -101,10 +101,31 @@ export interface RampPath {
   width: number;
   depth: number;
   angle: number;
+  startY: number;
+  endY: number;
+  floorThickness: number;
+  sideRailHeight: number;
+  sideRailOffset: number;
+  entranceLip: Segment;
+  supports: RampSupport[];
   entry: SensorZone;
   exit: SensorZone;
   returnSide: "left" | "right";
 }
+
+export interface RampSupport {
+  id: string;
+  x: number;
+  z: number;
+  height: number;
+  radius: number;
+  kind: "metal";
+}
+
+export const rampSidePoint = (ramp: RampPath, offset: number) => ({
+  x: ramp.x + Math.cos(ramp.angle) * offset,
+  z: ramp.z - Math.sin(ramp.angle) * offset
+});
 
 export interface HandoffDevice {
   id: string;
@@ -430,6 +451,18 @@ export const silverballSocialBlueprint: TableBlueprint = {
       width: 0.92,
       depth: 4.55,
       angle: -0.2,
+      startY: 0.28,
+      endY: 0.95,
+      floorThickness: 0.08,
+      sideRailHeight: 0.42,
+      sideRailOffset: 0.52,
+      entranceLip: { id: "ramp.left.entrance-lip", x: -2.02, z: 1.38, width: 0.94, depth: 0.08, angle: -0.2, kind: "metal" },
+      supports: [
+        { id: "ramp.left.support.entry", x: -1.92, z: 1.02, height: 0.36, radius: 0.045, kind: "metal" },
+        { id: "ramp.left.support.lower", x: -2.1, z: -0.08, height: 0.52, radius: 0.045, kind: "metal" },
+        { id: "ramp.left.support.mid", x: -2.34, z: -1.18, height: 0.74, radius: 0.045, kind: "metal" },
+        { id: "ramp.left.support.crest", x: -2.56, z: -2.28, height: 0.94, radius: 0.045, kind: "metal" }
+      ],
       entry: { id: "ramp.left.entry", x: -2.08, z: 1.42, radius: 0.48 },
       exit: { id: "ramp.left.exit", x: -2.48, z: 4.72, radius: 0.42 },
       returnSide: "left"
