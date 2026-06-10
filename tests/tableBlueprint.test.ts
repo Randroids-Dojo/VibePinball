@@ -36,6 +36,12 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.cabinet.glassRims.map((rim) => rim.id)).toEqual(
       expect.arrayContaining(["cabinet.left-glass-rim", "cabinet.right-glass-rim"])
     );
+    expect(blueprint.cabinet.glassPanel.id).toBe("cabinet.playfield-glass");
+    expect(blueprint.cabinet.glassPanel.kind).toBe("glass");
+    expect(blueprint.cabinet.glassPanel.width).toBeGreaterThan(blueprint.scale.playfieldWidth * 0.88);
+    expect(blueprint.cabinet.glassPanel.depth).toBeGreaterThan(blueprint.scale.playfieldLength * 0.85);
+    expect(blueprint.cabinet.glassPanel.y).toBeGreaterThan(0.8);
+    expect(blueprint.cabinet.glassPanel.opacity).toBeLessThanOrEqual(0.05);
     expect(blueprint.cabinet.lockdownBar.id).toBe("cabinet.lockdown-bar");
     expect(blueprint.cabinet.sideRails.every((rail) => rail.depth > blueprint.scale.playfieldLength * 0.9)).toBe(true);
     expect(blueprint.cabinet.glassRims.every((rim) => rim.depth > blueprint.scale.playfieldLength * 0.85)).toBe(true);
@@ -530,6 +536,7 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.cabinet.dmdPanel.id,
       ...blueprint.cabinet.sideRails.map((item) => item.id),
       ...blueprint.cabinet.glassRims.map((item) => item.id),
+      blueprint.cabinet.glassPanel.id,
       blueprint.cabinet.lockdownBar.id,
       ...blueprint.cabinet.speakerGrilles.map((item) => item.id),
       blueprint.drain.trough.id,

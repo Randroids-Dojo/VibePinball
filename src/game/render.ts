@@ -695,6 +695,19 @@ const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {
     rim.rotation.y = segment.angle ?? 0;
     group.add(rim);
   });
+  const glassPanel = mesh(
+    new THREE.BoxGeometry(cabinet.glassPanel.width, cabinet.glassPanel.thickness, cabinet.glassPanel.depth),
+    new THREE.MeshStandardMaterial({
+      color: cabinet.glassPanel.color,
+      transparent: true,
+      opacity: cabinet.glassPanel.opacity,
+      roughness: 0.02,
+      metalness: 0,
+      depthWrite: false
+    })
+  );
+  glassPanel.position.set(cabinet.glassPanel.x, cabinet.glassPanel.y, cabinet.glassPanel.z);
+  group.add(glassPanel);
   addRail(
     group,
     cabinet.lockdownBar.x,

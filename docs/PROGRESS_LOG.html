@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="playfield-glass-panel" data-date="2026-06-10">
+    <h3>Playfield Glass Panel</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/playfield-glass-panel</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added an authored transparent playfield glass panel record between the cabinet glass rims so the machine reads as a covered real cabinet instead of only side trim. Rendering now draws the panel from shared cabinet blueprint data with low opacity to preserve ball readability.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshots at <code>/tmp/vibepinball-playfield-glass-panel.png</code>, <code>/tmp/vibepinball-playfield-glass-panel-readable.png</code>, and <code>/tmp/vibepinball-playfield-glass-panel-final.png</code> confirmed a nonblank WebGL board with visible cabinet glass and readable ball hardware below it.</dd>
+      <dt>Assumptions</dt><dd>The playfield glass is visual cabinet hardware and does not need collision because the ball remains contained by playfield devices below the glass layer.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-003</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for cabinet glass material layering and shared physical-board IDs.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="trough-slot-rims" data-date="2026-06-10">
     <h3>Trough Slot Rims</h3>
     <dl>

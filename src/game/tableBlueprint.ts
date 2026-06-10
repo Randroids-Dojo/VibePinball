@@ -37,6 +37,7 @@ export interface CabinetHardware {
   backbox: CabinetBox;
   sideRails: Segment[];
   glassRims: Segment[];
+  glassPanel: CabinetGlassPanel;
   lockdownBar: Segment;
   dmdPanel: CabinetDisplayPanel;
   speakerGrilles: SpeakerGrille[];
@@ -64,6 +65,19 @@ export interface CabinetDisplayPanel {
   depth: number;
   color: number;
   emissive: number;
+}
+
+export interface CabinetGlassPanel {
+  id: string;
+  x: number;
+  y: number;
+  z: number;
+  width: number;
+  depth: number;
+  thickness: number;
+  color: number;
+  opacity: number;
+  kind: "glass";
 }
 
 export interface SpeakerGrille {
@@ -524,6 +538,18 @@ export const silverballSocialBlueprint: TableBlueprint = {
       { id: "cabinet.left-glass-rim", x: -3.86, z: 0.1, width: 0.06, depth: 15.35, kind: "metal" },
       { id: "cabinet.right-glass-rim", x: 3.86, z: 0.1, width: 0.06, depth: 15.35, kind: "metal" }
     ],
+    glassPanel: {
+      id: "cabinet.playfield-glass",
+      x: 0,
+      y: 0.88,
+      z: 0.1,
+      width: 7.55,
+      depth: 15.35,
+      thickness: 0.025,
+      color: 0xbfe5ff,
+      opacity: 0.035,
+      kind: "glass"
+    },
     lockdownBar: { id: "cabinet.lockdown-bar", x: 0, z: 7.68, width: 4.9, depth: 0.22, kind: "metal" },
     dmdPanel: {
       id: "cabinet.dmd-panel",
