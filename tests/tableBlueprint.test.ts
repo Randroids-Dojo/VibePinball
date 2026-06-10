@@ -638,6 +638,34 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.handoffs.flatMap((handoff) => handoff.segments).every((segment) => segment.kind !== "plastic")).toBe(true);
   });
 
+  it("mounts return handoff guides on capped metal posts", () => {
+    const returnHandoffs = blueprint.handoffs.filter((handoff) =>
+      handoff.id === "handoff.ramp-left-exit" || handoff.id === "handoff.right-orbit-exit"
+    );
+
+    expect(returnHandoffs).toHaveLength(2);
+    for (const handoff of returnHandoffs) {
+      expect(handoff.segments).toHaveLength(2);
+      expect(handoff.posts).toHaveLength(4);
+      expect(handoff.posts?.every((post) => post.kind === "metal")).toBe(true);
+      expect(handoff.posts?.every((post) => post.cap?.id === `${post.id}.cap`)).toBe(true);
+      for (const segment of handoff.segments) {
+        const segmentPosts = handoff.posts?.filter((post) => post.id.startsWith(segment.id)) ?? [];
+        expect(segmentPosts, segment.id).toHaveLength(2);
+        expect(segmentPosts.some((post) => post.id.endsWith("upper-post")), segment.id).toBe(true);
+        expect(segmentPosts.some((post) => post.id.endsWith("lower-post")), segment.id).toBe(true);
+        expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.5), segment.id).toBe(true);
+      }
+    }
+
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
+      expect.arrayContaining(["handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"])
+    );
+    expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
+      expect.arrayContaining(["handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"])
+    );
+  });
+
   it("models the painted playfield deck and major shot decals as authored board details", () => {
     const artById = new Map(blueprint.playfieldArt.map((item) => [item.id, item]));
 

@@ -1512,6 +1512,40 @@ export const silverballSocialBlueprint: TableBlueprint = {
       segments: [
         { id: "handoff.ramp-left-exit.left-guide", x: -2.38, z: 4.45, width: 0.06, depth: 0.78, angle: -0.22, kind: "wire" },
         { id: "handoff.ramp-left-exit.right-guide", x: -1.8, z: 4.56, width: 0.06, depth: 0.76, angle: 0.18, kind: "wire" }
+      ],
+      posts: [
+        {
+          id: "handoff.ramp-left-exit.left-guide.upper-post",
+          x: -2.29,
+          z: 4.07,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.ramp-left-exit.left-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.ramp-left-exit.left-guide.lower-post",
+          x: -2.47,
+          z: 4.83,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.ramp-left-exit.left-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.ramp-left-exit.right-guide.upper-post",
+          x: -1.87,
+          z: 4.19,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.ramp-left-exit.right-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.ramp-left-exit.right-guide.lower-post",
+          x: -1.73,
+          z: 4.93,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.ramp-left-exit.right-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        }
       ]
     },
     {
@@ -1520,6 +1554,40 @@ export const silverballSocialBlueprint: TableBlueprint = {
       segments: [
         { id: "handoff.right-orbit-exit.left-guide", x: 1.82, z: 4.52, width: 0.06, depth: 0.78, angle: -0.18, kind: "wire" },
         { id: "handoff.right-orbit-exit.right-guide", x: 2.38, z: 4.42, width: 0.06, depth: 0.74, angle: 0.22, kind: "wire" }
+      ],
+      posts: [
+        {
+          id: "handoff.right-orbit-exit.left-guide.upper-post",
+          x: 1.89,
+          z: 4.14,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.right-orbit-exit.left-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.right-orbit-exit.left-guide.lower-post",
+          x: 1.75,
+          z: 4.9,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.right-orbit-exit.left-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.right-orbit-exit.right-guide.upper-post",
+          x: 2.3,
+          z: 4.06,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.right-orbit-exit.right-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.right-orbit-exit.right-guide.lower-post",
+          x: 2.46,
+          z: 4.78,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.right-orbit-exit.right-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        }
       ]
     },
     {
@@ -2004,10 +2072,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
   },
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
-    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.exit", "wireform.left-return.exit"] },
+    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.exit", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.mount-plate", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.mount-plate", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.mount-plate", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.mount-plate", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.mount-plate", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
-    { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit"] },
+    { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit", "handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"] },
     { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.shooter.skill", "rollover.shooter.skill", "shooter.one-way-gate", "shooter.one-way-gate.hinge-post", "shooter.one-way-gate.stop-post"] }
   ]
 };
