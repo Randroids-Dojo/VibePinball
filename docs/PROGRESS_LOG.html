@@ -35,7 +35,7 @@
     <h3>Lock Saucer Cup Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/lock-saucer-cup-hardware</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd>PR #23</dd>
       <dt>Changed</dt><dd>made the lock saucer closer to real capture hardware by moving the visible cup dimensions into an authored saucer cup record. Rendering now draws the cup from shared saucer data, and the lock-saucer shot path references the cup as stable physical hardware.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-lock-saucer-cup-hardware.png</code> confirmed a nonblank WebGL board with the lock saucer cup visible behind the target bank.</dd>
       <dt>Assumptions</dt><dd>The cup record owns visible saucer bowl dimensions while the existing saucer walls, posts, hold point, and eject vector remain the active capture and ejection contract.</dd>
