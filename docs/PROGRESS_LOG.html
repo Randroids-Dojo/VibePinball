@@ -35,7 +35,7 @@
     <h3>Target Face Shot Path</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/target-face-shot-path</code></dd>
-      <dt>PR</dt><dd>pending</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/75">PR 75</a></dd>
       <dt>Changed</dt><dd>added the five authored SOCIAL target face plate IDs to the center-bank shot path so the aimable target-bank shot references the visible target faces as physical board hardware.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
       <dt>Assumptions</dt><dd>The center-bank shot path should include the visible target face plates because those are the primary aimed physical surfaces for the target-bank shot.</dd>
