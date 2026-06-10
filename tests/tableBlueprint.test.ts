@@ -413,6 +413,8 @@ describe("Silverball Social physical board blueprint", () => {
         "lane.top.left",
         "rollover.top.left",
         "lane.top.left.guide-cover",
+        "lane.top.left.guide-cover.screw-left",
+        "lane.top.left.guide-cover.screw-right",
         "lane.top.left.rubber-band",
         "post.top-lane-left",
         "post.top-lane-left.cap",
