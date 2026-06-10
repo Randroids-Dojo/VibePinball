@@ -511,6 +511,9 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
       expect.arrayContaining(["ramp.left", "ramp.left.entrance-lip"])
     );
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
+      expect.arrayContaining((ramp?.entranceLip.fasteners ?? []).map((fastener) => fastener.id))
+    );
     for (const fastener of ramp?.entranceLip.fasteners ?? []) {
       expect(
         Math.hypot(fastener.x - (ramp?.entranceLip.x ?? 0), fastener.z - (ramp?.entranceLip.z ?? 0)),
