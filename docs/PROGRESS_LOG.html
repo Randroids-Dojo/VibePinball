@@ -35,7 +35,7 @@
     <h3>Left Return Rail Clamp Shot Path</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/left-return-rail-clamp-shot-path</code></dd>
-      <dt>PR</dt><dd>pending</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/95">PR 95</a></dd>
       <dt>Changed</dt><dd>linked the left-ramp shot path to each authored left-return rail clamp ID so the ramp shot references the metal clamp hardware mounted along the raised return rails.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
       <dt>Assumptions</dt><dd>The left-return rail clamps belong to the left-ramp shot path because they visibly mount the raised paired rails that carry a made ramp shot back to the inlane.</dd>
