@@ -11,6 +11,7 @@ import {
   type PlungerDevice,
   type RampPath,
   type SlingDevice,
+  type TargetBankHardware,
   type WireformPath
 } from "./tableBlueprint";
 
@@ -138,6 +139,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     emissive: 0x3a0707,
     roughness: 0.35
   });
+  addTargetBankHardware(group, blueprint.targetBank);
   blueprint.targets.forEach((device) => {
     const target = mesh(new THREE.BoxGeometry(0.36, 0.72, 0.14), targetMaterial);
     target.position.set(device.x, 0.38, device.z);
@@ -550,6 +552,12 @@ const addPlasticCover = (
   plastic.position.set(cover.x, cover.layerY, cover.z);
   plastic.rotation.y = cover.angle ?? 0;
   group.add(plastic);
+};
+
+const addTargetBankHardware = (group: THREE.Group, targetBank: TargetBankHardware) => {
+  targetBank.frameSegments.forEach((segment) => addSegment(group, segment, 0.48));
+  targetBank.posts.forEach((post) => addPost(group, post.x, post.z, post.radius, post.kind));
+  addDeckLabel(group, targetBank.label, 0, -1.7, 2.5, 0.24, 0);
 };
 
 const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {

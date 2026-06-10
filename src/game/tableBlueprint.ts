@@ -51,6 +51,13 @@ export interface TargetDevice extends SensorZone {
   decalColor: number;
 }
 
+export interface TargetBankHardware {
+  id: string;
+  label: string;
+  frameSegments: Segment[];
+  posts: Post[];
+}
+
 export interface LaneDevice extends SensorZone {
   label: string;
   clearance: number;
@@ -258,6 +265,7 @@ export interface TableBlueprint {
   flippers: FlipperDevice[];
   slings: SlingDevice[];
   bumpers: PopBumperDevice[];
+  targetBank: TargetBankHardware;
   targets: TargetDevice[];
   saucers: SaucerDevice[];
   ramps: RampPath[];
@@ -590,6 +598,22 @@ export const silverballSocialBlueprint: TableBlueprint = {
       ]
     }
   ],
+  targetBank: {
+    id: "target-bank.social",
+    label: "SOCIAL",
+    frameSegments: [
+      { id: "target-bank.frame-top-rail", x: 0, z: -3.02, width: 3.18, depth: 0.07, kind: "metal" },
+      { id: "target-bank.frame-bottom-rail", x: 0, z: -2.14, width: 3.0, depth: 0.06, kind: "metal" },
+      { id: "target-bank.frame-left-cheek", x: -1.68, z: -2.58, width: 0.06, depth: 0.78, angle: 0.16, kind: "metal" },
+      { id: "target-bank.frame-right-cheek", x: 1.68, z: -2.58, width: 0.06, depth: 0.78, angle: -0.16, kind: "metal" }
+    ],
+    posts: [
+      { id: "target-bank.post-left-upper", x: -1.64, z: -2.98, radius: 0.07, kind: "metal" },
+      { id: "target-bank.post-left-lower", x: -1.54, z: -2.18, radius: 0.07, kind: "metal" },
+      { id: "target-bank.post-right-upper", x: 1.64, z: -2.98, radius: 0.07, kind: "metal" },
+      { id: "target-bank.post-right-lower", x: 1.54, z: -2.18, radius: 0.07, kind: "metal" }
+    ]
+  },
   targets: [
     {
       id: "target-bank-1",
@@ -948,7 +972,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["orbit.left.entry", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
     { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["ramp.left.entry", "ramp.left.exit", "wireform.left-return.exit"] },
-    { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["target-bank-1", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.rear-stop"] },
+    { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["lock.saucer", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
     { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit"] },
     { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.shooter.skill", "rollover.shooter.skill"] }
