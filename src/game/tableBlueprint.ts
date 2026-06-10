@@ -446,6 +446,7 @@ export interface RampPath {
   floorThickness: number;
   sideRailHeight: number;
   sideRailOffset: number;
+  sideWalls: RampSideWall[];
   sideRails: RampSideRail[];
   crossBraces: RampCrossBrace[];
   entranceLip: RampEntranceLip;
@@ -453,6 +454,33 @@ export interface RampPath {
   entry: SensorZone;
   exit: SensorZone;
   returnSide: "left" | "right";
+}
+
+export interface RampSideWall {
+  id: string;
+  targetId: string;
+  side: "left" | "right";
+  x: number;
+  z: number;
+  width: number;
+  depth: number;
+  angle: number;
+  pitch: number;
+  startY: number;
+  endY: number;
+  height: number;
+  fasteners: RampSideWallFastener[];
+  kind: "plastic";
+}
+
+export interface RampSideWallFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface RampSideRail {
@@ -1380,13 +1408,55 @@ const withRampEntranceLipFasteners = (
 };
 
 const withRampSideRails = (
-  ramp: Omit<RampPath, "sideRails" | "crossBraces">
+  ramp: Omit<RampPath, "sideWalls" | "sideRails" | "crossBraces">
 ): RampPath => {
   const rise = ramp.endY - ramp.startY;
   const pitch = Math.atan2(rise, ramp.depth);
   const slopedDepth = Math.hypot(ramp.depth, rise);
+  const wallHeight = Math.min(ramp.sideRailHeight * 0.68, 0.31);
+  const wallStartY = ramp.startY + ramp.floorThickness / 2 + wallHeight / 2;
+  const wallEndY = ramp.endY + ramp.floorThickness / 2 + wallHeight / 2;
   const railStartY = ramp.startY + ramp.floorThickness / 2 + ramp.sideRailHeight / 2;
   const railEndY = ramp.endY + ramp.floorThickness / 2 + ramp.sideRailHeight / 2;
+  const makeWall = (side: "left" | "right", offset: number): RampSideWall => {
+    const point = rampSidePoint(ramp, offset);
+    const wall: Omit<RampSideWall, "fasteners"> = {
+      id: `${ramp.id}.side-wall.${side}`,
+      targetId: ramp.id,
+      side,
+      x: point.x,
+      z: point.z,
+      width: 0.045,
+      depth: slopedDepth * 0.95,
+      angle: ramp.angle,
+      pitch,
+      startY: wallStartY,
+      endY: wallEndY,
+      height: wallHeight,
+      kind: "plastic"
+    };
+    const rivetPositions = [
+      { name: "lower", localZ: slopedDepth * 0.34 },
+      { name: "mid", localZ: 0 },
+      { name: "upper", localZ: -slopedDepth * 0.34 }
+    ];
+
+    return {
+      ...wall,
+      fasteners: rivetPositions.map(({ name, localZ }) => {
+        const progress = 0.5 - localZ / slopedDepth;
+        return {
+          id: `${wall.id}.rivet-${name}`,
+          targetId: wall.id,
+          x: wall.x + Math.sin(wall.angle) * localZ,
+          y: wall.startY + (wall.endY - wall.startY) * progress + wall.height / 2 + 0.01,
+          z: wall.z + Math.cos(wall.angle) * localZ,
+          radius: 0.022,
+          kind: "metal"
+        };
+      })
+    };
+  };
   const makeRail = (side: "left" | "right", offset: number): RampSideRail => {
     const point = rampSidePoint(ramp, offset);
     const rail: Omit<RampSideRail, "fasteners"> = {
@@ -1470,6 +1540,10 @@ const withRampSideRails = (
 
   return {
     ...ramp,
+    sideWalls: [
+      makeWall("left", -ramp.sideRailOffset * 0.9),
+      makeWall("right", ramp.sideRailOffset * 0.9)
+    ],
     sideRails: [
       makeRail("left", -ramp.sideRailOffset),
       makeRail("right", ramp.sideRailOffset)
@@ -3294,7 +3368,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
   },
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "handoff.left-orbit-entry.inner-guide", "handoff.left-orbit-entry.outer-guide", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
-    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.side-rail.left", "ramp.left.side-rail.right", "ramp.left.cross-brace.lower", "ramp.left.cross-brace.mid", "ramp.left.cross-brace.upper", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.upper.rail-left", "wireform.left-return.upper.rail-right", "wireform.left-return.lower.rail-left", "wireform.left-return.lower.rail-right", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
+    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.side-wall.left", "ramp.left.side-wall.right", "ramp.left.side-rail.left", "ramp.left.side-rail.right", "ramp.left.cross-brace.lower", "ramp.left.cross-brace.mid", "ramp.left.cross-brace.upper", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.upper.rail-left", "wireform.left-return.upper.rail-right", "wireform.left-return.lower.rail-left", "wireform.left-return.lower.rail-right", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.mount-plate", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.mount-plate", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.mount-plate", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.mount-plate", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.mount-plate", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
     { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "handoff.right-orbit-entry.inner-guide", "handoff.right-orbit-entry.outer-guide", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.upper.rail-left", "wireform.right-orbit-return.upper.rail-right", "wireform.right-orbit-return.lower.rail-left", "wireform.right-orbit-return.lower.rail-right", "wireform.right-orbit-return.exit", "handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"] },
