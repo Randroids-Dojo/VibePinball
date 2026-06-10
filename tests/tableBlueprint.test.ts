@@ -99,6 +99,7 @@ describe("Silverball Social physical board blueprint", () => {
 
   it("models wireform returns as elevated rail pairs with supports", () => {
     const ballDiameter = blueprint.scale.ballRadius * 2;
+    const railHalfWidth = 0.025;
 
     expect(blueprint.wireforms.map((wireform) => wireform.id)).toEqual(
       expect.arrayContaining(["wireform.left-return", "wireform.right-orbit-return"])
@@ -108,7 +109,8 @@ describe("Silverball Social physical board blueprint", () => {
       expect(wireform.railY).toBeGreaterThanOrEqual(0.85);
       expect(wireform.railY).toBeLessThanOrEqual(1.45);
       expect(wireform.railHeight).toBeGreaterThan(0);
-      expect(wireform.railOffset * 2).toBeGreaterThanOrEqual(ballDiameter * 0.8);
+      expect(wireform.railOffset).toBeGreaterThan(blueprint.scale.ballRadius + railHalfWidth);
+      expect(wireform.railOffset * 2 - railHalfWidth * 2).toBeGreaterThan(ballDiameter);
       expect(wireform.tieWidth).toBeGreaterThan(wireform.railOffset * 2);
       expect(wireform.segments.length).toBeGreaterThanOrEqual(2);
       expect(wireform.supports.length).toBeGreaterThanOrEqual(3);

@@ -523,8 +523,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
       label: "Left ramp return",
       railY: 1.08,
       railHeight: 0.22,
-      railOffset: 0.18,
-      tieWidth: 0.42,
+      railOffset: 0.25,
+      tieWidth: 0.56,
       exit: { id: "wireform.left-return.exit", x: -2.18, z: 4.86, radius: 0.4 },
       segments: [
         { id: "wireform.left-return.upper", x: -2.72, z: -1.4, width: 0.08, depth: 2.9, angle: -0.2, kind: "wire" },
@@ -541,8 +541,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
       label: "Right orbit return",
       railY: 1.16,
       railHeight: 0.24,
-      railOffset: 0.2,
-      tieWidth: 0.46,
+      railOffset: 0.26,
+      tieWidth: 0.58,
       exit: { id: "wireform.right-orbit-return.exit", x: 2.18, z: 4.86, radius: 0.4 },
       segments: [
         { id: "wireform.right-orbit-return.upper", x: 2.88, z: -3.2, width: 0.08, depth: 3.3, angle: 0.22, kind: "wire" },
