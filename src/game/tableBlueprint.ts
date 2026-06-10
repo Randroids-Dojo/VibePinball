@@ -39,6 +39,7 @@ export interface CabinetHardware {
   glassRims: Segment[];
   glassPanel: CabinetGlassPanel;
   lockdownBar: Segment;
+  fasteners: CabinetFastener[];
   dmdPanel: CabinetDisplayPanel;
   speakerGrilles: SpeakerGrille[];
 }
@@ -78,6 +79,16 @@ export interface CabinetGlassPanel {
   color: number;
   opacity: number;
   kind: "glass";
+}
+
+export interface CabinetFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface SpeakerGrille {
@@ -575,6 +586,26 @@ export const silverballSocialBlueprint: TableBlueprint = {
       kind: "glass"
     },
     lockdownBar: { id: "cabinet.lockdown-bar", x: 0, z: 7.68, width: 4.9, depth: 0.22, kind: "metal" },
+    fasteners: [
+      { id: "cabinet.left-side-rail.screw-lower", targetId: "cabinet.left-side-rail", x: -4.32, y: 0.81, z: 5.92, radius: 0.055, kind: "metal" },
+      { id: "cabinet.left-side-rail.screw-mid-lower", targetId: "cabinet.left-side-rail", x: -4.32, y: 0.81, z: 2.08, radius: 0.055, kind: "metal" },
+      { id: "cabinet.left-side-rail.screw-mid-upper", targetId: "cabinet.left-side-rail", x: -4.32, y: 0.81, z: -2.02, radius: 0.055, kind: "metal" },
+      { id: "cabinet.left-side-rail.screw-upper", targetId: "cabinet.left-side-rail", x: -4.32, y: 0.81, z: -5.88, radius: 0.055, kind: "metal" },
+      { id: "cabinet.right-side-rail.screw-lower", targetId: "cabinet.right-side-rail", x: 4.32, y: 0.81, z: 5.92, radius: 0.055, kind: "metal" },
+      { id: "cabinet.right-side-rail.screw-mid-lower", targetId: "cabinet.right-side-rail", x: 4.32, y: 0.81, z: 2.08, radius: 0.055, kind: "metal" },
+      { id: "cabinet.right-side-rail.screw-mid-upper", targetId: "cabinet.right-side-rail", x: 4.32, y: 0.81, z: -2.02, radius: 0.055, kind: "metal" },
+      { id: "cabinet.right-side-rail.screw-upper", targetId: "cabinet.right-side-rail", x: 4.32, y: 0.81, z: -5.88, radius: 0.055, kind: "metal" },
+      { id: "cabinet.left-glass-rim.screw-lower", targetId: "cabinet.left-glass-rim", x: -3.86, y: 0.88, z: 5.42, radius: 0.038, kind: "metal" },
+      { id: "cabinet.left-glass-rim.screw-center", targetId: "cabinet.left-glass-rim", x: -3.86, y: 0.88, z: 0.1, radius: 0.038, kind: "metal" },
+      { id: "cabinet.left-glass-rim.screw-upper", targetId: "cabinet.left-glass-rim", x: -3.86, y: 0.88, z: -5.22, radius: 0.038, kind: "metal" },
+      { id: "cabinet.right-glass-rim.screw-lower", targetId: "cabinet.right-glass-rim", x: 3.86, y: 0.88, z: 5.42, radius: 0.038, kind: "metal" },
+      { id: "cabinet.right-glass-rim.screw-center", targetId: "cabinet.right-glass-rim", x: 3.86, y: 0.88, z: 0.1, radius: 0.038, kind: "metal" },
+      { id: "cabinet.right-glass-rim.screw-upper", targetId: "cabinet.right-glass-rim", x: 3.86, y: 0.88, z: -5.22, radius: 0.038, kind: "metal" },
+      { id: "cabinet.lockdown-bar.screw-left", targetId: "cabinet.lockdown-bar", x: -1.95, y: 0.67, z: 7.68, radius: 0.06, kind: "metal" },
+      { id: "cabinet.lockdown-bar.screw-center-left", targetId: "cabinet.lockdown-bar", x: -0.65, y: 0.67, z: 7.68, radius: 0.06, kind: "metal" },
+      { id: "cabinet.lockdown-bar.screw-center-right", targetId: "cabinet.lockdown-bar", x: 0.65, y: 0.67, z: 7.68, radius: 0.06, kind: "metal" },
+      { id: "cabinet.lockdown-bar.screw-right", targetId: "cabinet.lockdown-bar", x: 1.95, y: 0.67, z: 7.68, radius: 0.06, kind: "metal" }
+    ],
     dmdPanel: {
       id: "cabinet.dmd-panel",
       label: "SILVERBALL SOCIAL",
