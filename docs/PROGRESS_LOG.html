@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="skill-shot-plunger-housing-fasteners" data-date="2026-06-10">
+    <h3>Skill Shot Plunger Housing Fasteners</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/skill-shot-plunger-housing-fasteners</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>linked the skill-shot path to the authored plunger housing and screw IDs so the lower launch lane references the metal cabinet hardware that frames the plunger assembly.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
+      <dt>Assumptions</dt><dd>The plunger housing and screws belong to the skill-shot path because they physically mount the lower launch assembly before the ball exits into the shooter lane.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-010</code>, <code>REQ-017</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="skill-shot-lower-guide-fasteners" data-date="2026-06-10">
     <h3>Skill Shot Lower Guide Fasteners</h3>
     <dl>
