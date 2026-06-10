@@ -737,6 +737,9 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
       expect.arrayContaining(["wireform.right-orbit-return.upper.rail-left", "wireform.right-orbit-return.lower.rail-right"])
     );
+    expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
+      expect.arrayContaining((rightReturn?.rails ?? []).flatMap((rail) => rail.fasteners.map((fastener) => fastener.id)))
+    );
   });
 
   it("models pop bumpers with separate skirts and caps", () => {
