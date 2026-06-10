@@ -454,6 +454,30 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.handoffs.flatMap((handoff) => handoff.segments).every((segment) => segment.kind !== "plastic")).toBe(true);
   });
 
+  it("models the painted playfield deck and major shot decals as authored board details", () => {
+    const artById = new Map(blueprint.playfieldArt.map((item) => [item.id, item]));
+
+    expect(artById.get("playfield.art.base-teal")?.kind).toBe("zone");
+    expect(artById.get("playfield.art.base-teal")?.width).toBeGreaterThan(blueprint.scale.playfieldWidth * 0.85);
+    expect(artById.get("playfield.art.base-teal")?.depth).toBeGreaterThan(blueprint.scale.playfieldLength * 0.8);
+    expect(artById.get("playfield.art.bumper-burst")?.kind).toBe("zone");
+    expect(artById.get("playfield.art.left-lane-stripe")?.kind).toBe("stripe");
+    expect(artById.get("playfield.art.right-lane-stripe")?.kind).toBe("stripe");
+    expect(artById.get("playfield.art.left-ramp-arrow")?.kind).toBe("arrow");
+    expect(artById.get("playfield.art.left-orbit-arrow")?.kind).toBe("arrow");
+    expect(artById.get("playfield.art.right-orbit-arrow")?.kind).toBe("arrow");
+    expect(artById.get("playfield.art.lock-label")?.label).toBe("LOCK");
+    expect(artById.get("playfield.art.social-sweep")?.label).toBe("SOCIAL");
+
+    for (const art of blueprint.playfieldArt) {
+      expect(Math.abs(art.x) + art.width / 2, art.id).toBeLessThanOrEqual(blueprint.scale.playfieldWidth / 2);
+      expect(Math.abs(art.z) + art.depth / 2, art.id).toBeLessThanOrEqual(blueprint.scale.playfieldLength / 2);
+      expect(art.layerY, art.id).toBeGreaterThanOrEqual(0);
+      expect(art.layerY, art.id).toBeLessThanOrEqual(0.06);
+      expect(art.color, art.id).toBeGreaterThan(0);
+    }
+  });
+
   it("keeps lane clearances compatible with the physical ball radius", () => {
     const minClearance = blueprint.scale.ballRadius * 2 * 1.35;
     const maxClearance = blueprint.scale.ballRadius * 2 * 2.5;
@@ -529,6 +553,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.orbits.flatMap((orbit) => [orbit.id, orbit.entry.id, orbit.exit.id]),
       ...blueprint.plastics.map((item) => item.id),
       ...blueprint.plastics.flatMap((item) => item.standoffs.map((standoff) => standoff.id)),
+      ...blueprint.playfieldArt.map((item) => item.id),
       ...blueprint.lampInserts.map((item) => item.id),
       blueprint.plunger.id,
       blueprint.plunger.laneGroove.id,

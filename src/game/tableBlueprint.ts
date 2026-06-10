@@ -339,6 +339,19 @@ export interface PlasticStandoff {
   kind: "metal";
 }
 
+export interface PlayfieldArt {
+  id: string;
+  label: string;
+  x: number;
+  z: number;
+  width: number;
+  depth: number;
+  angle?: number;
+  color: number;
+  layerY: number;
+  kind: "zone" | "stripe" | "arrow" | "label";
+}
+
 export interface LampInsert {
   id: string;
   label: string;
@@ -409,6 +422,7 @@ export interface TableBlueprint {
   orbits: OrbitPath[];
   drain: DrainDevice;
   plastics: PlasticCover[];
+  playfieldArt: PlayfieldArt[];
   lampInserts: LampInsert[];
   plunger: PlungerDevice;
   shots: ShotPath[];
@@ -1300,6 +1314,112 @@ export const silverballSocialBlueprint: TableBlueprint = {
       ]
     }
   ],
+  playfieldArt: [
+    {
+      id: "playfield.art.base-teal",
+      label: "Silverball Social deck",
+      x: 0,
+      z: 0,
+      width: 7.42,
+      depth: 14.55,
+      color: 0x2b6b5e,
+      layerY: 0.005,
+      kind: "zone"
+    },
+    {
+      id: "playfield.art.bumper-burst",
+      label: "Bumper nest burst",
+      x: 0,
+      z: -4.72,
+      width: 3.2,
+      depth: 1.62,
+      color: 0x8ddcbd,
+      layerY: 0.025,
+      kind: "zone"
+    },
+    {
+      id: "playfield.art.left-lane-stripe",
+      label: "Left lane save",
+      x: -2.64,
+      z: 4.94,
+      width: 1.9,
+      depth: 0.24,
+      angle: -0.24,
+      color: 0xf1c453,
+      layerY: 0.035,
+      kind: "stripe"
+    },
+    {
+      id: "playfield.art.right-lane-stripe",
+      label: "Right lane save",
+      x: 2.64,
+      z: 4.94,
+      width: 1.9,
+      depth: 0.24,
+      angle: 0.24,
+      color: 0xf1c453,
+      layerY: 0.035,
+      kind: "stripe"
+    },
+    {
+      id: "playfield.art.left-ramp-arrow",
+      label: "RAMP",
+      x: -1.78,
+      z: 1.04,
+      width: 0.72,
+      depth: 0.42,
+      angle: -0.22,
+      color: 0x9fd0ff,
+      layerY: 0.045,
+      kind: "arrow"
+    },
+    {
+      id: "playfield.art.left-orbit-arrow",
+      label: "ORBIT",
+      x: -3.02,
+      z: 0.54,
+      width: 0.74,
+      depth: 0.42,
+      angle: -0.08,
+      color: 0x76ff8f,
+      layerY: 0.045,
+      kind: "arrow"
+    },
+    {
+      id: "playfield.art.right-orbit-arrow",
+      label: "ORBIT",
+      x: 3.02,
+      z: 0.54,
+      width: 0.74,
+      depth: 0.42,
+      angle: 0.08,
+      color: 0x76ff8f,
+      layerY: 0.045,
+      kind: "arrow"
+    },
+    {
+      id: "playfield.art.lock-label",
+      label: "LOCK",
+      x: 0.92,
+      z: -3.92,
+      width: 0.86,
+      depth: 0.32,
+      color: 0xff4b4b,
+      layerY: 0.045,
+      kind: "label"
+    },
+    {
+      id: "playfield.art.social-sweep",
+      label: "SOCIAL",
+      x: 0,
+      z: -1.84,
+      width: 2.8,
+      depth: 0.34,
+      color: 0xffd56f,
+      layerY: 0.04,
+      kind: "label"
+    }
+  ],
   lampInserts: [
     { id: "insert.bonus-1", label: "Bonus 1", x: -0.66, z: 2.72, radius: 0.14, color: 0xffe08a, shape: "circle" },
     { id: "insert.bonus-2", label: "Bonus 2", x: 0, z: 2.55, radius: 0.14, color: 0xffe08a, shape: "circle" },
@@ -1332,11 +1452,11 @@ export const silverballSocialBlueprint: TableBlueprint = {
     gate: { id: "shooter.one-way-gate", x: 3.06, z: -5.78, width: 0.66, depth: 0.08, angle: 0.34, kind: "metal" }
   },
   shots: [
-    { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["orbit.left.entry", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
-    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["ramp.left.entry", "ramp.left.exit", "wireform.left-return.exit"] },
-    { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.rear-stop"] },
-    { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
-    { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit"] },
+    { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
+    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.exit", "wireform.left-return.exit"] },
+    { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.rear-stop"] },
+    { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
+    { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit"] },
     { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.shooter.skill", "rollover.shooter.skill"] }
   ]
 };

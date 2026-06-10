@@ -10,6 +10,7 @@ import {
   type LampInsert,
   type LaneGuideCover,
   type FlipperDevice,
+  type PlayfieldArt,
   type PlasticCover,
   type PlungerDevice,
   type Post,
@@ -68,12 +69,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   playfield.receiveShadow = true;
   group.add(playfield);
 
-  const art = mesh(
-    new THREE.BoxGeometry(7.42, 0.035, 14.55),
-    new THREE.MeshStandardMaterial({ color: 0x2b6b5e, roughness: 0.42, metalness: 0.02 })
-  );
-  art.position.y = 0;
-  group.add(art);
+  blueprint.playfieldArt.forEach((item) => addPlayfieldArt(group, item));
 
   blueprint.boundaries.forEach((segment) => addSegment(group, segment, 0.28));
   blueprint.laneWalls.forEach((segment) => addSegment(group, segment, 0.36));
@@ -448,6 +444,47 @@ const addLampInsert = (group: THREE.Group, insert: LampInsert) => {
   arrow.position.set(insert.x, 0.055, insert.z);
   arrow.rotation.y = Math.PI;
   group.add(arrow);
+};
+
+const addPlayfieldArt = (group: THREE.Group, art: PlayfieldArt) => {
+  if (art.kind === "arrow") {
+    const arrow = mesh(
+      new THREE.ConeGeometry(art.width / 2, 0.055, 3),
+      new THREE.MeshStandardMaterial({
+        color: art.color,
+        emissive: art.color,
+        emissiveIntensity: 0.1,
+        roughness: 0.38,
+        metalness: 0.01
+      })
+    );
+    arrow.position.set(art.x, art.layerY, art.z);
+    arrow.rotation.y = Math.PI + (art.angle ?? 0);
+    group.add(arrow);
+    addDeckLabel(group, art.label, art.x, art.z + art.depth * 0.62, art.width * 1.25, art.depth * 0.34, art.angle ?? 0, art.layerY + 0.018);
+    return;
+  }
+
+  const geometry = art.kind === "zone"
+    ? new THREE.BoxGeometry(art.width, 0.026, art.depth)
+    : new THREE.BoxGeometry(art.width, 0.028, art.depth);
+  const deckArt = mesh(
+    geometry,
+    new THREE.MeshStandardMaterial({
+      color: art.color,
+      emissive: art.color,
+      emissiveIntensity: art.kind === "zone" ? 0.02 : 0.08,
+      roughness: 0.44,
+      metalness: 0.01
+    })
+  );
+  deckArt.position.set(art.x, art.layerY, art.z);
+  deckArt.rotation.y = art.angle ?? 0;
+  group.add(deckArt);
+
+  if (art.kind === "label" || art.kind === "stripe") {
+    addDeckLabel(group, art.label, art.x, art.z, art.width * 0.82, art.depth * 0.72, art.angle ?? 0, art.layerY + 0.02);
+  }
 };
 
 const addRing = (group: THREE.Group, x: number, z: number, radius: number, tubeRadius: number, color: number) => {
