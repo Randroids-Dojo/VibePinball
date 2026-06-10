@@ -504,6 +504,7 @@ export interface RampSupport {
   cap: RampSupportCap;
   foot: ElevatedSupportFoot;
   collar: ElevatedSupportCollar;
+  saddle: ElevatedSupportSaddle;
   kind: "metal";
 }
 
@@ -541,6 +542,27 @@ export interface ElevatedSupportCollar {
   kind: "metal";
 }
 
+export interface ElevatedSupportSaddle {
+  id: string;
+  targetId: string;
+  y: number;
+  width: number;
+  depth: number;
+  height: number;
+  angle: number;
+  fasteners: ElevatedSupportSaddleFastener[];
+  kind: "metal";
+}
+
+export interface ElevatedSupportSaddleFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
 export const rampSidePoint = (ramp: Pick<RampPath, "x" | "z" | "angle">, offset: number) => ({
   x: ramp.x + Math.cos(ramp.angle) * offset,
   z: ramp.z - Math.sin(ramp.angle) * offset
@@ -548,9 +570,12 @@ export const rampSidePoint = (ramp: Pick<RampPath, "x" | "z" | "angle">, offset:
 
 const withElevatedSupportMounts = <Support extends { id: string; x: number; z: number; height: number; radius: number }>(
   support: Support
-): Support & { foot: ElevatedSupportFoot; collar: ElevatedSupportCollar } => {
+): Support & { foot: ElevatedSupportFoot; collar: ElevatedSupportCollar; saddle: ElevatedSupportSaddle } => {
   const plateRadius = Math.max(support.radius * 2.6, 0.12);
   const collarHeight = 0.052;
+  const saddleWidth = Math.max(support.radius * 5.2, 0.24);
+  const saddleDepth = Math.max(support.radius * 1.55, 0.074);
+  const saddleHeight = 0.03;
 
   return {
     ...support,
@@ -585,6 +610,34 @@ const withElevatedSupportMounts = <Support extends { id: string; x: number; z: n
       y: support.height - collarHeight / 2,
       radius: Math.max(support.radius * 1.72, 0.072),
       height: collarHeight,
+      kind: "metal"
+    },
+    saddle: {
+      id: `${support.id}.saddle`,
+      targetId: support.id,
+      y: support.height + saddleHeight / 2,
+      width: saddleWidth,
+      depth: saddleDepth,
+      height: saddleHeight,
+      angle: 0,
+      fasteners: [
+        {
+          id: `${support.id}.saddle.screw-left`,
+          targetId: `${support.id}.saddle`,
+          x: support.x - saddleWidth * 0.32,
+          z: support.z,
+          radius: 0.022,
+          kind: "metal"
+        },
+        {
+          id: `${support.id}.saddle.screw-right`,
+          targetId: `${support.id}.saddle`,
+          x: support.x + saddleWidth * 0.32,
+          z: support.z,
+          radius: 0.022,
+          kind: "metal"
+        }
+      ],
       kind: "metal"
     }
   };
@@ -669,6 +722,7 @@ export interface WireformSupport {
   cap: WireformSupportCap;
   foot: ElevatedSupportFoot;
   collar: ElevatedSupportCollar;
+  saddle: ElevatedSupportSaddle;
   kind: "metal";
 }
 

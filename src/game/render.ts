@@ -10,6 +10,7 @@ import {
   type DrainGuide,
   type ElevatedSupportCollar,
   type ElevatedSupportFoot,
+  type ElevatedSupportSaddle,
   type FlipperStop,
   type HandoffSegment,
   type LampInsert,
@@ -355,6 +356,7 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
     group.add(supportMesh);
 
     addElevatedSupportCollar(group, support.x, support.z, support.collar);
+    addElevatedSupportSaddle(group, support.x, support.z, support.saddle);
 
     const cap = mesh(
       new THREE.CylinderGeometry(support.cap.radius, support.cap.radius, support.cap.height, 18),
@@ -727,6 +729,7 @@ const addWireformPath = (group: THREE.Group, wireform: WireformPath) => {
     group.add(supportMesh);
 
     addElevatedSupportCollar(group, support.x, support.z, support.collar);
+    addElevatedSupportSaddle(group, support.x, support.z, support.saddle);
 
     const supportCap = mesh(
       new THREE.CylinderGeometry(support.cap.radius, support.cap.radius, support.cap.height, 18),
@@ -791,6 +794,30 @@ const addElevatedSupportCollar = (
   );
   ring.position.set(x, collar.y, z);
   group.add(ring);
+};
+
+const addElevatedSupportSaddle = (
+  group: THREE.Group,
+  x: number,
+  z: number,
+  saddle: ElevatedSupportSaddle
+) => {
+  const bracket = mesh(
+    new THREE.BoxGeometry(saddle.width, saddle.height, saddle.depth),
+    new THREE.MeshStandardMaterial({ color: 0xcad2d5, roughness: 0.18, metalness: 0.86 })
+  );
+  bracket.position.set(x, saddle.y, z);
+  bracket.rotation.y = saddle.angle;
+  group.add(bracket);
+
+  saddle.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
+      new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, saddle.y + saddle.height / 2 + 0.006, fastener.z);
+    group.add(screw);
+  });
 };
 
 const addPlasticCover = (
