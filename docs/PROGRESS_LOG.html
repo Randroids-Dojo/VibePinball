@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="pop-bumper-lamp-lenses" data-date="2026-06-10">
+    <h3>Pop Bumper Lamp Lenses</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/pop-bumper-lamp-lenses</code></dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/74">PR 74</a></dd>
+      <dt>Changed</dt><dd>added authored clear plastic lamp lens records to all three pop bumper caps so the upper bumper nest reads as capped lamp hardware instead of only emissive cap material.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright canvas readback at <code>1400x900</code> returned <code>1,260,000</code> nonblack and <code>1,260,000</code> nonTransparent pixels.</dd>
+      <dt>Assumptions</dt><dd>The pop bumper lamp lenses are visual cap hardware and do not need physics colliders because the existing cap and skirt colliders remain the active bumper geometry.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-009</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/06-camera-and-rendering.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="target-face-plates" data-date="2026-06-10">
     <h3>Target Face Plates</h3>
     <dl>

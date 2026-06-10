@@ -654,6 +654,14 @@ describe("Silverball Social physical board blueprint", () => {
       expect(bumper.chromeRing.radius).toBeCloseTo(bumper.radius);
       expect(bumper.chromeRing.radius).toBeGreaterThan(bumper.skirtRadius);
       expect(bumper.chromeRing.tubeRadius).toBeGreaterThan(0);
+      expect(bumper.lampLens.id).toBe(`${bumper.id}.lamp-lens`);
+      expect(bumper.lampLens.kind).toBe("clear-plastic");
+      expect(bumper.lampLens.x).toBeCloseTo(bumper.x);
+      expect(bumper.lampLens.z).toBeCloseTo(bumper.z);
+      expect(bumper.lampLens.radius).toBeGreaterThan(0.12);
+      expect(bumper.lampLens.radius).toBeLessThan(bumper.capRadius);
+      expect(bumper.lampLens.height).toBeGreaterThan(0);
+      expect(bumper.lampLens.color).toBeGreaterThan(0);
       expect(bumper.capFasteners).toHaveLength(3);
       for (const fastener of bumper.capFasteners) {
         expect(fastener.id.startsWith(`${bumper.id}.cap-screw-`), fastener.id).toBe(true);
@@ -1285,6 +1293,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.bumpers.flatMap((item) => [
         item.id,
         item.chromeRing.id,
+        item.lampLens.id,
         ...item.capFasteners.map((fastener) => fastener.id),
         ...item.ringPostIds,
         ...item.guardSegments.map((segment) => segment.id),
