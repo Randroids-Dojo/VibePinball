@@ -8,6 +8,7 @@ import {
   type CabinetHardware,
   type DrainDevice,
   type DrainGuide,
+  type ElevatedSupportCollar,
   type ElevatedSupportFoot,
   type FlipperStop,
   type HandoffSegment,
@@ -352,6 +353,8 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
     );
     supportMesh.position.set(support.x, support.height / 2, support.z);
     group.add(supportMesh);
+
+    addElevatedSupportCollar(group, support.x, support.z, support.collar);
 
     const cap = mesh(
       new THREE.CylinderGeometry(support.cap.radius, support.cap.radius, support.cap.height, 18),
@@ -723,6 +726,8 @@ const addWireformPath = (group: THREE.Group, wireform: WireformPath) => {
     supportMesh.position.set(support.x, support.height / 2, support.z);
     group.add(supportMesh);
 
+    addElevatedSupportCollar(group, support.x, support.z, support.collar);
+
     const supportCap = mesh(
       new THREE.CylinderGeometry(support.cap.radius, support.cap.radius, support.cap.height, 18),
       new THREE.MeshStandardMaterial({ color: 0xe0e7e8, roughness: 0.16, metalness: 0.88 })
@@ -772,6 +777,20 @@ const addElevatedSupportFoot = (
     screw.position.set(fastener.x, 0.112, fastener.z);
     group.add(screw);
   });
+};
+
+const addElevatedSupportCollar = (
+  group: THREE.Group,
+  x: number,
+  z: number,
+  collar: ElevatedSupportCollar
+) => {
+  const ring = mesh(
+    new THREE.CylinderGeometry(collar.radius, collar.radius, collar.height, 20),
+    new THREE.MeshStandardMaterial({ color: 0xd6dde0, roughness: 0.18, metalness: 0.86 })
+  );
+  ring.position.set(x, collar.y, z);
+  group.add(ring);
 };
 
 const addPlasticCover = (

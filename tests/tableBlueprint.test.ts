@@ -437,6 +437,13 @@ describe("Silverball Social physical board blueprint", () => {
       expect(support.foot.fasteners.every((fastener) => fastener.targetId === support.foot.id)).toBe(true);
       expect(support.foot.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
       expect(support.foot.fasteners.every((fastener) => fastener.radius >= 0.026)).toBe(true);
+      expect(support.collar.id).toBe(`${support.id}.collar`);
+      expect(support.collar.targetId).toBe(support.id);
+      expect(support.collar.kind).toBe("metal");
+      expect(support.collar.radius).toBeGreaterThan(support.radius);
+      expect(support.collar.height).toBeGreaterThan(0);
+      expect(support.collar.y).toBeGreaterThan(support.height - 0.08);
+      expect(support.collar.y).toBeLessThanOrEqual(support.height);
     }
   });
 
@@ -537,6 +544,13 @@ describe("Silverball Social physical board blueprint", () => {
         expect(support.foot.fasteners.every((fastener) => fastener.targetId === support.foot.id), support.id).toBe(true);
         expect(support.foot.fasteners.every((fastener) => fastener.kind === "metal"), support.id).toBe(true);
         expect(support.foot.fasteners.every((fastener) => fastener.radius >= 0.026), support.id).toBe(true);
+        expect(support.collar.id).toBe(`${support.id}.collar`);
+        expect(support.collar.targetId).toBe(support.id);
+        expect(support.collar.kind).toBe("metal");
+        expect(support.collar.radius).toBeGreaterThan(support.radius);
+        expect(support.collar.height).toBeGreaterThan(0);
+        expect(support.collar.y).toBeGreaterThan(support.height - 0.08);
+        expect(support.collar.y).toBeLessThanOrEqual(support.height);
         expect(support.height + support.cap.height).toBeLessThanOrEqual(wireform.railY + wireform.railHeight);
       }
     }
@@ -1109,6 +1123,7 @@ describe("Silverball Social physical board blueprint", () => {
           support.id,
           support.cap.id,
           support.foot.id,
+          support.collar.id,
           ...support.foot.fasteners.map((fastener) => fastener.id)
         ])
       ]),
@@ -1130,6 +1145,7 @@ describe("Silverball Social physical board blueprint", () => {
           support.id,
           support.cap.id,
           support.foot.id,
+          support.collar.id,
           ...support.foot.fasteners.map((fastener) => fastener.id)
         ])
       ]),
