@@ -481,6 +481,9 @@ describe("Silverball Social physical board blueprint", () => {
     expect(ramp?.entranceLip.fasteners.every((fastener) => fastener.targetId === ramp?.entranceLip.id)).toBe(true);
     expect(ramp?.entranceLip.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
     expect(ramp?.entranceLip.fasteners.every((fastener) => fastener.radius >= 0.032)).toBe(true);
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
+      expect.arrayContaining(["ramp.left", "ramp.left.entrance-lip"])
+    );
     for (const fastener of ramp?.entranceLip.fasteners ?? []) {
       expect(
         Math.hypot(fastener.x - (ramp?.entranceLip.x ?? 0), fastener.z - (ramp?.entranceLip.z ?? 0)),
