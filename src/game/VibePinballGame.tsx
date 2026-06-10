@@ -23,6 +23,7 @@ import {
   startGame,
   toHudState
 } from "./rules";
+import { targetBankSize } from "./tableBlueprint";
 import type { ActionState, GameAction, GameState, HudState } from "./types";
 
 export function VibePinballGame() {
@@ -181,7 +182,11 @@ export function VibePinballGame() {
           </div>
           <div className="status-pill">
             <span>Targets</span>
-            {hud.targets}/3
+            {hud.targets}/{targetBankSize}
+          </div>
+          <div className="status-pill">
+            <span>Locks</span>
+            {hud.locks}/2
           </div>
           <div className="status-pill">
             <span>Tilt</span>

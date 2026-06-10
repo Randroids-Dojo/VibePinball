@@ -31,6 +31,97 @@
 
 <main id="entries">
 
+  <article data-slice="sling-triangle-hardware" data-date="2026-06-10">
+    <h3>Sling Triangle Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/board-blueprint-fidelity</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>made both lower slingshots physically closer to the blueprint by replacing rectangular sling proxies with authored triangular assemblies. The shared table blueprint now stores each sling triangle, rubber face, lit insert, post references, and active impulse normal. Rendering draws triangular plastics, outlines, lamps, and rubber faces, while physics consumes the authored rubber faces and impulse normals.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local browser screenshot at <code>/tmp/vibepinball-sling-triangle-hardware.png</code> confirmed a nonblank WebGL board with triangular sling assemblies visible.</dd>
+      <dt>Assumptions</dt><dd>The triangle dimensions are original Silverball Social hardware approximations tuned to match the reference board density and lower-playfield proportions.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-008</code>, <code>REQ-017</code>, and <code>REQ-083</code> gained stronger implementation and test coverage for triangular sling rubbers, lamped sling inserts, and collider-backed sling faces.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
+  <article data-slice="target-bank-standup-hardware" data-date="2026-06-10">
+    <h3>Target Bank Standup Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/board-blueprint-fidelity</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>made the five-target SOCIAL bank more physically complete by adding rear-stop rubber records and target face decal metadata to every standup. Rendering now draws the rear stops and individual face decals, while physics consumes each rear stop as a rebound collider behind the target face.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local browser screenshot at <code>/tmp/vibepinball-target-bank-standup-hardware.png</code> confirmed a nonblank WebGL board with target face decals and rear-stop hardware visible.</dd>
+      <dt>Assumptions</dt><dd>The target-bank face decals are original Silverball Social letter decals and are not copied from the reference board art.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-011</code>, <code>REQ-017</code>, and <code>REQ-083</code> gained stronger implementation and test coverage for target-bank standup hardware and decals.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
+  <article data-slice="lower-switch-and-flipper-hardware" data-date="2026-06-10">
+    <h3>Lower Switch And Flipper Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/board-blueprint-fidelity</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>added authored rollover wire switches for every lane and rubber flipper return hardware to the shared table blueprint. Rendering now draws the lane switch wires and flipper return stops, while physics consumes the flipper stop rubbers as rebound colliders.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local browser screenshot at <code>/tmp/vibepinball-lower-switch-flipper-hardware.png</code> confirmed a nonblank WebGL board with the added lower switch wires and flipper stop hardware visible.</dd>
+      <dt>Assumptions</dt><dd>Rollover wire switches remain visual switch hardware with lane sensors handling scoring; they do not need ball-blocking colliders.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-008</code>, <code>REQ-017</code>, and <code>REQ-083</code> gained stronger implementation and test coverage for lower rollover switches and flipper return hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
+  <article data-slice="lock-saucer-bowl" data-date="2026-06-10">
+    <h3>Lock Saucer Bowl</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/board-blueprint-fidelity</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>made the lock saucer closer to the physical blueprint by moving bowl walls, entry posts, hold point, eject vector, and eject strength into the shared table definition. Rendering now draws the saucer walls, entry posts, eject guide, and a small represented locked ball in the cup. Physics now briefly captures the ball at the saucer hold point and ejects it along the blueprint vector instead of only applying an immediate point impulse.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local browser screenshot at <code>/tmp/vibepinball-lock-saucer-bowl.png</code> confirmed a nonblank WebGL board with saucer walls, entry posts, an eject guide, and the represented locked ball visible near the target bank.</dd>
+      <dt>Assumptions</dt><dd>The represented locked ball is a visible static table marker for now. Full dynamic multi-ball staging remains a later rules and state slice.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-012</code>, <code>REQ-017</code>, and <code>REQ-083</code> gained stronger implementation and test coverage for lock saucer bowl hardware, hold behavior, and eject geometry.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
+  <article data-slice="orbit-and-bumper-shaping" data-date="2026-06-10">
+    <h3>Orbit And Bumper Shaping</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/board-blueprint-fidelity</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>moved the upper playfield closer to the physical blueprint by replacing single long orbit rails with segmented curved wall chains, adding upper orbit gate hardware, and modeling pop bumpers as separate skirt and cap devices. Rendering now shows red bumper caps, physical skirts, longer orbit wall chains, and upper gates, while physics uses the bumper skirt for hit sensing and the cap for fixed collision.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local browser screenshot at <code>/tmp/vibepinball-orbit-bumper-shaping.png</code> confirmed a nonblank WebGL board with stronger upper orbit walls, upper gates, and separated bumper caps and skirts.</dd>
+      <dt>Assumptions</dt><dd>The segmented cuboid orbit chains are the approved approximation for curved metal guides until a later mesh or convex-hull pass is justified.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-009</code>, <code>REQ-010</code>, <code>REQ-017</code>, and <code>REQ-083</code> gained stronger implementation and test coverage for upper orbit geometry and pop bumper physical layers.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
+  <article data-slice="board-hardware-detail" data-date="2026-06-10">
+    <h3>Board Hardware Detail</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/board-blueprint-fidelity</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>added more physical detail to the shared board blueprint: authored lamp insert records for bonus, ramp, orbit, lock, jackpot, skill-shot, and SOCIAL target-bank positions, plus ramp entry and return handoff hardware. The renderer now draws those lamps, target-bank labels, ramp lip plates, and return guides, while Rapier consumes the handoff segments as fixed colliders.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local browser screenshot at <code>/tmp/vibepinball-board-hardware-detail.png</code> confirmed the rendered board is nonblank and shows the added lamps, labels, ramp lip, and return guides.</dd>
+      <dt>Assumptions</dt><dd>The added insert labels and guide hardware are original Silverball Social table details inspired by the reference board density, not copied decorative art.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-010</code>, <code>REQ-017</code>, and <code>REQ-083</code> gained stronger implementation and test coverage for ramp handoffs, insert detail, and collider-backed shot guides.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until visual browser evidence and playtest feel confirm the full physical-board target.</dd>
+    </dl>
+  </article>
+
+  <article data-slice="board-blueprint-fidelity" data-date="2026-06-10">
+    <h3>Board Blueprint Fidelity</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/board-blueprint-fidelity</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>moved the board toward the physical blueprint by adding a shared <code>silverball-social-v1</code> table definition and using it across render, physics, rules, and tests. The table now carries measured scale, lower lane wall pairs, top rollover lane wall pairs, rubber posts, slings, three pop bumpers, five SOCIAL targets, a lock saucer, center drain and trough, left ramp, orbit entry and exit sensors, right orbit guide, paired raised wireform returns, elevated plastic covers, shooter plunger hardware with a top one-way gate, blueprint-sized ball, capsule-style flippers, and stable shared device IDs.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run build</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run test:smoke</code>; waited Playwright screenshot at <code>/tmp/vibepinball-board-fidelity-plastics.png</code> confirmed the visible board contains lower lanes, top-lane gates, posts, slings, five targets, lock saucer, ramp, orbit guide, paired raised return geometry, capsule-style flippers, drain or trough apron geometry, layered plastics, and shooter hardware.</dd>
+      <dt>Assumptions</dt><dd>This slice improves physical-board fidelity but does not claim final completion of <code>F-003</code>; ramp handoff tuning, orbit shot feel, playfield plastics, and full visual polish still need playtest and browser evidence.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-083</code> moves to <code>partial</code>. Related table-layout, physics, target-bank, lock-device, and collider rows gained implementation and test references.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open as release-blocking until rendered board fidelity and gameplay feel pass visual and playtest review.</dd>
+    </dl>
+  </article>
+
   <article data-slice="physical-board-blueprint" data-date="2026-06-09">
     <h3>Physical Board Blueprint</h3>
     <dl>
