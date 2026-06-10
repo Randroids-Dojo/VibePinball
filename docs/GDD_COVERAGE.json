@@ -7,9 +7,15 @@
       "id": "REQ-001",
       "requirement": "V1 presents VibePinball as one polished 3D web-native table named Silverball Social.",
       "gddRef": "docs/gdd/01-vision-and-pillars.html#pillar-one-table",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "app/page.tsx",
+        "src/game/VibePinballGame.tsx",
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
@@ -25,27 +31,42 @@
       "id": "REQ-003",
       "requirement": "The table visual theme reads as a classic arcade cabinet with league-night Silverball Social flavor.",
       "gddRef": "docs/gdd/01-vision-and-pillars.html#pillar-classic-arcade",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "app/globals.css",
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-004",
       "requirement": "The default camera keeps the playfield readable in a fixed tilted 3D cabinet view.",
       "gddRef": "docs/gdd/01-vision-and-pillars.html#pillar-readable-3d",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-005",
       "requirement": "A normal game targets a 3-5 minute three-ball session with fast restart and clear final score.",
       "gddRef": "docs/gdd/01-vision-and-pillars.html#pillar-streamable-runs",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/rules.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
@@ -61,45 +82,71 @@
       "id": "REQ-007",
       "requirement": "The playfield includes sloped boundaries, side walls, apron, drain, main flippers, inlanes, outlanes, shooter lane, and trough.",
       "gddRef": "docs/gdd/02-table-layout.html#playfield-boundaries",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-008",
       "requirement": "The lower playfield includes flippers, slingshots, inlanes, outlanes, rollover sensors, and central drain.",
       "gddRef": "docs/gdd/02-table-layout.html#lower-playfield",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-009",
       "requirement": "The upper playfield includes bumper nest, rollover lanes, skill-shot lane, and a return path.",
       "gddRef": "docs/gdd/02-table-layout.html#upper-playfield",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-010",
       "requirement": "The table includes at least one aimable ramp and one aimable orbit path.",
       "gddRef": "docs/gdd/02-table-layout.html#ramps-and-orbits",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-011",
       "requirement": "A visible target bank advances lock progress and exposes hit, lit, and completed states.",
       "gddRef": "docs/gdd/02-table-layout.html#target-bank",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/rules.ts",
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
@@ -115,81 +162,126 @@
       "id": "REQ-013",
       "requirement": "The rendered scene includes cabinet, rails, plunger housing, speaker or DMD area, and arcade hall context.",
       "gddRef": "docs/gdd/02-table-layout.html#cabinet-props",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-014",
       "requirement": "The game runs a fixed-step Rapier 3D world with stable table-slope gravity.",
       "gddRef": "docs/gdd/03-physics-simulation.html#rapier-world",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-015",
       "requirement": "The pinball is a dynamic spherical rigid body with tuned restitution, friction, spin, and velocity caps.",
       "gddRef": "docs/gdd/03-physics-simulation.html#ball-body",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-016",
       "requirement": "Flippers transfer physical force through bodies or joints and support held, released, and rapid-tap states.",
       "gddRef": "docs/gdd/03-physics-simulation.html#flipper-actuation",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/input.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-017",
       "requirement": "Walls, posts, rubbers, lanes, rollovers, drain, targets, saucers, ramps, and bumpers use explicit colliders or sensors.",
       "gddRef": "docs/gdd/03-physics-simulation.html#colliders-and-sensors",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-018",
       "requirement": "Bumpers and slingshots apply readable impulses and emit scoring, audio, lamp, and device events.",
       "gddRef": "docs/gdd/03-physics-simulation.html#bumpers-and-slings",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/rules.ts",
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-019",
       "requirement": "The plunger maps analog charge to launch impulse across a useful skill-shot range.",
       "gddRef": "docs/gdd/03-physics-simulation.html#plunger-physics",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-020",
       "requirement": "Nudging applies table-relative impulse and repeated excessive nudges trigger tilt warnings and tilt.",
       "gddRef": "docs/gdd/03-physics-simulation.html#nudge-and-tilt",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/rules.ts"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts",
+        "tests/input.test.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-021",
       "requirement": "Drain and trough logic detects ball loss, counts bonus, serves next ball, and ends completed games.",
       "gddRef": "docs/gdd/03-physics-simulation.html#drain-and-trough",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/rules.ts"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts"
+      ],
       "followupRefs": []
     },
     {
@@ -205,27 +297,44 @@
       "id": "REQ-023",
       "requirement": "Gameplay input is normalized into action state independent of keyboard, touch, or gamepad source.",
       "gddRef": "docs/gdd/04-controls-and-input.html#input-actions",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/input.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/input.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-024",
       "requirement": "Keyboard defaults cover flippers, plunger, nudges, start, pause, restart, confirm, and back.",
       "gddRef": "docs/gdd/04-controls-and-input.html#keyboard-controls",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/input.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/input.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-025",
       "requirement": "Touch controls provide large flipper regions, analog plunger control, and explicit nudge controls.",
       "gddRef": "docs/gdd/04-controls-and-input.html#touch-controls",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/VibePinballGame.tsx",
+        "app/globals.css"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
@@ -241,63 +350,100 @@
       "id": "REQ-027",
       "requirement": "Flipper and plunger input are responsive on the next simulation tick and do not drop quick taps during frame drops.",
       "gddRef": "docs/gdd/04-controls-and-input.html#input-buffering",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/input.ts",
+        "src/game/physics.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/input.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-028",
       "requirement": "Active play controls prevent unsafe browser scrolling or focus loss while menus remain accessible.",
       "gddRef": "docs/gdd/04-controls-and-input.html#focus-and-browser",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/input.ts",
+        "src/game/VibePinballGame.tsx",
+        "app/globals.css"
+      ],
+      "testRefs": [
+        "tests/input.test.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-029",
       "requirement": "The start and pause states show concise device-aware control reminders.",
       "gddRef": "docs/gdd/04-controls-and-input.html#control-reminders",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-030",
       "requirement": "The game runs a three-ball session with bonus after each drain and final score after ball three.",
       "gddRef": "docs/gdd/05-scoring-and-rules.html#three-ball-game",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/rules.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-031",
       "requirement": "Base scoring assigns explicit values to bumpers, slings, lanes, rollovers, targets, ramps, orbits, locks, jackpots, bonus, and multiball.",
       "gddRef": "docs/gdd/05-scoring-and-rules.html#base-scoring",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/rules.ts"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-032",
       "requirement": "Analog launch can award a skill shot through a lit lane and then resets to normal play.",
       "gddRef": "docs/gdd/05-scoring-and-rules.html#skill-shot",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/rules.ts"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-033",
       "requirement": "Completing the target bank advances visible lock qualification state.",
       "gddRef": "docs/gdd/05-scoring-and-rules.html#target-progress",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/rules.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts"
+      ],
       "followupRefs": []
     },
     {
@@ -331,81 +477,125 @@
       "id": "REQ-037",
       "requirement": "Bonus count awards lane, target, bumper, and mode progress after non-tilted drains.",
       "gddRef": "docs/gdd/05-scoring-and-rules.html#bonus-count",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/rules.ts"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-038",
       "requirement": "Tilt disables flippers and scoring for the current ball, cancels bonus, and clears on the next ball.",
       "gddRef": "docs/gdd/05-scoring-and-rules.html#tilt-penalty",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/rules.ts"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-039",
       "requirement": "Default rules tuning is fair but demanding and rewards accurate shots, catches, plunger skill, and nudge discipline.",
       "gddRef": "docs/gdd/05-scoring-and-rules.html#difficulty-target",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/rules.ts"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-040",
       "requirement": "The default camera is fixed and shows the full playfield without chasing the ball.",
       "gddRef": "docs/gdd/06-camera-and-rendering.html#fixed-cabinet-camera",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-041",
       "requirement": "Responsive framing keeps the ball and flippers readable on desktop, tablet, and phone viewports.",
       "gddRef": "docs/gdd/06-camera-and-rendering.html#responsive-framing",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/render.ts",
+        "app/globals.css",
+        "playwright.config.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-042",
       "requirement": "Three.js renders cabinet, playfield, ball, devices, lamps, DMD or HUD, and arcade hall context.",
       "gddRef": "docs/gdd/06-camera-and-rendering.html#three-scene",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/render.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-043",
       "requirement": "Table materials and lighting communicate wood, metal, rubber, plastics, lamps, painted art, and ball reflections without hiding play.",
       "gddRef": "docs/gdd/06-camera-and-rendering.html#materials-and-lighting",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/render.ts",
+        "app/globals.css"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-044",
       "requirement": "The ball remains readable against the playfield during high-speed motion.",
       "gddRef": "docs/gdd/06-camera-and-rendering.html#ball-readability",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-045",
       "requirement": "HUD or DMD shows score, ball number, tilt warnings, lock count, multiball state, and major awards.",
       "gddRef": "docs/gdd/06-camera-and-rendering.html#hud-and-dmd",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/VibePinballGame.tsx",
+        "app/globals.css"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
@@ -424,7 +614,9 @@
       "status": "not_started",
       "implementationRefs": [],
       "testRefs": [],
-      "followupRefs": []
+      "followupRefs": [
+        "F-002"
+      ]
     },
     {
       "id": "REQ-048",
@@ -448,27 +640,45 @@
       "id": "REQ-050",
       "requirement": "Lamps and inserts communicate current objectives, progress, multiball, jackpots, warnings, and bonus count.",
       "gddRef": "docs/gdd/07-audio-and-feedback.html#lamp-feedback",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/render.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-051",
       "requirement": "DMD messages announce start, skill shot, awards, locks, multiball, jackpots, tilt, bonus, game over, and leaderboard eligibility.",
       "gddRef": "docs/gdd/07-audio-and-feedback.html#dmd-messages",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/rules.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-052",
       "requirement": "Major hits combine audio, lamp flash, score or DMD update, and optional impulse without harming ball tracking.",
       "gddRef": "docs/gdd/07-audio-and-feedback.html#hit-feedback",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts",
+        "src/game/rules.ts",
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts",
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
@@ -493,9 +703,15 @@
       "id": "REQ-055",
       "requirement": "Active session state tracks score, ball number, active balls, tilt, locks, multiball, bonus, run start, and table id.",
       "gddRef": "docs/gdd/08-state-and-leaderboard.html#session-state",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/types.ts",
+        "src/game/rules.ts",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts"
+      ],
       "followupRefs": []
     },
     {
@@ -556,54 +772,88 @@
       "id": "REQ-062",
       "requirement": "The app uses Next.js App Router with client-owned simulation and server routes limited to online services.",
       "gddRef": "docs/gdd/09-technical-architecture.html#next-app",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "app/page.tsx",
+        "app/layout.tsx",
+        "src/game/VibePinballGame.tsx"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-063",
       "requirement": "Game logic, physics mapping, scoring, input, persistence, and leaderboard validation use strict TypeScript boundaries.",
       "gddRef": "docs/gdd/09-technical-architecture.html#typescript-boundaries",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/types.ts",
+        "src/game/input.ts",
+        "src/game/physics.ts",
+        "src/game/rules.ts",
+        "tsconfig.json"
+      ],
+      "testRefs": [
+        "tests/input.test.ts",
+        "tests/rules.test.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-064",
       "requirement": "The render module owns Three.js scene setup, assets, materials, camera, resize, and mesh sync.",
       "gddRef": "docs/gdd/09-technical-architecture.html#render-module",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-065",
       "requirement": "The physics module owns Rapier world setup, fixed steps, bodies, colliders, sensors, events, and device impulses.",
       "gddRef": "docs/gdd/09-technical-architecture.html#physics-module",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts"
+      ],
+      "testRefs": [
+        "tests/playable.smoke.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-066",
       "requirement": "The rules module consumes physics and input events and produces scoring, lamps, DMD, ball, tilt, bonus, and summary state.",
       "gddRef": "docs/gdd/09-technical-architecture.html#rules-module",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/rules.ts",
+        "src/game/types.ts"
+      ],
+      "testRefs": [
+        "tests/rules.test.ts"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-067",
       "requirement": "Vibekit is used for shared math, RNG, storage, audio context lifecycle, server KV, and rate-limit primitives where applicable.",
       "gddRef": "docs/gdd/09-technical-architecture.html#vibekit-usage",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "package.json",
+        "next.config.ts",
+        "pnpm-lock.yaml"
+      ],
+      "testRefs": [
+        "pnpm type-check"
+      ],
       "followupRefs": []
     },
     {
@@ -628,9 +878,14 @@
       "id": "REQ-070",
       "requirement": "Pure scoring, rules, tilt, bonus, input mapping, storage, and leaderboard validation logic have Vitest coverage.",
       "gddRef": "docs/gdd/10-testing-and-release.html#unit-tests",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "tests/input.test.ts",
+        "tests/rules.test.ts"
+      ],
+      "testRefs": [
+        "pnpm test"
+      ],
       "followupRefs": []
     },
     {
@@ -646,18 +901,29 @@
       "id": "REQ-072",
       "requirement": "Playwright verifies nonblank 3D canvas pixels, table framing, visible ball after launch, and resize safety.",
       "gddRef": "docs/gdd/10-testing-and-release.html#render-smoke",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "tests/playable.smoke.ts",
+        "playwright.config.ts"
+      ],
+      "testRefs": [
+        "pnpm test:smoke"
+      ],
       "followupRefs": []
     },
     {
       "id": "REQ-073",
       "requirement": "Smoke coverage exercises keyboard, touch emulation, and gamepad mapping where browser automation allows it.",
       "gddRef": "docs/gdd/10-testing-and-release.html#input-smoke",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "tests/playable.smoke.ts",
+        "src/game/input.ts"
+      ],
+      "testRefs": [
+        "pnpm test:smoke",
+        "tests/input.test.ts"
+      ],
       "followupRefs": []
     },
     {

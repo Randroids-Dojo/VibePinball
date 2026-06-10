@@ -36,7 +36,15 @@
 <main>
 <section id="blocks-release">
   <h2>Blocks Release</h2>
-  <p>(none yet)</p>
+  <section data-f="F-002" data-priority="blocks-release">
+    <h3>F-002: Resolve audio context helper path</h3>
+    <dl>
+      <dt>Context</dt><dd>Vibekit <code>v0.2.0</code> is pinned for the app scaffold but does not export an audio context helper, while <code>docs/gdd/07-audio-and-feedback.html#audio-context</code> expects Vibekit audio context lifecycle helpers.</dd>
+      <dt>Blocker</dt><dd>Audio implementation should not invent a local lifecycle wrapper until the dependency path is explicit.</dd>
+      <dt>Unblock condition</dt><dd>Add the helper upstream to Vibekit, or approve a local Web Audio lifecycle wrapper and update the GDD wording.</dd>
+      <dt>PR / Dot reference</dt><dd><code>VibePinball-resolve-audio-ctx-3439bcd1</code></dd>
+    </dl>
+  </section>
 </section>
 
 <section id="nice-to-have">

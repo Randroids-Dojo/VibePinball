@@ -6,6 +6,11 @@ Thumbs.db
 node_modules/
 dist/
 build/
+.next/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
 
 # Secrets and local env (never commit these, see AGENTS.md Rule 8)
 .env

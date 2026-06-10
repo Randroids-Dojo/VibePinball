@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="playable-game-scaffold" data-date="2026-06-09">
+    <h3>Playable Game Scaffold</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/playable-game-scaffold</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>scaffolded the Next.js App Router game route and a playable Silverball Social vertical slice with a Three.js cabinet scene, Rapier ball simulation, left table-grade launch behavior, right-side lane guides, flippers, plunger, drain, three-ball scoring state, DMD-style HUD, keyboard and touch controls, Vitest tests, and Playwright smoke coverage.</dd>
+      <dt>Verification</dt><dd><code>pnpm lint:dash</code>; <code>git diff --check</code>; <code>pnpm type-check</code>; <code>pnpm test</code>; <code>pnpm test:smoke</code>; <code>pnpm build</code>.</dd>
+      <dt>Assumptions</dt><dd>The first playable slice may use simple procedural geometry and partial device simulation while deeper lock, multiball, audio, leaderboard, and full physics tuning remain later slices.</dd>
+      <dt>GDD coverage</dt><dd><code>docs/GDD_COVERAGE.json</code> now marks the shipped app, input, physics, scoring, render, architecture, and testing rows as <code>partial</code>. Relevant <code>docs/gdd/*.html</code> files gained build log entries.</dd>
+      <dt>Followups</dt><dd>Created <code>F-002</code> for the missing Vibekit audio context helper path.</dd>
+    </dl>
+  </article>
+
   <article data-slice="initial-gdd-draft" data-date="2026-06-09">
     <h3>Initial GDD Draft</h3>
     <dl>
