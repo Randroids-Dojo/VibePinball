@@ -35,7 +35,7 @@
     <h3>Lock Saucer Hardware Shot Path</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/lock-saucer-hardware-shot-path</code></dd>
-      <dt>PR</dt><dd>#TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/112">PR 112</a></dd>
       <dt>Changed</dt><dd>linked the lock-saucer shot path to the authored cup screw, saucer-wall screw, eject-guide screw, and entry-post cap IDs so the shot map references the visible metal hardware around the capture cup.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
       <dt>Assumptions</dt><dd>The lock-saucer screws and post caps belong to the lock-saucer path because they physically mount the cup rim, capture walls, eject guide, and entry posts that frame the aimed capture shot.</dd>
