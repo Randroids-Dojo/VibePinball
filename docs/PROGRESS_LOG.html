@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="top-lane-guide-covers" data-date="2026-06-10">
+    <h3>Top Lane Guide Covers</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/top-lane-guide-covers</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>made the upper rollover and shooter skill lanes closer to real top-lane hardware by adding authored plastic guide-cover records and metal fasteners to each top lane. The existing lane guide-cover render path now draws those covers from shared lane data.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-top-lane-guide-covers.png</code> confirmed a nonblank WebGL board with top-lane guide covers visible across the upper rollover and shooter skill lanes.</dd>
+      <dt>Assumptions</dt><dd>The top-lane guide covers are visual elevated plastics for this slice because the lane walls, guide posts, and rollover wires remain the active top-lane routing hardware.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-009</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for upper-playfield lane material density and mounted plastic hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="lock-saucer-cup-hardware" data-date="2026-06-10">
     <h3>Lock Saucer Cup Hardware</h3>
     <dl>
