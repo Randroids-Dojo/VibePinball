@@ -282,10 +282,12 @@ const addRail = (
 };
 
 const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
-  const pitch = Math.atan2(ramp.endY - ramp.startY, ramp.depth);
+  const rise = ramp.endY - ramp.startY;
+  const pitch = Math.atan2(rise, ramp.depth);
+  const slopedDepth = Math.hypot(ramp.depth, rise);
   const centerY = (ramp.startY + ramp.endY) / 2;
   const floor = mesh(
-    new THREE.BoxGeometry(ramp.width, ramp.floorThickness, ramp.depth),
+    new THREE.BoxGeometry(ramp.width, ramp.floorThickness, slopedDepth),
     new THREE.MeshStandardMaterial({
       color: 0x74a8ff,
       transparent: true,
@@ -301,8 +303,8 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
   const sideRailY = centerY + ramp.floorThickness / 2 + ramp.sideRailHeight / 2;
   const leftRail = rampSidePoint(ramp, -ramp.sideRailOffset);
   const rightRail = rampSidePoint(ramp, ramp.sideRailOffset);
-  addRail(group, leftRail.x, leftRail.z, 0.07, ramp.depth, ramp.angle, 0x9fd0ff, sideRailY, pitch, ramp.sideRailHeight);
-  addRail(group, rightRail.x, rightRail.z, 0.07, ramp.depth, ramp.angle, 0x9fd0ff, sideRailY, pitch, ramp.sideRailHeight);
+  addRail(group, leftRail.x, leftRail.z, 0.07, slopedDepth, ramp.angle, 0x9fd0ff, sideRailY, pitch, ramp.sideRailHeight);
+  addRail(group, rightRail.x, rightRail.z, 0.07, slopedDepth, ramp.angle, 0x9fd0ff, sideRailY, pitch, ramp.sideRailHeight);
   addSegment(group, ramp.entranceLip, ramp.startY + 0.12);
 
   ramp.supports.forEach((support) => {

@@ -353,10 +353,10 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
     };
 
     return {
-      w: yawRotation.w * pitchRotation.w - yawRotation.x * pitchRotation.x - yawRotation.y * pitchRotation.y - yawRotation.z * pitchRotation.z,
-      x: yawRotation.w * pitchRotation.x + yawRotation.x * pitchRotation.w + yawRotation.y * pitchRotation.z - yawRotation.z * pitchRotation.y,
-      y: yawRotation.w * pitchRotation.y - yawRotation.x * pitchRotation.z + yawRotation.y * pitchRotation.w + yawRotation.z * pitchRotation.x,
-      z: yawRotation.w * pitchRotation.z + yawRotation.x * pitchRotation.y - yawRotation.y * pitchRotation.x + yawRotation.z * pitchRotation.w
+      w: pitchRotation.w * yawRotation.w - pitchRotation.x * yawRotation.x - pitchRotation.y * yawRotation.y - pitchRotation.z * yawRotation.z,
+      x: pitchRotation.w * yawRotation.x + pitchRotation.x * yawRotation.w + pitchRotation.y * yawRotation.z - pitchRotation.z * yawRotation.y,
+      y: pitchRotation.w * yawRotation.y - pitchRotation.x * yawRotation.z + pitchRotation.y * yawRotation.w + pitchRotation.z * yawRotation.x,
+      z: pitchRotation.w * yawRotation.z + pitchRotation.x * yawRotation.y - pitchRotation.y * yawRotation.x + pitchRotation.z * yawRotation.w
     };
   };
 
@@ -407,7 +407,9 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
   };
 
   const addRamp = (ramp: RampPath) => {
-    const pitch = Math.atan2(ramp.endY - ramp.startY, ramp.depth);
+    const rise = ramp.endY - ramp.startY;
+    const pitch = Math.atan2(rise, ramp.depth);
+    const slopedDepth = Math.hypot(ramp.depth, rise);
     const centerY = (ramp.startY + ramp.endY) / 2;
     const sideRailY = centerY + ramp.floorThickness / 2 + ramp.sideRailHeight / 2;
     addBoxCollider(
@@ -416,7 +418,7 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
       ramp.z,
       ramp.width / 2,
       ramp.floorThickness / 2,
-      ramp.depth / 2,
+      slopedDepth / 2,
       ramp.angle,
       pitch,
       0.5
@@ -430,7 +432,7 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
         side.z,
         0.035,
         ramp.sideRailHeight / 2,
-        ramp.depth / 2,
+        slopedDepth / 2,
         ramp.angle,
         pitch,
         0.68
