@@ -656,8 +656,9 @@ const createFlipper = (flipperDevice: FlipperDevice, color: number) => {
 
 const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
   const drainMouth = drain.drainGuides.find((segment) => segment.id === "drain.center-mouth");
+  const drainPlateWidth = drainMouth?.width ?? drain.radius * 1.75;
   if (!drainMouth) {
-    return;
+    console.warn("Missing drain.center-mouth in table blueprint.");
   }
   const apron = mesh(
     new THREE.BoxGeometry(drain.apron.width, 0.08, drain.apron.depth),
@@ -667,7 +668,7 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
   group.add(apron);
 
   const drainPlate = mesh(
-    new THREE.BoxGeometry(drainMouth.width, 0.08, 0.52),
+    new THREE.BoxGeometry(drainPlateWidth, 0.08, 0.52),
     new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.5, metalness: 0.2 })
   );
   drainPlate.position.set(drain.x, 0.08, drain.z);
