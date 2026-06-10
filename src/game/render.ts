@@ -7,6 +7,7 @@ import {
   type ApronFastener,
   type CabinetHardware,
   type DrainDevice,
+  type FlipperStop,
   type LampInsert,
   type LaneGuideCover,
   type FlipperDevice,
@@ -76,7 +77,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   blueprint.laneWalls.forEach((segment) => addSegment(group, segment, 0.36));
   blueprint.rubberBands.forEach((segment) => addSegment(group, segment, 0.44));
   blueprint.rolloverWires.forEach((segment) => addSegment(group, segment, 0.18));
-  blueprint.flipperStops.forEach((segment) => addSegment(group, segment, 0.32));
+  blueprint.flipperStops.forEach((stop) => addFlipperStop(group, stop));
   blueprint.posts.forEach((post) => addPost(group, post));
   addCabinetHardware(group, blueprint.cabinet);
   blueprint.lanes.forEach((lane) => {
@@ -349,6 +350,18 @@ const addSegment = (
         ? 0xf5dfb5
         : 0xb7c4c7;
   addRail(group, segment.x, segment.z, segment.width, segment.depth, segment.angle ?? 0, color, y);
+};
+
+const addFlipperStop = (group: THREE.Group, stop: FlipperStop) => {
+  addSegment(group, stop, 0.32);
+  stop.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, 0.49, fastener.z);
+    group.add(screw);
+  });
 };
 
 const addPost = (group: THREE.Group, postRecord: Post) => {

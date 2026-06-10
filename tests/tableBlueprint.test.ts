@@ -153,6 +153,16 @@ describe("Silverball Social physical board blueprint", () => {
       ])
     );
     expect(blueprint.flipperStops.every((stop) => stop.kind === "rubber")).toBe(true);
+    expect(blueprint.flipperStops.every((stop) => stop.fasteners.length === 2)).toBe(true);
+    for (const stop of blueprint.flipperStops) {
+      expect(stop.fasteners.every((fastener) => fastener.id.startsWith(`${stop.id}.screw-`)), stop.id).toBe(true);
+      expect(stop.fasteners.every((fastener) => fastener.targetId === stop.id), stop.id).toBe(true);
+      expect(stop.fasteners.every((fastener) => fastener.kind === "metal"), stop.id).toBe(true);
+      expect(stop.fasteners.every((fastener) => fastener.radius >= 0.03), stop.id).toBe(true);
+      for (const fastener of stop.fasteners) {
+        expect(Math.hypot(fastener.x - stop.x, fastener.z - stop.z), fastener.id).toBeLessThan(0.18);
+      }
+    }
   });
 
   it("models flippers as blueprint-authored capsule-like bat hardware", () => {
@@ -822,6 +832,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.rubberBands.map((item) => item.id),
       ...blueprint.rolloverWires.map((item) => item.id),
       ...blueprint.flipperStops.map((item) => item.id),
+      ...blueprint.flipperStops.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
       ...blueprint.posts.map((item) => item.id),
       ...blueprint.posts.flatMap((item) => item.cap ? [item.cap.id] : []),
       ...blueprint.lanes.map((item) => item.id),
