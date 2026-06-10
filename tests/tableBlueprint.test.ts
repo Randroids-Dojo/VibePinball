@@ -279,6 +279,10 @@ describe("Silverball Social physical board blueprint", () => {
       expect(sling.topPlastic.fasteners).toHaveLength(3);
       expect(sling.lamp.id).toBe(`insert.${sling.id}`);
       expect(sling.lamp.shape).toBe("circle");
+      expect(sling.lamp.lens.id).toBe(`${sling.lamp.id}.lens`);
+      expect(sling.lamp.lens.targetId).toBe(sling.lamp.id);
+      expect(sling.lamp.lens.kind).toBe("plastic");
+      expect(sling.lamp.lens.radius).toBeGreaterThan(sling.lamp.radius);
       expect(normalLength).toBeCloseTo(1, 1);
       expect(sling.impulseNormalZ).toBeLessThan(0);
       for (const fastener of sling.topPlastic.fasteners) {
@@ -953,6 +957,19 @@ describe("Silverball Social physical board blueprint", () => {
         "insert.skill-shot"
       ])
     );
+    for (const insert of blueprint.lampInserts) {
+      expect(insert.lens.id).toBe(`${insert.id}.lens`);
+      expect(insert.lens.targetId).toBe(insert.id);
+      expect(insert.lens.kind).toBe("plastic");
+      expect(insert.lens.shape).toBe(insert.shape);
+      expect(insert.lens.color).toBe(insert.color);
+      expect(insert.lens.x).toBe(insert.x);
+      expect(insert.lens.z).toBe(insert.z);
+      expect(insert.lens.radius).toBeGreaterThan(insert.radius);
+      expect(insert.lens.height).toBeGreaterThan(0);
+      expect(insert.lens.width).toBeGreaterThan(insert.radius);
+      expect(insert.lens.depth).toBeGreaterThan(insert.radius);
+    }
     expect(blueprint.handoffs.map((handoff) => handoff.id)).toEqual(
       expect.arrayContaining([
         "handoff.ramp-left-entry",
@@ -1167,6 +1184,7 @@ describe("Silverball Social physical board blueprint", () => {
         sling.topPlastic.id,
         ...sling.topPlastic.fasteners.map((fastener) => fastener.id),
         sling.lamp.id,
+        sling.lamp.lens.id,
         ...sling.postIds
       ]),
       ...blueprint.targets.map((item) => item.id),
@@ -1236,6 +1254,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.plastics.flatMap((item) => item.standoffs.map((standoff) => standoff.id)),
       ...blueprint.playfieldArt.map((item) => item.id),
       ...blueprint.lampInserts.map((item) => item.id),
+      ...blueprint.lampInserts.map((item) => item.lens.id),
       blueprint.plunger.id,
       blueprint.plunger.laneGroove.id,
       blueprint.plunger.housing.id,

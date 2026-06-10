@@ -656,6 +656,7 @@ const addInsert = (group: THREE.Group, x: number, z: number, color: number) => {
 const addLampInsert = (group: THREE.Group, insert: LampInsert) => {
   if (insert.shape === "circle") {
     addInsert(group, insert.x, insert.z, insert.color);
+    addLampInsertLens(group, insert);
     return;
   }
 
@@ -672,6 +673,7 @@ const addLampInsert = (group: THREE.Group, insert: LampInsert) => {
     bar.position.set(insert.x, 0.045, insert.z);
     group.add(bar);
     addDeckLabel(group, insert.label, insert.x, insert.z, insert.radius * 2.5, insert.radius, 0);
+    addLampInsertLens(group, insert);
     return;
   }
 
@@ -687,6 +689,47 @@ const addLampInsert = (group: THREE.Group, insert: LampInsert) => {
   arrow.position.set(insert.x, 0.055, insert.z);
   arrow.rotation.y = Math.PI;
   group.add(arrow);
+  addLampInsertLens(group, insert);
+};
+
+const addLampInsertLens = (group: THREE.Group, insert: LampInsert) => {
+  const material = new THREE.MeshStandardMaterial({
+    color: insert.lens.color,
+    emissive: insert.lens.color,
+    emissiveIntensity: 0.12,
+    transparent: true,
+    opacity: 0.46,
+    roughness: 0.16,
+    metalness: 0.02
+  });
+
+  if (insert.lens.shape === "circle") {
+    const lens = mesh(
+      new THREE.CylinderGeometry(insert.lens.radius, insert.lens.radius, insert.lens.height, 28),
+      material
+    );
+    lens.position.set(insert.lens.x, 0.07, insert.lens.z);
+    group.add(lens);
+    return;
+  }
+
+  if (insert.lens.shape === "bar") {
+    const lens = mesh(
+      new THREE.BoxGeometry(insert.lens.width, insert.lens.height, insert.lens.depth),
+      material
+    );
+    lens.position.set(insert.lens.x, 0.07, insert.lens.z);
+    group.add(lens);
+    return;
+  }
+
+  const lens = mesh(
+    new THREE.ConeGeometry(insert.lens.radius, insert.lens.height, 3),
+    material
+  );
+  lens.position.set(insert.lens.x, 0.08, insert.lens.z);
+  lens.rotation.y = Math.PI;
+  group.add(lens);
 };
 
 const addPlayfieldArt = (group: THREE.Group, art: PlayfieldArt) => {

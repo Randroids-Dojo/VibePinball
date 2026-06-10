@@ -908,6 +908,21 @@ export interface LampInsert {
   radius: number;
   color: number;
   shape: "circle" | "arrow" | "bar";
+  lens: LampInsertLens;
+}
+
+export interface LampInsertLens {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  width: number;
+  depth: number;
+  height: number;
+  color: number;
+  shape: "circle" | "arrow" | "bar";
+  kind: "plastic";
 }
 
 export interface PlungerDevice {
@@ -1607,6 +1622,29 @@ const withSpeakerGrilleFasteners = (
     };
   });
 
+const withLampInsertLens = (
+  insert: Omit<LampInsert, "lens">
+): LampInsert => ({
+  ...insert,
+  lens: {
+    id: `${insert.id}.lens`,
+    targetId: insert.id,
+    x: insert.x,
+    z: insert.z,
+    radius: insert.radius * 1.08,
+    width: insert.shape === "bar" ? insert.radius * 3.2 : insert.radius * 1.85,
+    depth: insert.shape === "bar" ? insert.radius * 1.65 : insert.radius * 1.85,
+    height: 0.018,
+    color: insert.color,
+    shape: insert.shape,
+    kind: "plastic"
+  }
+});
+
+const withLampInsertLenses = (
+  inserts: Array<Omit<LampInsert, "lens">>
+): LampInsert[] => inserts.map(withLampInsertLens);
+
 export const silverballSocialBlueprint: TableBlueprint = {
   id: "silverball-social-v1",
   scale: {
@@ -2253,7 +2291,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
           { id: "sling.left.top-plastic.screw-nose", x: -2.08, z: 3.93, radius: 0.035, kind: "metal" }
         ]
       },
-      lamp: { id: "insert.sling.left", label: "Left sling", x: -2.06, z: 3.62, radius: 0.18, color: 0xffe08a, shape: "circle" },
+      lamp: withLampInsertLens({ id: "insert.sling.left", label: "Left sling", x: -2.06, z: 3.62, radius: 0.18, color: 0xffe08a, shape: "circle" }),
       impulseNormalX: 0.64,
       impulseNormalZ: -0.77,
       postIds: ["post.left-sling-a", "post.left-sling-b"]
@@ -2286,7 +2324,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
           { id: "sling.right.top-plastic.screw-nose", x: 2.08, z: 3.93, radius: 0.035, kind: "metal" }
         ]
       },
-      lamp: { id: "insert.sling.right", label: "Right sling", x: 2.06, z: 3.62, radius: 0.18, color: 0xffe08a, shape: "circle" },
+      lamp: withLampInsertLens({ id: "insert.sling.right", label: "Right sling", x: 2.06, z: 3.62, radius: 0.18, color: 0xffe08a, shape: "circle" }),
       impulseNormalX: -0.64,
       impulseNormalZ: -0.77,
       postIds: ["post.right-sling-a", "post.right-sling-b"]
@@ -3307,7 +3345,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       kind: "label"
     }
   ],
-  lampInserts: [
+  lampInserts: withLampInsertLenses([
     { id: "insert.bonus-1", label: "Bonus 1", x: -0.66, z: 2.72, radius: 0.14, color: 0xffe08a, shape: "circle" },
     { id: "insert.bonus-2", label: "Bonus 2", x: 0, z: 2.55, radius: 0.14, color: 0xffe08a, shape: "circle" },
     { id: "insert.bonus-3", label: "Bonus 3", x: 0.66, z: 2.72, radius: 0.14, color: 0xffe08a, shape: "circle" },
@@ -3322,7 +3360,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "insert.social-c", label: "C", x: 0, z: -2.22, radius: 0.12, color: 0xffd56f, shape: "bar" },
     { id: "insert.social-i", label: "I", x: 0.64, z: -2.14, radius: 0.12, color: 0xffd56f, shape: "bar" },
     { id: "insert.social-a", label: "A", x: 1.28, z: -1.98, radius: 0.12, color: 0xffd56f, shape: "bar" }
-  ],
+  ]),
   plunger: {
     id: "shooter.plunger",
     rodX: 3.42,
