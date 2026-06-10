@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="sling-top-plastics" data-date="2026-06-10">
+    <h3>Sling Top Plastics</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/sling-top-plastics</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added authored top-plastic records and three visible screw heads to each slingshot so the lower playfield slings read as mounted plastic assemblies instead of only translucent triangle faces. Rendering now draws the raised sling caps and fasteners from each sling device record.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-sling-top-plastics.png</code> confirmed a nonblank WebGL board with visible sling top plastics.</dd>
+      <dt>Assumptions</dt><dd>The sling top plastics and screw heads are visual hardware for this slice because the existing rubber-face segment remains the active slingshot contact surface.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-008</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for lower-playfield sling plastic hardware and shared physical-board IDs.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="flipper-rubber-sleeves" data-date="2026-06-10">
     <h3>Flipper Rubber Sleeves</h3>
     <dl>

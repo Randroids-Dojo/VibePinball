@@ -202,10 +202,21 @@ describe("Silverball Social physical board blueprint", () => {
       expect(triangleArea).toBeGreaterThan(0.35);
       expect(sling.rubberFace.id).toBe(`${sling.id}.rubber-face`);
       expect(sling.rubberFace.kind).toBe("rubber");
+      expect(sling.topPlastic.id).toBe(`${sling.id}.top-plastic`);
+      expect(sling.topPlastic.layerY).toBeGreaterThan(0.58);
+      expect(sling.topPlastic.thickness).toBeGreaterThan(0.03);
+      expect(sling.topPlastic.color).toBe(0xffe6ac);
+      expect(sling.topPlastic.fasteners).toHaveLength(3);
       expect(sling.lamp.id).toBe(`insert.${sling.id}`);
       expect(sling.lamp.shape).toBe("circle");
       expect(normalLength).toBeCloseTo(1, 1);
       expect(sling.impulseNormalZ).toBeLessThan(0);
+      for (const fastener of sling.topPlastic.fasteners) {
+        expect(fastener.id.startsWith(`${sling.id}.top-plastic.screw-`), fastener.id).toBe(true);
+        expect(fastener.kind).toBe("metal");
+        expect(fastener.radius).toBeGreaterThanOrEqual(0.035);
+        expect(Math.abs(fastener.z - sling.z), fastener.id).toBeLessThan(0.55);
+      }
       for (const id of sling.postIds) {
         expect(postIds.has(id), id).toBe(true);
       }
@@ -648,6 +659,8 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.slings.flatMap((sling) => [
         sling.id,
         sling.rubberFace.id,
+        sling.topPlastic.id,
+        ...sling.topPlastic.fasteners.map((fastener) => fastener.id),
         sling.lamp.id,
         ...sling.postIds
       ]),

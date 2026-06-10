@@ -191,6 +191,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
 
   blueprint.slings.forEach((sling) => {
     addSlingTriangle(group, sling);
+    addSlingTopPlastic(group, sling);
     addSegment(group, sling.rubberFace, 0.46);
     addLampInsert(group, sling.lamp);
   });
@@ -380,6 +381,44 @@ const addSlingTriangle = (group: THREE.Group, sling: SlingDevice) => {
   addSegmentTo(outline, innerX, innerZ, noseX, noseZ, 0.6);
   addSegmentTo(outline, noseX, noseZ, outerX, outerZ, 0.6);
   group.add(outline);
+};
+
+const addSlingTopPlastic = (group: THREE.Group, sling: SlingDevice) => {
+  const { outerX, outerZ, innerX, innerZ, noseX, noseZ } = sling.triangle;
+  const { topPlastic } = sling;
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute([
+      outerX, topPlastic.layerY, outerZ,
+      innerX, topPlastic.layerY, innerZ,
+      noseX, topPlastic.layerY, noseZ
+    ], 3)
+  );
+  geometry.setIndex([0, 1, 2]);
+  geometry.computeVertexNormals();
+
+  const plastic = mesh(
+    geometry,
+    new THREE.MeshStandardMaterial({
+      color: topPlastic.color,
+      transparent: true,
+      opacity: 0.78,
+      roughness: 0.2,
+      metalness: 0.02,
+      side: THREE.DoubleSide
+    })
+  );
+  group.add(plastic);
+
+  topPlastic.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, topPlastic.thickness, 20),
+      new THREE.MeshStandardMaterial({ color: 0xd5dde0, roughness: 0.18, metalness: 0.84 })
+    );
+    screw.position.set(fastener.x, topPlastic.layerY + topPlastic.thickness / 2 + 0.004, fastener.z);
+    group.add(screw);
+  });
 };
 
 const addSegmentTo = (
