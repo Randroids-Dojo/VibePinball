@@ -198,9 +198,20 @@ export interface PopBumperDevice extends SensorZone {
   skirtRadius: number;
   capColor: number;
   chromeRing: PopBumperChromeRing;
+  lampLens: PopBumperLampLens;
   capFasteners: PopBumperCapFastener[];
   ringPostIds: string[];
   guardSegments: PopBumperGuardSegment[];
+}
+
+export interface PopBumperLampLens {
+  id: string;
+  x: number;
+  z: number;
+  radius: number;
+  height: number;
+  color: number;
+  kind: "clear-plastic";
 }
 
 export interface PopBumperChromeRing {
@@ -2365,6 +2376,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       skirtRadius: 0.58,
       capColor: 0xd74b3f,
       chromeRing: { id: "pop-a.chrome-ring", radius: 0.68, tubeRadius: 0.035, kind: "metal" },
+      lampLens: { id: "pop-a.lamp-lens", x: -1.25, z: -4.95, radius: 0.16, height: 0.035, color: 0xfff1a8, kind: "clear-plastic" },
       capFasteners: [
         { id: "pop-a.cap-screw-upper", x: -1.25, z: -5.2, radius: 0.032, kind: "metal" },
         { id: "pop-a.cap-screw-left", x: -1.47, z: -4.84, radius: 0.032, kind: "metal" },
@@ -2385,6 +2397,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       skirtRadius: 0.58,
       capColor: 0xd74b3f,
       chromeRing: { id: "pop-b.chrome-ring", radius: 0.68, tubeRadius: 0.035, kind: "metal" },
+      lampLens: { id: "pop-b.lamp-lens", x: 1.15, z: -5.16, radius: 0.16, height: 0.035, color: 0xfff1a8, kind: "clear-plastic" },
       capFasteners: [
         { id: "pop-b.cap-screw-upper", x: 1.15, z: -5.41, radius: 0.032, kind: "metal" },
         { id: "pop-b.cap-screw-left", x: 0.93, z: -5.05, radius: 0.032, kind: "metal" },
@@ -2405,6 +2418,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       skirtRadius: 0.55,
       capColor: 0xf1c453,
       chromeRing: { id: "pop-c.chrome-ring", radius: 0.64, tubeRadius: 0.035, kind: "metal" },
+      lampLens: { id: "pop-c.lamp-lens", x: -0.05, z: -3.86, radius: 0.15, height: 0.035, color: 0xfff6b8, kind: "clear-plastic" },
       capFasteners: [
         { id: "pop-c.cap-screw-upper", x: -0.05, z: -4.1, radius: 0.03, kind: "metal" },
         { id: "pop-c.cap-screw-left", x: -0.26, z: -3.76, radius: 0.03, kind: "metal" },

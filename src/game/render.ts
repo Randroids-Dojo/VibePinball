@@ -150,6 +150,19 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     );
     bumper.position.set(device.x, 0.32, device.z);
     group.add(bumper);
+    const lampLens = mesh(
+      new THREE.CylinderGeometry(device.lampLens.radius, device.lampLens.radius, device.lampLens.height, 24),
+      new THREE.MeshStandardMaterial({
+        color: device.lampLens.color,
+        emissive: device.lampLens.color,
+        emissiveIntensity: 0.28,
+        transparent: true,
+        opacity: 0.72,
+        roughness: 0.08
+      })
+    );
+    lampLens.position.set(device.lampLens.x, 0.535, device.lampLens.z);
+    group.add(lampLens);
     device.capFasteners.forEach((fastener) => {
       const screw = mesh(
         new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.035, 16),
