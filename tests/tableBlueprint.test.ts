@@ -382,6 +382,29 @@ describe("Silverball Social physical board blueprint", () => {
     expect(ramp?.floorThickness).toBeGreaterThan(0);
     expect(ramp?.sideRailHeight).toBeGreaterThan(blueprint.scale.ballRadius * 1.5);
     expect(ramp?.sideRailOffset).toBeGreaterThan((ramp?.width ?? 0) / 2);
+    expect(ramp?.sideWalls.map((wall) => wall.id)).toEqual([
+      "ramp.left.side-wall.left",
+      "ramp.left.side-wall.right"
+    ]);
+    for (const wall of ramp?.sideWalls ?? []) {
+      expect(wall.targetId).toBe(ramp?.id);
+      expect(wall.kind).toBe("plastic");
+      expect(wall.width).toBeLessThan(0.08);
+      expect(wall.depth).toBeGreaterThan((ramp?.depth ?? 0) * 0.9);
+      expect(wall.height).toBeGreaterThan(blueprint.scale.ballRadius);
+      expect(wall.height).toBeLessThan(ramp?.sideRailHeight ?? 1);
+      expect(wall.startY).toBeGreaterThan(ramp?.startY ?? 0);
+      expect(wall.endY).toBeGreaterThan(wall.startY);
+      expect(wall.fasteners).toHaveLength(3);
+      expect(wall.fasteners.every((fastener) => fastener.id.startsWith(`${wall.id}.rivet-`))).toBe(true);
+      expect(wall.fasteners.every((fastener) => fastener.targetId === wall.id)).toBe(true);
+      expect(wall.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+      expect(wall.fasteners.every((fastener) => fastener.radius >= 0.022)).toBe(true);
+      expect(wall.fasteners.every((fastener) => fastener.y > wall.startY)).toBe(true);
+    }
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
+      expect.arrayContaining(["ramp.left.side-wall.left", "ramp.left.side-wall.right"])
+    );
     expect(ramp?.sideRails.map((rail) => rail.id)).toEqual([
       "ramp.left.side-rail.left",
       "ramp.left.side-rail.right"
@@ -1166,6 +1189,8 @@ describe("Silverball Social physical board blueprint", () => {
         ramp.id,
         ramp.entry.id,
         ramp.exit.id,
+        ...ramp.sideWalls.map((wall) => wall.id),
+        ...ramp.sideWalls.flatMap((wall) => wall.fasteners.map((fastener) => fastener.id)),
         ...ramp.sideRails.map((rail) => rail.id),
         ...ramp.sideRails.flatMap((rail) => rail.fasteners.map((fastener) => fastener.id)),
         ...ramp.crossBraces.map((brace) => brace.id),

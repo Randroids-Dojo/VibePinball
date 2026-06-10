@@ -26,6 +26,7 @@ import {
   type RampEntranceLip,
   type RampPath,
   type RampSideRailFastener,
+  type RampSideWall,
   type RolloverWire,
   type SaucerWallSegment,
   type SlingDevice,
@@ -330,6 +331,7 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
   group.add(floor);
 
   ramp.crossBraces.forEach((brace) => addRampCrossBrace(group, brace));
+  ramp.sideWalls.forEach((wall) => addRampSideWall(group, wall));
 
   ramp.sideRails.forEach((rail) => {
     addRail(
@@ -367,6 +369,31 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
     );
     cap.position.set(support.x, support.height + support.cap.height / 2, support.z);
     group.add(cap);
+  });
+};
+
+const addRampSideWall = (group: THREE.Group, wall: RampSideWall) => {
+  const panel = mesh(
+    new THREE.BoxGeometry(wall.width, wall.height, wall.depth),
+    new THREE.MeshStandardMaterial({
+      color: 0x8fc9ff,
+      transparent: true,
+      opacity: 0.36,
+      roughness: 0.12,
+      metalness: 0.02
+    })
+  );
+  panel.position.set(wall.x, (wall.startY + wall.endY) / 2, wall.z);
+  panel.rotation.set(wall.pitch, wall.angle, 0);
+  group.add(panel);
+
+  wall.fasteners.forEach((fastener) => {
+    const rivet = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
+      new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+    );
+    rivet.position.set(fastener.x, fastener.y, fastener.z);
+    group.add(rivet);
   });
 };
 
