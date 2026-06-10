@@ -35,7 +35,7 @@
     <h3>Left Return Tie Shot Path</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/left-return-tie-shot-path</code></dd>
-      <dt>PR</dt><dd>#N</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/97">PR 97</a></dd>
       <dt>Changed</dt><dd>linked the left-ramp shot path to each authored left-return cross-tie and tie screw ID so the ramp shot references the wire crossbars that span and fasten the raised return rails.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
       <dt>Assumptions</dt><dd>The left-return cross-ties belong to the left-ramp shot path because they visibly span the paired rails that carry a made ramp shot back to the inlane.</dd>
