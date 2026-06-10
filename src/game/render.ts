@@ -133,7 +133,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     );
     skirt.position.set(device.x, 0.12, device.z);
     group.add(skirt);
-    addRing(group, device.x, device.z, device.radius, 0xb7c4c7);
+    addRing(group, device.x, device.z, device.chromeRing.radius, device.chromeRing.tubeRadius, 0xb7c4c7);
     device.guardSegments.forEach((segment) => addSegment(group, segment, 0.4));
   });
 
@@ -444,9 +444,9 @@ const addLampInsert = (group: THREE.Group, insert: LampInsert) => {
   group.add(arrow);
 };
 
-const addRing = (group: THREE.Group, x: number, z: number, radius: number, color: number) => {
+const addRing = (group: THREE.Group, x: number, z: number, radius: number, tubeRadius: number, color: number) => {
   const ring = mesh(
-    new THREE.TorusGeometry(radius, 0.035, 8, 32),
+    new THREE.TorusGeometry(radius, tubeRadius, 8, 32),
     new THREE.MeshStandardMaterial({ color, roughness: 0.22, metalness: 0.78 })
   );
   ring.position.set(x, 0.48, z);
