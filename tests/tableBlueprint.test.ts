@@ -233,6 +233,29 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
+  it("models the target bank as one framed physical assembly", () => {
+    const targetXs = blueprint.targets.map((target) => target.x);
+    const minTargetX = Math.min(...targetXs);
+    const maxTargetX = Math.max(...targetXs);
+    const frameIds = blueprint.targetBank.frameSegments.map((segment) => segment.id);
+
+    expect(blueprint.targetBank.id).toBe("target-bank.social");
+    expect(blueprint.targetBank.label).toBe("SOCIAL");
+    expect(frameIds).toEqual(
+      expect.arrayContaining([
+        "target-bank.frame-top-rail",
+        "target-bank.frame-bottom-rail",
+        "target-bank.frame-left-cheek",
+        "target-bank.frame-right-cheek"
+      ])
+    );
+    expect(blueprint.targetBank.posts).toHaveLength(4);
+    expect(blueprint.targetBank.frameSegments.every((segment) => segment.kind === "metal")).toBe(true);
+    expect(blueprint.targetBank.posts.every((post) => post.kind === "metal")).toBe(true);
+    expect(blueprint.targetBank.frameSegments.find((segment) => segment.id === "target-bank.frame-top-rail")?.width).toBeGreaterThan(maxTargetX - minTargetX);
+    expect(blueprint.targetBank.frameSegments.find((segment) => segment.id === "target-bank.frame-bottom-rail")?.width).toBeGreaterThan(maxTargetX - minTargetX);
+  });
+
   it("defines drain, trough, and orbit sensors as real physical devices", () => {
     expect(blueprint.drain.id).toBe("drain.center");
     expect(blueprint.drain.radius).toBeGreaterThan(blueprint.scale.ballRadius * 2);
@@ -364,6 +387,9 @@ describe("Silverball Social physical board blueprint", () => {
       ]),
       ...blueprint.targets.map((item) => item.id),
       ...blueprint.targets.map((item) => item.rearStop.id),
+      blueprint.targetBank.id,
+      ...blueprint.targetBank.frameSegments.map((item) => item.id),
+      ...blueprint.targetBank.posts.map((item) => item.id),
       ...blueprint.saucers.map((item) => item.id),
       ...blueprint.saucers.flatMap((saucer) => [
         ...saucer.walls.map((segment) => segment.id),
