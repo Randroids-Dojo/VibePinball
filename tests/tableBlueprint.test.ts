@@ -804,6 +804,9 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.shots.find((shot) => shot.id === "shot.center-bank")?.deviceIds).toEqual(
       expect.arrayContaining(blueprint.targetBank.posts.map((post) => post.id))
     );
+    expect(blueprint.shots.find((shot) => shot.id === "shot.center-bank")?.deviceIds).toEqual(
+      expect.arrayContaining(blueprint.targetBank.posts.flatMap((post) => post.cap ? [post.cap.id] : []))
+    );
     expect(blueprint.targetBank.frameSegments.every((segment) => segment.kind === "metal")).toBe(true);
     expect(blueprint.targetBank.frameSegments.every((segment) => segment.fasteners.length === 2)).toBe(true);
     for (const segment of blueprint.targetBank.frameSegments) {
@@ -1301,6 +1304,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.targetBank.frameSegments.map((item) => item.id),
       ...blueprint.targetBank.frameSegments.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
       ...blueprint.targetBank.posts.map((item) => item.id),
+      ...blueprint.targetBank.posts.flatMap((item) => item.cap ? [item.cap.id] : []),
       ...blueprint.saucers.map((item) => item.id),
       ...blueprint.saucers.flatMap((saucer) => [
         saucer.cup.id,
