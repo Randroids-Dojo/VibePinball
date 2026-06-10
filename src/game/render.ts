@@ -174,6 +174,14 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     );
     cup.position.set(saucer.x, 0.18, saucer.z);
     group.add(cup);
+    saucer.cup.fasteners.forEach((fastener) => {
+      const screw = mesh(
+        new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.026, 18),
+        new THREE.MeshStandardMaterial({ color: 0xc7d0d2, roughness: 0.16, metalness: 0.82 })
+      );
+      screw.position.set(fastener.x, 0.275, fastener.z);
+      group.add(screw);
+    });
     saucer.walls.forEach((segment) => addSegment(group, segment, segment.kind === "wire" ? 0.5 : 0.32));
     saucer.posts.forEach((post) => addPost(group, post));
     const heldBall = mesh(

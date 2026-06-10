@@ -312,6 +312,15 @@ export interface SaucerCup {
   innerRadius: number;
   outerRadius: number;
   height: number;
+  fasteners: SaucerCupFastener[];
+  kind: "metal";
+}
+
+export interface SaucerCupFastener {
+  id: string;
+  x: number;
+  z: number;
+  radius: number;
   kind: "metal";
 }
 
@@ -1390,6 +1399,11 @@ export const silverballSocialBlueprint: TableBlueprint = {
         innerRadius: 0.5,
         outerRadius: 0.62,
         height: 0.16,
+        fasteners: [
+          { id: "lock.saucer.cup.screw-left", x: 0.38, z: -3.62, radius: 0.034, kind: "metal" },
+          { id: "lock.saucer.cup.screw-back", x: 0.92, z: -4, radius: 0.034, kind: "metal" },
+          { id: "lock.saucer.cup.screw-right", x: 1.46, z: -3.62, radius: 0.034, kind: "metal" }
+        ],
         kind: "metal"
       },
       holdX: 0.92,
