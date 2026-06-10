@@ -35,7 +35,7 @@
     <h3>Wireform Cross Tie Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/wireform-cross-tie-hardware</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd>#20</dd>
       <dt>Changed</dt><dd>made the raised ramp and orbit return wireforms closer to real habitrail hardware by adding authored wire cross ties along each paired-rail return. Rendering and physics now consume those tie records directly instead of generating one implicit tie per rail segment.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-wireform-cross-tie-hardware.png</code> confirmed a nonblank WebGL board with authored cross ties visible on the raised return wireforms.</dd>
       <dt>Assumptions</dt><dd>The wireform cross ties are fixed wire hardware at the same height as the paired return rails and use the existing wireform collider layer.</dd>
