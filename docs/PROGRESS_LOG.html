@@ -35,7 +35,7 @@
     <h3>Lock Saucer Post Shot Path</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/lock-saucer-post-shot-path</code></dd>
-      <dt>PR</dt><dd>pending</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/80">PR 80</a></dd>
       <dt>Changed</dt><dd>linked the lock-saucer shot path to the authored metal entry posts so the aimable saucer shot references the physical post hardware that guards the cup mouth.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
       <dt>Assumptions</dt><dd>The saucer entry posts are part of the lock-saucer shot path because they shape the ball entrance into the capture cup.</dd>
