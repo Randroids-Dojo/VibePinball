@@ -1404,8 +1404,22 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "lock.saucer.eject-guide", x: 1.42, z: -2.96, width: 0.06, depth: 0.72, angle: -0.62, kind: "wire" }
       ],
       posts: [
-        { id: "lock.saucer.left-post", x: 0.5, z: -3.08, radius: 0.1, kind: "metal" },
-        { id: "lock.saucer.right-post", x: 1.34, z: -3.02, radius: 0.1, kind: "metal" }
+        {
+          id: "lock.saucer.left-post",
+          x: 0.5,
+          z: -3.08,
+          radius: 0.1,
+          kind: "metal",
+          cap: { id: "lock.saucer.left-post.cap", radius: 0.135, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "lock.saucer.right-post",
+          x: 1.34,
+          z: -3.02,
+          radius: 0.1,
+          kind: "metal",
+          cap: { id: "lock.saucer.right-post.cap", radius: 0.135, height: 0.032, kind: "metal" }
+        }
       ]
     }
   ],

@@ -583,6 +583,13 @@ describe("Silverball Social physical board blueprint", () => {
     expect(saucer?.cup.height).toBeGreaterThan(0);
     expect(saucer?.walls.length).toBeGreaterThanOrEqual(4);
     expect(saucer?.posts.length).toBeGreaterThanOrEqual(2);
+    for (const post of saucer?.posts ?? []) {
+      expect(post.kind).toBe("metal");
+      expect(post.cap?.id).toBe(`${post.id}.cap`);
+      expect(post.cap?.kind).toBe("metal");
+      expect(post.cap?.radius).toBeGreaterThan(post.radius);
+      expect(post.cap?.height).toBeGreaterThan(0);
+    }
     expect(saucer?.holdX).toBeCloseTo(saucer?.x ?? 0);
     expect(saucer?.holdZ).toBeCloseTo(saucer?.z ?? 0);
     expect(saucer?.ejectStrength).toBeGreaterThan(1);
@@ -697,7 +704,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.saucers.flatMap((saucer) => [
         saucer.cup.id,
         ...saucer.walls.map((segment) => segment.id),
-        ...saucer.posts.map((post) => post.id)
+        ...saucer.posts.flatMap((post) => post.cap ? [post.id, post.cap.id] : [post.id])
       ]),
       ...blueprint.ramps.flatMap((ramp) => [
         ramp.id,
