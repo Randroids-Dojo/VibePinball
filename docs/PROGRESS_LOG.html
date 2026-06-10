@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="trough-guide-fasteners" data-date="2026-06-10">
+    <h3>Trough Guide Fasteners</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/trough-guide-fasteners</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added authored metal screw heads to the trough side walls, trough back wall, and shooter feed guide so the ball-return hardware reads as mounted metalwork instead of loose trough strips. Rendering now draws those trough fasteners from the shared trough blueprint data.</dd>
+      <dt>Verification</dt><dd><code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code> passed before final verification.</dd>
+      <dt>Assumptions</dt><dd>The trough guide fasteners are visual mounting hardware and do not need separate physics colliders because the existing trough wall and shooter-feed guide segments remain the active collision geometry.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-017</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for lower trough and shooter-feed mounting hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="drain-guide-fasteners" data-date="2026-06-10">
     <h3>Drain Guide Fasteners</h3>
     <dl>

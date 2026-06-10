@@ -543,6 +543,13 @@ describe("Silverball Social physical board blueprint", () => {
     );
     expect(blueprint.drain.trough.feedGuide.id).toBe("trough.shooter-feed-guide");
     expect(blueprint.drain.trough.feedGuide.kind).toBe("metal");
+    expect(blueprint.drain.trough.fasteners).toHaveLength(8);
+    expect(blueprint.drain.trough.fasteners.every((fastener) => fastener.id.startsWith(`${fastener.targetId}.screw-`))).toBe(true);
+    expect(blueprint.drain.trough.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+    expect(blueprint.drain.trough.fasteners.every((fastener) => fastener.radius > 0.03)).toBe(true);
+    expect(new Set(blueprint.drain.trough.fasteners.map((fastener) => fastener.targetId))).toEqual(
+      new Set(["trough.left-wall", "trough.right-wall", "trough.back-wall", "trough.shooter-feed-guide"])
+    );
     expect(blueprint.drain.trough.width).toBeGreaterThan(blueprint.scale.ballRadius * 6);
   });
 
@@ -838,6 +845,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.drain.trough.slotRims.map((item) => item.id),
       ...blueprint.drain.trough.walls.map((item) => item.id),
       blueprint.drain.trough.feedGuide.id,
+      ...blueprint.drain.trough.fasteners.map((item) => item.id),
       ...blueprint.boundaries.map((item) => item.id),
       ...blueprint.laneWalls.map((item) => item.id),
       ...blueprint.rubberBands.map((item) => item.id),

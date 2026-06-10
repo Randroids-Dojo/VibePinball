@@ -20,6 +20,7 @@ import {
   type SlingDevice,
   type TargetDevice,
   type TargetBankHardware,
+  type TroughFastener,
   type WireformPath
 } from "./tableBlueprint";
 
@@ -1034,6 +1035,7 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
   drain.drainGuides.forEach((guide) => addDrainGuide(group, guide));
   drain.trough.walls.forEach((segment) => addSegment(group, segment, 0.28));
   addSegment(group, drain.trough.feedGuide, 0.3);
+  drain.trough.fasteners.forEach((fastener) => addTroughFastener(group, fastener));
   drain.apronCards.forEach((card) => addApronCard(group, card));
   drain.apronFasteners.forEach((fastener) => addApronFastener(group, fastener));
   drain.trough.ballSlots.forEach((slot) => {
@@ -1071,6 +1073,15 @@ const addDrainGuide = (group: THREE.Group, guide: DrainGuide) => {
     screw.position.set(fastener.x, 0.43, fastener.z);
     group.add(screw);
   });
+};
+
+const addTroughFastener = (group: THREE.Group, fastener: TroughFastener) => {
+  const screw = mesh(
+    new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
+    new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+  );
+  screw.position.set(fastener.x, 0.43, fastener.z);
+  group.add(screw);
 };
 
 const addApronCard = (group: THREE.Group, card: ApronCard) => {
