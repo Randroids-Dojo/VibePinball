@@ -476,6 +476,25 @@ describe("Silverball Social physical board blueprint", () => {
       expect(wireform.railOffset * 2 - railHalfWidth * 2).toBeGreaterThan(ballDiameter);
       expect(wireform.tieWidth).toBeGreaterThan(wireform.railOffset * 2);
       expect(wireform.segments.length).toBeGreaterThanOrEqual(2);
+      expect(wireform.rails).toHaveLength(wireform.segments.length * 2);
+      expect(new Set(wireform.rails.map((rail) => rail.sourceSegmentId))).toEqual(
+        new Set(wireform.segments.map((segment) => segment.id))
+      );
+      for (const rail of wireform.rails) {
+        expect(rail.id, rail.id).toBe(`${rail.sourceSegmentId}.rail-${rail.side}`);
+        expect(rail.targetId, rail.id).toBe(wireform.id);
+        expect(rail.kind, rail.id).toBe("wire");
+        expect(rail.y, rail.id).toBe(wireform.railY);
+        expect(rail.height, rail.id).toBe(wireform.railHeight);
+        expect(rail.width, rail.id).toBeGreaterThanOrEqual(railHalfWidth * 2);
+        expect(rail.depth, rail.id).toBeGreaterThan(0);
+        expect(rail.fasteners, rail.id).toHaveLength(3);
+        expect(rail.fasteners.every((fastener) => fastener.id.startsWith(`${rail.id}.clamp-`)), rail.id).toBe(true);
+        expect(rail.fasteners.every((fastener) => fastener.targetId === rail.id), rail.id).toBe(true);
+        expect(rail.fasteners.every((fastener) => fastener.kind === "metal"), rail.id).toBe(true);
+        expect(rail.fasteners.every((fastener) => fastener.radius >= 0.024), rail.id).toBe(true);
+        expect(rail.fasteners.every((fastener) => fastener.y > wireform.railY), rail.id).toBe(true);
+      }
       expect(wireform.ties.length).toBeGreaterThanOrEqual(wireform.segments.length * 3);
       expect(wireform.ties.every((tie) => tie.id.startsWith(`${wireform.id}.tie-`))).toBe(true);
       expect(wireform.ties.every((tie) => tie.kind === "wire")).toBe(true);
@@ -497,6 +516,12 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.orbits.find((orbit) => orbit.id === "orbit.left")?.returnWireformId).toBe("wireform.left-return");
     expect(blueprint.orbits.find((orbit) => orbit.id === "orbit.right")?.returnWireformId).toBe(
       "wireform.right-orbit-return"
+    );
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
+      expect.arrayContaining(["wireform.left-return.upper.rail-left", "wireform.left-return.lower.rail-right"])
+    );
+    expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
+      expect.arrayContaining(["wireform.right-orbit-return.upper.rail-left", "wireform.right-orbit-return.lower.rail-right"])
     );
   });
 
@@ -1064,6 +1089,8 @@ describe("Silverball Social physical board blueprint", () => {
         wireform.id,
         wireform.exit.id,
         ...wireform.segments.map((segment) => segment.id),
+        ...wireform.rails.map((rail) => rail.id),
+        ...wireform.rails.flatMap((rail) => rail.fasteners.map((fastener) => fastener.id)),
         ...wireform.ties.map((tie) => tie.id),
         ...wireform.supports.flatMap((support) => [support.id, support.cap.id])
       ]),
