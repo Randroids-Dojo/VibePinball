@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="flipper-rubber-sleeves" data-date="2026-06-10">
+    <h3>Flipper Rubber Sleeves</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/flipper-rubber-sleeves</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added authored colored rubber sleeves to both main flipper bats so the lower playfield flippers match the GDD material contract of cream bats with visible rubber. Rendering now draws a rubber outer sleeve behind a smaller cream core from the same flipper blueprint data.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-flipper-rubber-sleeves.png</code> confirmed a nonblank WebGL board with visible flipper rubber sleeves.</dd>
+      <dt>Assumptions</dt><dd>The rubber sleeve is visual material layering for this slice because the existing kinematic capsule remains the active flipper contact body.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-014</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for flipper material layering and shared physical-board IDs.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="flipper-bat-fasteners" data-date="2026-06-10">
     <h3>Flipper Bat Fasteners</h3>
     <dl>

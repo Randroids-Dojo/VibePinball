@@ -857,9 +857,26 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
 
 const createFlipper = (flipperDevice: FlipperDevice, color: number) => {
   const flipper = new THREE.Group();
-  const capsuleLength = Math.max(flipperDevice.length - flipperDevice.batRadius * 2, 0.1);
+  const sleeveCapsuleLength = Math.max(flipperDevice.rubberSleeve.length - flipperDevice.rubberSleeve.radius * 2, 0.1);
+  const rubber = mesh(
+    new THREE.CapsuleGeometry(flipperDevice.rubberSleeve.radius, sleeveCapsuleLength, 8, 18),
+    new THREE.MeshStandardMaterial({
+      color: flipperDevice.rubberSleeve.color,
+      roughness: 0.44,
+      metalness: 0
+    })
+  );
+  rubber.rotation.z = Math.PI / 2;
+  rubber.position.x = flipperDevice.rubberSleeve.localX;
+  flipper.add(rubber);
+
+  const coreRadius = Math.max(
+    flipperDevice.batRadius - flipperDevice.rubberSleeve.thickness * 0.28,
+    flipperDevice.batRadius * 0.72
+  );
+  const capsuleLength = Math.max(flipperDevice.length - coreRadius * 2, 0.1);
   const body = mesh(
-    new THREE.CapsuleGeometry(flipperDevice.batRadius, capsuleLength, 8, 18),
+    new THREE.CapsuleGeometry(coreRadius, capsuleLength, 8, 18),
     new THREE.MeshStandardMaterial({ color, roughness: 0.28 })
   );
   body.rotation.z = Math.PI / 2;

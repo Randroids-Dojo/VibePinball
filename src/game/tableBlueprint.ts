@@ -239,8 +239,19 @@ export interface FlipperDevice {
   batRadius: number;
   pivotRadius: number;
   rubberWidth: number;
+  rubberSleeve: FlipperRubberSleeve;
   pivotCap: FlipperPivotCap;
   batFasteners: FlipperBatFastener[];
+}
+
+export interface FlipperRubberSleeve {
+  id: string;
+  localX: number;
+  length: number;
+  radius: number;
+  thickness: number;
+  color: number;
+  kind: "rubber";
 }
 
 export interface FlipperPivotCap {
@@ -1056,6 +1067,15 @@ export const silverballSocialBlueprint: TableBlueprint = {
       batRadius: 0.17,
       pivotRadius: 0.2,
       rubberWidth: 0.13,
+      rubberSleeve: {
+        id: "flipper.left.rubber-sleeve",
+        localX: 0.6,
+        length: 1.2,
+        radius: 0.17,
+        thickness: 0.13,
+        color: 0x7f2c22,
+        kind: "rubber"
+      },
       pivotCap: { id: "flipper.left.pivot-cap", radius: 0.25, height: 0.055, kind: "metal" },
       batFasteners: [
         { id: "flipper.left.bat-screw-inner", localX: 0.34, localZ: 0, radius: 0.044, kind: "metal" },
@@ -1073,6 +1093,15 @@ export const silverballSocialBlueprint: TableBlueprint = {
       batRadius: 0.17,
       pivotRadius: 0.2,
       rubberWidth: 0.13,
+      rubberSleeve: {
+        id: "flipper.right.rubber-sleeve",
+        localX: 0.6,
+        length: 1.2,
+        radius: 0.17,
+        thickness: 0.13,
+        color: 0x7f2c22,
+        kind: "rubber"
+      },
       pivotCap: { id: "flipper.right.pivot-cap", radius: 0.25, height: 0.055, kind: "metal" },
       batFasteners: [
         { id: "flipper.right.bat-screw-inner", localX: 0.34, localZ: 0, radius: 0.044, kind: "metal" },
