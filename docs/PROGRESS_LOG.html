@@ -35,7 +35,7 @@
     <h3>Ramp Entry Flap Posts</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/ramp-entry-flap-posts</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd>PR #44</dd>
       <dt>Changed</dt><dd>added capped metal hinge and guide-post records to the left ramp entry handoff so the ramp mouth reads as a mounted flap and wire-guide assembly. The left ramp shot path now names the entry flap and both ramp-entry guide IDs, while rendering and physics consume the posts from shared handoff blueprint data.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-ramp-entry-flap-posts.png</code> confirmed a nonblank WebGL board with the ramp-entry area still correctly framed.</dd>
       <dt>Assumptions</dt><dd>The ramp entry hinge and guide posts use fixed metal post colliders because they are physical mounts for the entry flap and wire guides, not moving mechanisms in this v1 slice.</dd>
