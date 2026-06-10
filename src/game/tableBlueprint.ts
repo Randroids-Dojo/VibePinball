@@ -15,6 +15,12 @@ export interface Segment {
   kind: "metal" | "rubber" | "wood" | "plastic" | "wire";
 }
 
+export interface CabinetHardware {
+  sideRails: Segment[];
+  glassRims: Segment[];
+  lockdownBar: Segment;
+}
+
 export interface Post {
   id: string;
   x: number;
@@ -228,6 +234,7 @@ export interface ShotPath {
 export interface TableBlueprint {
   id: "silverball-social-v1";
   scale: TableScale;
+  cabinet: CabinetHardware;
   boundaries: Segment[];
   laneWalls: Segment[];
   rolloverWires: Segment[];
@@ -257,6 +264,17 @@ export const silverballSocialBlueprint: TableBlueprint = {
     playfieldWidth: 8.1,
     playfieldLength: 16.8,
     ballRadius: 0.2125
+  },
+  cabinet: {
+    sideRails: [
+      { id: "cabinet.left-side-rail", x: -4.32, z: 0.1, width: 0.18, depth: 16.05, kind: "metal" },
+      { id: "cabinet.right-side-rail", x: 4.32, z: 0.1, width: 0.18, depth: 16.05, kind: "metal" }
+    ],
+    glassRims: [
+      { id: "cabinet.left-glass-rim", x: -3.86, z: 0.1, width: 0.06, depth: 15.35, kind: "metal" },
+      { id: "cabinet.right-glass-rim", x: 3.86, z: 0.1, width: 0.06, depth: 15.35, kind: "metal" }
+    ],
+    lockdownBar: { id: "cabinet.lockdown-bar", x: 0, z: 7.68, width: 4.9, depth: 0.22, kind: "metal" }
   },
   boundaries: [
     { id: "boundary.left-wall", x: -4.05, z: 0, width: 0.18, depth: 7.9, kind: "metal" },

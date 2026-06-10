@@ -3,6 +3,7 @@ import type { PhysicsSnapshot } from "./physics";
 import {
   rampSidePoint,
   silverballSocialBlueprint,
+  type CabinetHardware,
   type DrainDevice,
   type LampInsert,
   type FlipperDevice,
@@ -72,6 +73,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   blueprint.rolloverWires.forEach((segment) => addSegment(group, segment, 0.18));
   blueprint.flipperStops.forEach((segment) => addSegment(group, segment, 0.32));
   blueprint.posts.forEach((post) => addPost(group, post.x, post.z, post.radius, post.kind));
+  addCabinetHardware(group, blueprint.cabinet);
   blueprint.lanes.forEach((lane) => addInsert(group, lane.x, lane.z, lane.side === "top" ? 0x5fd4ff : 0xf1c453));
   blueprint.lampInserts.forEach((insert) => addLampInsert(group, insert));
   blueprint.orbits.forEach((orbit) => {
@@ -545,6 +547,48 @@ const addPlasticCover = (
   plastic.position.set(cover.x, cover.layerY, cover.z);
   plastic.rotation.y = cover.angle ?? 0;
   group.add(plastic);
+};
+
+const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {
+  cabinet.sideRails.forEach((segment) => addRail(
+    group,
+    segment.x,
+    segment.z,
+    segment.width,
+    segment.depth,
+    segment.angle ?? 0,
+    0x6f7677,
+    0.58,
+    0,
+    0.3
+  ));
+  cabinet.glassRims.forEach((segment) => {
+    const rim = mesh(
+      new THREE.BoxGeometry(segment.width, 0.035, segment.depth),
+      new THREE.MeshStandardMaterial({
+        color: 0x9fd0ff,
+        transparent: true,
+        opacity: 0.32,
+        roughness: 0.08,
+        metalness: 0.1
+      })
+    );
+    rim.position.set(segment.x, 0.84, segment.z);
+    rim.rotation.y = segment.angle ?? 0;
+    group.add(rim);
+  });
+  addRail(
+    group,
+    cabinet.lockdownBar.x,
+    cabinet.lockdownBar.z,
+    cabinet.lockdownBar.width,
+    cabinet.lockdownBar.depth,
+    cabinet.lockdownBar.angle ?? 0,
+    0xb7c4c7,
+    0.54,
+    0,
+    0.2
+  );
 };
 
 const addDeckLabel = (
