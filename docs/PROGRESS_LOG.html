@@ -35,7 +35,7 @@
     <h3>Apron Trough Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/apron-trough-hardware</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd>#5</dd>
       <dt>Changed</dt><dd>made the apron, center drain, trough, and shooter feed closer to the physical blueprint by moving the lower apron card, drain mouth guides, trough walls, ball slots, and shooter feed guide into the shared table definition. Rendering now draws those pieces from the blueprint, while physics consumes the drain guides, trough walls, and feed guide as colliders.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>git diff --check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-apron-trough-unobstructed.png</code> confirmed a nonblank WebGL board with the authored lower apron, drain mouth, trough area, and shooter feed guide visible.</dd>
       <dt>Assumptions</dt><dd>The trough remains represented as three authored ball pockets for v1 readability while the active simulation still serves one physical ball until the multiball slice lands.</dd>
