@@ -35,7 +35,7 @@
     <h3>Playfield Deck Slope</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/playfield-deck-slope</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd>PR #26</dd>
       <dt>Changed</dt><dd>moved the physical playfield deck dimensions, thickness, surface height, visual tilt, wood material color, and table-slope gravity vector into an authored <code>playfield.deck</code> blueprint record. Rendering now sizes and tilts the deck from that shared record, and Rapier creates the world from the same authored gravity vector.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-playfield-deck-slope.png</code> confirmed a nonblank WebGL board with the authored deck dimensions and tilt still correctly framed.</dd>
       <dt>Assumptions</dt><dd>The deck remains visually tilted while gameplay slope is represented by the shared gravity vector, matching the existing flat-collider physics model without changing ball height behavior in this slice.</dd>
