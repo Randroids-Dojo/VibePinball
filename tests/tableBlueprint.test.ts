@@ -716,6 +716,17 @@ describe("Silverball Social physical board blueprint", () => {
       expect(offset).toBeLessThanOrEqual((saucer?.cup.outerRadius ?? 0) + fastener.radius);
     }
     expect(saucer?.walls.length).toBeGreaterThanOrEqual(4);
+    expect(saucer?.walls.every((wall) => wall.fasteners.length === 2)).toBe(true);
+    for (const wall of saucer?.walls ?? []) {
+      expect(wall.fasteners.every((fastener) => fastener.id.startsWith(`${wall.id}.screw-`)), wall.id).toBe(true);
+      expect(wall.fasteners.every((fastener) => fastener.targetId === wall.id), wall.id).toBe(true);
+      expect(wall.fasteners.every((fastener) => fastener.kind === "metal"), wall.id).toBe(true);
+      expect(wall.fasteners.every((fastener) => fastener.radius >= 0.028), wall.id).toBe(true);
+      for (const fastener of wall.fasteners) {
+        expect(Math.hypot(fastener.x - wall.x, fastener.z - wall.z), fastener.id)
+          .toBeLessThanOrEqual(Math.max(wall.width, wall.depth) / 2);
+      }
+    }
     expect(saucer?.posts.length).toBeGreaterThanOrEqual(2);
     for (const post of saucer?.posts ?? []) {
       expect(post.kind).toBe("metal");
@@ -947,6 +958,7 @@ describe("Silverball Social physical board blueprint", () => {
         saucer.cup.id,
         ...saucer.cup.fasteners.map((fastener) => fastener.id),
         ...saucer.walls.map((segment) => segment.id),
+        ...saucer.walls.flatMap((segment) => segment.fasteners.map((fastener) => fastener.id)),
         ...saucer.posts.flatMap((post) => post.cap ? [post.id, post.cap.id] : [post.id])
       ]),
       ...blueprint.ramps.flatMap((ramp) => [

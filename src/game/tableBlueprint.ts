@@ -373,8 +373,13 @@ export interface SaucerDevice extends SensorZone {
   ejectX: number;
   ejectZ: number;
   ejectStrength: number;
-  walls: Segment[];
+  walls: SaucerWallSegment[];
   posts: Post[];
+}
+
+export interface SaucerWallSegment extends Segment {
+  kind: "metal" | "wire";
+  fasteners: SaucerWallFastener[];
 }
 
 export interface SaucerCup {
@@ -388,6 +393,15 @@ export interface SaucerCup {
 
 export interface SaucerCupFastener {
   id: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
+export interface SaucerWallFastener {
+  id: string;
+  targetId: string;
   x: number;
   z: number;
   radius: number;
@@ -845,6 +859,45 @@ const withTargetBankFrameFasteners = (
           x: segment.x + offset.x,
           z: segment.z + offset.z,
           radius: 0.028,
+          kind: "metal"
+        }
+      ]
+    };
+  });
+
+const withSaucerWallFasteners = (
+  segments: Array<Omit<SaucerWallSegment, "fasteners">>
+): SaucerWallSegment[] =>
+  segments.map((segment) => {
+    const angle = segment.angle ?? 0;
+    const halfSpan = Math.max(segment.width, segment.depth) * 0.38;
+    const offset = segment.width >= segment.depth
+      ? {
+          x: Math.cos(angle) * halfSpan,
+          z: -Math.sin(angle) * halfSpan
+        }
+      : {
+          x: Math.sin(angle) * halfSpan,
+          z: Math.cos(angle) * halfSpan
+        };
+
+    return {
+      ...segment,
+      fasteners: [
+        {
+          id: `${segment.id}.screw-a`,
+          targetId: segment.id,
+          x: segment.x - offset.x,
+          z: segment.z - offset.z,
+          radius: segment.kind === "wire" ? 0.028 : 0.032,
+          kind: "metal"
+        },
+        {
+          id: `${segment.id}.screw-b`,
+          targetId: segment.id,
+          x: segment.x + offset.x,
+          z: segment.z + offset.z,
+          radius: segment.kind === "wire" ? 0.028 : 0.032,
           kind: "metal"
         }
       ]
@@ -1747,12 +1800,12 @@ export const silverballSocialBlueprint: TableBlueprint = {
       ejectX: 1.8,
       ejectZ: 2.4,
       ejectStrength: 1.85,
-      walls: [
+      walls: withSaucerWallFasteners([
         { id: "lock.saucer.back-wall", x: 0.92, z: -3.76, width: 0.82, depth: 0.06, kind: "metal" },
         { id: "lock.saucer.left-entry-wall", x: 0.54, z: -3.36, width: 0.06, depth: 0.52, angle: -0.28, kind: "metal" },
         { id: "lock.saucer.right-entry-wall", x: 1.3, z: -3.28, width: 0.06, depth: 0.54, angle: 0.34, kind: "metal" },
         { id: "lock.saucer.eject-guide", x: 1.42, z: -2.96, width: 0.06, depth: 0.72, angle: -0.62, kind: "wire" }
-      ],
+      ]),
       posts: [
         {
           id: "lock.saucer.left-post",

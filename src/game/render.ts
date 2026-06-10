@@ -20,6 +20,7 @@ import {
   type Post,
   type RampPath,
   type RolloverWire,
+  type SaucerWallSegment,
   type SlingDevice,
   type TargetDevice,
   type TargetBankFrameSegment,
@@ -189,7 +190,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
       screw.position.set(fastener.x, 0.275, fastener.z);
       group.add(screw);
     });
-    saucer.walls.forEach((segment) => addSegment(group, segment, segment.kind === "wire" ? 0.5 : 0.32));
+    saucer.walls.forEach((segment) => addSaucerWallSegment(group, segment));
     saucer.posts.forEach((post) => addPost(group, post));
     const heldBall = mesh(
       new THREE.SphereGeometry(blueprint.scale.ballRadius * 0.72, 24, 14),
@@ -767,6 +768,18 @@ const addTargetMountHardware = (group: THREE.Group, target: TargetDevice) => {
       new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.16, metalness: 0.86 })
     );
     screw.position.set(fastener.x, 0.28, fastener.z);
+    group.add(screw);
+  });
+};
+
+const addSaucerWallSegment = (group: THREE.Group, segment: SaucerWallSegment) => {
+  addSegment(group, segment, segment.kind === "wire" ? 0.5 : 0.32);
+  segment.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, segment.kind === "wire" ? 0.655 : 0.485, fastener.z);
     group.add(screw);
   });
 };
