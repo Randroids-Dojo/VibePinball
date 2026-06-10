@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="shooter-gate-post-caps" data-date="2026-06-10">
+    <h3>Shooter Gate Post Caps</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/shooter-gate-post-caps</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added authored metal cap records to the shooter lane one-way gate hinge and stop posts so the skill-shot entrance reads as capped mounted hardware instead of bare metal posts. Rendering consumes the caps through the existing shared post path from plunger blueprint data.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-shooter-gate-post-caps.png</code> confirmed a nonblank WebGL board with the shooter gate area still framed.</dd>
+      <dt>Assumptions</dt><dd>The shooter gate post caps are visual mounting hardware and do not need separate physics colliders because the existing hinge and stop posts remain the active gate support collision geometry.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-013</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for shooter-lane gate mounting hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="target-bank-post-caps" data-date="2026-06-10">
     <h3>Target Bank Post Caps</h3>
     <dl>
