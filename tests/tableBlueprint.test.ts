@@ -55,6 +55,28 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
+  it("models each lower lane mouth with an authored plastic guide cover", () => {
+    const lowerLanes = blueprint.lanes.filter((lane) => lane.id.startsWith("lane.lower"));
+
+    expect(lowerLanes).toHaveLength(4);
+
+    for (const lane of lowerLanes) {
+      const cover = lane.guideCover;
+
+      expect(cover?.id).toBe(`${lane.id}.guide-cover`);
+      expect(cover?.width).toBeGreaterThan(0.5);
+      expect(cover?.depth).toBeGreaterThan(0.7);
+      expect(cover?.layerY).toBeGreaterThan(0.45);
+      expect(cover?.layerY).toBeLessThanOrEqual(0.62);
+      expect(Math.abs((cover?.x ?? 0) - lane.x)).toBeLessThan(0.18);
+      expect(Math.abs((cover?.z ?? 0) - lane.z)).toBeLessThan(0.7);
+      expect(cover?.fasteners).toHaveLength(2);
+      expect(cover?.fasteners.every((fastener) => fastener.id.startsWith(`${lane.id}.guide-cover.screw-`))).toBe(true);
+      expect(cover?.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+      expect(cover?.fasteners.every((fastener) => fastener.radius > 0)).toBe(true);
+    }
+  });
+
   it("models exposed rubber posts with metal washer caps", () => {
     const rubberPosts = blueprint.posts.filter((post) => post.kind === "rubber");
 
@@ -440,6 +462,9 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.posts.map((item) => item.id),
       ...blueprint.posts.flatMap((item) => item.cap ? [item.cap.id] : []),
       ...blueprint.lanes.map((item) => item.id),
+      ...blueprint.lanes.flatMap((item) => item.guideCover
+        ? [item.guideCover.id, ...item.guideCover.fasteners.map((fastener) => fastener.id)]
+        : []),
       ...blueprint.flippers.map((item) => item.id),
       ...blueprint.flippers.map((item) => item.pivotCap.id),
       ...blueprint.slings.flatMap((sling) => [

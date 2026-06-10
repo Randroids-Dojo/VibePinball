@@ -8,6 +8,7 @@ import {
   type CabinetHardware,
   type DrainDevice,
   type LampInsert,
+  type LaneGuideCover,
   type FlipperDevice,
   type PlasticCover,
   type PlungerDevice,
@@ -80,7 +81,12 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   blueprint.flipperStops.forEach((segment) => addSegment(group, segment, 0.32));
   blueprint.posts.forEach((post) => addPost(group, post));
   addCabinetHardware(group, blueprint.cabinet);
-  blueprint.lanes.forEach((lane) => addInsert(group, lane.x, lane.z, lane.side === "top" ? 0x5fd4ff : 0xf1c453));
+  blueprint.lanes.forEach((lane) => {
+    if (lane.guideCover) {
+      addLaneGuideCover(group, lane.guideCover);
+    }
+    addInsert(group, lane.x, lane.z, lane.side === "top" ? 0x5fd4ff : 0xf1c453);
+  });
   blueprint.lampInserts.forEach((insert) => addLampInsert(group, insert));
   blueprint.orbits.forEach((orbit) => {
     addInsert(group, orbit.entry.x, orbit.entry.z, 0x76ff8f);
@@ -543,6 +549,31 @@ const addPlasticCover = (
   plastic.position.set(cover.x, cover.layerY, cover.z);
   plastic.rotation.y = cover.angle ?? 0;
   group.add(plastic);
+};
+
+const addLaneGuideCover = (group: THREE.Group, cover: LaneGuideCover) => {
+  const plastic = mesh(
+    new THREE.BoxGeometry(cover.width, 0.05, cover.depth),
+    new THREE.MeshStandardMaterial({
+      color: cover.color,
+      transparent: true,
+      opacity: 0.72,
+      roughness: 0.24,
+      metalness: 0.02
+    })
+  );
+  plastic.position.set(cover.x, cover.layerY, cover.z);
+  plastic.rotation.y = cover.angle ?? 0;
+  group.add(plastic);
+
+  cover.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.035, 16),
+      new THREE.MeshStandardMaterial({ color: 0xe2e9ea, roughness: 0.16, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, cover.layerY + 0.04, fastener.z);
+    group.add(screw);
+  });
 };
 
 const addTargetBankHardware = (group: THREE.Group, targetBank: TargetBankHardware) => {
