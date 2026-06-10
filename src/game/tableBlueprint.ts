@@ -88,8 +88,16 @@ export interface PopBumperDevice extends SensorZone {
   capRadius: number;
   skirtRadius: number;
   capColor: number;
+  chromeRing: PopBumperChromeRing;
   ringPostIds: string[];
   guardSegments: Segment[];
+}
+
+export interface PopBumperChromeRing {
+  id: string;
+  radius: number;
+  tubeRadius: number;
+  kind: "metal";
 }
 
 export interface TargetDevice extends SensorZone {
@@ -731,6 +739,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       capRadius: 0.45,
       skirtRadius: 0.58,
       capColor: 0xd74b3f,
+      chromeRing: { id: "pop-a.chrome-ring", radius: 0.68, tubeRadius: 0.035, kind: "metal" },
       ringPostIds: ["post.pop-a.upper", "post.pop-a.outer", "post.pop-a.inner"],
       guardSegments: [
         { id: "pop-a.left-ring-rubber", x: -1.66, z: -4.48, width: 0.07, depth: 0.62, angle: -0.54, kind: "rubber" },
@@ -745,6 +754,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       capRadius: 0.45,
       skirtRadius: 0.58,
       capColor: 0xd74b3f,
+      chromeRing: { id: "pop-b.chrome-ring", radius: 0.68, tubeRadius: 0.035, kind: "metal" },
       ringPostIds: ["post.pop-b.upper", "post.pop-b.outer", "post.pop-b.inner"],
       guardSegments: [
         { id: "pop-b.left-ring-rubber", x: 0.74, z: -4.68, width: 0.07, depth: 0.62, angle: -0.52, kind: "rubber" },
@@ -759,6 +769,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       capRadius: 0.42,
       skirtRadius: 0.55,
       capColor: 0xf1c453,
+      chromeRing: { id: "pop-c.chrome-ring", radius: 0.64, tubeRadius: 0.035, kind: "metal" },
       ringPostIds: ["post.pop-c.lower-left", "post.pop-c.lower-right", "post.pop-c.upper"],
       guardSegments: [
         { id: "pop-c.lower-left-ring-rubber", x: -0.48, z: -3.38, width: 0.07, depth: 0.58, angle: -0.58, kind: "rubber" },

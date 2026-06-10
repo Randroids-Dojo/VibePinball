@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="pop-bumper-chrome-ring-hardware" data-date="2026-06-10">
+    <h3>Pop Bumper Chrome Ring Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/pop-bumper-chrome-ring-hardware</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>made the pop bumper nest closer to real bumper hardware by adding authored chrome-ring records to each pop bumper. Rendering now draws those rings from shared bumper data instead of anonymous helper geometry.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-pop-bumper-chrome-ring-hardware.png</code> confirmed a nonblank WebGL board with authored bumper chrome rings visible in the upper bumper nest.</dd>
+      <dt>Assumptions</dt><dd>The chrome rings are visual bumper-top hardware and do not need separate collision because the skirt collider remains the authoritative bumper contact surface.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-009</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for authored upper-playfield bumper hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="wireform-cross-tie-hardware" data-date="2026-06-10">
     <h3>Wireform Cross Tie Hardware</h3>
     <dl>
