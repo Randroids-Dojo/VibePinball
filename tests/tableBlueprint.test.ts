@@ -480,6 +480,27 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.plunger.lowerGuides.every((guide) => guide.kind === "metal")).toBe(true);
   });
 
+  it("models the shooter one-way gate as hinged physical hardware", () => {
+    const gate = blueprint.plunger.gate;
+    const hinge = blueprint.plunger.gateHingePost;
+    const stop = blueprint.plunger.gateStopPost;
+
+    expect(gate.id).toBe("shooter.one-way-gate");
+    expect(gate.kind).toBe("metal");
+    expect(gate.width).toBeGreaterThan(blueprint.scale.ballRadius * 2.5);
+    expect(gate.depth).toBeLessThan(blueprint.scale.ballRadius);
+    expect(hinge.id).toBe("shooter.one-way-gate.hinge-post");
+    expect(stop.id).toBe("shooter.one-way-gate.stop-post");
+    expect(hinge.kind).toBe("metal");
+    expect(stop.kind).toBe("metal");
+    expect(hinge.radius).toBeGreaterThanOrEqual(0.06);
+    expect(stop.radius).toBeGreaterThanOrEqual(0.05);
+    expect(hinge.x).toBeLessThan(gate.x);
+    expect(stop.x).toBeGreaterThan(gate.x);
+    expect(Math.abs(hinge.z - gate.z)).toBeLessThan(0.2);
+    expect(Math.abs(stop.z - gate.z)).toBeLessThan(0.25);
+  });
+
   it("models the lock saucer with bowl walls, entry posts, hold point, and eject vector", () => {
     const saucer = blueprint.saucers.find((item) => item.id === "lock.saucer");
     expect(saucer).toBeDefined();
@@ -626,6 +647,8 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.plunger.knob.id,
       ...blueprint.plunger.lowerGuides.map((guide) => guide.id),
       blueprint.plunger.gate.id,
+      blueprint.plunger.gateHingePost.id,
+      blueprint.plunger.gateStopPost.id,
       ...blueprint.bumpers.flatMap((item) => [
         item.id,
         item.chromeRing.id,
