@@ -32,6 +32,20 @@ export interface Segment {
   kind: "metal" | "rubber" | "wood" | "plastic" | "wire";
 }
 
+export interface FlipperStop extends Segment {
+  kind: "rubber";
+  fasteners: FlipperStopFastener[];
+}
+
+export interface FlipperStopFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
 export interface CabinetHardware {
   body: CabinetBox;
   backbox: CabinetBox;
@@ -578,7 +592,7 @@ export interface TableBlueprint {
   laneWalls: Segment[];
   rubberBands: RubberBand[];
   rolloverWires: Segment[];
-  flipperStops: Segment[];
+  flipperStops: FlipperStop[];
   posts: Post[];
   lanes: LaneDevice[];
   flippers: FlipperDevice[];
@@ -882,10 +896,58 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "rollover.shooter.skill", x: 3.05, z: -6.35, width: 0.48, depth: 0.035, angle: 0.08, kind: "wire" }
   ],
   flipperStops: [
-    { id: "flipper.left.return-stop", x: -0.66, z: 4.42, width: 0.38, depth: 0.1, angle: 0.28, kind: "rubber" },
-    { id: "flipper.left.end-rubber", x: -1.93, z: 4.5, width: 0.32, depth: 0.1, angle: -0.34, kind: "rubber" },
-    { id: "flipper.right.return-stop", x: 0.66, z: 4.42, width: 0.38, depth: 0.1, angle: -0.28, kind: "rubber" },
-    { id: "flipper.right.end-rubber", x: 1.93, z: 4.5, width: 0.32, depth: 0.1, angle: 0.34, kind: "rubber" }
+    {
+      id: "flipper.left.return-stop",
+      x: -0.66,
+      z: 4.42,
+      width: 0.38,
+      depth: 0.1,
+      angle: 0.28,
+      kind: "rubber",
+      fasteners: [
+        { id: "flipper.left.return-stop.screw-inner", targetId: "flipper.left.return-stop", x: -0.78, z: 4.38, radius: 0.032, kind: "metal" },
+        { id: "flipper.left.return-stop.screw-outer", targetId: "flipper.left.return-stop", x: -0.54, z: 4.46, radius: 0.032, kind: "metal" }
+      ]
+    },
+    {
+      id: "flipper.left.end-rubber",
+      x: -1.93,
+      z: 4.5,
+      width: 0.32,
+      depth: 0.1,
+      angle: -0.34,
+      kind: "rubber",
+      fasteners: [
+        { id: "flipper.left.end-rubber.screw-inner", targetId: "flipper.left.end-rubber", x: -2.04, z: 4.54, radius: 0.03, kind: "metal" },
+        { id: "flipper.left.end-rubber.screw-outer", targetId: "flipper.left.end-rubber", x: -1.82, z: 4.46, radius: 0.03, kind: "metal" }
+      ]
+    },
+    {
+      id: "flipper.right.return-stop",
+      x: 0.66,
+      z: 4.42,
+      width: 0.38,
+      depth: 0.1,
+      angle: -0.28,
+      kind: "rubber",
+      fasteners: [
+        { id: "flipper.right.return-stop.screw-inner", targetId: "flipper.right.return-stop", x: 0.78, z: 4.38, radius: 0.032, kind: "metal" },
+        { id: "flipper.right.return-stop.screw-outer", targetId: "flipper.right.return-stop", x: 0.54, z: 4.46, radius: 0.032, kind: "metal" }
+      ]
+    },
+    {
+      id: "flipper.right.end-rubber",
+      x: 1.93,
+      z: 4.5,
+      width: 0.32,
+      depth: 0.1,
+      angle: 0.34,
+      kind: "rubber",
+      fasteners: [
+        { id: "flipper.right.end-rubber.screw-inner", targetId: "flipper.right.end-rubber", x: 2.04, z: 4.54, radius: 0.03, kind: "metal" },
+        { id: "flipper.right.end-rubber.screw-outer", targetId: "flipper.right.end-rubber", x: 1.82, z: 4.46, radius: 0.03, kind: "metal" }
+      ]
+    }
   ],
   posts: withRubberPostCaps([
     { id: "post.left-out-top", x: -3.18, z: 3.92, radius: 0.13, kind: "rubber" },
