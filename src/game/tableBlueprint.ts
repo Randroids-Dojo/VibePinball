@@ -330,8 +330,20 @@ export interface TroughDevice {
   width: number;
   depth: number;
   ballSlots: SensorZone[];
+  slotRims: TroughSlotRim[];
   walls: Segment[];
   feedGuide: Segment;
+}
+
+export interface TroughSlotRim {
+  id: string;
+  slotId: string;
+  x: number;
+  z: number;
+  innerRadius: number;
+  outerRadius: number;
+  height: number;
+  kind: "metal";
 }
 
 export interface PlasticCover {
@@ -1253,6 +1265,38 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "trough.slot-1", x: -0.52, z: 7.54, radius: 0.18 },
         { id: "trough.slot-2", x: 0, z: 7.54, radius: 0.18 },
         { id: "trough.slot-3", x: 0.52, z: 7.54, radius: 0.18 }
+      ],
+      slotRims: [
+        {
+          id: "trough.slot-1.rim",
+          slotId: "trough.slot-1",
+          x: -0.52,
+          z: 7.54,
+          innerRadius: 0.18,
+          outerRadius: 0.245,
+          height: 0.045,
+          kind: "metal"
+        },
+        {
+          id: "trough.slot-2.rim",
+          slotId: "trough.slot-2",
+          x: 0,
+          z: 7.54,
+          innerRadius: 0.18,
+          outerRadius: 0.245,
+          height: 0.045,
+          kind: "metal"
+        },
+        {
+          id: "trough.slot-3.rim",
+          slotId: "trough.slot-3",
+          x: 0.52,
+          z: 7.54,
+          innerRadius: 0.18,
+          outerRadius: 0.245,
+          height: 0.045,
+          kind: "metal"
+        }
       ],
       walls: [
         { id: "trough.left-wall", x: -0.96, z: 7.55, width: 0.06, depth: 0.44, kind: "metal" },

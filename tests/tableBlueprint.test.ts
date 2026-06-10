@@ -384,6 +384,20 @@ describe("Silverball Social physical board blueprint", () => {
 
     expect(blueprint.drain.trough.id).toBe("trough.ball-return");
     expect(blueprint.drain.trough.ballSlots).toHaveLength(3);
+    expect(blueprint.drain.trough.slotRims).toHaveLength(3);
+    expect(blueprint.drain.trough.slotRims.map((rim) => rim.id)).toEqual(
+      expect.arrayContaining(["trough.slot-1.rim", "trough.slot-2.rim", "trough.slot-3.rim"])
+    );
+    blueprint.drain.trough.slotRims.forEach((rim) => {
+      const slot = blueprint.drain.trough.ballSlots.find((candidate) => candidate.id === rim.slotId);
+      expect(slot).toBeDefined();
+      expect(rim.kind).toBe("metal");
+      expect(rim.innerRadius).toBeCloseTo(slot?.radius ?? 0);
+      expect(rim.outerRadius).toBeGreaterThan(rim.innerRadius);
+      expect(rim.height).toBeGreaterThan(0.03);
+      expect(rim.x).toBeCloseTo(slot?.x ?? 0);
+      expect(rim.z).toBeCloseTo(slot?.z ?? 0);
+    });
     expect(blueprint.drain.trough.walls.map((wall) => wall.id)).toEqual(
       expect.arrayContaining(["trough.left-wall", "trough.right-wall", "trough.back-wall"])
     );
@@ -520,6 +534,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.cabinet.speakerGrilles.map((item) => item.id),
       blueprint.drain.trough.id,
       ...blueprint.drain.trough.ballSlots.map((item) => item.id),
+      ...blueprint.drain.trough.slotRims.map((item) => item.id),
       ...blueprint.drain.trough.walls.map((item) => item.id),
       blueprint.drain.trough.feedGuide.id,
       ...blueprint.boundaries.map((item) => item.id),
