@@ -63,7 +63,7 @@ export class PinballPhysics {
     const rapier = await import("@dimforge/rapier3d-compat");
     await rapier.init();
 
-    const world = new rapier.World({ x: -1.25, y: 0, z: 8.8 });
+    const world = new rapier.World(blueprint.playfield.gravity);
     const ballBody = world.createRigidBody(
       rapier.RigidBodyDesc.dynamic()
         .setTranslation(3.18, 0.35, 5.55)

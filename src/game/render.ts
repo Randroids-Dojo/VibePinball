@@ -46,7 +46,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   camera.lookAt(0, 0, -0.55);
 
   const group = new THREE.Group();
-  group.rotation.x = -0.08;
+  group.rotation.x = -blueprint.playfield.slopeAngle;
   scene.add(group);
 
   const ambient = new THREE.AmbientLight(0xf8e7c2, 1.15);
@@ -62,10 +62,10 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   scene.add(warmLamp);
 
   const playfield = mesh(
-    new THREE.BoxGeometry(blueprint.scale.playfieldWidth + 0.1, 0.18, blueprint.scale.playfieldLength - 1.6),
-    new THREE.MeshStandardMaterial({ color: 0x8d3f2f, roughness: 0.38, metalness: 0.05 })
+    new THREE.BoxGeometry(blueprint.playfield.width, blueprint.playfield.thickness, blueprint.playfield.depth),
+    new THREE.MeshStandardMaterial({ color: blueprint.playfield.woodColor, roughness: 0.38, metalness: 0.05 })
   );
-  playfield.position.y = -0.13;
+  playfield.position.set(blueprint.playfield.x, blueprint.playfield.surfaceY - blueprint.playfield.thickness / 2, blueprint.playfield.z);
   playfield.receiveShadow = true;
   group.add(playfield);
 
