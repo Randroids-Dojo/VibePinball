@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="skill-shot-lower-guide-fasteners" data-date="2026-06-10">
+    <h3>Skill Shot Lower Guide Fasteners</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/skill-shot-lower-guide-fasteners</code></dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/114">PR 114</a></dd>
+      <dt>Changed</dt><dd>linked the skill-shot path to the authored lower shooter guide IDs and screw IDs so the plunger shot references the metal rails that frame the lower launch lane.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
+      <dt>Assumptions</dt><dd>The lower shooter guide rails and screws belong to the skill-shot path because they physically frame the lower launch lane before the ball reaches the top rollover target.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-010</code>, <code>REQ-017</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="skill-shot-feed-guide-fasteners" data-date="2026-06-10">
     <h3>Skill Shot Feed Guide Fasteners</h3>
     <dl>
