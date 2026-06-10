@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="left-orbit-entry-posts" data-date="2026-06-10">
+    <h3>Left Orbit Entry Posts</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/left-orbit-entry-posts</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added capped metal guide-post records to the left orbit entry so the left orbit mouth reads as mounted wire-guide hardware instead of only a curved wall chain. The left orbit shot path now names the entry guide IDs, while rendering and physics consume the posts from shared handoff blueprint data.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-left-orbit-entry-posts.png</code> confirmed a nonblank WebGL board with the left orbit entry area still correctly framed.</dd>
+      <dt>Assumptions</dt><dd>The left orbit entry guide posts use fixed metal post colliders because they are physical mounts for the orbit mouth wires, not scoring sensors or moving gates.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-010</code>, <code>REQ-017</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for explicit left-orbit entry hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="right-orbit-entry-posts" data-date="2026-06-10">
     <h3>Right Orbit Entry Posts</h3>
     <dl>

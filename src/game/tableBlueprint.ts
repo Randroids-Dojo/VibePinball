@@ -1599,6 +1599,48 @@ export const silverballSocialBlueprint: TableBlueprint = {
       ]
     },
     {
+      id: "handoff.left-orbit-entry",
+      label: "Left orbit entry guide",
+      segments: [
+        { id: "handoff.left-orbit-entry.inner-guide", x: -2.68, z: 1.06, width: 0.06, depth: 0.82, angle: -0.18, kind: "wire" },
+        { id: "handoff.left-orbit-entry.outer-guide", x: -3.38, z: 1.02, width: 0.06, depth: 0.86, angle: 0.16, kind: "wire" }
+      ],
+      posts: [
+        {
+          id: "handoff.left-orbit-entry.inner-guide.lower-post",
+          x: -2.61,
+          z: 1.45,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.left-orbit-entry.inner-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.left-orbit-entry.inner-guide.upper-post",
+          x: -2.75,
+          z: 0.68,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.left-orbit-entry.inner-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.left-orbit-entry.outer-guide.lower-post",
+          x: -3.45,
+          z: 1.42,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.left-orbit-entry.outer-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.left-orbit-entry.outer-guide.upper-post",
+          x: -3.31,
+          z: 0.62,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.left-orbit-entry.outer-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        }
+      ]
+    },
+    {
       id: "handoff.right-orbit-entry",
       label: "Right orbit entry guide",
       segments: [
@@ -2163,7 +2205,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     gateStopPost: { id: "shooter.one-way-gate.stop-post", x: 3.36, z: -5.64, radius: 0.06, kind: "metal" }
   },
   shots: [
-    { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
+    { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "handoff.left-orbit-entry.inner-guide", "handoff.left-orbit-entry.outer-guide", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
     { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.mount-plate", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.mount-plate", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.mount-plate", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.mount-plate", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.mount-plate", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
