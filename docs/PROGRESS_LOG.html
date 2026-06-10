@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="lane-wall-fasteners" data-date="2026-06-10">
+    <h3>Lane Wall Fasteners</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/lane-wall-fasteners</code></dd>
+      <dt>PR</dt><dd>PR pending</dd>
+      <dt>Changed</dt><dd>added authored metal screw heads to every lane wall rail so the lower lane rubbers, orbit rails, top rollover guides, and shooter skill-lane walls read as mounted playfield hardware instead of bare strips. Rendering now draws those wall fasteners from the shared lane wall blueprint data.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-lane-wall-fasteners.png</code> confirmed a nonblank WebGL board with lane wall rail hardware still framed.</dd>
+      <dt>Assumptions</dt><dd>The lane wall fasteners are visual mounting hardware and do not need separate physics colliders because the existing lane wall segments remain the active wall and guide geometry.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-008</code>, <code>REQ-009</code>, <code>REQ-010</code>, <code>REQ-017</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for mounted lane wall hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="boundary-rail-fasteners" data-date="2026-06-10">
     <h3>Boundary Rail Fasteners</h3>
     <dl>

@@ -12,6 +12,7 @@ import {
   type FlipperStop,
   type LampInsert,
   type LaneGuideCover,
+  type LaneWallSegment,
   type FlipperDevice,
   type PlayfieldArt,
   type PlasticCover,
@@ -78,7 +79,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   blueprint.playfieldArt.forEach((item) => addPlayfieldArt(group, item));
 
   blueprint.boundaries.forEach((segment) => addBoundarySegment(group, segment));
-  blueprint.laneWalls.forEach((segment) => addSegment(group, segment, 0.36));
+  blueprint.laneWalls.forEach((segment) => addLaneWallSegment(group, segment));
   blueprint.rubberBands.forEach((segment) => addSegment(group, segment, 0.44));
   blueprint.rolloverWires.forEach((wire) => addRolloverWire(group, wire));
   blueprint.flipperStops.forEach((stop) => addFlipperStop(group, stop));
@@ -364,6 +365,18 @@ const addBoundarySegment = (group: THREE.Group, segment: BoundarySegment) => {
       new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.49, fastener.z);
+    group.add(screw);
+  });
+};
+
+const addLaneWallSegment = (group: THREE.Group, segment: LaneWallSegment) => {
+  addSegment(group, segment, 0.36);
+  segment.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, 0.585, fastener.z);
     group.add(screw);
   });
 };
