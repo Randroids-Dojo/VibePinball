@@ -27,6 +27,24 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.playfield.woodColor).toBeGreaterThan(0);
   });
 
+  it("models playfield boundary rails as mounted hardware", () => {
+    expect(blueprint.boundaries).toHaveLength(15);
+    expect(blueprint.boundaries.every((segment) => segment.fasteners.length === 2)).toBe(true);
+
+    for (const segment of blueprint.boundaries) {
+      expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.radius >= 0.032), segment.id).toBe(true);
+      for (const fastener of segment.fasteners) {
+        expect(
+          Math.hypot(fastener.x - segment.x, fastener.z - segment.z),
+          fastener.id
+        ).toBeLessThanOrEqual(Math.max(segment.width, segment.depth) / 2);
+      }
+    }
+  });
+
   it("models cabinet rails, glass rim, and lockdown bar as authored hardware", () => {
     expect(blueprint.cabinet.body.id).toBe("cabinet.body");
     expect(blueprint.cabinet.backbox.id).toBe("cabinet.backbox");
@@ -857,6 +875,7 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.drain.trough.feedGuide.id,
       ...blueprint.drain.trough.fasteners.map((item) => item.id),
       ...blueprint.boundaries.map((item) => item.id),
+      ...blueprint.boundaries.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
       ...blueprint.laneWalls.map((item) => item.id),
       ...blueprint.rubberBands.map((item) => item.id),
       ...blueprint.rolloverWires.map((item) => item.id),

@@ -5,6 +5,7 @@ import {
   silverballSocialBlueprint,
   type ApronCard,
   type ApronFastener,
+  type BoundarySegment,
   type CabinetHardware,
   type DrainDevice,
   type DrainGuide,
@@ -76,7 +77,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
 
   blueprint.playfieldArt.forEach((item) => addPlayfieldArt(group, item));
 
-  blueprint.boundaries.forEach((segment) => addSegment(group, segment, 0.28));
+  blueprint.boundaries.forEach((segment) => addBoundarySegment(group, segment));
   blueprint.laneWalls.forEach((segment) => addSegment(group, segment, 0.36));
   blueprint.rubberBands.forEach((segment) => addSegment(group, segment, 0.44));
   blueprint.rolloverWires.forEach((wire) => addRolloverWire(group, wire));
@@ -353,6 +354,18 @@ const addSegment = (
         ? 0xf5dfb5
         : 0xb7c4c7;
   addRail(group, segment.x, segment.z, segment.width, segment.depth, segment.angle ?? 0, color, y);
+};
+
+const addBoundarySegment = (group: THREE.Group, segment: BoundarySegment) => {
+  addSegment(group, segment, 0.28);
+  segment.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, 0.49, fastener.z);
+    group.add(screw);
+  });
 };
 
 const addRolloverWire = (group: THREE.Group, wire: RolloverWire) => {

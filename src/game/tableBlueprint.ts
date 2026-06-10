@@ -32,6 +32,20 @@ export interface Segment {
   kind: "metal" | "rubber" | "wood" | "plastic" | "wire";
 }
 
+export interface BoundarySegment extends Segment {
+  kind: "metal" | "rubber";
+  fasteners: BoundaryFastener[];
+}
+
+export interface BoundaryFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
 export interface RolloverWire extends Segment {
   kind: "wire";
   fasteners: RolloverWireFastener[];
@@ -626,7 +640,7 @@ export interface TableBlueprint {
   scale: TableScale;
   playfield: PlayfieldDeck;
   cabinet: CabinetHardware;
-  boundaries: Segment[];
+  boundaries: BoundarySegment[];
   laneWalls: Segment[];
   rubberBands: RubberBand[];
   rolloverWires: RolloverWire[];
@@ -663,6 +677,44 @@ const withRubberPostCaps = (posts: Post[]): Post[] =>
         }
       }
     : post);
+
+const withBoundaryFasteners = (segments: Array<Omit<BoundarySegment, "fasteners">>): BoundarySegment[] =>
+  segments.map((segment) => {
+    const angle = segment.angle ?? 0;
+    const fastenerRadius = segment.kind === "rubber" ? 0.032 : 0.038;
+    const halfSpan = Math.max(segment.width, segment.depth) * 0.42;
+    const offset = segment.width >= segment.depth
+      ? {
+          x: Math.cos(angle) * halfSpan,
+          z: -Math.sin(angle) * halfSpan
+        }
+      : {
+          x: Math.sin(angle) * halfSpan,
+          z: Math.cos(angle) * halfSpan
+        };
+
+    return {
+      ...segment,
+      fasteners: [
+        {
+          id: `${segment.id}.screw-a`,
+          targetId: segment.id,
+          x: segment.x - offset.x,
+          z: segment.z - offset.z,
+          radius: fastenerRadius,
+          kind: "metal"
+        },
+        {
+          id: `${segment.id}.screw-b`,
+          targetId: segment.id,
+          x: segment.x + offset.x,
+          z: segment.z + offset.z,
+          radius: fastenerRadius,
+          kind: "metal"
+        }
+      ]
+    };
+  });
 
 const withRolloverWireFasteners = (wires: Array<Omit<RolloverWire, "fasteners">>): RolloverWire[] =>
   wires.map((wire) => {
@@ -817,7 +869,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       }
     ]
   },
-  boundaries: [
+  boundaries: withBoundaryFasteners([
     { id: "boundary.left-wall", x: -4.05, z: 0, width: 0.18, depth: 7.9, kind: "metal" },
     { id: "boundary.right-wall", x: 4.05, z: 0, width: 0.18, depth: 7.9, kind: "metal" },
     { id: "boundary.top-arch.left-curve", x: -2.46, z: -6.86, width: 0.16, depth: 1.42, angle: 0.58, kind: "metal" },
@@ -833,7 +885,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "boundary.trough-back", x: 0, z: 7.38, width: 1.3, depth: 0.14, kind: "metal" },
     { id: "boundary.shooter-divider", x: 2.72, z: 4.38, width: 0.12, depth: 2.72, kind: "metal" },
     { id: "boundary.plunger-stop", x: 3.2, z: 6.55, width: 0.68, depth: 0.16, angle: -0.18, kind: "rubber" }
-  ],
+  ]),
   laneWalls: [
     { id: "lane.lower.left-out.outer", x: -3.55, z: 4.7, width: 0.1, depth: 1.55, angle: -0.12, kind: "rubber" },
     { id: "lane.lower.left-out.inner", x: -2.86, z: 4.86, width: 0.1, depth: 1.18, angle: 0.22, kind: "rubber" },
