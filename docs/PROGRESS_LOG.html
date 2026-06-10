@@ -35,7 +35,7 @@
     <h3>Target Bank Frame Fasteners</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/target-bank-frame-fasteners</code></dd>
-      <dt>PR</dt><dd>pending</dd>
+      <dt>PR</dt><dd>PR #57</dd>
       <dt>Changed</dt><dd>added authored metal screw heads to every SOCIAL target-bank frame rail and divider blade so the central target-bank frame reads as a mounted assembly instead of bare metal strips. Rendering now draws those frame fasteners from the shared target-bank blueprint data.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-target-bank-frame-fasteners.png</code> confirmed a nonblank WebGL board with target-bank frame hardware still framed.</dd>
       <dt>Assumptions</dt><dd>The target-bank frame fasteners are visual mounting hardware and do not need separate physics colliders because the existing frame rails, divider blades, posts, and target sensors remain the active target-bank geometry.</dd>
