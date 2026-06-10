@@ -362,10 +362,20 @@ describe("Silverball Social physical board blueprint", () => {
         "lane.top.right.guide-cover.screw-left",
         "lane.top.right.guide-cover.screw-right",
         "lane.top.right.rubber-band",
+        "post.top-lane-right-inner",
+        "post.top-lane-right-inner.cap",
+        "post.top-lane-right-outer",
+        "post.top-lane-right-outer.cap",
+        "post.top-lane-right",
+        "post.top-lane-right.cap",
         "lane.shooter.skill.guide-cover",
         "lane.shooter.skill.guide-cover.screw-inner",
         "lane.shooter.skill.guide-cover.screw-outer",
         "lane.shooter.skill.rubber-band",
+        "post.shooter-skill-lane-inner",
+        "post.shooter-skill-lane-inner.cap",
+        "post.shooter-skill-lane-outer",
+        "post.shooter-skill-lane-outer.cap",
         "insert.skill-shot"
       ])
     );
