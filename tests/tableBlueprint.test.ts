@@ -1092,7 +1092,16 @@ describe("Silverball Social physical board blueprint", () => {
     }
 
     expect(blueprint.shots.find((shot) => shot.id === "shot.left-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining(["handoff.left-orbit-entry.inner-guide", "handoff.left-orbit-entry.outer-guide"])
+      expect.arrayContaining([
+        "handoff.left-orbit-entry.inner-guide",
+        "handoff.left-orbit-entry.outer-guide",
+        "orbit.left.outer.lower",
+        "orbit.left.inner.lower",
+        "orbit.left.outer.mid",
+        "orbit.left.inner.mid",
+        "orbit.left.outer.upper",
+        "orbit.left.inner.upper"
+      ])
     );
   });
 
@@ -1120,7 +1129,16 @@ describe("Silverball Social physical board blueprint", () => {
     }
 
     expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining(["handoff.right-orbit-entry.inner-guide", "handoff.right-orbit-entry.outer-guide"])
+      expect.arrayContaining([
+        "handoff.right-orbit-entry.inner-guide",
+        "handoff.right-orbit-entry.outer-guide",
+        "orbit.right.outer.lower",
+        "orbit.right.inner.lower",
+        "orbit.right.outer.mid",
+        "orbit.right.inner.mid",
+        "orbit.right.outer.upper",
+        "orbit.right.inner.upper"
+      ])
     );
   });
 
