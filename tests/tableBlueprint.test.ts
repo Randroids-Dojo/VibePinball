@@ -373,6 +373,15 @@ describe("Silverball Social physical board blueprint", () => {
       expect(bumper.chromeRing.radius).toBeCloseTo(bumper.radius);
       expect(bumper.chromeRing.radius).toBeGreaterThan(bumper.skirtRadius);
       expect(bumper.chromeRing.tubeRadius).toBeGreaterThan(0);
+      expect(bumper.capFasteners).toHaveLength(3);
+      for (const fastener of bumper.capFasteners) {
+        expect(fastener.id.startsWith(`${bumper.id}.cap-screw-`), fastener.id).toBe(true);
+        expect(fastener.kind).toBe("metal");
+        expect(fastener.radius).toBeGreaterThanOrEqual(0.03);
+        expect(Math.hypot(fastener.x - bumper.x, fastener.z - bumper.z), fastener.id).toBeLessThan(
+          bumper.capRadius
+        );
+      }
     }
   });
 
@@ -709,6 +718,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.bumpers.flatMap((item) => [
         item.id,
         item.chromeRing.id,
+        ...item.capFasteners.map((fastener) => fastener.id),
         ...item.ringPostIds,
         ...item.guardSegments.map((segment) => segment.id)
       ])
