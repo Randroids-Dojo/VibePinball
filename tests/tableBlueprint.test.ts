@@ -191,6 +191,28 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
+  it("models each upper rollover and skill lane with an authored plastic guide cover", () => {
+    const topLanes = blueprint.lanes.filter((lane) => lane.side === "top");
+
+    expect(topLanes).toHaveLength(4);
+
+    for (const lane of topLanes) {
+      const cover = lane.guideCover;
+
+      expect(cover?.id).toBe(`${lane.id}.guide-cover`);
+      expect(cover?.width).toBeGreaterThan(0.5);
+      expect(cover?.depth).toBeGreaterThan(0.4);
+      expect(cover?.layerY).toBeGreaterThanOrEqual(0.64);
+      expect(cover?.layerY).toBeLessThanOrEqual(0.68);
+      expect(Math.abs((cover?.x ?? 0) - lane.x)).toBeLessThan(0.04);
+      expect(Math.abs((cover?.z ?? 0) - lane.z)).toBeLessThan(0.5);
+      expect(cover?.fasteners).toHaveLength(2);
+      expect(cover?.fasteners.every((fastener) => fastener.id.startsWith(`${lane.id}.guide-cover.screw-`))).toBe(true);
+      expect(cover?.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+      expect(cover?.fasteners.every((fastener) => fastener.radius > 0)).toBe(true);
+    }
+  });
+
   it("models the left ramp as raised hardware with rails, lip, and supports", () => {
     const ramp = blueprint.ramps.find((item) => item.id === "ramp.left");
     expect(ramp).toBeDefined();

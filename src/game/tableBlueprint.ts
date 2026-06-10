@@ -709,7 +709,21 @@ export const silverballSocialBlueprint: TableBlueprint = {
       radius: 0.36,
       clearance: 0.7,
       side: "top",
-      guidePostIds: ["post.top-lane-left", "post.top-lane-left-outer", "post.top-lane-left-inner"]
+      guidePostIds: ["post.top-lane-left", "post.top-lane-left-outer", "post.top-lane-left-inner"],
+      guideCover: {
+        id: "lane.top.left.guide-cover",
+        x: -1.05,
+        z: -6.12,
+        width: 0.62,
+        depth: 0.46,
+        angle: -0.04,
+        color: 0x9fd0ff,
+        layerY: 0.64,
+        fasteners: [
+          { id: "lane.top.left.guide-cover.screw-left", x: -1.32, z: -6.1, radius: 0.032, kind: "metal" },
+          { id: "lane.top.left.guide-cover.screw-right", x: -0.78, z: -6.14, radius: 0.032, kind: "metal" }
+        ]
+      }
     },
     {
       id: "lane.top.center",
@@ -719,7 +733,20 @@ export const silverballSocialBlueprint: TableBlueprint = {
       radius: 0.36,
       clearance: 0.7,
       side: "top",
-      guidePostIds: ["post.top-lane-center-left", "post.top-lane-center-right"]
+      guidePostIds: ["post.top-lane-center-left", "post.top-lane-center-right"],
+      guideCover: {
+        id: "lane.top.center.guide-cover",
+        x: 0,
+        z: -6.22,
+        width: 0.58,
+        depth: 0.44,
+        color: 0x9fd0ff,
+        layerY: 0.64,
+        fasteners: [
+          { id: "lane.top.center.guide-cover.screw-left", x: -0.22, z: -6.2, radius: 0.032, kind: "metal" },
+          { id: "lane.top.center.guide-cover.screw-right", x: 0.22, z: -6.2, radius: 0.032, kind: "metal" }
+        ]
+      }
     },
     {
       id: "lane.top.right",
@@ -729,7 +756,21 @@ export const silverballSocialBlueprint: TableBlueprint = {
       radius: 0.36,
       clearance: 0.7,
       side: "top",
-      guidePostIds: ["post.top-lane-right-inner", "post.top-lane-right-outer", "post.top-lane-right"]
+      guidePostIds: ["post.top-lane-right-inner", "post.top-lane-right-outer", "post.top-lane-right"],
+      guideCover: {
+        id: "lane.top.right.guide-cover",
+        x: 1.05,
+        z: -6.12,
+        width: 0.62,
+        depth: 0.46,
+        angle: 0.04,
+        color: 0x9fd0ff,
+        layerY: 0.64,
+        fasteners: [
+          { id: "lane.top.right.guide-cover.screw-left", x: 0.78, z: -6.14, radius: 0.032, kind: "metal" },
+          { id: "lane.top.right.guide-cover.screw-right", x: 1.32, z: -6.1, radius: 0.032, kind: "metal" }
+        ]
+      }
     },
     {
       id: "lane.shooter.skill",
@@ -739,7 +780,21 @@ export const silverballSocialBlueprint: TableBlueprint = {
       radius: 0.34,
       clearance: 0.68,
       side: "top",
-      guidePostIds: ["post.shooter-skill-lane-inner", "post.shooter-skill-lane-outer"]
+      guidePostIds: ["post.shooter-skill-lane-inner", "post.shooter-skill-lane-outer"],
+      guideCover: {
+        id: "lane.shooter.skill.guide-cover",
+        x: 3.05,
+        z: -5.95,
+        width: 0.56,
+        depth: 0.52,
+        angle: 0.12,
+        color: 0x9fd0ff,
+        layerY: 0.66,
+        fasteners: [
+          { id: "lane.shooter.skill.guide-cover.screw-inner", x: 2.82, z: -5.96, radius: 0.032, kind: "metal" },
+          { id: "lane.shooter.skill.guide-cover.screw-outer", x: 3.28, z: -5.94, radius: 0.032, kind: "metal" }
+        ]
+      }
     }
   ],
   flippers: [
