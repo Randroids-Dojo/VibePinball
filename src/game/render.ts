@@ -1,6 +1,13 @@
 import * as THREE from "three";
 import type { PhysicsSnapshot } from "./physics";
-import { rampSidePoint, silverballSocialBlueprint, type LampInsert, type RampPath, type SlingDevice } from "./tableBlueprint";
+import {
+  rampSidePoint,
+  silverballSocialBlueprint,
+  type LampInsert,
+  type RampPath,
+  type SlingDevice,
+  type WireformPath
+} from "./tableBlueprint";
 
 export interface PinballScene {
   resize: () => void;
@@ -163,10 +170,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     handoff.segments.forEach((segment) => addSegment(group, segment, segment.kind === "metal" ? 0.5 : 0.78));
   });
 
-  blueprint.wireforms.forEach((wireform) => {
-    wireform.segments.forEach((segment) => addWireformPair(group, segment, 1.05));
-    addInsert(group, wireform.exit.x, wireform.exit.z, 0x76ff8f);
-  });
+  blueprint.wireforms.forEach((wireform) => addWireformPath(group, wireform));
 
   blueprint.slings.forEach((sling) => {
     addSlingTriangle(group, sling);
@@ -462,19 +466,53 @@ const addRing = (group: THREE.Group, x: number, z: number, radius: number, color
   group.add(ring);
 };
 
+const addWireformPath = (group: THREE.Group, wireform: WireformPath) => {
+  wireform.segments.forEach((segment) => addWireformPair(group, wireform, segment));
+  wireform.supports.forEach((support) => {
+    const supportMesh = mesh(
+      new THREE.CylinderGeometry(support.radius, support.radius, support.height, 16),
+      new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.18, metalness: 0.82 })
+    );
+    supportMesh.position.set(support.x, support.height / 2, support.z);
+    group.add(supportMesh);
+  });
+  addInsert(group, wireform.exit.x, wireform.exit.z, 0x76ff8f);
+};
+
 const addWireformPair = (
   group: THREE.Group,
-  segment: { x: number; z: number; depth: number; angle?: number },
-  y: number
+  wireform: WireformPath,
+  segment: { x: number; z: number; depth: number; angle?: number }
 ) => {
-  const offset = 0.18;
-  addRail(group, segment.x - offset, segment.z, 0.035, segment.depth, segment.angle ?? 0, 0xf4d35e, y);
-  addRail(group, segment.x + offset, segment.z, 0.035, segment.depth, segment.angle ?? 0, 0xf4d35e, y);
+  addRail(
+    group,
+    segment.x - wireform.railOffset,
+    segment.z,
+    0.035,
+    segment.depth,
+    segment.angle ?? 0,
+    0xf4d35e,
+    wireform.railY,
+    0,
+    wireform.railHeight
+  );
+  addRail(
+    group,
+    segment.x + wireform.railOffset,
+    segment.z,
+    0.035,
+    segment.depth,
+    segment.angle ?? 0,
+    0xf4d35e,
+    wireform.railY,
+    0,
+    wireform.railHeight
+  );
   const tie = mesh(
-    new THREE.BoxGeometry(0.42, 0.035, 0.055),
+    new THREE.BoxGeometry(wireform.tieWidth, 0.035, 0.055),
     new THREE.MeshStandardMaterial({ color: 0xf4d35e, roughness: 0.18, metalness: 0.8 })
   );
-  tie.position.set(segment.x, y, segment.z);
+  tie.position.set(segment.x, wireform.railY, segment.z);
   tie.rotation.y = segment.angle ?? 0;
   group.add(tie);
 };

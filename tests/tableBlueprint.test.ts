@@ -97,6 +97,34 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.handoffs.map((handoff) => handoff.id)).toContain("handoff.upper-orbit-gates");
   });
 
+  it("models wireform returns as elevated rail pairs with supports", () => {
+    const ballDiameter = blueprint.scale.ballRadius * 2;
+    const railHalfWidth = 0.025;
+
+    expect(blueprint.wireforms.map((wireform) => wireform.id)).toEqual(
+      expect.arrayContaining(["wireform.left-return", "wireform.right-orbit-return"])
+    );
+
+    for (const wireform of blueprint.wireforms) {
+      expect(wireform.railY).toBeGreaterThanOrEqual(0.85);
+      expect(wireform.railY).toBeLessThanOrEqual(1.45);
+      expect(wireform.railHeight).toBeGreaterThan(0);
+      expect(wireform.railOffset).toBeGreaterThan(blueprint.scale.ballRadius + railHalfWidth);
+      expect(wireform.railOffset * 2 - railHalfWidth * 2).toBeGreaterThan(ballDiameter);
+      expect(wireform.tieWidth).toBeGreaterThan(wireform.railOffset * 2);
+      expect(wireform.segments.length).toBeGreaterThanOrEqual(2);
+      expect(wireform.supports.length).toBeGreaterThanOrEqual(3);
+      expect(wireform.supports.every((support) => support.kind === "metal")).toBe(true);
+      expect(wireform.supports.every((support) => support.height <= wireform.railY)).toBe(true);
+      expect(wireform.supports.every((support) => support.height >= 0.85)).toBe(true);
+    }
+
+    expect(blueprint.orbits.find((orbit) => orbit.id === "orbit.left")?.returnWireformId).toBe("wireform.left-return");
+    expect(blueprint.orbits.find((orbit) => orbit.id === "orbit.right")?.returnWireformId).toBe(
+      "wireform.right-orbit-return"
+    );
+  });
+
   it("models pop bumpers with separate skirts and caps", () => {
     for (const bumper of blueprint.bumpers) {
       expect(bumper.skirtRadius).toBeGreaterThan(bumper.capRadius);
@@ -204,7 +232,12 @@ describe("Silverball Social physical board blueprint", () => {
         ...ramp.supports.map((support) => support.id)
       ]),
       ...blueprint.handoffs.flatMap((handoff) => [handoff.id, ...handoff.segments.map((segment) => segment.id)]),
-      ...blueprint.wireforms.flatMap((wireform) => [wireform.id, wireform.exit.id]),
+      ...blueprint.wireforms.flatMap((wireform) => [
+        wireform.id,
+        wireform.exit.id,
+        ...wireform.segments.map((segment) => segment.id),
+        ...wireform.supports.map((support) => support.id)
+      ]),
       ...blueprint.orbits.flatMap((orbit) => [orbit.id, orbit.entry.id, orbit.exit.id]),
       ...blueprint.plastics.map((item) => item.id),
       ...blueprint.lampInserts.map((item) => item.id),

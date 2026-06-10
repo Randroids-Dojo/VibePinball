@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="wireform-return-elevation-hardware" data-date="2026-06-10">
+    <h3>Wireform Return Elevation Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/wireform-elevation-fidelity</code></dd>
+      <dt>PR</dt><dd>#3</dd>
+      <dt>Changed</dt><dd>made the left return and right orbit return closer to the physical blueprint by adding authored rail height, rail spacing, tie width, and metal support posts to each wireform. Rendering now draws elevated paired rails, cross ties, and supports from the shared blueprint, while physics consumes those same records as elevated rail, tie, and support colliders. The left orbit now references the left return wireform instead of sharing the right orbit return.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot confirmed a nonblank WebGL board with elevated left and right return wireforms, cross ties, and metal support posts visible.</dd>
+      <dt>Assumptions</dt><dd>The wireform support layout remains an authored Silverball Social approximation tuned to reference-board proportions and clear left and right return readability.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-010</code>, <code>REQ-017</code>, and <code>REQ-083</code> gained stronger implementation and test coverage for elevated wireform return geometry, visible support hardware, and collider-backed return guides.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="left-ramp-elevation-hardware" data-date="2026-06-10">
     <h3>Left Ramp Elevation Hardware</h3>
     <dl>
