@@ -1599,6 +1599,48 @@ export const silverballSocialBlueprint: TableBlueprint = {
       ]
     },
     {
+      id: "handoff.right-orbit-entry",
+      label: "Right orbit entry guide",
+      segments: [
+        { id: "handoff.right-orbit-entry.inner-guide", x: 2.68, z: 1.06, width: 0.06, depth: 0.82, angle: 0.18, kind: "wire" },
+        { id: "handoff.right-orbit-entry.outer-guide", x: 3.38, z: 1.02, width: 0.06, depth: 0.86, angle: -0.16, kind: "wire" }
+      ],
+      posts: [
+        {
+          id: "handoff.right-orbit-entry.inner-guide.lower-post",
+          x: 2.61,
+          z: 1.45,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.right-orbit-entry.inner-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.right-orbit-entry.inner-guide.upper-post",
+          x: 2.75,
+          z: 0.68,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.right-orbit-entry.inner-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.right-orbit-entry.outer-guide.lower-post",
+          x: 3.45,
+          z: 1.42,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.right-orbit-entry.outer-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.right-orbit-entry.outer-guide.upper-post",
+          x: 3.31,
+          z: 0.62,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.right-orbit-entry.outer-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        }
+      ]
+    },
+    {
       id: "handoff.right-orbit-exit",
       label: "Right orbit return handoff",
       segments: [
@@ -2125,7 +2167,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.mount-plate", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.mount-plate", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.mount-plate", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.mount-plate", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.mount-plate", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
-    { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit", "handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"] },
+    { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "handoff.right-orbit-entry.inner-guide", "handoff.right-orbit-entry.outer-guide", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit", "handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"] },
     { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.shooter.skill", "rollover.shooter.skill", "shooter.one-way-gate", "shooter.one-way-gate.hinge-post", "shooter.one-way-gate.stop-post"] }
   ]
 };
