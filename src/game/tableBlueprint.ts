@@ -446,11 +446,39 @@ export interface RampPath {
   floorThickness: number;
   sideRailHeight: number;
   sideRailOffset: number;
+  sideRails: RampSideRail[];
   entranceLip: RampEntranceLip;
   supports: RampSupport[];
   entry: SensorZone;
   exit: SensorZone;
   returnSide: "left" | "right";
+}
+
+export interface RampSideRail {
+  id: string;
+  targetId: string;
+  side: "left" | "right";
+  x: number;
+  z: number;
+  width: number;
+  depth: number;
+  angle: number;
+  pitch: number;
+  startY: number;
+  endY: number;
+  height: number;
+  fasteners: RampSideRailFastener[];
+  kind: "metal";
+}
+
+export interface RampSideRailFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface RampEntranceLip extends Segment {
@@ -484,7 +512,7 @@ export interface RampSupportCap {
   kind: "metal";
 }
 
-export const rampSidePoint = (ramp: RampPath, offset: number) => ({
+export const rampSidePoint = (ramp: Pick<RampPath, "x" | "z" | "angle">, offset: number) => ({
   x: ramp.x + Math.cos(ramp.angle) * offset,
   z: ramp.z - Math.sin(ramp.angle) * offset
 });
@@ -1069,6 +1097,63 @@ const withRampEntranceLipFasteners = (
         radius: 0.032,
         kind: "metal"
       }
+    ]
+  };
+};
+
+const withRampSideRails = (
+  ramp: Omit<RampPath, "sideRails">
+): RampPath => {
+  const rise = ramp.endY - ramp.startY;
+  const pitch = Math.atan2(rise, ramp.depth);
+  const slopedDepth = Math.hypot(ramp.depth, rise);
+  const railStartY = ramp.startY + ramp.floorThickness / 2 + ramp.sideRailHeight / 2;
+  const railEndY = ramp.endY + ramp.floorThickness / 2 + ramp.sideRailHeight / 2;
+  const makeRail = (side: "left" | "right", offset: number): RampSideRail => {
+    const point = rampSidePoint(ramp, offset);
+    const rail: Omit<RampSideRail, "fasteners"> = {
+      id: `${ramp.id}.side-rail.${side}`,
+      targetId: ramp.id,
+      side,
+      x: point.x,
+      z: point.z,
+      width: 0.07,
+      depth: slopedDepth,
+      angle: ramp.angle,
+      pitch,
+      startY: railStartY,
+      endY: railEndY,
+      height: ramp.sideRailHeight,
+      kind: "metal"
+    };
+    const clampPositions = [
+      { name: "lower", localZ: slopedDepth * 0.36 },
+      { name: "mid", localZ: 0 },
+      { name: "upper", localZ: -slopedDepth * 0.36 }
+    ];
+
+    return {
+      ...rail,
+      fasteners: clampPositions.map(({ name, localZ }) => {
+        const progress = 0.5 - localZ / slopedDepth;
+        return {
+          id: `${rail.id}.clamp-${name}`,
+          targetId: rail.id,
+          x: rail.x + Math.sin(rail.angle) * localZ,
+          y: rail.startY + (rail.endY - rail.startY) * progress + rail.height / 2 + 0.014,
+          z: rail.z + Math.cos(rail.angle) * localZ,
+          radius: 0.026,
+          kind: "metal"
+        };
+      })
+    };
+  };
+
+  return {
+    ...ramp,
+    sideRails: [
+      makeRail("left", -ramp.sideRailOffset),
+      makeRail("right", ramp.sideRailOffset)
     ]
   };
 };
@@ -2047,7 +2132,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     }
   ],
   ramps: [
-    {
+    withRampSideRails({
       id: "ramp.left",
       label: "Left ramp",
       x: -2.22,
@@ -2102,7 +2187,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       entry: { id: "ramp.left.entry", x: -2.08, z: 1.42, radius: 0.48 },
       exit: { id: "ramp.left.exit", x: -2.48, z: 4.72, radius: 0.42 },
       returnSide: "left"
-    }
+    })
   ],
   handoffs: [
     {
@@ -2885,7 +2970,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
   },
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "handoff.left-orbit-entry.inner-guide", "handoff.left-orbit-entry.outer-guide", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
-    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
+    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.side-rail.left", "ramp.left.side-rail.right", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.mount-plate", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.mount-plate", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.mount-plate", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.mount-plate", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.mount-plate", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
     { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "handoff.right-orbit-entry.inner-guide", "handoff.right-orbit-entry.outer-guide", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit", "handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"] },
