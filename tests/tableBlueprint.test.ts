@@ -1087,6 +1087,15 @@ describe("Silverball Social physical board blueprint", () => {
     expect(stop.x).toBeGreaterThan(gate.x);
     expect(Math.abs(hinge.z - gate.z)).toBeLessThan(0.2);
     expect(Math.abs(stop.z - gate.z)).toBeLessThan(0.25);
+    expect(blueprint.shots.find((shot) => shot.id === "shot.skill-shot")?.deviceIds).toEqual(
+      expect.arrayContaining([
+        gate.id,
+        hinge.id,
+        hinge.cap?.id ?? "",
+        stop.id,
+        stop.cap?.id ?? ""
+      ])
+    );
   });
 
   it("models the lock saucer with bowl walls, entry posts, hold point, and eject vector", () => {
@@ -1478,7 +1487,9 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.plunger.guideFasteners.map((fastener) => fastener.id),
       blueprint.plunger.gate.id,
       blueprint.plunger.gateHingePost.id,
+      blueprint.plunger.gateHingePost.cap?.id ?? "",
       blueprint.plunger.gateStopPost.id,
+      blueprint.plunger.gateStopPost.cap?.id ?? "",
       ...blueprint.bumpers.flatMap((item) => [
         item.id,
         item.chromeRing.id,
