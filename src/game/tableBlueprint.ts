@@ -479,6 +479,16 @@ export interface TroughDevice {
   slotRims: TroughSlotRim[];
   walls: Segment[];
   feedGuide: Segment;
+  fasteners: TroughFastener[];
+}
+
+export interface TroughFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface TroughSlotRim {
@@ -2135,7 +2145,17 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "trough.right-wall", x: 0.96, z: 7.55, width: 0.06, depth: 0.44, kind: "metal" },
         { id: "trough.back-wall", x: 0, z: 7.76, width: 1.92, depth: 0.06, kind: "metal" }
       ],
-      feedGuide: { id: "trough.shooter-feed-guide", x: 1.62, z: 7.34, width: 0.08, depth: 0.86, angle: -0.58, kind: "metal" }
+      feedGuide: { id: "trough.shooter-feed-guide", x: 1.62, z: 7.34, width: 0.08, depth: 0.86, angle: -0.58, kind: "metal" },
+      fasteners: [
+        { id: "trough.left-wall.screw-front", targetId: "trough.left-wall", x: -0.96, z: 7.38, radius: 0.032, kind: "metal" },
+        { id: "trough.left-wall.screw-back", targetId: "trough.left-wall", x: -0.96, z: 7.72, radius: 0.032, kind: "metal" },
+        { id: "trough.right-wall.screw-front", targetId: "trough.right-wall", x: 0.96, z: 7.38, radius: 0.032, kind: "metal" },
+        { id: "trough.right-wall.screw-back", targetId: "trough.right-wall", x: 0.96, z: 7.72, radius: 0.032, kind: "metal" },
+        { id: "trough.back-wall.screw-left", targetId: "trough.back-wall", x: -0.72, z: 7.76, radius: 0.032, kind: "metal" },
+        { id: "trough.back-wall.screw-right", targetId: "trough.back-wall", x: 0.72, z: 7.76, radius: 0.032, kind: "metal" },
+        { id: "trough.shooter-feed-guide.screw-upper", targetId: "trough.shooter-feed-guide", x: 1.38, z: 7.0, radius: 0.032, kind: "metal" },
+        { id: "trough.shooter-feed-guide.screw-lower", targetId: "trough.shooter-feed-guide", x: 1.86, z: 7.68, radius: 0.032, kind: "metal" }
+      ]
     }
   },
   plastics: [
