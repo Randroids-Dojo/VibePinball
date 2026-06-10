@@ -632,6 +632,7 @@ describe("Silverball Social physical board blueprint", () => {
       expect.arrayContaining([
         "handoff.ramp-left-entry",
         "handoff.ramp-left-exit",
+        "handoff.left-orbit-entry",
         "handoff.right-orbit-entry",
         "handoff.right-orbit-exit"
       ])
@@ -661,6 +662,29 @@ describe("Silverball Social physical board blueprint", () => {
         "handoff.ramp-left-entry.left-guide",
         "handoff.ramp-left-entry.right-guide"
       ])
+    );
+  });
+
+  it("mounts the left orbit entry guides on capped metal posts", () => {
+    const entryHandoff = blueprint.handoffs.find((handoff) => handoff.id === "handoff.left-orbit-entry");
+
+    expect(entryHandoff).toBeDefined();
+    expect(entryHandoff?.segments).toHaveLength(2);
+    expect(entryHandoff?.posts).toHaveLength(4);
+    expect(entryHandoff?.segments.every((segment) => segment.kind === "wire")).toBe(true);
+    expect(entryHandoff?.posts?.every((post) => post.kind === "metal")).toBe(true);
+    expect(entryHandoff?.posts?.every((post) => post.cap?.id === `${post.id}.cap`)).toBe(true);
+
+    for (const segment of entryHandoff?.segments ?? []) {
+      const segmentPosts = entryHandoff?.posts?.filter((post) => post.id.startsWith(segment.id)) ?? [];
+      expect(segmentPosts, segment.id).toHaveLength(2);
+      expect(segmentPosts.some((post) => post.id.endsWith("upper-post")), segment.id).toBe(true);
+      expect(segmentPosts.some((post) => post.id.endsWith("lower-post")), segment.id).toBe(true);
+      expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.5), segment.id).toBe(true);
+    }
+
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-orbit")?.deviceIds).toEqual(
+      expect.arrayContaining(["handoff.left-orbit-entry.inner-guide", "handoff.left-orbit-entry.outer-guide"])
     );
   });
 
