@@ -169,6 +169,20 @@ export interface OrbitPath {
 export interface DrainDevice extends SensorZone {
   troughX: number;
   troughZ: number;
+  apron: Segment;
+  drainGuides: Segment[];
+  trough: TroughDevice;
+}
+
+export interface TroughDevice {
+  id: string;
+  x: number;
+  z: number;
+  width: number;
+  depth: number;
+  ballSlots: SensorZone[];
+  walls: Segment[];
+  feedGuide: Segment;
 }
 
 export interface PlasticCover {
@@ -618,7 +632,31 @@ export const silverballSocialBlueprint: TableBlueprint = {
     z: 7.18,
     radius: 0.62,
     troughX: 0,
-    troughZ: 7.55
+    troughZ: 7.55,
+    apron: { id: "apron.lower-card", x: 0, z: 7.0, width: 5.25, depth: 1.04, kind: "wood" },
+    drainGuides: [
+      { id: "drain.left-guide", x: -0.82, z: 6.58, width: 0.08, depth: 0.92, angle: -0.42, kind: "rubber" },
+      { id: "drain.right-guide", x: 0.82, z: 6.58, width: 0.08, depth: 0.92, angle: 0.42, kind: "rubber" },
+      { id: "drain.center-mouth", x: 0, z: 6.92, width: 1.08, depth: 0.08, kind: "metal" }
+    ],
+    trough: {
+      id: "trough.ball-return",
+      x: 0,
+      z: 7.55,
+      width: 1.82,
+      depth: 0.36,
+      ballSlots: [
+        { id: "trough.slot-1", x: -0.52, z: 7.54, radius: 0.18 },
+        { id: "trough.slot-2", x: 0, z: 7.54, radius: 0.18 },
+        { id: "trough.slot-3", x: 0.52, z: 7.54, radius: 0.18 }
+      ],
+      walls: [
+        { id: "trough.left-wall", x: -0.96, z: 7.55, width: 0.06, depth: 0.44, kind: "metal" },
+        { id: "trough.right-wall", x: 0.96, z: 7.55, width: 0.06, depth: 0.44, kind: "metal" },
+        { id: "trough.back-wall", x: 0, z: 7.76, width: 1.92, depth: 0.06, kind: "metal" }
+      ],
+      feedGuide: { id: "trough.shooter-feed-guide", x: 1.62, z: 7.34, width: 0.08, depth: 0.86, angle: -0.58, kind: "metal" }
+    }
   },
   plastics: [
     { id: "plastic.left-lane-cover", x: -2.72, z: 3.72, width: 1.42, depth: 1.05, angle: -0.36, color: 0xf6d174, layerY: 0.62 },
@@ -658,7 +696,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["target-bank-1", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["lock.saucer", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
     { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit"] },
-    { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["lane.shooter.skill", "rollover.shooter.skill"] }
+    { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["lane.shooter.skill", "rollover.shooter.skill", "trough.shooter-feed-guide"] }
   ]
 };
 

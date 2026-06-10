@@ -3,6 +3,7 @@ import type { PhysicsSnapshot } from "./physics";
 import {
   rampSidePoint,
   silverballSocialBlueprint,
+  type DrainDevice,
   type LampInsert,
   type FlipperDevice,
   type RampPath,
@@ -77,7 +78,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     addInsert(group, orbit.entry.x, orbit.entry.z, 0x76ff8f);
     addInsert(group, orbit.exit.x, orbit.exit.z, 0x5fd4ff);
   });
-  addDrainAndTrough(group);
+  addDrainAndTrough(group, blueprint.drain);
   blueprint.plastics.forEach((cover) => addPlasticCover(group, cover));
   addPlungerHardware(group);
 
@@ -653,26 +654,43 @@ const createFlipper = (flipperDevice: FlipperDevice, color: number) => {
   return flipper;
 };
 
-const addDrainAndTrough = (group: THREE.Group) => {
-  const drain = silverballSocialBlueprint.drain;
+const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
+  const drainMouth = drain.drainGuides.find((segment) => segment.id === "drain.center-mouth");
+  const drainPlateWidth = drainMouth?.width ?? drain.radius * 1.75;
+  if (!drainMouth) {
+    console.warn("Missing drain.center-mouth in table blueprint.");
+  }
+  const apron = mesh(
+    new THREE.BoxGeometry(drain.apron.width, 0.08, drain.apron.depth),
+    new THREE.MeshStandardMaterial({ color: 0x3b2219, roughness: 0.42 })
+  );
+  apron.position.set(drain.apron.x, 0.04, drain.apron.z);
+  group.add(apron);
+
   const drainPlate = mesh(
-    new THREE.BoxGeometry(1.4, 0.08, 0.52),
+    new THREE.BoxGeometry(drainPlateWidth, 0.08, 0.52),
     new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.5, metalness: 0.2 })
   );
   drainPlate.position.set(drain.x, 0.08, drain.z);
   group.add(drainPlate);
 
   const trough = mesh(
-    new THREE.BoxGeometry(1.75, 0.12, 0.34),
+    new THREE.BoxGeometry(drain.trough.width, 0.12, drain.trough.depth),
     new THREE.MeshStandardMaterial({ color: 0x1b1c1b, roughness: 0.35, metalness: 0.45 })
   );
-  trough.position.set(drain.troughX, 0.12, drain.troughZ);
+  trough.position.set(drain.trough.x, 0.12, drain.trough.z);
   group.add(trough);
 
-  const apron = mesh(
-    new THREE.BoxGeometry(5.2, 0.08, 1.0),
-    new THREE.MeshStandardMaterial({ color: 0x3b2219, roughness: 0.42 })
-  );
-  apron.position.set(0, 0.04, 7.0);
-  group.add(apron);
+  drain.drainGuides.forEach((segment) => addSegment(group, segment, 0.28));
+  drain.trough.walls.forEach((segment) => addSegment(group, segment, 0.28));
+  addSegment(group, drain.trough.feedGuide, 0.3);
+  drain.trough.ballSlots.forEach((slot) => {
+    const slotMesh = mesh(
+      new THREE.CylinderGeometry(slot.radius, slot.radius, 0.035, 24),
+      new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.28, metalness: 0.35 })
+    );
+    slotMesh.position.set(slot.x, 0.2, slot.z);
+    group.add(slotMesh);
+  });
+  addDeckLabel(group, "SILVERBALL SOCIAL", drain.apron.x, drain.apron.z - 0.05, 3.4, 0.28, 0);
 };
