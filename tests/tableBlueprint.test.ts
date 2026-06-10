@@ -318,6 +318,12 @@ describe("Silverball Social physical board blueprint", () => {
     expect(ramp?.supports.every((support) => support.kind === "metal")).toBe(true);
     expect(ramp?.supports.every((support) => support.height >= (ramp?.startY ?? 0))).toBe(true);
     expect(ramp?.supports.every((support) => support.height <= (ramp?.endY ?? 0))).toBe(true);
+    for (const support of ramp?.supports ?? []) {
+      expect(support.cap.id).toBe(`${support.id}.cap`);
+      expect(support.cap.kind).toBe("metal");
+      expect(support.cap.radius).toBeGreaterThan(support.radius);
+      expect(support.cap.height).toBeGreaterThan(0);
+    }
   });
 
   it("uses segmented orbit wall chains and upper gates for the orbit paths", () => {
@@ -691,7 +697,7 @@ describe("Silverball Social physical board blueprint", () => {
         ramp.entry.id,
         ramp.exit.id,
         ramp.entranceLip.id,
-        ...ramp.supports.map((support) => support.id)
+        ...ramp.supports.flatMap((support) => [support.id, support.cap.id])
       ]),
       ...blueprint.handoffs.flatMap((handoff) => [handoff.id, ...handoff.segments.map((segment) => segment.id)]),
       ...blueprint.wireforms.flatMap((wireform) => [
