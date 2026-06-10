@@ -638,6 +638,31 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.handoffs.flatMap((handoff) => handoff.segments).every((segment) => segment.kind !== "plastic")).toBe(true);
   });
 
+  it("mounts the ramp entry flap and guide wires on capped metal posts", () => {
+    const entryHandoff = blueprint.handoffs.find((handoff) => handoff.id === "handoff.ramp-left-entry");
+
+    expect(entryHandoff).toBeDefined();
+    expect(entryHandoff?.segments).toHaveLength(3);
+    expect(entryHandoff?.posts).toHaveLength(6);
+    expect(entryHandoff?.posts?.every((post) => post.kind === "metal")).toBe(true);
+    expect(entryHandoff?.posts?.every((post) => post.cap?.id === `${post.id}.cap`)).toBe(true);
+
+    for (const segment of entryHandoff?.segments ?? []) {
+      const segmentPosts = entryHandoff?.posts?.filter((post) => post.id.startsWith(segment.id)) ?? [];
+      expect(segmentPosts, segment.id).toHaveLength(2);
+      expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.5), segment.id).toBe(true);
+    }
+
+    const leftRampShot = blueprint.shots.find((shot) => shot.id === "shot.left-ramp");
+    expect(leftRampShot?.deviceIds).toEqual(
+      expect.arrayContaining([
+        "handoff.ramp-left-entry.flap",
+        "handoff.ramp-left-entry.left-guide",
+        "handoff.ramp-left-entry.right-guide"
+      ])
+    );
+  });
+
   it("mounts return handoff guides on capped metal posts", () => {
     const returnHandoffs = blueprint.handoffs.filter((handoff) =>
       handoff.id === "handoff.ramp-left-exit" || handoff.id === "handoff.right-orbit-exit"
