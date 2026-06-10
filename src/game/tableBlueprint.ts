@@ -546,9 +546,30 @@ export interface WireformPath {
   railOffset: number;
   tieWidth: number;
   segments: Segment[];
+  rails: WireformRail[];
   ties: Segment[];
   supports: WireformSupport[];
   exit: SensorZone;
+}
+
+export interface WireformRail extends Segment {
+  targetId: string;
+  sourceSegmentId: string;
+  side: "left" | "right";
+  y: number;
+  height: number;
+  fasteners: WireformRailFastener[];
+  kind: "wire";
+}
+
+export interface WireformRailFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface WireformSupport {
@@ -1062,6 +1083,63 @@ const withHandoffFasteners = (
       ]
     };
   });
+
+const wireformSidePoint = (segment: Pick<Segment, "x" | "z" | "angle">, offset: number) => {
+  const angle = segment.angle ?? 0;
+  return {
+    x: segment.x + Math.cos(angle) * offset,
+    z: segment.z - Math.sin(angle) * offset
+  };
+};
+
+const withWireformRails = (
+  wireform: Omit<WireformPath, "rails">
+): WireformPath => {
+  const makeRail = (segment: Segment, side: "left" | "right", offset: number): WireformRail => {
+    const point = wireformSidePoint(segment, offset);
+    const angle = segment.angle ?? 0;
+    const rail: Omit<WireformRail, "fasteners"> = {
+      id: `${segment.id}.rail-${side}`,
+      targetId: wireform.id,
+      sourceSegmentId: segment.id,
+      side,
+      x: point.x,
+      y: wireform.railY,
+      z: point.z,
+      width: 0.05,
+      depth: segment.depth,
+      angle,
+      height: wireform.railHeight,
+      kind: "wire"
+    };
+    const clampPositions = [
+      { name: "entry", localZ: segment.depth * 0.38 },
+      { name: "mid", localZ: 0 },
+      { name: "exit", localZ: -segment.depth * 0.38 }
+    ];
+
+    return {
+      ...rail,
+      fasteners: clampPositions.map(({ name, localZ }) => ({
+        id: `${rail.id}.clamp-${name}`,
+        targetId: rail.id,
+        x: rail.x + Math.sin(angle) * localZ,
+        y: rail.y + rail.height / 2 + 0.016,
+        z: rail.z + Math.cos(angle) * localZ,
+        radius: 0.024,
+        kind: "metal"
+      }))
+    };
+  };
+
+  return {
+    ...wireform,
+    rails: wireform.segments.flatMap((segment) => [
+      makeRail(segment, "left", -wireform.railOffset),
+      makeRail(segment, "right", wireform.railOffset)
+    ])
+  };
+};
 
 const withRampEntranceLipFasteners = (
   lip: Omit<RampEntranceLip, "fasteners">
@@ -2461,7 +2539,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     }
   ],
   wireforms: [
-    {
+    withWireformRails({
       id: "wireform.left-return",
       label: "Left ramp return",
       railY: 1.08,
@@ -2510,8 +2588,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
           kind: "metal"
         }
       ]
-    },
-    {
+    }),
+    withWireformRails({
       id: "wireform.right-orbit-return",
       label: "Right orbit return",
       railY: 1.16,
@@ -2560,7 +2638,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
           kind: "metal"
         }
       ]
-    }
+    })
   ],
   orbits: [
     {
@@ -2970,10 +3048,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
   },
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "handoff.left-orbit-entry.inner-guide", "handoff.left-orbit-entry.outer-guide", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
-    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.side-rail.left", "ramp.left.side-rail.right", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
+    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.side-rail.left", "ramp.left.side-rail.right", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.upper.rail-left", "wireform.left-return.upper.rail-right", "wireform.left-return.lower.rail-left", "wireform.left-return.lower.rail-right", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.mount-plate", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.mount-plate", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.mount-plate", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.mount-plate", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.mount-plate", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
-    { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "handoff.right-orbit-entry.inner-guide", "handoff.right-orbit-entry.outer-guide", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit", "handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"] },
+    { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "handoff.right-orbit-entry.inner-guide", "handoff.right-orbit-entry.outer-guide", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.upper.rail-left", "wireform.right-orbit-return.upper.rail-right", "wireform.right-orbit-return.lower.rail-left", "wireform.right-orbit-return.lower.rail-right", "wireform.right-orbit-return.exit", "handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"] },
     { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.shooter.skill", "rollover.shooter.skill", "shooter.one-way-gate", "shooter.one-way-gate.hinge-post", "shooter.one-way-gate.stop-post"] }
   ]
 };

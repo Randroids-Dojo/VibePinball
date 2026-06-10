@@ -502,20 +502,18 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
   };
 
   const addWireform = (wireform: WireformPath) => {
-    for (const segment of wireform.segments) {
-      for (const offset of [-wireform.railOffset, wireform.railOffset]) {
-        addBoxCollider(
-          segment.x + offset,
-          wireform.railY,
-          segment.z,
-          0.025,
-          wireform.railHeight / 2,
-          segment.depth / 2,
-          segment.angle ?? 0,
-          0,
-          0.7
-        );
-      }
+    for (const rail of wireform.rails) {
+      addBoxCollider(
+        rail.x,
+        rail.y,
+        rail.z,
+        rail.width / 2,
+        rail.height / 2,
+        rail.depth / 2,
+        rail.angle ?? 0,
+        0,
+        0.7
+      );
     }
 
     for (const tie of wireform.ties) {
