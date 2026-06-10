@@ -524,6 +524,19 @@ describe("Silverball Social physical board blueprint", () => {
     expect(ramp?.supports.every((support) => support.kind === "metal")).toBe(true);
     expect(ramp?.supports.every((support) => support.height >= (ramp?.startY ?? 0))).toBe(true);
     expect(ramp?.supports.every((support) => support.height <= (ramp?.endY ?? 0))).toBe(true);
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
+      expect.arrayContaining(
+        (ramp?.supports ?? []).flatMap((support) => [
+          support.id,
+          support.cap.id,
+          support.foot.id,
+          ...support.foot.fasteners.map((fastener) => fastener.id),
+          support.collar.id,
+          support.saddle.id,
+          ...support.saddle.fasteners.map((fastener) => fastener.id)
+        ])
+      )
+    );
     for (const support of ramp?.supports ?? []) {
       expect(support.cap.id).toBe(`${support.id}.cap`);
       expect(support.cap.kind).toBe("metal");
