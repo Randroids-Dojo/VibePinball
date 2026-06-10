@@ -34,6 +34,8 @@ export interface PopBumperDevice extends SensorZone {
   capRadius: number;
   skirtRadius: number;
   capColor: number;
+  ringPostIds: string[];
+  guardSegments: Segment[];
 }
 
 export interface TargetDevice extends SensorZone {
@@ -333,6 +335,15 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "post.upper-right", x: 2.15, z: -2.55, radius: 0.12, kind: "rubber" },
     { id: "post.top-lane-left", x: -1.8, z: -6.05, radius: 0.1, kind: "rubber" },
     { id: "post.top-lane-right", x: 1.8, z: -6.05, radius: 0.1, kind: "rubber" },
+    { id: "post.pop-a.upper", x: -1.28, z: -5.62, radius: 0.095, kind: "rubber" },
+    { id: "post.pop-a.outer", x: -1.86, z: -4.96, radius: 0.095, kind: "rubber" },
+    { id: "post.pop-a.inner", x: -0.68, z: -4.96, radius: 0.095, kind: "rubber" },
+    { id: "post.pop-b.upper", x: 1.18, z: -5.82, radius: 0.095, kind: "rubber" },
+    { id: "post.pop-b.outer", x: 1.76, z: -5.16, radius: 0.095, kind: "rubber" },
+    { id: "post.pop-b.inner", x: 0.58, z: -5.08, radius: 0.095, kind: "rubber" },
+    { id: "post.pop-c.lower-left", x: -0.74, z: -3.54, radius: 0.095, kind: "rubber" },
+    { id: "post.pop-c.lower-right", x: 0.66, z: -3.54, radius: 0.095, kind: "rubber" },
+    { id: "post.pop-c.upper", x: -0.04, z: -4.56, radius: 0.095, kind: "rubber" },
     { id: "post.drain-left", x: -0.52, z: 6.66, radius: 0.13, kind: "rubber" },
     { id: "post.drain-right", x: 0.52, z: 6.66, radius: 0.13, kind: "rubber" }
   ],
@@ -419,9 +430,48 @@ export const silverballSocialBlueprint: TableBlueprint = {
     }
   ],
   bumpers: [
-    { id: "pop-a", x: -1.25, z: -4.95, radius: 0.68, capRadius: 0.45, skirtRadius: 0.58, capColor: 0xd74b3f },
-    { id: "pop-b", x: 1.15, z: -5.16, radius: 0.68, capRadius: 0.45, skirtRadius: 0.58, capColor: 0xd74b3f },
-    { id: "pop-c", x: -0.05, z: -3.86, radius: 0.64, capRadius: 0.42, skirtRadius: 0.55, capColor: 0xf1c453 }
+    {
+      id: "pop-a",
+      x: -1.25,
+      z: -4.95,
+      radius: 0.68,
+      capRadius: 0.45,
+      skirtRadius: 0.58,
+      capColor: 0xd74b3f,
+      ringPostIds: ["post.pop-a.upper", "post.pop-a.outer", "post.pop-a.inner"],
+      guardSegments: [
+        { id: "pop-a.left-ring-rubber", x: -1.66, z: -4.48, width: 0.07, depth: 0.62, angle: -0.54, kind: "rubber" },
+        { id: "pop-a.right-ring-rubber", x: -0.84, z: -4.48, width: 0.07, depth: 0.62, angle: 0.54, kind: "rubber" }
+      ]
+    },
+    {
+      id: "pop-b",
+      x: 1.15,
+      z: -5.16,
+      radius: 0.68,
+      capRadius: 0.45,
+      skirtRadius: 0.58,
+      capColor: 0xd74b3f,
+      ringPostIds: ["post.pop-b.upper", "post.pop-b.outer", "post.pop-b.inner"],
+      guardSegments: [
+        { id: "pop-b.left-ring-rubber", x: 0.74, z: -4.68, width: 0.07, depth: 0.62, angle: -0.52, kind: "rubber" },
+        { id: "pop-b.right-ring-rubber", x: 1.56, z: -4.7, width: 0.07, depth: 0.62, angle: 0.52, kind: "rubber" }
+      ]
+    },
+    {
+      id: "pop-c",
+      x: -0.05,
+      z: -3.86,
+      radius: 0.64,
+      capRadius: 0.42,
+      skirtRadius: 0.55,
+      capColor: 0xf1c453,
+      ringPostIds: ["post.pop-c.lower-left", "post.pop-c.lower-right", "post.pop-c.upper"],
+      guardSegments: [
+        { id: "pop-c.lower-left-ring-rubber", x: -0.48, z: -3.38, width: 0.07, depth: 0.58, angle: -0.58, kind: "rubber" },
+        { id: "pop-c.lower-right-ring-rubber", x: 0.38, z: -3.38, width: 0.07, depth: 0.58, angle: 0.58, kind: "rubber" }
+      ]
+    }
   ],
   targets: [
     {

@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="bumper-nest-hardware" data-date="2026-06-10">
+    <h3>Bumper Nest Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/bumper-nest-hardware</code></dd>
+      <dt>PR</dt><dd>#7</dd>
+      <dt>Changed</dt><dd>made the pop bumper nest closer to the physical blueprint by adding authored ring post IDs and rubber guard segment records to each bumper. Rendering now draws the guard rubbers from the shared bumper records, while physics consumes those guards and uses the authored skirt radius for bumper collision.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-bumper-nest-hardware.png</code> confirmed a nonblank WebGL board with the authored bumper nest guard hardware visible.</dd>
+      <dt>Assumptions</dt><dd>The bumper ring post and rubber positions are original Silverball Social hardware approximations tuned to match the reference board's upper-playfield mechanical density.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-009</code>, <code>REQ-017</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for physical pop bumper nest hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="top-arch-shooter-wrap" data-date="2026-06-10">
     <h3>Top Arch Shooter Wrap</h3>
     <dl>

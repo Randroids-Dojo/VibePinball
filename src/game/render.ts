@@ -126,6 +126,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     skirt.position.set(device.x, 0.12, device.z);
     group.add(skirt);
     addRing(group, device.x, device.z, device.radius, 0xb7c4c7);
+    device.guardSegments.forEach((segment) => addSegment(group, segment, 0.4));
   });
 
   const targetMaterial = new THREE.MeshStandardMaterial({
