@@ -468,6 +468,9 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.targetBank.posts).toHaveLength(4);
     expect(blueprint.targetBank.frameSegments.every((segment) => segment.kind === "metal")).toBe(true);
     expect(blueprint.targetBank.posts.every((post) => post.kind === "metal")).toBe(true);
+    expect(blueprint.targetBank.posts.every((post) => post.cap?.id === `${post.id}.cap`)).toBe(true);
+    expect(blueprint.targetBank.posts.every((post) => (post.cap?.radius ?? 0) > post.radius)).toBe(true);
+    expect(blueprint.targetBank.posts.every((post) => (post.cap?.height ?? 0) > 0)).toBe(true);
     expect(blueprint.targetBank.frameSegments.filter((segment) => segment.id.startsWith("target-bank.divider-"))).toHaveLength(4);
     expect(blueprint.targetBank.frameSegments.find((segment) => segment.id === "target-bank.frame-top-rail")?.width).toBeGreaterThan(maxTargetX - minTargetX);
     expect(blueprint.targetBank.frameSegments.find((segment) => segment.id === "target-bank.frame-bottom-rail")?.width).toBeGreaterThan(maxTargetX - minTargetX);

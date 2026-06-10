@@ -1305,10 +1305,38 @@ export const silverballSocialBlueprint: TableBlueprint = {
       { id: "target-bank.divider-4", x: 0.96, z: -2.56, width: 0.045, depth: 0.72, angle: -0.12, kind: "metal" }
     ],
     posts: [
-      { id: "target-bank.post-left-upper", x: -1.64, z: -2.98, radius: 0.07, kind: "metal" },
-      { id: "target-bank.post-left-lower", x: -1.54, z: -2.18, radius: 0.07, kind: "metal" },
-      { id: "target-bank.post-right-upper", x: 1.64, z: -2.98, radius: 0.07, kind: "metal" },
-      { id: "target-bank.post-right-lower", x: 1.54, z: -2.18, radius: 0.07, kind: "metal" }
+      {
+        id: "target-bank.post-left-upper",
+        x: -1.64,
+        z: -2.98,
+        radius: 0.07,
+        kind: "metal",
+        cap: { id: "target-bank.post-left-upper.cap", radius: 0.102, height: 0.032, kind: "metal" }
+      },
+      {
+        id: "target-bank.post-left-lower",
+        x: -1.54,
+        z: -2.18,
+        radius: 0.07,
+        kind: "metal",
+        cap: { id: "target-bank.post-left-lower.cap", radius: 0.102, height: 0.032, kind: "metal" }
+      },
+      {
+        id: "target-bank.post-right-upper",
+        x: 1.64,
+        z: -2.98,
+        radius: 0.07,
+        kind: "metal",
+        cap: { id: "target-bank.post-right-upper.cap", radius: 0.102, height: 0.032, kind: "metal" }
+      },
+      {
+        id: "target-bank.post-right-lower",
+        x: 1.54,
+        z: -2.18,
+        radius: 0.07,
+        kind: "metal",
+        cap: { id: "target-bank.post-right-lower.cap", radius: 0.102, height: 0.032, kind: "metal" }
+      }
     ]
   },
   targets: [
