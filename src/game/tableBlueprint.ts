@@ -157,6 +157,17 @@ export interface SpeakerGrille {
   depth: number;
   holeCount: number;
   color: number;
+  fasteners: SpeakerGrilleFastener[];
+}
+
+export interface SpeakerGrilleFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface Post {
@@ -1062,6 +1073,57 @@ const withRampEntranceLipFasteners = (
   };
 };
 
+const withSpeakerGrilleFasteners = (
+  grilles: Array<Omit<SpeakerGrille, "fasteners">>
+): SpeakerGrille[] =>
+  grilles.map((grille) => {
+    const xOffset = grille.width * 0.42;
+    const yOffset = grille.height * 0.36;
+    const z = grille.z + grille.depth * 0.74;
+
+    return {
+      ...grille,
+      fasteners: [
+        {
+          id: `${grille.id}.screw-top-left`,
+          targetId: grille.id,
+          x: grille.x - xOffset,
+          y: grille.y + yOffset,
+          z,
+          radius: 0.035,
+          kind: "metal"
+        },
+        {
+          id: `${grille.id}.screw-top-right`,
+          targetId: grille.id,
+          x: grille.x + xOffset,
+          y: grille.y + yOffset,
+          z,
+          radius: 0.035,
+          kind: "metal"
+        },
+        {
+          id: `${grille.id}.screw-bottom-left`,
+          targetId: grille.id,
+          x: grille.x - xOffset,
+          y: grille.y - yOffset,
+          z,
+          radius: 0.035,
+          kind: "metal"
+        },
+        {
+          id: `${grille.id}.screw-bottom-right`,
+          targetId: grille.id,
+          x: grille.x + xOffset,
+          y: grille.y - yOffset,
+          z,
+          radius: 0.035,
+          kind: "metal"
+        }
+      ]
+    };
+  });
+
 export const silverballSocialBlueprint: TableBlueprint = {
   id: "silverball-social-v1",
   scale: {
@@ -1160,7 +1222,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       color: 0xf1c453,
       emissive: 0x6f3f06
     },
-    speakerGrilles: [
+    speakerGrilles: withSpeakerGrilleFasteners([
       {
         id: "cabinet.left-speaker-grille",
         x: -3.45,
@@ -1183,7 +1245,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
         holeCount: 8,
         color: 0x090b0b
       }
-    ]
+    ])
   },
   boundaries: withBoundaryFasteners([
     { id: "boundary.left-wall", x: -4.05, z: 0, width: 0.18, depth: 7.9, kind: "metal" },

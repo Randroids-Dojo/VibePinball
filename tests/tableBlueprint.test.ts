@@ -86,6 +86,18 @@ describe("Silverball Social physical board blueprint", () => {
       expect.arrayContaining(["cabinet.left-speaker-grille", "cabinet.right-speaker-grille"])
     );
     expect(blueprint.cabinet.speakerGrilles.every((grille) => grille.holeCount >= 6)).toBe(true);
+    expect(blueprint.cabinet.speakerGrilles.every((grille) => grille.fasteners.length === 4)).toBe(true);
+    for (const grille of blueprint.cabinet.speakerGrilles) {
+      expect(grille.fasteners.every((fastener) => fastener.id.startsWith(`${grille.id}.screw-`)), grille.id).toBe(true);
+      expect(grille.fasteners.every((fastener) => fastener.targetId === grille.id), grille.id).toBe(true);
+      expect(grille.fasteners.every((fastener) => fastener.kind === "metal"), grille.id).toBe(true);
+      expect(grille.fasteners.every((fastener) => fastener.radius >= 0.035), grille.id).toBe(true);
+      for (const fastener of grille.fasteners) {
+        expect(Math.abs(fastener.x - grille.x), fastener.id).toBeLessThanOrEqual(grille.width / 2);
+        expect(Math.abs(fastener.y - grille.y), fastener.id).toBeLessThanOrEqual(grille.height / 2);
+        expect(fastener.z, fastener.id).toBeGreaterThan(grille.z);
+      }
+    }
   });
 
   it("contains the lower playfield devices required by the reference-board acceptance criteria", () => {
@@ -959,6 +971,7 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.cabinet.lockdownBar.id,
       ...blueprint.cabinet.fasteners.map((item) => item.id),
       ...blueprint.cabinet.speakerGrilles.map((item) => item.id),
+      ...blueprint.cabinet.speakerGrilles.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
       blueprint.drain.trough.id,
       ...blueprint.drain.trough.ballSlots.map((item) => item.id),
       ...blueprint.drain.trough.slotRims.map((item) => item.id),
