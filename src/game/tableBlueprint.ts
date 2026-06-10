@@ -503,6 +503,7 @@ export interface RampSupport {
   radius: number;
   cap: RampSupportCap;
   foot: ElevatedSupportFoot;
+  collar: ElevatedSupportCollar;
   kind: "metal";
 }
 
@@ -531,15 +532,25 @@ export interface ElevatedSupportFootFastener {
   kind: "metal";
 }
 
+export interface ElevatedSupportCollar {
+  id: string;
+  targetId: string;
+  y: number;
+  radius: number;
+  height: number;
+  kind: "metal";
+}
+
 export const rampSidePoint = (ramp: Pick<RampPath, "x" | "z" | "angle">, offset: number) => ({
   x: ramp.x + Math.cos(ramp.angle) * offset,
   z: ramp.z - Math.sin(ramp.angle) * offset
 });
 
-const withElevatedSupportFoot = <Support extends { id: string; x: number; z: number; radius: number }>(
+const withElevatedSupportMounts = <Support extends { id: string; x: number; z: number; height: number; radius: number }>(
   support: Support
-): Support & { foot: ElevatedSupportFoot } => {
+): Support & { foot: ElevatedSupportFoot; collar: ElevatedSupportCollar } => {
   const plateRadius = Math.max(support.radius * 2.6, 0.12);
+  const collarHeight = 0.052;
 
   return {
     ...support,
@@ -566,6 +577,14 @@ const withElevatedSupportFoot = <Support extends { id: string; x: number; z: num
           kind: "metal"
         }
       ],
+      kind: "metal"
+    },
+    collar: {
+      id: `${support.id}.collar`,
+      targetId: support.id,
+      y: support.height - collarHeight / 2,
+      radius: Math.max(support.radius * 1.72, 0.072),
+      height: collarHeight,
       kind: "metal"
     }
   };
@@ -649,6 +668,7 @@ export interface WireformSupport {
   radius: number;
   cap: WireformSupportCap;
   foot: ElevatedSupportFoot;
+  collar: ElevatedSupportCollar;
   kind: "metal";
 }
 
@@ -2332,7 +2352,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       sideRailOffset: 0.52,
       entranceLip: withRampEntranceLipFasteners({ id: "ramp.left.entrance-lip", x: -2.02, z: 1.38, width: 0.94, depth: 0.08, angle: -0.2, kind: "metal" }),
       supports: [
-        withElevatedSupportFoot({
+        withElevatedSupportMounts({
           id: "ramp.left.support.entry",
           x: -1.92,
           z: 1.02,
@@ -2341,7 +2361,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
           cap: { id: "ramp.left.support.entry.cap", radius: 0.078, height: 0.035, kind: "metal" },
           kind: "metal"
         }),
-        withElevatedSupportFoot({
+        withElevatedSupportMounts({
           id: "ramp.left.support.lower",
           x: -2.1,
           z: -0.08,
@@ -2350,7 +2370,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
           cap: { id: "ramp.left.support.lower.cap", radius: 0.078, height: 0.035, kind: "metal" },
           kind: "metal"
         }),
-        withElevatedSupportFoot({
+        withElevatedSupportMounts({
           id: "ramp.left.support.mid",
           x: -2.34,
           z: -1.18,
@@ -2359,7 +2379,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
           cap: { id: "ramp.left.support.mid.cap", radius: 0.078, height: 0.035, kind: "metal" },
           kind: "metal"
         }),
-        withElevatedSupportFoot({
+        withElevatedSupportMounts({
           id: "ramp.left.support.crest",
           x: -2.56,
           z: -2.28,
@@ -2667,7 +2687,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "wireform.left-return.tie-lower-exit", x: -2.3, z: 3.58, width: 0.58, depth: 0.055, angle: 0.08, kind: "wire" }
       ],
       supports: [
-        withElevatedSupportFoot({
+        withElevatedSupportMounts({
           id: "wireform.left-return.support.upper",
           x: -2.54,
           z: -2.42,
@@ -2676,7 +2696,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
           cap: { id: "wireform.left-return.support.upper.cap", radius: 0.07, height: 0.032, kind: "metal" },
           kind: "metal"
         }),
-        withElevatedSupportFoot({
+        withElevatedSupportMounts({
           id: "wireform.left-return.support.mid",
           x: -2.62,
           z: 0.12,
@@ -2685,7 +2705,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
           cap: { id: "wireform.left-return.support.mid.cap", radius: 0.07, height: 0.032, kind: "metal" },
           kind: "metal"
         }),
-        withElevatedSupportFoot({
+        withElevatedSupportMounts({
           id: "wireform.left-return.support.exit",
           x: -2.24,
           z: 3.86,
@@ -2717,7 +2737,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "wireform.right-orbit-return.tie-lower-exit", x: 2.32, z: 2.74, width: 0.6, depth: 0.055, angle: -0.08, kind: "wire" }
       ],
       supports: [
-        withElevatedSupportFoot({
+        withElevatedSupportMounts({
           id: "wireform.right-orbit-return.support.upper",
           x: 2.78,
           z: -4.42,
@@ -2726,7 +2746,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
           cap: { id: "wireform.right-orbit-return.support.upper.cap", radius: 0.07, height: 0.032, kind: "metal" },
           kind: "metal"
         }),
-        withElevatedSupportFoot({
+        withElevatedSupportMounts({
           id: "wireform.right-orbit-return.support.mid",
           x: 2.72,
           z: -1.08,
@@ -2735,7 +2755,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
           cap: { id: "wireform.right-orbit-return.support.mid.cap", radius: 0.07, height: 0.032, kind: "metal" },
           kind: "metal"
         }),
-        withElevatedSupportFoot({
+        withElevatedSupportMounts({
           id: "wireform.right-orbit-return.support.exit",
           x: 2.28,
           z: 3.78,
