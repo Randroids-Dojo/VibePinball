@@ -612,6 +612,7 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
   blueprint.targetBank.posts.forEach((post) => addPost(post.x, post.z, post.radius, 0.58));
   blueprint.targets.forEach((target) => {
     addWall(target.x, target.z, 0.18, 0.05, target.angle, 0.72);
+    addSegment(target.mountPlate);
     addSegment(target.rearStop);
   });
   blueprint.saucers.forEach((saucer) => {

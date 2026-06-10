@@ -355,6 +355,15 @@ describe("Silverball Social physical board blueprint", () => {
       expect(target.rearStop.id).toBe(`${target.id}.rear-stop`);
       expect(target.rearStop.kind).toBe("rubber");
       expect(target.rearStop.depth).toBeGreaterThan(0);
+      expect(target.mountPlate.id).toBe(`${target.id}.mount-plate`);
+      expect(target.mountPlate.kind).toBe("metal");
+      expect(target.mountPlate.width).toBeGreaterThan(0.4);
+      expect(target.mountPlate.depth).toBeGreaterThan(0.06);
+      expect(target.mountPlate.z).toBeGreaterThan(target.rearStop.z);
+      expect(target.mountFasteners).toHaveLength(2);
+      expect(target.mountFasteners.every((fastener) => fastener.id.startsWith(`${target.id}.mount-screw-`))).toBe(true);
+      expect(target.mountFasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+      expect(target.mountFasteners.every((fastener) => fastener.radius > 0.025)).toBe(true);
       expect(target.decalColor).toBeGreaterThan(0);
     }
   });
@@ -611,6 +620,8 @@ describe("Silverball Social physical board blueprint", () => {
       ]),
       ...blueprint.targets.map((item) => item.id),
       ...blueprint.targets.map((item) => item.rearStop.id),
+      ...blueprint.targets.map((item) => item.mountPlate.id),
+      ...blueprint.targets.flatMap((item) => item.mountFasteners.map((fastener) => fastener.id)),
       blueprint.targetBank.id,
       ...blueprint.targetBank.frameSegments.map((item) => item.id),
       ...blueprint.targetBank.posts.map((item) => item.id),

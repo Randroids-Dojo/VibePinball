@@ -135,7 +135,21 @@ export interface TargetDevice extends SensorZone {
   label: string;
   angle: number;
   rearStop: Segment;
+  mountPlate: TargetMountPlate;
+  mountFasteners: TargetMountFastener[];
   decalColor: number;
+}
+
+export interface TargetMountPlate extends Segment {
+  kind: "metal";
+}
+
+export interface TargetMountFastener {
+  id: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface TargetBankHardware {
@@ -1139,6 +1153,11 @@ export const silverballSocialBlueprint: TableBlueprint = {
       z: -2.44,
       radius: 0.35,
       angle: 0.18,
+      mountPlate: { id: "target-bank-1.mount-plate", x: -1.28, z: -2.21, width: 0.48, depth: 0.1, angle: 0.18, kind: "metal" },
+      mountFasteners: [
+        { id: "target-bank-1.mount-screw-left", x: -1.45, z: -2.16, radius: 0.032, kind: "metal" },
+        { id: "target-bank-1.mount-screw-right", x: -1.11, z: -2.24, radius: 0.032, kind: "metal" }
+      ],
       decalColor: 0xffd56f,
       rearStop: { id: "target-bank-1.rear-stop", x: -1.28, z: -2.72, width: 0.42, depth: 0.08, angle: 0.18, kind: "rubber" }
     },
@@ -1149,6 +1168,11 @@ export const silverballSocialBlueprint: TableBlueprint = {
       z: -2.6,
       radius: 0.35,
       angle: 0.08,
+      mountPlate: { id: "target-bank-2.mount-plate", x: -0.64, z: -2.36, width: 0.48, depth: 0.1, angle: 0.08, kind: "metal" },
+      mountFasteners: [
+        { id: "target-bank-2.mount-screw-left", x: -0.82, z: -2.33, radius: 0.032, kind: "metal" },
+        { id: "target-bank-2.mount-screw-right", x: -0.46, z: -2.39, radius: 0.032, kind: "metal" }
+      ],
       decalColor: 0xffd56f,
       rearStop: { id: "target-bank-2.rear-stop", x: -0.64, z: -2.88, width: 0.42, depth: 0.08, angle: 0.08, kind: "rubber" }
     },
@@ -1159,6 +1183,11 @@ export const silverballSocialBlueprint: TableBlueprint = {
       z: -2.68,
       radius: 0.35,
       angle: 0,
+      mountPlate: { id: "target-bank-3.mount-plate", x: 0, z: -2.43, width: 0.48, depth: 0.1, kind: "metal" },
+      mountFasteners: [
+        { id: "target-bank-3.mount-screw-left", x: -0.18, z: -2.43, radius: 0.032, kind: "metal" },
+        { id: "target-bank-3.mount-screw-right", x: 0.18, z: -2.43, radius: 0.032, kind: "metal" }
+      ],
       decalColor: 0xffd56f,
       rearStop: { id: "target-bank-3.rear-stop", x: 0, z: -2.96, width: 0.42, depth: 0.08, kind: "rubber" }
     },
@@ -1169,6 +1198,11 @@ export const silverballSocialBlueprint: TableBlueprint = {
       z: -2.6,
       radius: 0.35,
       angle: -0.08,
+      mountPlate: { id: "target-bank-4.mount-plate", x: 0.64, z: -2.36, width: 0.48, depth: 0.1, angle: -0.08, kind: "metal" },
+      mountFasteners: [
+        { id: "target-bank-4.mount-screw-left", x: 0.46, z: -2.39, radius: 0.032, kind: "metal" },
+        { id: "target-bank-4.mount-screw-right", x: 0.82, z: -2.33, radius: 0.032, kind: "metal" }
+      ],
       decalColor: 0xffd56f,
       rearStop: { id: "target-bank-4.rear-stop", x: 0.64, z: -2.88, width: 0.42, depth: 0.08, angle: -0.08, kind: "rubber" }
     },
@@ -1179,6 +1213,11 @@ export const silverballSocialBlueprint: TableBlueprint = {
       z: -2.44,
       radius: 0.35,
       angle: -0.18,
+      mountPlate: { id: "target-bank-5.mount-plate", x: 1.28, z: -2.21, width: 0.48, depth: 0.1, angle: -0.18, kind: "metal" },
+      mountFasteners: [
+        { id: "target-bank-5.mount-screw-left", x: 1.11, z: -2.24, radius: 0.032, kind: "metal" },
+        { id: "target-bank-5.mount-screw-right", x: 1.45, z: -2.16, radius: 0.032, kind: "metal" }
+      ],
       decalColor: 0xffd56f,
       rearStop: { id: "target-bank-5.rear-stop", x: 1.28, z: -2.72, width: 0.42, depth: 0.08, angle: -0.18, kind: "rubber" }
     }
@@ -1667,7 +1706,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
     { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.exit", "wireform.left-return.exit"] },
-    { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.rear-stop"] },
+    { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.mount-plate", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.mount-plate", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.mount-plate", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.mount-plate", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.mount-plate", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
     { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit"] },
     { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.shooter.skill", "rollover.shooter.skill", "shooter.one-way-gate", "shooter.one-way-gate.hinge-post", "shooter.one-way-gate.stop-post"] }

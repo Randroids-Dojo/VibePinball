@@ -16,6 +16,7 @@ import {
   type Post,
   type RampPath,
   type SlingDevice,
+  type TargetDevice,
   type TargetBankHardware,
   type WireformPath
 } from "./tableBlueprint";
@@ -147,6 +148,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   });
   addTargetBankHardware(group, blueprint.targetBank);
   blueprint.targets.forEach((device) => {
+    addTargetMountHardware(group, device);
     const target = mesh(new THREE.BoxGeometry(0.36, 0.72, 0.14), targetMaterial);
     target.position.set(device.x, 0.38, device.z);
     target.rotation.y = device.angle;
@@ -618,6 +620,18 @@ const addTargetBankHardware = (group: THREE.Group, targetBank: TargetBankHardwar
   targetBank.frameSegments.forEach((segment) => addSegment(group, segment, 0.48));
   targetBank.posts.forEach((post) => addPost(group, post));
   addDeckLabel(group, targetBank.label, 0, -1.7, 2.5, 0.24, 0);
+};
+
+const addTargetMountHardware = (group: THREE.Group, target: TargetDevice) => {
+  addSegment(group, target.mountPlate, 0.2);
+  target.mountFasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.035, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.16, metalness: 0.86 })
+    );
+    screw.position.set(fastener.x, 0.28, fastener.z);
+    group.add(screw);
+  });
 };
 
 const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
