@@ -10,6 +10,7 @@ import {
   type DrainDevice,
   type DrainGuide,
   type FlipperStop,
+  type HandoffSegment,
   type LampInsert,
   type LaneGuideCover,
   type LaneWallSegment,
@@ -209,7 +210,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   });
 
   blueprint.handoffs.forEach((handoff) => {
-    handoff.segments.forEach((segment) => addSegment(group, segment, segment.kind === "metal" ? 0.5 : 0.78));
+    handoff.segments.forEach((segment) => addHandoffSegment(group, segment));
     handoff.posts?.forEach((post) => addPost(group, post));
   });
 
@@ -392,6 +393,18 @@ const addLaneWallSegment = (group: THREE.Group, segment: LaneWallSegment) => {
       new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.585, fastener.z);
+    group.add(screw);
+  });
+};
+
+const addHandoffSegment = (group: THREE.Group, segment: HandoffSegment) => {
+  addSegment(group, segment, segment.kind === "metal" ? 0.5 : 0.78);
+  segment.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, segment.kind === "metal" ? 0.725 : 1.005, fastener.z);
     group.add(screw);
   });
 };

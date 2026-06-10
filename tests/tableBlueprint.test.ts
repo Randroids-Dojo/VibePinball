@@ -406,6 +406,11 @@ describe("Silverball Social physical board blueprint", () => {
       expect(gatePosts.some((post) => post.id.endsWith("hinge-post")), segment.id).toBe(true);
       expect(gatePosts.some((post) => post.id.endsWith("stop-post")), segment.id).toBe(true);
       expect(gatePosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.4), segment.id).toBe(true);
+      expect(segment.fasteners).toHaveLength(2);
+      expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.radius >= 0.032), segment.id).toBe(true);
     }
   });
 
@@ -770,7 +775,7 @@ describe("Silverball Social physical board blueprint", () => {
         "handoff.right-orbit-exit"
       ])
     );
-    expect(blueprint.handoffs.flatMap((handoff) => handoff.segments).every((segment) => segment.kind !== "plastic")).toBe(true);
+    expect(blueprint.handoffs.flatMap((handoff) => handoff.segments).every((segment) => segment.kind === "metal" || segment.kind === "wire")).toBe(true);
   });
 
   it("mounts the ramp entry flap and guide wires on capped metal posts", () => {
@@ -786,6 +791,11 @@ describe("Silverball Social physical board blueprint", () => {
       const segmentPosts = entryHandoff?.posts?.filter((post) => post.id.startsWith(segment.id)) ?? [];
       expect(segmentPosts, segment.id).toHaveLength(2);
       expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.5), segment.id).toBe(true);
+      expect(segment.fasteners).toHaveLength(2);
+      expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.radius >= (segment.kind === "wire" ? 0.026 : 0.032)), segment.id).toBe(true);
     }
 
     const leftRampShot = blueprint.shots.find((shot) => shot.id === "shot.left-ramp");
@@ -814,6 +824,11 @@ describe("Silverball Social physical board blueprint", () => {
       expect(segmentPosts.some((post) => post.id.endsWith("upper-post")), segment.id).toBe(true);
       expect(segmentPosts.some((post) => post.id.endsWith("lower-post")), segment.id).toBe(true);
       expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.5), segment.id).toBe(true);
+      expect(segment.fasteners).toHaveLength(2);
+      expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.radius >= 0.026), segment.id).toBe(true);
     }
 
     expect(blueprint.shots.find((shot) => shot.id === "shot.left-orbit")?.deviceIds).toEqual(
@@ -837,6 +852,11 @@ describe("Silverball Social physical board blueprint", () => {
       expect(segmentPosts.some((post) => post.id.endsWith("upper-post")), segment.id).toBe(true);
       expect(segmentPosts.some((post) => post.id.endsWith("lower-post")), segment.id).toBe(true);
       expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.5), segment.id).toBe(true);
+      expect(segment.fasteners).toHaveLength(2);
+      expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
+      expect(segment.fasteners.every((fastener) => fastener.radius >= 0.026), segment.id).toBe(true);
     }
 
     expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
@@ -861,6 +881,11 @@ describe("Silverball Social physical board blueprint", () => {
         expect(segmentPosts.some((post) => post.id.endsWith("upper-post")), segment.id).toBe(true);
         expect(segmentPosts.some((post) => post.id.endsWith("lower-post")), segment.id).toBe(true);
         expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.5), segment.id).toBe(true);
+        expect(segment.fasteners).toHaveLength(2);
+        expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
+        expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
+        expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
+        expect(segment.fasteners.every((fastener) => fastener.radius >= 0.026), segment.id).toBe(true);
       }
     }
 
@@ -979,7 +1004,11 @@ describe("Silverball Social physical board blueprint", () => {
         ramp.entranceLip.id,
         ...ramp.supports.flatMap((support) => [support.id, support.cap.id])
       ]),
-      ...blueprint.handoffs.flatMap((handoff) => [handoff.id, ...handoff.segments.map((segment) => segment.id)]),
+      ...blueprint.handoffs.flatMap((handoff) => [
+        handoff.id,
+        ...handoff.segments.map((segment) => segment.id),
+        ...handoff.segments.flatMap((segment) => segment.fasteners.map((fastener) => fastener.id))
+      ]),
       ...blueprint.handoffs.flatMap((handoff) => (handoff.posts ?? []).flatMap((post) => post.cap ? [post.id, post.cap.id] : [post.id])),
       ...blueprint.wireforms.flatMap((wireform) => [
         wireform.id,

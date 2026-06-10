@@ -467,8 +467,22 @@ export const rampSidePoint = (ramp: RampPath, offset: number) => ({
 export interface HandoffDevice {
   id: string;
   label: string;
-  segments: Segment[];
+  segments: HandoffSegment[];
   posts?: Post[];
+}
+
+export interface HandoffSegment extends Segment {
+  kind: "metal" | "wire";
+  fasteners: HandoffFastener[];
+}
+
+export interface HandoffFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface WireformPath {
@@ -951,6 +965,45 @@ const withPopBumperGuardFasteners = (
           x: segment.x + offset.x,
           z: segment.z + offset.z,
           radius: 0.026,
+          kind: "metal"
+        }
+      ]
+    };
+  });
+
+const withHandoffFasteners = (
+  segments: Array<Omit<HandoffSegment, "fasteners">>
+): HandoffSegment[] =>
+  segments.map((segment) => {
+    const angle = segment.angle ?? 0;
+    const halfSpan = Math.max(segment.width, segment.depth) * 0.38;
+    const offset = segment.width >= segment.depth
+      ? {
+          x: Math.cos(angle) * halfSpan,
+          z: -Math.sin(angle) * halfSpan
+        }
+      : {
+          x: Math.sin(angle) * halfSpan,
+          z: Math.cos(angle) * halfSpan
+        };
+
+    return {
+      ...segment,
+      fasteners: [
+        {
+          id: `${segment.id}.screw-a`,
+          targetId: segment.id,
+          x: segment.x - offset.x,
+          z: segment.z - offset.z,
+          radius: segment.kind === "wire" ? 0.026 : 0.032,
+          kind: "metal"
+        },
+        {
+          id: `${segment.id}.screw-b`,
+          targetId: segment.id,
+          x: segment.x + offset.x,
+          z: segment.z + offset.z,
+          radius: segment.kind === "wire" ? 0.026 : 0.032,
           kind: "metal"
         }
       ]
@@ -1941,11 +1994,11 @@ export const silverballSocialBlueprint: TableBlueprint = {
     {
       id: "handoff.ramp-left-entry",
       label: "Left ramp entry flap",
-      segments: [
+      segments: withHandoffFasteners([
         { id: "handoff.ramp-left-entry.flap", x: -1.78, z: 1.63, width: 0.74, depth: 0.06, angle: -0.2, kind: "metal" },
         { id: "handoff.ramp-left-entry.left-guide", x: -2.6, z: 1.14, width: 0.07, depth: 0.86, angle: -0.36, kind: "wire" },
         { id: "handoff.ramp-left-entry.right-guide", x: -1.58, z: 1.06, width: 0.07, depth: 0.84, angle: -0.06, kind: "wire" }
-      ],
+      ]),
       posts: [
         {
           id: "handoff.ramp-left-entry.flap.left-hinge-post",
@@ -2000,10 +2053,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
     {
       id: "handoff.ramp-left-exit",
       label: "Left wireform to inlane handoff",
-      segments: [
+      segments: withHandoffFasteners([
         { id: "handoff.ramp-left-exit.left-guide", x: -2.38, z: 4.45, width: 0.06, depth: 0.78, angle: -0.22, kind: "wire" },
         { id: "handoff.ramp-left-exit.right-guide", x: -1.8, z: 4.56, width: 0.06, depth: 0.76, angle: 0.18, kind: "wire" }
-      ],
+      ]),
       posts: [
         {
           id: "handoff.ramp-left-exit.left-guide.upper-post",
@@ -2042,10 +2095,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
     {
       id: "handoff.left-orbit-entry",
       label: "Left orbit entry guide",
-      segments: [
+      segments: withHandoffFasteners([
         { id: "handoff.left-orbit-entry.inner-guide", x: -2.68, z: 1.06, width: 0.06, depth: 0.82, angle: -0.18, kind: "wire" },
         { id: "handoff.left-orbit-entry.outer-guide", x: -3.38, z: 1.02, width: 0.06, depth: 0.86, angle: 0.16, kind: "wire" }
-      ],
+      ]),
       posts: [
         {
           id: "handoff.left-orbit-entry.inner-guide.lower-post",
@@ -2084,10 +2137,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
     {
       id: "handoff.right-orbit-entry",
       label: "Right orbit entry guide",
-      segments: [
+      segments: withHandoffFasteners([
         { id: "handoff.right-orbit-entry.inner-guide", x: 2.68, z: 1.06, width: 0.06, depth: 0.82, angle: 0.18, kind: "wire" },
         { id: "handoff.right-orbit-entry.outer-guide", x: 3.38, z: 1.02, width: 0.06, depth: 0.86, angle: -0.16, kind: "wire" }
-      ],
+      ]),
       posts: [
         {
           id: "handoff.right-orbit-entry.inner-guide.lower-post",
@@ -2126,10 +2179,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
     {
       id: "handoff.right-orbit-exit",
       label: "Right orbit return handoff",
-      segments: [
+      segments: withHandoffFasteners([
         { id: "handoff.right-orbit-exit.left-guide", x: 1.82, z: 4.52, width: 0.06, depth: 0.78, angle: -0.18, kind: "wire" },
         { id: "handoff.right-orbit-exit.right-guide", x: 2.38, z: 4.42, width: 0.06, depth: 0.74, angle: 0.22, kind: "wire" }
-      ],
+      ]),
       posts: [
         {
           id: "handoff.right-orbit-exit.left-guide.upper-post",
@@ -2168,10 +2221,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
     {
       id: "handoff.upper-orbit-gates",
       label: "Upper orbit gates",
-      segments: [
+      segments: withHandoffFasteners([
         { id: "handoff.upper-orbit-gates.left", x: -2.06, z: -5.86, width: 0.58, depth: 0.06, angle: 0.38, kind: "metal" },
         { id: "handoff.upper-orbit-gates.right", x: 2.12, z: -5.82, width: 0.58, depth: 0.06, angle: -0.38, kind: "metal" }
-      ],
+      ]),
       posts: [
         {
           id: "handoff.upper-orbit-gates.left.hinge-post",
