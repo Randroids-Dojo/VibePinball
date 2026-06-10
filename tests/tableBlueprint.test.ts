@@ -701,6 +701,8 @@ describe("Silverball Social physical board blueprint", () => {
   });
 
   it("models each standup target with a rear stop and face decal color", () => {
+    const centerBankShot = blueprint.shots.find((shot) => shot.id === "shot.center-bank");
+
     for (const target of blueprint.targets) {
       expect(target.face.id).toBe(`${target.id}.face`);
       expect(target.face.kind).toBe("plastic");
@@ -724,6 +726,7 @@ describe("Silverball Social physical board blueprint", () => {
       expect(target.mountFasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
       expect(target.mountFasteners.every((fastener) => fastener.radius > 0.025)).toBe(true);
       expect(target.decalColor).toBeGreaterThan(0);
+      expect(centerBankShot?.deviceIds).toContain(target.face.id);
     }
   });
 
