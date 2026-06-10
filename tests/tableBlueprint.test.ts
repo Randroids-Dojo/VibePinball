@@ -702,8 +702,10 @@ describe("Silverball Social physical board blueprint", () => {
 
   it("models each standup target with a rear stop and face decal color", () => {
     const centerBankShot = blueprint.shots.find((shot) => shot.id === "shot.center-bank");
+    const insertById = new Map(blueprint.lampInserts.map((insert) => [insert.id, insert]));
+    const expectedInsertIds = ["insert.social-s", "insert.social-o", "insert.social-c", "insert.social-i", "insert.social-a"];
 
-    for (const target of blueprint.targets) {
+    for (const [index, target] of blueprint.targets.entries()) {
       expect(target.face.id).toBe(`${target.id}.face`);
       expect(target.face.kind).toBe("plastic");
       expect(target.face.x).toBeCloseTo(target.x);
@@ -727,6 +729,15 @@ describe("Silverball Social physical board blueprint", () => {
       expect(target.mountFasteners.every((fastener) => fastener.radius > 0.025)).toBe(true);
       expect(target.decalColor).toBeGreaterThan(0);
       expect(centerBankShot?.deviceIds).toContain(target.face.id);
+      expect(target.lampInsertId).toBe(expectedInsertIds[index]);
+      expect(centerBankShot?.deviceIds).toContain(target.lampInsertId);
+
+      const insert = insertById.get(target.lampInsertId);
+      expect(insert, target.lampInsertId).toBeDefined();
+      expect(insert?.label).toBe(target.label);
+      expect(insert?.x).toBeCloseTo(target.x);
+      expect(insert?.z ?? 0).toBeGreaterThan(target.z);
+      expect(insert?.lens.targetId).toBe(target.lampInsertId);
     }
   });
 
@@ -979,7 +990,12 @@ describe("Silverball Social physical board blueprint", () => {
         "insert.left-ramp-arrow",
         "insert.right-orbit-arrow",
         "insert.lock-ready",
-        "insert.skill-shot"
+        "insert.skill-shot",
+        "insert.social-s",
+        "insert.social-o",
+        "insert.social-c",
+        "insert.social-i",
+        "insert.social-a"
       ])
     );
     for (const insert of blueprint.lampInserts) {

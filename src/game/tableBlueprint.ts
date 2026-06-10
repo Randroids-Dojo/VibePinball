@@ -247,6 +247,7 @@ export interface TargetDevice extends SensorZone {
   label: string;
   angle: number;
   face: TargetFace;
+  lampInsertId: string;
   rearStop: Segment;
   mountPlate: TargetMountPlate;
   mountFasteners: TargetMountFastener[];
@@ -2488,6 +2489,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       radius: 0.35,
       angle: 0.18,
       face: { id: "target-bank-1.face", x: -1.28, z: -2.44, width: 0.36, height: 0.72, thickness: 0.14, angle: 0.18, color: 0xd94b4b, kind: "plastic" },
+      lampInsertId: "insert.social-s",
       mountPlate: { id: "target-bank-1.mount-plate", x: -1.28, z: -2.21, width: 0.48, depth: 0.1, angle: 0.18, kind: "metal" },
       mountFasteners: [
         { id: "target-bank-1.mount-screw-left", x: -1.45, z: -2.16, radius: 0.032, kind: "metal" },
@@ -2504,6 +2506,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       radius: 0.35,
       angle: 0.08,
       face: { id: "target-bank-2.face", x: -0.64, z: -2.6, width: 0.36, height: 0.72, thickness: 0.14, angle: 0.08, color: 0xd94b4b, kind: "plastic" },
+      lampInsertId: "insert.social-o",
       mountPlate: { id: "target-bank-2.mount-plate", x: -0.64, z: -2.36, width: 0.48, depth: 0.1, angle: 0.08, kind: "metal" },
       mountFasteners: [
         { id: "target-bank-2.mount-screw-left", x: -0.82, z: -2.33, radius: 0.032, kind: "metal" },
@@ -2520,6 +2523,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       radius: 0.35,
       angle: 0,
       face: { id: "target-bank-3.face", x: 0, z: -2.68, width: 0.36, height: 0.72, thickness: 0.14, color: 0xd94b4b, kind: "plastic" },
+      lampInsertId: "insert.social-c",
       mountPlate: { id: "target-bank-3.mount-plate", x: 0, z: -2.43, width: 0.48, depth: 0.1, kind: "metal" },
       mountFasteners: [
         { id: "target-bank-3.mount-screw-left", x: -0.18, z: -2.43, radius: 0.032, kind: "metal" },
@@ -2536,6 +2540,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       radius: 0.35,
       angle: -0.08,
       face: { id: "target-bank-4.face", x: 0.64, z: -2.6, width: 0.36, height: 0.72, thickness: 0.14, angle: -0.08, color: 0xd94b4b, kind: "plastic" },
+      lampInsertId: "insert.social-i",
       mountPlate: { id: "target-bank-4.mount-plate", x: 0.64, z: -2.36, width: 0.48, depth: 0.1, angle: -0.08, kind: "metal" },
       mountFasteners: [
         { id: "target-bank-4.mount-screw-left", x: 0.46, z: -2.39, radius: 0.032, kind: "metal" },
@@ -2552,6 +2557,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       radius: 0.35,
       angle: -0.18,
       face: { id: "target-bank-5.face", x: 1.28, z: -2.44, width: 0.36, height: 0.72, thickness: 0.14, angle: -0.18, color: 0xd94b4b, kind: "plastic" },
+      lampInsertId: "insert.social-a",
       mountPlate: { id: "target-bank-5.mount-plate", x: 1.28, z: -2.21, width: 0.48, depth: 0.1, angle: -0.18, kind: "metal" },
       mountFasteners: [
         { id: "target-bank-5.mount-screw-left", x: 1.11, z: -2.24, radius: 0.032, kind: "metal" },
@@ -3489,7 +3495,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "handoff.left-orbit-entry.inner-guide", "handoff.left-orbit-entry.outer-guide", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
     { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.side-wall.left", "ramp.left.side-wall.right", "ramp.left.side-rail.left", "ramp.left.side-rail.right", "ramp.left.cross-brace.lower", "ramp.left.cross-brace.mid", "ramp.left.cross-brace.upper", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.upper.rail-left", "wireform.left-return.upper.rail-right", "wireform.left-return.lower.rail-left", "wireform.left-return.lower.rail-right", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
-    { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.face", "target-bank-1.mount-plate", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.face", "target-bank-2.mount-plate", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.face", "target-bank-3.mount-plate", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.face", "target-bank-4.mount-plate", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.face", "target-bank-5.mount-plate", "target-bank-5.rear-stop"] },
+    { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.face", "insert.social-s", "target-bank-1.mount-plate", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.face", "insert.social-o", "target-bank-2.mount-plate", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.face", "insert.social-c", "target-bank-3.mount-plate", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.face", "insert.social-i", "target-bank-4.mount-plate", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.face", "insert.social-a", "target-bank-5.mount-plate", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
     { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "handoff.right-orbit-entry.inner-guide", "handoff.right-orbit-entry.outer-guide", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.upper.rail-left", "wireform.right-orbit-return.upper.rail-right", "wireform.right-orbit-return.lower.rail-left", "wireform.right-orbit-return.lower.rail-right", "wireform.right-orbit-return.exit", "handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"] },
     { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.shooter.skill", "rollover.shooter.skill", "shooter.one-way-gate", "shooter.one-way-gate.hinge-post", "shooter.one-way-gate.stop-post"] }
