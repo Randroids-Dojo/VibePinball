@@ -62,6 +62,7 @@
 <section data-role="build-log">
   <h2>Build log</h2>
   <ul>
+    <li data-date="2026-06-10">Added collider-backed metal posts to the left ramp entry handoff through shared handoff blueprint data so the ramp mouth has physical flap and guide mounts. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR #44.</li>
     <li data-date="2026-06-10">Moved the Rapier table-slope gravity vector into the shared <code>playfield.deck</code> blueprint record so physics and rendering consume the same authored playfield slope data. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/physics.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR #26.</li>
     <li data-date="2026-06-10">Added Rapier-backed colliders for authored wireform cross ties on the raised left ramp return and right orbit return. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/physics.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR #20.</li>
     <li data-date="2026-06-10">Added Rapier-backed metal divider rails between the SOCIAL standup targets through the existing shared target-bank frame segment collider path. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR #19.</li>

@@ -1504,6 +1504,56 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "handoff.ramp-left-entry.flap", x: -1.78, z: 1.63, width: 0.74, depth: 0.06, angle: -0.2, kind: "metal" },
         { id: "handoff.ramp-left-entry.left-guide", x: -2.6, z: 1.14, width: 0.07, depth: 0.86, angle: -0.36, kind: "wire" },
         { id: "handoff.ramp-left-entry.right-guide", x: -1.58, z: 1.06, width: 0.07, depth: 0.84, angle: -0.06, kind: "wire" }
+      ],
+      posts: [
+        {
+          id: "handoff.ramp-left-entry.flap.left-hinge-post",
+          x: -2.13,
+          z: 1.7,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.ramp-left-entry.flap.left-hinge-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.ramp-left-entry.flap.right-stop-post",
+          x: -1.43,
+          z: 1.56,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.ramp-left-entry.flap.right-stop-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.ramp-left-entry.left-guide.upper-post",
+          x: -2.45,
+          z: 0.75,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.ramp-left-entry.left-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.ramp-left-entry.left-guide.lower-post",
+          x: -2.76,
+          z: 1.52,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.ramp-left-entry.left-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.ramp-left-entry.right-guide.upper-post",
+          x: -1.55,
+          z: 0.64,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.ramp-left-entry.right-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.ramp-left-entry.right-guide.lower-post",
+          x: -1.61,
+          z: 1.46,
+          radius: 0.052,
+          kind: "metal",
+          cap: { id: "handoff.ramp-left-entry.right-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
+        }
       ]
     },
     {
@@ -2072,7 +2122,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
   },
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
-    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.exit", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
+    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.mount-plate", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.mount-plate", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.mount-plate", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.mount-plate", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.mount-plate", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
     { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit", "handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"] },
