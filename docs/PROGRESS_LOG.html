@@ -35,7 +35,7 @@
     <h3>Lock Saucer Post Caps</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/lock-saucer-post-caps</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd>PR #40</dd>
       <dt>Changed</dt><dd>added authored metal cap records to the lock saucer entry posts so the center lock device reads as mounted capture hardware instead of plain metal posts. Rendering consumes those caps through the existing capped-post path from shared saucer blueprint data.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-lock-saucer-post-caps.png</code> confirmed a nonblank WebGL board with the center lock device still correctly framed.</dd>
       <dt>Assumptions</dt><dd>The saucer post caps are visual mounting hardware and do not need separate physics colliders because the existing metal entry posts remain the active saucer contact geometry.</dd>
