@@ -405,6 +405,33 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
       expect.arrayContaining(["ramp.left.side-rail.left", "ramp.left.side-rail.right"])
     );
+    expect(ramp?.crossBraces).toHaveLength(3);
+    expect(ramp?.crossBraces.map((brace) => brace.id)).toEqual([
+      "ramp.left.cross-brace.lower",
+      "ramp.left.cross-brace.mid",
+      "ramp.left.cross-brace.upper"
+    ]);
+    for (const brace of ramp?.crossBraces ?? []) {
+      expect(brace.targetId).toBe(ramp?.id);
+      expect(brace.kind).toBe("metal");
+      expect(brace.width).toBeGreaterThan((ramp?.width ?? 0));
+      expect(brace.depth).toBeLessThan(0.12);
+      expect(brace.y).toBeGreaterThanOrEqual(ramp?.startY ?? 0);
+      expect(brace.y).toBeLessThanOrEqual((ramp?.endY ?? 0) + 0.08);
+      expect(brace.pitch).toBeGreaterThan(0);
+      expect(brace.fasteners).toHaveLength(2);
+      expect(brace.fasteners.every((fastener) => fastener.id.startsWith(`${brace.id}.screw-`)), brace.id).toBe(true);
+      expect(brace.fasteners.every((fastener) => fastener.targetId === brace.id), brace.id).toBe(true);
+      expect(brace.fasteners.every((fastener) => fastener.kind === "metal"), brace.id).toBe(true);
+      expect(brace.fasteners.every((fastener) => fastener.radius >= 0.024), brace.id).toBe(true);
+      for (const fastener of brace.fasteners) {
+        expect(Math.hypot(fastener.x - brace.x, fastener.z - brace.z), fastener.id).toBeLessThanOrEqual(brace.width / 2);
+        expect(fastener.y, fastener.id).toBeGreaterThan(brace.y);
+      }
+    }
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
+      expect.arrayContaining(["ramp.left.cross-brace.lower", "ramp.left.cross-brace.mid", "ramp.left.cross-brace.upper"])
+    );
     expect(ramp?.entranceLip.id).toBe("ramp.left.entrance-lip");
     expect(ramp?.entranceLip.kind).toBe("metal");
     expect(ramp?.entranceLip.fasteners).toHaveLength(2);
@@ -1141,6 +1168,8 @@ describe("Silverball Social physical board blueprint", () => {
         ramp.exit.id,
         ...ramp.sideRails.map((rail) => rail.id),
         ...ramp.sideRails.flatMap((rail) => rail.fasteners.map((fastener) => fastener.id)),
+        ...ramp.crossBraces.map((brace) => brace.id),
+        ...ramp.crossBraces.flatMap((brace) => brace.fasteners.map((fastener) => fastener.id)),
         ramp.entranceLip.id,
         ...ramp.entranceLip.fasteners.map((fastener) => fastener.id),
         ...ramp.supports.flatMap((support) => [

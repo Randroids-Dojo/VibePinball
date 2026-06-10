@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="ramp-cross-braces" data-date="2026-06-10">
+    <h3>Ramp Cross Braces</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/ramp-cross-braces</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added authored metal cross-brace plates and paired screw heads under the left ramp floor at lower, mid, and upper positions so the ramp reads as a constructed raised assembly tied between its side rails instead of a single transparent slab.</dd>
+      <dt>Verification</dt><dd><code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code> passed before final verification.</dd>
+      <dt>Assumptions</dt><dd>The ramp cross braces are visual mounting hardware and do not need separate physics colliders because the existing inclined ramp floor and side rails remain the active ball-path colliders.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-010</code>, <code>REQ-017</code>, <code>REQ-042</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/06-camera-and-rendering.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="elevated-support-saddles" data-date="2026-06-10">
     <h3>Elevated Support Saddles</h3>
     <dl>

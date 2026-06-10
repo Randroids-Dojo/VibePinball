@@ -447,6 +447,7 @@ export interface RampPath {
   sideRailHeight: number;
   sideRailOffset: number;
   sideRails: RampSideRail[];
+  crossBraces: RampCrossBrace[];
   entranceLip: RampEntranceLip;
   supports: RampSupport[];
   entry: SensorZone;
@@ -472,6 +473,24 @@ export interface RampSideRail {
 }
 
 export interface RampSideRailFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
+export interface RampCrossBrace extends Segment {
+  targetId: string;
+  y: number;
+  pitch: number;
+  fasteners: RampCrossBraceFastener[];
+  kind: "metal";
+}
+
+export interface RampCrossBraceFastener {
   id: string;
   targetId: string;
   x: number;
@@ -1361,7 +1380,7 @@ const withRampEntranceLipFasteners = (
 };
 
 const withRampSideRails = (
-  ramp: Omit<RampPath, "sideRails">
+  ramp: Omit<RampPath, "sideRails" | "crossBraces">
 ): RampPath => {
   const rise = ramp.endY - ramp.startY;
   const pitch = Math.atan2(rise, ramp.depth);
@@ -1407,12 +1426,58 @@ const withRampSideRails = (
       })
     };
   };
+  const makeBrace = (name: string, localZ: number): RampCrossBrace => {
+    const progress = 0.5 - localZ / slopedDepth;
+    const y = ramp.startY + rise * progress + ramp.floorThickness / 2 + 0.018;
+    const brace: Omit<RampCrossBrace, "fasteners"> = {
+      id: `${ramp.id}.cross-brace.${name}`,
+      targetId: ramp.id,
+      x: ramp.x + Math.sin(ramp.angle) * localZ,
+      y,
+      z: ramp.z + Math.cos(ramp.angle) * localZ,
+      width: ramp.sideRailOffset * 2 + 0.16,
+      depth: 0.07,
+      angle: ramp.angle,
+      pitch,
+      kind: "metal"
+    };
+    const fastenerOffset = brace.width * 0.34;
+
+    return {
+      ...brace,
+      fasteners: [
+        {
+          id: `${brace.id}.screw-left`,
+          targetId: brace.id,
+          x: brace.x - Math.cos(ramp.angle) * fastenerOffset,
+          y: brace.y + 0.024,
+          z: brace.z + Math.sin(ramp.angle) * fastenerOffset,
+          radius: 0.024,
+          kind: "metal"
+        },
+        {
+          id: `${brace.id}.screw-right`,
+          targetId: brace.id,
+          x: brace.x + Math.cos(ramp.angle) * fastenerOffset,
+          y: brace.y + 0.024,
+          z: brace.z - Math.sin(ramp.angle) * fastenerOffset,
+          radius: 0.024,
+          kind: "metal"
+        }
+      ]
+    };
+  };
 
   return {
     ...ramp,
     sideRails: [
       makeRail("left", -ramp.sideRailOffset),
       makeRail("right", ramp.sideRailOffset)
+    ],
+    crossBraces: [
+      makeBrace("lower", slopedDepth * 0.34),
+      makeBrace("mid", 0),
+      makeBrace("upper", -slopedDepth * 0.34)
     ]
   };
 };
@@ -3229,7 +3294,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
   },
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "handoff.left-orbit-entry.inner-guide", "handoff.left-orbit-entry.outer-guide", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
-    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.side-rail.left", "ramp.left.side-rail.right", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.upper.rail-left", "wireform.left-return.upper.rail-right", "wireform.left-return.lower.rail-left", "wireform.left-return.lower.rail-right", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
+    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "ramp.left.entry", "ramp.left.side-rail.left", "ramp.left.side-rail.right", "ramp.left.cross-brace.lower", "ramp.left.cross-brace.mid", "ramp.left.cross-brace.upper", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.right-guide", "ramp.left.exit", "wireform.left-return.upper.rail-left", "wireform.left-return.upper.rail-right", "wireform.left-return.lower.rail-left", "wireform.left-return.lower.rail-right", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.right-guide"] },
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-bottom-rail", "target-bank-1", "target-bank-1.mount-plate", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.mount-plate", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.mount-plate", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.mount-plate", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.mount-plate", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "lock.saucer", "lock.saucer.cup", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
     { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "orbit.right.entry", "handoff.right-orbit-entry.inner-guide", "handoff.right-orbit-entry.outer-guide", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.upper.rail-left", "wireform.right-orbit-return.upper.rail-right", "wireform.right-orbit-return.lower.rail-left", "wireform.right-orbit-return.lower.rail-right", "wireform.right-orbit-return.exit", "handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.right-guide"] },
