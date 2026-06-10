@@ -186,8 +186,29 @@ export interface DrainDevice extends SensorZone {
   troughX: number;
   troughZ: number;
   apron: Segment;
+  apronCards: ApronCard[];
+  apronFasteners: ApronFastener[];
   drainGuides: Segment[];
   trough: TroughDevice;
+}
+
+export interface ApronCard {
+  id: string;
+  label: string;
+  x: number;
+  z: number;
+  width: number;
+  depth: number;
+  angle?: number;
+  color: number;
+}
+
+export interface ApronFastener {
+  id: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface TroughDevice {
@@ -829,6 +850,20 @@ export const silverballSocialBlueprint: TableBlueprint = {
     troughX: 0,
     troughZ: 7.55,
     apron: { id: "apron.lower-card", x: 0, z: 7.0, width: 5.25, depth: 1.04, kind: "wood" },
+    apronCards: [
+      { id: "apron.card-left", label: "BALL SAVE", x: -1.28, z: 6.96, width: 1.45, depth: 0.34, angle: 0.03, color: 0xf8e7b5 },
+      { id: "apron.card-right", label: "SHOOT AGAIN", x: 1.28, z: 6.96, width: 1.45, depth: 0.34, angle: -0.03, color: 0xf8e7b5 }
+    ],
+    apronFasteners: [
+      { id: "apron.card-left.screw-upper-left", x: -1.9, z: 6.81, radius: 0.045, kind: "metal" },
+      { id: "apron.card-left.screw-upper-right", x: -0.66, z: 6.81, radius: 0.045, kind: "metal" },
+      { id: "apron.card-left.screw-lower-left", x: -1.9, z: 7.11, radius: 0.045, kind: "metal" },
+      { id: "apron.card-left.screw-lower-right", x: -0.66, z: 7.11, radius: 0.045, kind: "metal" },
+      { id: "apron.card-right.screw-upper-left", x: 0.66, z: 6.81, radius: 0.045, kind: "metal" },
+      { id: "apron.card-right.screw-upper-right", x: 1.9, z: 6.81, radius: 0.045, kind: "metal" },
+      { id: "apron.card-right.screw-lower-left", x: 0.66, z: 7.11, radius: 0.045, kind: "metal" },
+      { id: "apron.card-right.screw-lower-right", x: 1.9, z: 7.11, radius: 0.045, kind: "metal" }
+    ],
     drainGuides: [
       { id: "drain.left-guide", x: -0.82, z: 6.58, width: 0.08, depth: 0.92, angle: -0.42, kind: "rubber" },
       { id: "drain.right-guide", x: 0.82, z: 6.58, width: 0.08, depth: 0.92, angle: 0.42, kind: "rubber" },
