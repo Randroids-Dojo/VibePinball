@@ -222,10 +222,27 @@ export interface SlingDevice {
     noseZ: number;
   };
   rubberFace: Segment;
+  topPlastic: SlingTopPlastic;
   lamp: LampInsert;
   impulseNormalX: number;
   impulseNormalZ: number;
   postIds: string[];
+}
+
+export interface SlingTopPlastic {
+  id: string;
+  layerY: number;
+  thickness: number;
+  color: number;
+  fasteners: SlingTopPlasticFastener[];
+}
+
+export interface SlingTopPlasticFastener {
+  id: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
 }
 
 export interface FlipperDevice {
@@ -1127,6 +1144,17 @@ export const silverballSocialBlueprint: TableBlueprint = {
         noseZ: 4.02
       },
       rubberFace: { id: "sling.left.rubber-face", x: -1.82, z: 3.48, width: 1.34, depth: 0.1, angle: -0.48, kind: "rubber" },
+      topPlastic: {
+        id: "sling.left.top-plastic",
+        layerY: 0.61,
+        thickness: 0.045,
+        color: 0xffe6ac,
+        fasteners: [
+          { id: "sling.left.top-plastic.screw-outer", x: -2.5, z: 3.18, radius: 0.04, kind: "metal" },
+          { id: "sling.left.top-plastic.screw-inner", x: -1.42, z: 3.6, radius: 0.04, kind: "metal" },
+          { id: "sling.left.top-plastic.screw-nose", x: -2.08, z: 3.93, radius: 0.035, kind: "metal" }
+        ]
+      },
       lamp: { id: "insert.sling.left", label: "Left sling", x: -2.06, z: 3.62, radius: 0.18, color: 0xffe08a, shape: "circle" },
       impulseNormalX: 0.64,
       impulseNormalZ: -0.77,
@@ -1149,6 +1177,17 @@ export const silverballSocialBlueprint: TableBlueprint = {
         noseZ: 4.02
       },
       rubberFace: { id: "sling.right.rubber-face", x: 1.82, z: 3.48, width: 1.34, depth: 0.1, angle: 0.48, kind: "rubber" },
+      topPlastic: {
+        id: "sling.right.top-plastic",
+        layerY: 0.61,
+        thickness: 0.045,
+        color: 0xffe6ac,
+        fasteners: [
+          { id: "sling.right.top-plastic.screw-outer", x: 2.5, z: 3.18, radius: 0.04, kind: "metal" },
+          { id: "sling.right.top-plastic.screw-inner", x: 1.42, z: 3.6, radius: 0.04, kind: "metal" },
+          { id: "sling.right.top-plastic.screw-nose", x: 2.08, z: 3.93, radius: 0.035, kind: "metal" }
+        ]
+      },
       lamp: { id: "insert.sling.right", label: "Right sling", x: 2.06, z: 3.62, radius: 0.18, color: 0xffe08a, shape: "circle" },
       impulseNormalX: -0.64,
       impulseNormalZ: -0.77,
