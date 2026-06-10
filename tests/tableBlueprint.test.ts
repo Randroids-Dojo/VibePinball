@@ -989,6 +989,9 @@ describe("Silverball Social physical board blueprint", () => {
       }
     }
     expect(saucer?.posts.length).toBeGreaterThanOrEqual(2);
+    expect(blueprint.shots.find((shot) => shot.id === "shot.lock-saucer")?.deviceIds).toEqual(
+      expect.arrayContaining(["lock.saucer.left-post", "lock.saucer.right-post"])
+    );
     for (const post of saucer?.posts ?? []) {
       expect(post.kind).toBe("metal");
       expect(post.cap?.id).toBe(`${post.id}.cap`);
