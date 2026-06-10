@@ -584,6 +584,14 @@ describe("Silverball Social physical board blueprint", () => {
     expect(stop.kind).toBe("metal");
     expect(hinge.radius).toBeGreaterThanOrEqual(0.06);
     expect(stop.radius).toBeGreaterThanOrEqual(0.05);
+    expect(hinge.cap?.id).toBe(`${hinge.id}.cap`);
+    expect(stop.cap?.id).toBe(`${stop.id}.cap`);
+    expect(hinge.cap?.kind).toBe("metal");
+    expect(stop.cap?.kind).toBe("metal");
+    expect(hinge.cap?.radius).toBeGreaterThan(hinge.radius);
+    expect(stop.cap?.radius).toBeGreaterThan(stop.radius);
+    expect(hinge.cap?.height).toBeGreaterThan(0);
+    expect(stop.cap?.height).toBeGreaterThan(0);
     expect(hinge.x).toBeLessThan(gate.x);
     expect(stop.x).toBeGreaterThan(gate.x);
     expect(Math.abs(hinge.z - gate.z)).toBeLessThan(0.2);

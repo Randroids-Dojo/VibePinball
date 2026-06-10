@@ -2229,8 +2229,22 @@ export const silverballSocialBlueprint: TableBlueprint = {
       { id: "shooter.lower-right-guide", x: 3.56, z: 5.36, width: 0.07, depth: 2.24, angle: 0.03, kind: "metal" }
     ],
     gate: { id: "shooter.one-way-gate", x: 3.06, z: -5.78, width: 0.66, depth: 0.08, angle: 0.34, kind: "metal" },
-    gateHingePost: { id: "shooter.one-way-gate.hinge-post", x: 2.74, z: -5.9, radius: 0.07, kind: "metal" },
-    gateStopPost: { id: "shooter.one-way-gate.stop-post", x: 3.36, z: -5.64, radius: 0.06, kind: "metal" }
+    gateHingePost: {
+      id: "shooter.one-way-gate.hinge-post",
+      x: 2.74,
+      z: -5.9,
+      radius: 0.07,
+      kind: "metal",
+      cap: { id: "shooter.one-way-gate.hinge-post.cap", radius: 0.102, height: 0.032, kind: "metal" }
+    },
+    gateStopPost: {
+      id: "shooter.one-way-gate.stop-post",
+      x: 3.36,
+      z: -5.64,
+      radius: 0.06,
+      kind: "metal",
+      cap: { id: "shooter.one-way-gate.stop-post.cap", radius: 0.09, height: 0.032, kind: "metal" }
+    }
   },
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "orbit.left.entry", "handoff.left-orbit-entry.inner-guide", "handoff.left-orbit-entry.outer-guide", "orbit.left.exit", "handoff.upper-orbit-gates.left", "lane.top.left", "pop-a"] },
