@@ -7,7 +7,7 @@
 <body>
 
 <h1>11 Physical Board Blueprint</h1>
-<p data-status="not_started">Status: not_started</p>
+<p data-status="partial">Status: partial</p>
 
 <section data-role="spec">
   <h2>Spec</h2>
@@ -356,6 +356,13 @@
 <section data-role="build-log">
   <h2>Build log</h2>
   <ul>
+    <li data-date="2026-06-10">Replaced rectangular sling proxies with authored triangular sling assemblies. The blueprint now stores triangle corners, rubber face records, lit inserts, post references, and active impulse normals for each lower sling. Rendering shows triangular sling plastics, outlines, lamps, and rubber faces, while physics consumes the rubber faces and impulse normals. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/render.ts</code>, <code>src/game/physics.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR TBD.</li>
+    <li data-date="2026-06-10">Expanded the five-target SOCIAL bank with authored rear-stop rubber records and face decal metadata for each standup. Rendering now shows individual target decals and rear stops, while physics consumes each rear stop as a rebound collider behind the target face. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/render.ts</code>, <code>src/game/physics.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR TBD.</li>
+    <li data-date="2026-06-10">Added authored rollover wire switches for every lower, top, and shooter lane, plus rubber flipper return stops and end-rubber hardware. Rendering now shows the switch wires and flipper stop pieces, while physics consumes the flipper stops as rebound colliders. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/render.ts</code>, <code>src/game/physics.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR TBD.</li>
+    <li data-date="2026-06-10">Expanded the lock saucer from a point sensor into authored bowl hardware with named walls, entry posts, hold point, eject vector, and eject strength. Rendering now shows saucer walls, entry posts, an eject guide, and a represented locked ball in the cup. Physics now briefly holds the ball at the saucer before ejecting along the blueprint vector. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/render.ts</code>, <code>src/game/physics.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR TBD.</li>
+    <li data-date="2026-06-10">Replaced long straight orbit rails with segmented curved wall chains, added upper orbit gate hardware, and split pop bumpers into cap and skirt dimensions. Rendering now shows the stronger upper orbit shape and bumper layers, while physics uses skirt radius for bumper hit sensing and cap radius for fixed collision. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/render.ts</code>, <code>src/game/physics.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR TBD.</li>
+    <li data-date="2026-06-10">Added authored board-detail records for lamp inserts and ramp or return handoff hardware. Rendering now shows bonus, ramp, orbit, lock, jackpot, skill-shot, and SOCIAL target-bank lamps, plus target labels, ramp entry lip hardware, and inlane return guides. Physics now consumes the handoff hardware as fixed colliders. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/render.ts</code>, <code>src/game/physics.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR TBD.</li>
+    <li data-date="2026-06-10">Introduced a shared Silverball Social table blueprint and wired render, physics, rules, and tests to it. The board now has measured scale data, lower inlane and outlane wall records, top rollover lane wall records, posts, two slings, three pop bumpers, a five-target bank, lock saucer, center drain and trough, left ramp, orbit entry and exit sensors, paired raised wireform returns, right orbit guide segments, elevated plastic covers, shooter plunger hardware with a top one-way gate, blueprint-sized ball, capsule-style flippers, and stable device IDs. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/physics.ts</code>, <code>src/game/render.ts</code>, <code>src/game/rules.ts</code>, <code>tests/tableBlueprint.test.ts</code>, <code>tests/rules.test.ts</code>. PR TBD.</li>
     <li data-date="2026-06-09">Initial physical board blueprint drafted from the supplied real pinball reference photo. Files: <code>docs/gdd/11-physical-board-blueprint.html</code>. PR TBD.</li>
   </ul>
 </section>

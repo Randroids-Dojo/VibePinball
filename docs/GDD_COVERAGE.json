@@ -1,7 +1,7 @@
 {
   "_comment_1": "ATOMIC GRANULARITY ONLY. One row per requirement, not per chapter. A 14-day project should produce on the order of 100 rows. If your row count is implausibly low for project age, the loop will self-terminate before the product is good. This is the Flatline failure mode.",
   "_comment_2": "Allowed status values: not_started | partial | done. Every row should carry implementationRefs and testRefs once status >= partial. followupRefs link to F-NNN entries in FOLLOWUPS.html.",
-  "updatedAt": "2026-06-09",
+  "updatedAt": "2026-06-10",
   "rows": [
     {
       "id": "REQ-001",
@@ -47,9 +47,12 @@
       "gddRef": "docs/gdd/01-vision-and-pillars.html#pillar-readable-3d",
       "status": "partial",
       "implementationRefs": [
+        "src/game/tableBlueprint.ts",
+        "src/game/physics.ts",
         "src/game/render.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []
@@ -98,10 +101,12 @@
       "gddRef": "docs/gdd/02-table-layout.html#lower-playfield",
       "status": "partial",
       "implementationRefs": [
+        "src/game/tableBlueprint.ts",
         "src/game/physics.ts",
         "src/game/render.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []
@@ -112,10 +117,12 @@
       "gddRef": "docs/gdd/02-table-layout.html#upper-playfield",
       "status": "partial",
       "implementationRefs": [
+        "src/game/tableBlueprint.ts",
         "src/game/physics.ts",
         "src/game/render.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []
@@ -126,9 +133,12 @@
       "gddRef": "docs/gdd/02-table-layout.html#ramps-and-orbits",
       "status": "partial",
       "implementationRefs": [
+        "src/game/tableBlueprint.ts",
+        "src/game/physics.ts",
         "src/game/render.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []
@@ -139,11 +149,13 @@
       "gddRef": "docs/gdd/02-table-layout.html#target-bank",
       "status": "partial",
       "implementationRefs": [
+        "src/game/tableBlueprint.ts",
         "src/game/physics.ts",
         "src/game/rules.ts",
         "src/game/render.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/rules.test.ts",
         "tests/playable.smoke.ts"
       ],
@@ -153,9 +165,17 @@
       "id": "REQ-012",
       "requirement": "A readable lock device captures or represents locked balls for multiball qualification.",
       "gddRef": "docs/gdd/02-table-layout.html#lock-device",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/tableBlueprint.ts",
+        "src/game/physics.ts",
+        "src/game/rules.ts",
+        "src/game/render.ts"
+      ],
+      "testRefs": [
+        "tests/tableBlueprint.test.ts",
+        "tests/rules.test.ts"
+      ],
       "followupRefs": []
     },
     {
@@ -177,9 +197,12 @@
       "gddRef": "docs/gdd/03-physics-simulation.html#rapier-world",
       "status": "partial",
       "implementationRefs": [
-        "src/game/physics.ts"
+        "src/game/tableBlueprint.ts",
+        "src/game/physics.ts",
+        "src/game/render.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []
@@ -190,9 +213,11 @@
       "gddRef": "docs/gdd/03-physics-simulation.html#ball-body",
       "status": "partial",
       "implementationRefs": [
+        "src/game/tableBlueprint.ts",
         "src/game/physics.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []
@@ -218,9 +243,12 @@
       "gddRef": "docs/gdd/03-physics-simulation.html#colliders-and-sensors",
       "status": "partial",
       "implementationRefs": [
-        "src/game/physics.ts"
+        "src/game/tableBlueprint.ts",
+        "src/game/physics.ts",
+        "src/game/render.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []
@@ -276,10 +304,13 @@
       "gddRef": "docs/gdd/03-physics-simulation.html#drain-and-trough",
       "status": "partial",
       "implementationRefs": [
+        "src/game/tableBlueprint.ts",
         "src/game/physics.ts",
+        "src/game/render.ts",
         "src/game/rules.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/rules.test.ts"
       ],
       "followupRefs": []
@@ -1011,9 +1042,17 @@
       "id": "REQ-083",
       "requirement": "The Silverball Social table follows a physically plausible real-machine board blueprint with measured scale, layered devices, explicit shot paths, shared device IDs, and collider-backed playfield features.",
       "gddRef": "docs/gdd/11-physical-board-blueprint.html#acceptance-criteria",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/tableBlueprint.ts",
+        "src/game/physics.ts",
+        "src/game/render.ts",
+        "src/game/rules.ts"
+      ],
+      "testRefs": [
+        "tests/tableBlueprint.test.ts",
+        "tests/rules.test.ts"
+      ],
       "followupRefs": [
         "F-003"
       ]

@@ -15,6 +15,9 @@ export type TableEvent =
   | { type: "sling"; side: "left" | "right" }
   | { type: "target"; id: string }
   | { type: "lane"; id: string }
+  | { type: "lockEnter"; id: string }
+  | { type: "rampMade"; id: string }
+  | { type: "orbitMade"; id: string }
   | { type: "skillShot" }
   | { type: "drain" }
   | { type: "tiltWarning" }
@@ -26,6 +29,7 @@ export interface HudState {
   ball: number;
   message: string;
   targets: number;
+  locks: number;
   tiltWarnings: number;
   plungerCharge: number;
 }
@@ -35,4 +39,5 @@ export interface GameState extends HudState {
   tilted: boolean;
   skillShotOpen: boolean;
   hitTargets: Set<string>;
+  lockedBalls: number;
 }

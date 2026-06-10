@@ -1,14 +1,13 @@
 import type { ActionState, TableEvent } from "./types";
 import type { RigidBody, World } from "@dimforge/rapier3d-compat";
+import {
+  silverballSocialBlueprint,
+  type Segment,
+  type SaucerDevice,
+  type SensorZone
+} from "./tableBlueprint";
 
 type RapierModule = typeof import("@dimforge/rapier3d-compat");
-
-interface Zone {
-  id: string;
-  x: number;
-  z: number;
-  radius: number;
-}
 
 export interface BallSnapshot {
   x: number;
@@ -24,17 +23,7 @@ export interface PhysicsSnapshot {
   events: TableEvent[];
 }
 
-const bumpers: Zone[] = [
-  { id: "pop-a", x: -1.25, z: -4.9, radius: 0.72 },
-  { id: "pop-b", x: 1.15, z: -5.15, radius: 0.72 },
-  { id: "pop-c", x: 0, z: -3.85, radius: 0.68 }
-];
-
-const targets: Zone[] = [
-  { id: "left", x: -1.55, z: -2.55, radius: 0.5 },
-  { id: "center", x: 0, z: -2.9, radius: 0.5 },
-  { id: "right", x: 1.55, z: -2.55, radius: 0.5 }
-];
+const blueprint = silverballSocialBlueprint;
 
 export class PinballPhysics {
   private readonly rapier: RapierModule;
@@ -45,6 +34,8 @@ export class PinballPhysics {
   private plungerCharge = 0;
   private nudgeHeat = 0;
   private launched = false;
+  private saucerHoldSeconds = 0;
+  private saucerHeldBy: SaucerDevice | null = null;
 
   private constructor(rapier: RapierModule, world: World, ball: RigidBody) {
     this.rapier = rapier;
@@ -64,7 +55,7 @@ export class PinballPhysics {
         .setAngularDamping(0.1)
     );
     world.createCollider(
-      rapier.ColliderDesc.ball(0.24).setRestitution(0.78).setFriction(0.08),
+      rapier.ColliderDesc.ball(blueprint.scale.ballRadius).setRestitution(0.78).setFriction(0.08),
       ballBody
     );
 
@@ -83,6 +74,7 @@ export class PinballPhysics {
   step(actions: ActionState, dt: number, scoringEnabled: boolean): PhysicsSnapshot {
     const events: TableEvent[] = [];
     this.accumulator += Math.min(dt, 0.05);
+    this.tickSaucerHold(dt);
     this.tickInput(actions, dt, events, scoringEnabled);
 
     while (this.accumulator >= 1 / 60) {
@@ -94,7 +86,7 @@ export class PinballPhysics {
     this.detectDeviceHits(events, scoringEnabled);
 
     const pos = this.ball.translation();
-    if (pos.z > 7.35) {
+    if (this.isInsideDrain(pos.x, pos.z)) {
       events.push({ type: "drain" });
       this.resetBall();
     }
@@ -175,8 +167,8 @@ export class PinballPhysics {
     }
 
     const pos = this.ball.translation();
-    for (const bumper of bumpers) {
-      if (this.isNear(pos.x, pos.z, bumper.x, bumper.z, bumper.radius, `bumper-${bumper.id}`, 0.35)) {
+    for (const bumper of blueprint.bumpers) {
+      if (this.isNear(pos.x, pos.z, bumper.x, bumper.z, bumper.skirtRadius, `bumper-${bumper.id}`, 0.35)) {
         const dx = pos.x - bumper.x;
         const dz = pos.z - bumper.z;
         this.ball.applyImpulse({ x: dx * 3.5, y: 0, z: dz * 3.5 - 1.2 }, true);
@@ -184,19 +176,63 @@ export class PinballPhysics {
       }
     }
 
-    for (const target of targets) {
+    for (const target of blueprint.targets) {
       if (this.isNear(pos.x, pos.z, target.x, target.z, target.radius, `target-${target.id}`, 1.2)) {
         this.ball.applyImpulse({ x: (pos.x - target.x) * 2.6, y: 0, z: 4.5 }, true);
         events.push({ type: "target", id: target.id });
       }
     }
 
-    if (pos.z < -6.4 && pos.x > 2.2 && !this.cooldowns.has("skill-shot")) {
-      this.cooldowns.set("skill-shot", 2.5);
-      events.push({ type: "skillShot" });
-    } else if (pos.z < -6.8 && Math.abs(pos.x) < 1 && !this.cooldowns.has("top-lane")) {
-      this.cooldowns.set("top-lane", 2);
-      events.push({ type: "lane", id: "top" });
+    for (const sling of blueprint.slings) {
+      if (this.isNear(pos.x, pos.z, sling.x, sling.z, 0.55, `sling-${sling.side}`, 0.25)) {
+        this.ball.applyImpulse({
+          x: sling.impulseNormalX * 3.6,
+          y: 0,
+          z: sling.impulseNormalZ * 3.6
+        }, true);
+        events.push({ type: "sling", side: sling.side });
+      }
+    }
+
+    for (const lane of blueprint.lanes) {
+      if (this.isNear(pos.x, pos.z, lane.x, lane.z, lane.radius, `lane-${lane.id}`, 1.2)) {
+        if (lane.id === "lane.shooter.skill" && this.skillShotEligible()) {
+          events.push({ type: "skillShot" });
+        } else {
+          events.push({ type: "lane", id: lane.id });
+        }
+      }
+    }
+
+    for (const saucer of blueprint.saucers) {
+      if (this.isNear(pos.x, pos.z, saucer.x, saucer.z, saucer.radius, `saucer-${saucer.id}`, 1.5)) {
+        this.captureSaucer(saucer);
+        events.push({ type: "lockEnter", id: saucer.id });
+      }
+    }
+
+    for (const ramp of blueprint.ramps) {
+      if (this.isNearZone(pos.x, pos.z, ramp.entry, `ramp-entry-${ramp.id}`, 0.8)) {
+        events.push({ type: "rampMade", id: ramp.id });
+      }
+      if (this.isNearZone(pos.x, pos.z, ramp.exit, `ramp-exit-${ramp.id}`, 0.8)) {
+        events.push({ type: "lane", id: ramp.exit.id });
+      }
+    }
+
+    for (const orbit of blueprint.orbits) {
+      if (this.isNearZone(pos.x, pos.z, orbit.entry, `orbit-entry-${orbit.id}`, 0.75)) {
+        events.push({ type: "orbitMade", id: orbit.id });
+      }
+      if (this.isNearZone(pos.x, pos.z, orbit.exit, `orbit-exit-${orbit.id}`, 0.75)) {
+        events.push({ type: "lane", id: orbit.exit.id });
+      }
+    }
+
+    for (const wireform of blueprint.wireforms) {
+      if (this.isNearZone(pos.x, pos.z, wireform.exit, `wireform-exit-${wireform.id}`, 1.0)) {
+        events.push({ type: wireform.id.includes("orbit") ? "orbitMade" : "lane", id: wireform.id });
+      }
     }
 
   }
@@ -222,6 +258,58 @@ export class PinballPhysics {
     return isInside;
   }
 
+  private captureSaucer(saucer: SaucerDevice): void {
+    this.saucerHeldBy = saucer;
+    this.saucerHoldSeconds = 0.36;
+    this.ball.setTranslation({ x: saucer.holdX, y: 0.32, z: saucer.holdZ }, true);
+    this.ball.setLinvel({ x: 0, y: 0, z: 0 }, true);
+    this.ball.setAngvel({ x: 0, y: 0, z: 0 }, true);
+  }
+
+  private tickSaucerHold(dt: number): void {
+    if (!this.saucerHeldBy) {
+      return;
+    }
+
+    const saucer = this.saucerHeldBy;
+    this.ball.setTranslation({ x: saucer.holdX, y: 0.32, z: saucer.holdZ }, true);
+    this.ball.setLinvel({ x: 0, y: 0, z: 0 }, true);
+    this.saucerHoldSeconds -= dt;
+
+    if (this.saucerHoldSeconds > 0) {
+      return;
+    }
+
+    const dx = saucer.ejectX - saucer.holdX;
+    const dz = saucer.ejectZ - saucer.holdZ;
+    const length = Math.max(Math.hypot(dx, dz), 0.001);
+    this.saucerHeldBy = null;
+    this.ball.applyImpulse({
+      x: dx / length * saucer.ejectStrength,
+      y: 0,
+      z: dz / length * saucer.ejectStrength
+    }, true);
+  }
+
+  private isNearZone(
+    x: number,
+    z: number,
+    zone: SensorZone,
+    cooldownKey: string,
+    cooldownSeconds: number
+  ): boolean {
+    return this.isNear(x, z, zone.x, zone.z, zone.radius, cooldownKey, cooldownSeconds);
+  }
+
+  private skillShotEligible(): boolean {
+    return this.launched && !this.cooldowns.has("skill-shot");
+  }
+
+  private isInsideDrain(x: number, z: number): boolean {
+    const drain = blueprint.drain;
+    return (x - drain.x) ** 2 + (z - drain.z) ** 2 < drain.radius ** 2 || z > drain.troughZ;
+  }
+
   private clampBallSpeed(): void {
     const vel = this.ball.linvel();
     const speed = Math.hypot(vel.x, vel.y, vel.z);
@@ -233,7 +321,7 @@ export class PinballPhysics {
 }
 
 const createTableColliders = (rapier: RapierModule, world: World): void => {
-  const addWall = (x: number, z: number, hx: number, hz: number, angle = 0) => {
+  const addWall = (x: number, z: number, hx: number, hz: number, angle = 0, restitution = 0.62) => {
     const body = world.createRigidBody(
       rapier.RigidBodyDesc.fixed().setTranslation(x, 0.16, z).setRotation({
         x: 0,
@@ -243,17 +331,84 @@ const createTableColliders = (rapier: RapierModule, world: World): void => {
       })
     );
     world.createCollider(
-      rapier.ColliderDesc.cuboid(hx, 0.32, hz).setRestitution(0.62).setFriction(0.18),
+      rapier.ColliderDesc.cuboid(hx, 0.32, hz).setRestitution(restitution).setFriction(0.18),
       body
     );
   };
 
-  addWall(-4.08, 0, 0.18, 7.4);
-  addWall(4.08, 0, 0.18, 7.4);
-  addWall(0, -7.25, 3.75, 0.18);
-  addWall(-2.4, 6.05, 1.15, 0.2, -0.34);
-  addWall(2.4, 6.05, 1.15, 0.2, 0.34);
-  addWall(2.72, 4.6, 0.12, 2.4);
-  addWall(3.36, 2.55, 0.16, 1.35, -0.42);
-  addWall(3.18, 6.45, 0.62, 0.18, -0.22);
+  const addSegment = (segment: Segment) => {
+    const bounce = segment.kind === "rubber" ? 0.86 : 0.62;
+    addWall(
+      segment.x,
+      segment.z,
+      segment.width / 2,
+      segment.depth / 2,
+      segment.angle ?? 0,
+      bounce
+    );
+  };
+
+  const addPost = (x: number, z: number, radius: number, restitution = 0.82) => {
+    const body = world.createRigidBody(rapier.RigidBodyDesc.fixed().setTranslation(x, 0.2, z));
+    world.createCollider(
+      rapier.ColliderDesc.cylinder(0.34, radius).setRestitution(restitution).setFriction(0.16),
+      body
+    );
+  };
+
+  blueprint.boundaries.forEach(addSegment);
+  blueprint.laneWalls.forEach(addSegment);
+  blueprint.flipperStops.forEach(addSegment);
+  blueprint.slings.forEach((sling) => addSegment(sling.rubberFace));
+  addSegment(blueprint.plunger.gate);
+  blueprint.ramps.forEach((ramp) => {
+    addWall(ramp.x, ramp.z, ramp.width / 2, ramp.depth / 2, ramp.angle, 0.5);
+    addWall(ramp.x - 0.42, ramp.z, 0.05, ramp.depth / 2, ramp.angle, 0.68);
+    addWall(ramp.x + 0.42, ramp.z, 0.05, ramp.depth / 2, ramp.angle, 0.68);
+  });
+  blueprint.handoffs
+    .flatMap((handoff) => handoff.segments)
+    .forEach(addSegment);
+  blueprint.wireforms
+    .flatMap((wireform) => wireform.segments)
+    .forEach((segment) => {
+      const offset = 0.18;
+      addWall(
+        segment.x - offset,
+        segment.z,
+        0.025,
+        segment.depth / 2,
+        segment.angle ?? 0,
+        0.7
+      );
+      addWall(
+        segment.x + offset,
+        segment.z,
+        0.025,
+        segment.depth / 2,
+        segment.angle ?? 0,
+        0.7
+      );
+    });
+  blueprint.posts.forEach((post) => addPost(post.x, post.z, post.radius));
+  blueprint.bumpers.forEach((bumper) => addPost(bumper.x, bumper.z, bumper.capRadius, 0.92));
+  blueprint.targets.forEach((target) => {
+    addWall(target.x, target.z, 0.18, 0.05, target.angle, 0.72);
+    addSegment(target.rearStop);
+  });
+  blueprint.saucers.forEach((saucer) => {
+    saucer.posts.forEach((post) => addPost(post.x, post.z, post.radius, 0.6));
+    saucer.walls.forEach(addSegment);
+  });
+  blueprint.flippers.forEach((flipper) => {
+    const direction = flipper.side === "left" ? 1 : -1;
+    addWall(
+      flipper.x + direction * flipper.length * 0.32,
+      flipper.z,
+      flipper.length / 2,
+      0.08,
+      flipper.restAngle,
+      0.88
+    );
+  });
 };

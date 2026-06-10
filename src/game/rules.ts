@@ -1,4 +1,5 @@
 import type { GameState, TableEvent } from "./types";
+import { targetBankSize } from "./tableBlueprint";
 
 const maxBalls = 3;
 
@@ -7,6 +8,9 @@ const eventScores: Record<TableEvent["type"], number> = {
   sling: 150,
   target: 1000,
   lane: 500,
+  lockEnter: 2500,
+  rampMade: 1500,
+  orbitMade: 1250,
   skillShot: 5000,
   drain: 0,
   tiltWarning: 0,
@@ -19,12 +23,14 @@ export const createInitialGameState = (): GameState => ({
   ball: 1,
   message: "Press Start, then hold Space or Launch.",
   targets: 0,
+  locks: 0,
   tiltWarnings: 0,
   plungerCharge: 0,
   bonus: 0,
   tilted: false,
   skillShotOpen: true,
-  hitTargets: new Set()
+  hitTargets: new Set(),
+  lockedBalls: 0
 });
 
 export const startGame = (): GameState => ({
@@ -82,7 +88,33 @@ export const applyTableEvent = (
       hitTargets: nextTargets,
       targets: nextTargets.size,
       bonus: state.bonus + 250,
-      message: nextTargets.size >= 3 ? "Lock is lit." : `Target ${nextTargets.size}/3`
+      message: nextTargets.size >= targetBankSize ? "Lock is lit." : `Target ${nextTargets.size}/${targetBankSize}`
+    };
+  }
+
+  if (event.type === "lockEnter") {
+    const isQualified = state.hitTargets.size >= targetBankSize;
+    return {
+      ...award(state, eventScores.lockEnter),
+      locks: isQualified ? Math.min(2, state.lockedBalls + 1) : state.lockedBalls,
+      lockedBalls: isQualified ? Math.min(2, state.lockedBalls + 1) : state.lockedBalls,
+      message: isQualified ? `Ball lock ${Math.min(2, state.lockedBalls + 1)}/2.` : "Saucer award. Complete SOCIAL to light lock."
+    };
+  }
+
+  if (event.type === "rampMade") {
+    return {
+      ...award(state, eventScores.rampMade),
+      bonus: state.bonus + 200,
+      message: "Left ramp."
+    };
+  }
+
+  if (event.type === "orbitMade") {
+    return {
+      ...award(state, eventScores.orbitMade),
+      bonus: state.bonus + 150,
+      message: "Orbit."
     };
   }
 
@@ -153,6 +185,7 @@ const drainBall = (state: GameState): GameState => {
     tiltWarnings: 0,
     plungerCharge: 0,
     skillShotOpen: true,
+    lockedBalls: state.lockedBalls,
     message: `Ball ${state.ball + 1} ready.`
   };
 };
@@ -163,6 +196,7 @@ export const toHudState = (state: GameState) => ({
   ball: state.ball,
   message: state.message,
   targets: state.targets,
+  locks: state.locks,
   tiltWarnings: state.tiltWarnings,
   plungerCharge: state.plungerCharge
 });
