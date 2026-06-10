@@ -20,6 +20,7 @@ import {
   type PlungerDevice,
   type PopBumperGuardSegment,
   type Post,
+  type RampEntranceLip,
   type RampPath,
   type RolloverWire,
   type SaucerWallSegment,
@@ -327,7 +328,7 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
   const rightRail = rampSidePoint(ramp, ramp.sideRailOffset);
   addRail(group, leftRail.x, leftRail.z, 0.07, slopedDepth, ramp.angle, 0x9fd0ff, sideRailY, pitch, ramp.sideRailHeight);
   addRail(group, rightRail.x, rightRail.z, 0.07, slopedDepth, ramp.angle, 0x9fd0ff, sideRailY, pitch, ramp.sideRailHeight);
-  addSegment(group, ramp.entranceLip, ramp.startY + 0.12);
+  addRampEntranceLip(group, ramp.entranceLip, ramp.startY + 0.12);
 
   ramp.supports.forEach((support) => {
     const supportMesh = mesh(
@@ -405,6 +406,18 @@ const addHandoffSegment = (group: THREE.Group, segment: HandoffSegment) => {
       new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, segment.kind === "metal" ? 0.725 : 1.005, fastener.z);
+    group.add(screw);
+  });
+};
+
+const addRampEntranceLip = (group: THREE.Group, lip: RampEntranceLip, y: number) => {
+  addSegment(group, lip, y);
+  lip.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, y + 0.225, fastener.z);
     group.add(screw);
   });
 };
