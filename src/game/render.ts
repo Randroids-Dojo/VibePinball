@@ -201,6 +201,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
 
   blueprint.handoffs.forEach((handoff) => {
     handoff.segments.forEach((segment) => addSegment(group, segment, segment.kind === "metal" ? 0.5 : 0.78));
+    handoff.posts?.forEach((post) => addPost(group, post));
   });
 
   blueprint.wireforms.forEach((wireform) => addWireformPath(group, wireform));
