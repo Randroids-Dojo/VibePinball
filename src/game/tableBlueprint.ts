@@ -687,6 +687,49 @@ export const silverballSocialBlueprint: TableBlueprint = {
       kind: "rubber",
       startPostId: "post.right-out-top",
       endPostId: "post.right-out-lower"
+    },
+    {
+      id: "lane.top.left.rubber-band",
+      x: -1.05,
+      z: -6.04,
+      width: 0.06,
+      depth: 0.86,
+      angle: 0.03,
+      kind: "rubber",
+      startPostId: "post.top-lane-left-outer",
+      endPostId: "post.top-lane-left-inner"
+    },
+    {
+      id: "lane.top.center.rubber-band",
+      x: 0,
+      z: -6.2,
+      width: 0.06,
+      depth: 0.68,
+      kind: "rubber",
+      startPostId: "post.top-lane-center-left",
+      endPostId: "post.top-lane-center-right"
+    },
+    {
+      id: "lane.top.right.rubber-band",
+      x: 1.05,
+      z: -6.04,
+      width: 0.06,
+      depth: 0.86,
+      angle: -0.03,
+      kind: "rubber",
+      startPostId: "post.top-lane-right-inner",
+      endPostId: "post.top-lane-right-outer"
+    },
+    {
+      id: "lane.shooter.skill.rubber-band",
+      x: 3.06,
+      z: -5.9,
+      width: 0.06,
+      depth: 0.72,
+      angle: 0.06,
+      kind: "rubber",
+      startPostId: "post.shooter-skill-lane-inner",
+      endPostId: "post.shooter-skill-lane-outer"
     }
   ],
   rolloverWires: [
@@ -854,6 +897,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       clearance: 0.7,
       side: "top",
       guidePostIds: ["post.top-lane-left", "post.top-lane-left-outer", "post.top-lane-left-inner"],
+      rubberBandIds: ["lane.top.left.rubber-band"],
       guideCover: {
         id: "lane.top.left.guide-cover",
         x: -1.05,
@@ -878,6 +922,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       clearance: 0.7,
       side: "top",
       guidePostIds: ["post.top-lane-center-left", "post.top-lane-center-right"],
+      rubberBandIds: ["lane.top.center.rubber-band"],
       guideCover: {
         id: "lane.top.center.guide-cover",
         x: 0,
@@ -901,6 +946,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       clearance: 0.7,
       side: "top",
       guidePostIds: ["post.top-lane-right-inner", "post.top-lane-right-outer", "post.top-lane-right"],
+      rubberBandIds: ["lane.top.right.rubber-band"],
       guideCover: {
         id: "lane.top.right.guide-cover",
         x: 1.05,
@@ -925,6 +971,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       clearance: 0.68,
       side: "top",
       guidePostIds: ["post.shooter-skill-lane-inner", "post.shooter-skill-lane-outer"],
+      rubberBandIds: ["lane.shooter.skill.rubber-band"],
       guideCover: {
         id: "lane.shooter.skill.guide-cover",
         x: 3.05,

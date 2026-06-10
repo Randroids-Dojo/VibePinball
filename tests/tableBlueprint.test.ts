@@ -210,18 +210,30 @@ describe("Silverball Social physical board blueprint", () => {
     );
   });
 
-  it("ties the top rollover lanes to authored rubber guide posts", () => {
+  it("ties the top rollover lanes to authored rubber guide posts and bands", () => {
     const postById = new Map(blueprint.posts.map((post) => [post.id, post]));
+    const bandById = new Map(blueprint.rubberBands.map((band) => [band.id, band]));
     const topLanes = blueprint.lanes.filter((lane) => lane.side === "top");
 
     for (const lane of topLanes) {
       expect(lane.guidePostIds?.length, lane.id).toBeGreaterThanOrEqual(2);
+      expect(lane.rubberBandIds, lane.id).toHaveLength(1);
 
       for (const id of lane.guidePostIds ?? []) {
         const post = postById.get(id);
         expect(post, `${lane.id} references ${id}`).toBeDefined();
         expect(post?.kind).toBe("rubber");
         expect(Math.abs((post?.z ?? 0) - lane.z)).toBeLessThan(0.8);
+      }
+
+      for (const id of lane.rubberBandIds ?? []) {
+        const band = bandById.get(id);
+        expect(band, `${lane.id} references ${id}`).toBeDefined();
+        expect(band?.kind).toBe("rubber");
+        expect(lane.guidePostIds).toContain(band?.startPostId);
+        expect(lane.guidePostIds).toContain(band?.endPostId);
+        expect(band?.width).toBeLessThanOrEqual(0.06);
+        expect(band?.depth).toBeGreaterThan(blueprint.scale.ballRadius * 2.5);
       }
     }
   });
