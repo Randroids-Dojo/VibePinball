@@ -370,6 +370,7 @@ export interface HandoffDevice {
   id: string;
   label: string;
   segments: Segment[];
+  posts?: Post[];
 }
 
 export interface WireformPath {
@@ -1527,6 +1528,40 @@ export const silverballSocialBlueprint: TableBlueprint = {
       segments: [
         { id: "handoff.upper-orbit-gates.left", x: -2.06, z: -5.86, width: 0.58, depth: 0.06, angle: 0.38, kind: "metal" },
         { id: "handoff.upper-orbit-gates.right", x: 2.12, z: -5.82, width: 0.58, depth: 0.06, angle: -0.38, kind: "metal" }
+      ],
+      posts: [
+        {
+          id: "handoff.upper-orbit-gates.left.hinge-post",
+          x: -2.32,
+          z: -5.98,
+          radius: 0.06,
+          kind: "metal",
+          cap: { id: "handoff.upper-orbit-gates.left.hinge-post.cap", radius: 0.09, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.upper-orbit-gates.left.stop-post",
+          x: -1.82,
+          z: -5.72,
+          radius: 0.055,
+          kind: "metal",
+          cap: { id: "handoff.upper-orbit-gates.left.stop-post.cap", radius: 0.082, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.upper-orbit-gates.right.hinge-post",
+          x: 2.38,
+          z: -5.94,
+          radius: 0.06,
+          kind: "metal",
+          cap: { id: "handoff.upper-orbit-gates.right.hinge-post.cap", radius: 0.09, height: 0.032, kind: "metal" }
+        },
+        {
+          id: "handoff.upper-orbit-gates.right.stop-post",
+          x: 1.88,
+          z: -5.7,
+          radius: 0.055,
+          kind: "metal",
+          cap: { id: "handoff.upper-orbit-gates.right.stop-post.cap", radius: 0.082, height: 0.032, kind: "metal" }
+        }
       ]
     }
   ],

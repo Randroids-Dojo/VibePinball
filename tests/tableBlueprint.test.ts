@@ -334,7 +334,21 @@ describe("Silverball Social physical board blueprint", () => {
       }
     }
 
-    expect(blueprint.handoffs.map((handoff) => handoff.id)).toContain("handoff.upper-orbit-gates");
+    const upperGates = blueprint.handoffs.find((handoff) => handoff.id === "handoff.upper-orbit-gates");
+    expect(upperGates).toBeDefined();
+    expect(upperGates?.segments).toHaveLength(2);
+    expect(upperGates?.posts).toHaveLength(4);
+    expect(upperGates?.posts?.every((post) => post.kind === "metal")).toBe(true);
+    expect(upperGates?.posts?.every((post) => post.cap?.id === `${post.id}.cap`)).toBe(true);
+    expect(upperGates?.posts?.filter((post) => post.id.includes("hinge-post"))).toHaveLength(2);
+    expect(upperGates?.posts?.filter((post) => post.id.includes("stop-post"))).toHaveLength(2);
+    for (const segment of upperGates?.segments ?? []) {
+      const gatePosts = (upperGates?.posts ?? []).filter((post) => post.id.startsWith(segment.id));
+      expect(gatePosts, segment.id).toHaveLength(2);
+      expect(gatePosts.some((post) => post.id.endsWith("hinge-post")), segment.id).toBe(true);
+      expect(gatePosts.some((post) => post.id.endsWith("stop-post")), segment.id).toBe(true);
+      expect(gatePosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.4), segment.id).toBe(true);
+    }
   });
 
   it("models wireform returns as elevated rail pairs with supports", () => {
@@ -724,6 +738,7 @@ describe("Silverball Social physical board blueprint", () => {
         ...ramp.supports.flatMap((support) => [support.id, support.cap.id])
       ]),
       ...blueprint.handoffs.flatMap((handoff) => [handoff.id, ...handoff.segments.map((segment) => segment.id)]),
+      ...blueprint.handoffs.flatMap((handoff) => (handoff.posts ?? []).flatMap((post) => post.cap ? [post.id, post.cap.id] : [post.id])),
       ...blueprint.wireforms.flatMap((wireform) => [
         wireform.id,
         wireform.exit.id,

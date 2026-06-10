@@ -602,6 +602,9 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
   blueprint.handoffs
     .flatMap((handoff) => handoff.segments)
     .forEach(addSegment);
+  blueprint.handoffs
+    .flatMap((handoff) => handoff.posts ?? [])
+    .forEach((post) => addPost(post.x, post.z, post.radius, post.kind === "rubber" ? 0.82 : 0.68));
   blueprint.wireforms.forEach(addWireform);
   blueprint.posts.forEach((post) => addPost(post.x, post.z, post.radius));
   blueprint.bumpers.forEach((bumper) => {
