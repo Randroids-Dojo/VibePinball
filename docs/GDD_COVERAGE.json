@@ -94,10 +94,12 @@
       "gddRef": "docs/gdd/02-table-layout.html#playfield-boundaries",
       "status": "partial",
       "implementationRefs": [
+        "src/game/tableBlueprint.ts",
         "src/game/physics.ts",
         "src/game/render.ts"
       ],
       "testRefs": [
+        "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
       "followupRefs": []

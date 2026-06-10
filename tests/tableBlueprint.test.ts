@@ -168,6 +168,24 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
+  it("models the apron, drain mouth, trough, and shooter feed as authored hardware", () => {
+    expect(blueprint.drain.apron.id).toBe("apron.lower-card");
+    expect(blueprint.drain.apron.width).toBeGreaterThan(5);
+    expect(blueprint.drain.drainGuides.map((guide) => guide.id)).toEqual(
+      expect.arrayContaining(["drain.left-guide", "drain.right-guide", "drain.center-mouth"])
+    );
+    expect(blueprint.drain.drainGuides.every((guide) => guide.kind === "rubber" || guide.kind === "metal")).toBe(true);
+
+    expect(blueprint.drain.trough.id).toBe("trough.ball-return");
+    expect(blueprint.drain.trough.ballSlots).toHaveLength(3);
+    expect(blueprint.drain.trough.walls.map((wall) => wall.id)).toEqual(
+      expect.arrayContaining(["trough.left-wall", "trough.right-wall", "trough.back-wall"])
+    );
+    expect(blueprint.drain.trough.feedGuide.id).toBe("trough.shooter-feed-guide");
+    expect(blueprint.drain.trough.feedGuide.kind).toBe("metal");
+    expect(blueprint.drain.trough.width).toBeGreaterThan(blueprint.scale.ballRadius * 6);
+  });
+
   it("includes layered plastics and shooter hardware from the physical reference", () => {
     expect(blueprint.plastics.length).toBeGreaterThanOrEqual(6);
     expect(blueprint.plastics.every((cover) => cover.layerY >= 0.45)).toBe(true);
@@ -219,6 +237,12 @@ describe("Silverball Social physical board blueprint", () => {
   it("defines shot paths with stable device ids present in the blueprint", () => {
     const deviceIds = new Set([
       blueprint.drain.id,
+      blueprint.drain.apron.id,
+      ...blueprint.drain.drainGuides.map((item) => item.id),
+      blueprint.drain.trough.id,
+      ...blueprint.drain.trough.ballSlots.map((item) => item.id),
+      ...blueprint.drain.trough.walls.map((item) => item.id),
+      blueprint.drain.trough.feedGuide.id,
       ...blueprint.boundaries.map((item) => item.id),
       ...blueprint.laneWalls.map((item) => item.id),
       ...blueprint.rolloverWires.map((item) => item.id),
