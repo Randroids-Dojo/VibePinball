@@ -35,7 +35,7 @@
     <h3>Trough Slot Rims</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/trough-slot-rims</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd>PR #27</dd>
       <dt>Changed</dt><dd>added authored metal rim records around each visible trough ball slot so the ball return pockets read as individual trimmed hardware instead of plain dark pockets. Rendering now draws raised metal rings from the shared trough blueprint records.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshots at <code>/tmp/vibepinball-trough-slot-rims.png</code>, <code>/tmp/vibepinball-trough-slot-rims-tall.png</code>, and <code>/tmp/vibepinball-trough-slot-rims-clear.png</code> confirmed a nonblank WebGL board with the lower apron and trough area framed for inspection.</dd>
       <dt>Assumptions</dt><dd>The trough slot rims are visual low hardware and do not need separate colliders because the trough walls and shooter feed guide remain the active ball-return containment.</dd>
