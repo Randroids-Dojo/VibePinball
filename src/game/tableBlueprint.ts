@@ -341,6 +341,14 @@ export interface RampSupport {
   z: number;
   height: number;
   radius: number;
+  cap: RampSupportCap;
+  kind: "metal";
+}
+
+export interface RampSupportCap {
+  id: string;
+  radius: number;
+  height: number;
   kind: "metal";
 }
 
@@ -1409,10 +1417,42 @@ export const silverballSocialBlueprint: TableBlueprint = {
       sideRailOffset: 0.52,
       entranceLip: { id: "ramp.left.entrance-lip", x: -2.02, z: 1.38, width: 0.94, depth: 0.08, angle: -0.2, kind: "metal" },
       supports: [
-        { id: "ramp.left.support.entry", x: -1.92, z: 1.02, height: 0.36, radius: 0.045, kind: "metal" },
-        { id: "ramp.left.support.lower", x: -2.1, z: -0.08, height: 0.52, radius: 0.045, kind: "metal" },
-        { id: "ramp.left.support.mid", x: -2.34, z: -1.18, height: 0.74, radius: 0.045, kind: "metal" },
-        { id: "ramp.left.support.crest", x: -2.56, z: -2.28, height: 0.94, radius: 0.045, kind: "metal" }
+        {
+          id: "ramp.left.support.entry",
+          x: -1.92,
+          z: 1.02,
+          height: 0.36,
+          radius: 0.045,
+          cap: { id: "ramp.left.support.entry.cap", radius: 0.078, height: 0.035, kind: "metal" },
+          kind: "metal"
+        },
+        {
+          id: "ramp.left.support.lower",
+          x: -2.1,
+          z: -0.08,
+          height: 0.52,
+          radius: 0.045,
+          cap: { id: "ramp.left.support.lower.cap", radius: 0.078, height: 0.035, kind: "metal" },
+          kind: "metal"
+        },
+        {
+          id: "ramp.left.support.mid",
+          x: -2.34,
+          z: -1.18,
+          height: 0.74,
+          radius: 0.045,
+          cap: { id: "ramp.left.support.mid.cap", radius: 0.078, height: 0.035, kind: "metal" },
+          kind: "metal"
+        },
+        {
+          id: "ramp.left.support.crest",
+          x: -2.56,
+          z: -2.28,
+          height: 0.94,
+          radius: 0.045,
+          cap: { id: "ramp.left.support.crest.cap", radius: 0.078, height: 0.035, kind: "metal" },
+          kind: "metal"
+        }
       ],
       entry: { id: "ramp.left.entry", x: -2.08, z: 1.42, radius: 0.48 },
       exit: { id: "ramp.left.exit", x: -2.48, z: 4.72, radius: 0.42 },
