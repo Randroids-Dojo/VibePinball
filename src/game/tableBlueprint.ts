@@ -315,11 +315,30 @@ export interface PlungerDevice {
   rodX: number;
   rodZ: number;
   rodLength: number;
-  springZ: number;
+  spring: PlungerSpring;
+  knob: PlungerKnob;
   laneGroove: Segment;
   housing: Segment;
   lowerGuides: Segment[];
   gate: Segment;
+}
+
+export interface PlungerSpring {
+  id: string;
+  x: number;
+  z: number;
+  radius: number;
+  tubeRadius: number;
+  kind: "metal";
+}
+
+export interface PlungerKnob {
+  id: string;
+  x: number;
+  z: number;
+  radius: number;
+  depth: number;
+  kind: "plastic";
 }
 
 export interface ShotPath {
@@ -1122,7 +1141,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
     rodX: 3.42,
     rodZ: 5.92,
     rodLength: 1.28,
-    springZ: 6.18,
+    spring: { id: "shooter.plunger-spring", x: 3.42, z: 6.18, radius: 0.16, tubeRadius: 0.018, kind: "metal" },
+    knob: { id: "shooter.plunger-knob", x: 3.42, z: 6.82, radius: 0.18, depth: 0.16, kind: "plastic" },
     laneGroove: { id: "shooter.lane-groove", x: 3.18, z: 5.3, width: 0.72, depth: 4.1, kind: "wood" },
     housing: { id: "shooter.plunger-housing", x: 3.42, z: 6.12, width: 0.36, depth: 1.28, kind: "metal" },
     lowerGuides: [
