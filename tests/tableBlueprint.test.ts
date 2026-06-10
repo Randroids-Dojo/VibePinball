@@ -1064,6 +1064,8 @@ describe("Silverball Social physical board blueprint", () => {
     const gate = blueprint.plunger.gate;
     const hinge = blueprint.plunger.gateHingePost;
     const stop = blueprint.plunger.gateStopPost;
+    const hingeCap = hinge.cap;
+    const stopCap = stop.cap;
 
     expect(gate.id).toBe("shooter.one-way-gate");
     expect(gate.kind).toBe("metal");
@@ -1075,14 +1077,19 @@ describe("Silverball Social physical board blueprint", () => {
     expect(stop.kind).toBe("metal");
     expect(hinge.radius).toBeGreaterThanOrEqual(0.06);
     expect(stop.radius).toBeGreaterThanOrEqual(0.05);
-    expect(hinge.cap?.id).toBe(`${hinge.id}.cap`);
-    expect(stop.cap?.id).toBe(`${stop.id}.cap`);
-    expect(hinge.cap?.kind).toBe("metal");
-    expect(stop.cap?.kind).toBe("metal");
-    expect(hinge.cap?.radius).toBeGreaterThan(hinge.radius);
-    expect(stop.cap?.radius).toBeGreaterThan(stop.radius);
-    expect(hinge.cap?.height).toBeGreaterThan(0);
-    expect(stop.cap?.height).toBeGreaterThan(0);
+    expect(hingeCap).toBeDefined();
+    expect(stopCap).toBeDefined();
+    if (!hingeCap || !stopCap) {
+      throw new Error("Expected shooter gate posts to include caps");
+    }
+    expect(hingeCap.id).toBe(`${hinge.id}.cap`);
+    expect(stopCap.id).toBe(`${stop.id}.cap`);
+    expect(hingeCap.kind).toBe("metal");
+    expect(stopCap.kind).toBe("metal");
+    expect(hingeCap.radius).toBeGreaterThan(hinge.radius);
+    expect(stopCap.radius).toBeGreaterThan(stop.radius);
+    expect(hingeCap.height).toBeGreaterThan(0);
+    expect(stopCap.height).toBeGreaterThan(0);
     expect(hinge.x).toBeLessThan(gate.x);
     expect(stop.x).toBeGreaterThan(gate.x);
     expect(Math.abs(hinge.z - gate.z)).toBeLessThan(0.2);
@@ -1091,9 +1098,9 @@ describe("Silverball Social physical board blueprint", () => {
       expect.arrayContaining([
         gate.id,
         hinge.id,
-        hinge.cap?.id ?? "",
+        hingeCap.id,
         stop.id,
-        stop.cap?.id ?? ""
+        stopCap.id
       ])
     );
   });
@@ -1487,9 +1494,9 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.plunger.guideFasteners.map((fastener) => fastener.id),
       blueprint.plunger.gate.id,
       blueprint.plunger.gateHingePost.id,
-      blueprint.plunger.gateHingePost.cap?.id ?? "",
       blueprint.plunger.gateStopPost.id,
-      blueprint.plunger.gateStopPost.cap?.id ?? "",
+      ...(blueprint.plunger.gateHingePost.cap ? [blueprint.plunger.gateHingePost.cap.id] : []),
+      ...(blueprint.plunger.gateStopPost.cap ? [blueprint.plunger.gateStopPost.cap.id] : []),
       ...blueprint.bumpers.flatMap((item) => [
         item.id,
         item.chromeRing.id,
