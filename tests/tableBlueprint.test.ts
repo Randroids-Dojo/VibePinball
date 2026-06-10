@@ -163,6 +163,13 @@ describe("Silverball Social physical board blueprint", () => {
       expect(flipper.pivotRadius).toBeGreaterThanOrEqual(flipper.batRadius);
       expect(flipper.rubberWidth).toBeGreaterThan(0.08);
       expect(flipper.rubberWidth).toBeLessThan(flipper.batRadius);
+      expect(flipper.rubberSleeve.id).toBe(`${flipper.id}.rubber-sleeve`);
+      expect(flipper.rubberSleeve.kind).toBe("rubber");
+      expect(flipper.rubberSleeve.radius).toBeCloseTo(flipper.batRadius);
+      expect(flipper.rubberSleeve.length).toBeCloseTo(flipper.length);
+      expect(flipper.rubberSleeve.thickness).toBeCloseTo(flipper.rubberWidth);
+      expect(flipper.rubberSleeve.localX).toBeCloseTo(flipper.length / 2);
+      expect(flipper.rubberSleeve.color).toBeGreaterThan(0);
       expect(flipper.pivotCap.id).toBe(`${flipper.id}.pivot-cap`);
       expect(flipper.pivotCap.kind).toBe("metal");
       expect(flipper.pivotCap.radius).toBeGreaterThan(flipper.pivotRadius);
@@ -635,6 +642,7 @@ describe("Silverball Social physical board blueprint", () => {
         ? [item.guideCover.id, ...item.guideCover.fasteners.map((fastener) => fastener.id)]
         : []),
       ...blueprint.flippers.map((item) => item.id),
+      ...blueprint.flippers.map((item) => item.rubberSleeve.id),
       ...blueprint.flippers.map((item) => item.pivotCap.id),
       ...blueprint.flippers.flatMap((item) => item.batFasteners.map((fastener) => fastener.id)),
       ...blueprint.slings.flatMap((sling) => [
