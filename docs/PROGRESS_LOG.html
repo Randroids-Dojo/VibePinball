@@ -35,7 +35,7 @@
     <h3>Cabinet Rail Fasteners</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/cabinet-rail-fasteners</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd>PR #33</dd>
       <dt>Changed</dt><dd>added authored metal screw heads to the cabinet side rails, glass rims, and lockdown bar so the cabinet hardware reads as mounted machine trim instead of smooth floating rails. Rendering now draws those cabinet fasteners from shared cabinet blueprint records.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>; local Playwright screenshot at <code>/tmp/vibepinball-cabinet-rail-fasteners.png</code> confirmed a nonblank WebGL board with visible cabinet rail fasteners.</dd>
       <dt>Assumptions</dt><dd>The cabinet fasteners are visual cabinet hardware and do not need separate physics colliders because they sit above the playfield containment and away from active ball travel.</dd>
