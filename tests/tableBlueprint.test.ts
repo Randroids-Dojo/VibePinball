@@ -271,6 +271,18 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.plunger.gate.id).toBe("shooter.one-way-gate");
   });
 
+  it("models the shooter lane groove, housing, and lower guide hardware", () => {
+    expect(blueprint.plunger.laneGroove.id).toBe("shooter.lane-groove");
+    expect(blueprint.plunger.laneGroove.depth).toBeGreaterThan(4);
+    expect(blueprint.plunger.laneGroove.width).toBeGreaterThan(blueprint.scale.ballRadius * 2);
+    expect(blueprint.plunger.housing.id).toBe("shooter.plunger-housing");
+    expect(blueprint.plunger.housing.kind).toBe("metal");
+    expect(blueprint.plunger.lowerGuides.map((guide) => guide.id)).toEqual(
+      expect.arrayContaining(["shooter.lower-left-guide", "shooter.lower-right-guide"])
+    );
+    expect(blueprint.plunger.lowerGuides.every((guide) => guide.kind === "metal")).toBe(true);
+  });
+
   it("models the lock saucer with bowl walls, entry posts, hold point, and eject vector", () => {
     const saucer = blueprint.saucers.find((item) => item.id === "lock.saucer");
     expect(saucer).toBeDefined();
@@ -358,6 +370,9 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.plastics.map((item) => item.id),
       ...blueprint.lampInserts.map((item) => item.id),
       blueprint.plunger.id,
+      blueprint.plunger.laneGroove.id,
+      blueprint.plunger.housing.id,
+      ...blueprint.plunger.lowerGuides.map((guide) => guide.id),
       blueprint.plunger.gate.id,
       ...blueprint.bumpers.flatMap((item) => [
         item.id,
