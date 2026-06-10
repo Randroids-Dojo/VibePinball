@@ -694,6 +694,21 @@ describe("Silverball Social physical board blueprint", () => {
       }
     }
 
+    const leftReturn = blueprint.wireforms.find((wireform) => wireform.id === "wireform.left-return");
+    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
+      expect.arrayContaining(
+        (leftReturn?.supports ?? []).flatMap((support) => [
+          support.id,
+          support.cap.id,
+          support.foot.id,
+          ...support.foot.fasteners.map((fastener) => fastener.id),
+          support.collar.id,
+          support.saddle.id,
+          ...support.saddle.fasteners.map((fastener) => fastener.id)
+        ])
+      )
+    );
+
     expect(blueprint.orbits.find((orbit) => orbit.id === "orbit.left")?.returnWireformId).toBe("wireform.left-return");
     expect(blueprint.orbits.find((orbit) => orbit.id === "orbit.right")?.returnWireformId).toBe(
       "wireform.right-orbit-return"
