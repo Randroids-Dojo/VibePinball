@@ -547,7 +547,7 @@ export interface WireformPath {
   tieWidth: number;
   segments: Segment[];
   rails: WireformRail[];
-  ties: Segment[];
+  ties: WireformTie[];
   supports: WireformSupport[];
   exit: SensorZone;
 }
@@ -563,6 +563,21 @@ export interface WireformRail extends Segment {
 }
 
 export interface WireformRailFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
+export interface WireformTie extends Segment {
+  fasteners: WireformTieFastener[];
+  kind: "wire";
+}
+
+export interface WireformTieFastener {
   id: string;
   targetId: string;
   x: number;
@@ -1140,6 +1155,43 @@ const withWireformRails = (
     ])
   };
 };
+
+const withWireformTieFasteners = (
+  wireform: Omit<WireformPath, "rails" | "ties"> & { ties: Array<Omit<WireformTie, "fasteners">> }
+): Omit<WireformPath, "rails"> => ({
+  ...wireform,
+  ties: wireform.ties.map((tie) => {
+    const angle = tie.angle ?? 0;
+    const halfSpan = Math.max(tie.width, tie.depth) * 0.36;
+    const offset = tie.width >= tie.depth
+      ? { x: Math.cos(angle) * halfSpan, z: -Math.sin(angle) * halfSpan }
+      : { x: Math.sin(angle) * halfSpan, z: Math.cos(angle) * halfSpan };
+
+    return {
+      ...tie,
+      fasteners: [
+        {
+          id: `${tie.id}.screw-a`,
+          targetId: tie.id,
+          x: tie.x - offset.x,
+          y: wireform.railY + 0.035,
+          z: tie.z - offset.z,
+          radius: 0.024,
+          kind: "metal"
+        },
+        {
+          id: `${tie.id}.screw-b`,
+          targetId: tie.id,
+          x: tie.x + offset.x,
+          y: wireform.railY + 0.035,
+          z: tie.z + offset.z,
+          radius: 0.024,
+          kind: "metal"
+        }
+      ]
+    };
+  })
+});
 
 const withRampEntranceLipFasteners = (
   lip: Omit<RampEntranceLip, "fasteners">
@@ -2539,7 +2591,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     }
   ],
   wireforms: [
-    withWireformRails({
+    withWireformRails(withWireformTieFasteners({
       id: "wireform.left-return",
       label: "Left ramp return",
       railY: 1.08,
@@ -2588,8 +2640,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
           kind: "metal"
         }
       ]
-    }),
-    withWireformRails({
+    })),
+    withWireformRails(withWireformTieFasteners({
       id: "wireform.right-orbit-return",
       label: "Right orbit return",
       railY: 1.16,
@@ -2638,7 +2690,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
           kind: "metal"
         }
       ]
-    })
+    }))
   ],
   orbits: [
     {
