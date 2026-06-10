@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { PhysicsSnapshot } from "./physics";
-import { silverballSocialBlueprint, type LampInsert, type SlingDevice } from "./tableBlueprint";
+import { silverballSocialBlueprint, type LampInsert, type RampPath, type SlingDevice } from "./tableBlueprint";
 
 export interface PinballScene {
   resize: () => void;
@@ -156,15 +156,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   });
 
   blueprint.ramps.forEach((rampDevice) => {
-    const ramp = mesh(
-      new THREE.BoxGeometry(rampDevice.width, 0.1, rampDevice.depth),
-      new THREE.MeshStandardMaterial({ color: 0x74a8ff, transparent: true, opacity: 0.42 })
-    );
-    ramp.position.set(rampDevice.x, 0.48, rampDevice.z);
-    ramp.rotation.y = rampDevice.angle;
-    group.add(ramp);
-    addRail(group, rampDevice.x - 0.42, rampDevice.z, 0.08, rampDevice.depth, rampDevice.angle, 0x9fd0ff, 0.72);
-    addRail(group, rampDevice.x + 0.42, rampDevice.z, 0.08, rampDevice.depth, rampDevice.angle, 0x9fd0ff, 0.72);
+    addRampDevice(group, rampDevice);
   });
 
   blueprint.handoffs.forEach((handoff) => {
@@ -276,16 +268,57 @@ const addRail = (
   depth: number,
   angle = 0,
   color = 0xb7c4c7,
-  y = 0.28
+  y = 0.28,
+  pitch = 0,
+  height = 0.4
 ) => {
   const rail = mesh(
-    new THREE.BoxGeometry(width, 0.4, depth),
+    new THREE.BoxGeometry(width, height, depth),
     new THREE.MeshStandardMaterial({ color, roughness: 0.22, metalness: 0.75 })
   );
   rail.position.set(x, y, z);
-  rail.rotation.y = angle;
+  rail.rotation.set(pitch, angle, 0);
   group.add(rail);
 };
+
+const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
+  const pitch = Math.atan2(ramp.endY - ramp.startY, ramp.depth);
+  const centerY = (ramp.startY + ramp.endY) / 2;
+  const floor = mesh(
+    new THREE.BoxGeometry(ramp.width, ramp.floorThickness, ramp.depth),
+    new THREE.MeshStandardMaterial({
+      color: 0x74a8ff,
+      transparent: true,
+      opacity: 0.46,
+      roughness: 0.18,
+      metalness: 0.08
+    })
+  );
+  floor.position.set(ramp.x, centerY, ramp.z);
+  floor.rotation.set(pitch, ramp.angle, 0);
+  group.add(floor);
+
+  const sideRailY = centerY + ramp.sideRailHeight / 2;
+  const leftRail = rampSidePoint(ramp, -ramp.sideRailOffset);
+  const rightRail = rampSidePoint(ramp, ramp.sideRailOffset);
+  addRail(group, leftRail.x, leftRail.z, 0.07, ramp.depth, ramp.angle, 0x9fd0ff, sideRailY, pitch, ramp.sideRailHeight);
+  addRail(group, rightRail.x, rightRail.z, 0.07, ramp.depth, ramp.angle, 0x9fd0ff, sideRailY, pitch, ramp.sideRailHeight);
+  addSegment(group, ramp.entranceLip, ramp.startY + 0.12);
+
+  ramp.supports.forEach((support) => {
+    const supportMesh = mesh(
+      new THREE.CylinderGeometry(support.radius, support.radius, support.height, 16),
+      new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.18, metalness: 0.82 })
+    );
+    supportMesh.position.set(support.x, support.height / 2, support.z);
+    group.add(supportMesh);
+  });
+};
+
+const rampSidePoint = (ramp: RampPath, offset: number) => ({
+  x: ramp.x + Math.cos(ramp.angle) * offset,
+  z: ramp.z - Math.sin(ramp.angle) * offset
+});
 
 const addSegment = (
   group: THREE.Group,

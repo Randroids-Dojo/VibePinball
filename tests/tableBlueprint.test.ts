@@ -67,6 +67,25 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.wireforms.map((wireform) => wireform.id)).toContain("wireform.right-orbit-return");
   });
 
+  it("models the left ramp as raised hardware with rails, lip, and supports", () => {
+    const ramp = blueprint.ramps.find((item) => item.id === "ramp.left");
+    expect(ramp).toBeDefined();
+    expect(ramp?.width).toBeGreaterThanOrEqual(0.85);
+    expect(ramp?.width).toBeLessThanOrEqual(1.06);
+    expect(ramp?.startY).toBeGreaterThanOrEqual(0.18);
+    expect(ramp?.endY).toBeGreaterThan(ramp?.startY ?? 0);
+    expect(ramp?.endY).toBeLessThanOrEqual(1.05);
+    expect(ramp?.floorThickness).toBeGreaterThan(0);
+    expect(ramp?.sideRailHeight).toBeGreaterThan(blueprint.scale.ballRadius * 1.5);
+    expect(ramp?.sideRailOffset).toBeGreaterThan((ramp?.width ?? 0) / 2);
+    expect(ramp?.entranceLip.id).toBe("ramp.left.entrance-lip");
+    expect(ramp?.entranceLip.kind).toBe("metal");
+    expect(ramp?.supports).toHaveLength(4);
+    expect(ramp?.supports.every((support) => support.kind === "metal")).toBe(true);
+    expect(ramp?.supports.every((support) => support.height >= (ramp?.startY ?? 0))).toBe(true);
+    expect(ramp?.supports.every((support) => support.height <= (ramp?.endY ?? 0))).toBe(true);
+  });
+
   it("uses segmented orbit wall chains and upper gates for the orbit paths", () => {
     for (const orbit of blueprint.orbits) {
       expect(orbit.wallIds.length).toBeGreaterThanOrEqual(6);
@@ -177,7 +196,13 @@ describe("Silverball Social physical board blueprint", () => {
         ...saucer.walls.map((segment) => segment.id),
         ...saucer.posts.map((post) => post.id)
       ]),
-      ...blueprint.ramps.flatMap((ramp) => [ramp.id, ramp.entry.id, ramp.exit.id]),
+      ...blueprint.ramps.flatMap((ramp) => [
+        ramp.id,
+        ramp.entry.id,
+        ramp.exit.id,
+        ramp.entranceLip.id,
+        ...ramp.supports.map((support) => support.id)
+      ]),
       ...blueprint.handoffs.flatMap((handoff) => [handoff.id, ...handoff.segments.map((segment) => segment.id)]),
       ...blueprint.wireforms.flatMap((wireform) => [wireform.id, wireform.exit.id]),
       ...blueprint.orbits.flatMap((orbit) => [orbit.id, orbit.entry.id, orbit.exit.id]),
