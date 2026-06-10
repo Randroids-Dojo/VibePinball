@@ -164,6 +164,21 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
+  it("models the pop bumper nest with authored ring posts and rubber guards", () => {
+    const postIds = new Set(blueprint.posts.map((post) => post.id));
+
+    for (const bumper of blueprint.bumpers) {
+      expect(bumper.ringPostIds).toHaveLength(3);
+      expect(bumper.guardSegments.length).toBeGreaterThanOrEqual(2);
+      expect(bumper.guardSegments.every((segment) => segment.id.startsWith(`${bumper.id}.`))).toBe(true);
+      expect(bumper.guardSegments.every((segment) => segment.kind === "rubber")).toBe(true);
+
+      for (const id of bumper.ringPostIds) {
+        expect(postIds.has(id), id).toBe(true);
+      }
+    }
+  });
+
   it("models each standup target with a rear stop and face decal color", () => {
     for (const target of blueprint.targets) {
       expect(target.rearStop.id).toBe(`${target.id}.rear-stop`);
@@ -299,7 +314,11 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.lampInserts.map((item) => item.id),
       blueprint.plunger.id,
       blueprint.plunger.gate.id,
-      ...blueprint.bumpers.map((item) => item.id)
+      ...blueprint.bumpers.flatMap((item) => [
+        item.id,
+        ...item.ringPostIds,
+        ...item.guardSegments.map((segment) => segment.id)
+      ])
     ]);
 
     for (const shot of blueprint.shots) {

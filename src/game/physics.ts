@@ -598,7 +598,10 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
     .forEach(addSegment);
   blueprint.wireforms.forEach(addWireform);
   blueprint.posts.forEach((post) => addPost(post.x, post.z, post.radius));
-  blueprint.bumpers.forEach((bumper) => addPost(bumper.x, bumper.z, bumper.capRadius, 0.92));
+  blueprint.bumpers.forEach((bumper) => {
+    addPost(bumper.x, bumper.z, bumper.skirtRadius, 0.92);
+    bumper.guardSegments.forEach(addSegment);
+  });
   blueprint.targets.forEach((target) => {
     addWall(target.x, target.z, 0.18, 0.05, target.angle, 0.72);
     addSegment(target.rearStop);
