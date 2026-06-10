@@ -35,7 +35,7 @@
     <h3>Plunger Spring Knob Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/plunger-spring-knob-hardware</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd>#18</dd>
       <dt>Changed</dt><dd>made the shooter plunger assembly closer to real cabinet hardware by adding authored spring and pull-knob records to the shared plunger blueprint. Rendering now draws the spring and knob from those records instead of hardcoded helper geometry.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-plunger-spring-knob-hardware.png</code> confirmed a nonblank WebGL board with the authored plunger spring and pull knob visible in the shooter lane hardware.</dd>
       <dt>Assumptions</dt><dd>The spring and pull knob are visual launch hardware for this slice because the existing plunger input and impulse mapping remain the active simulation contract.</dd>
