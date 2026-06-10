@@ -772,7 +772,11 @@ export const silverballSocialBlueprint: TableBlueprint = {
       { id: "target-bank.frame-top-rail", x: 0, z: -3.02, width: 3.18, depth: 0.07, kind: "metal" },
       { id: "target-bank.frame-bottom-rail", x: 0, z: -2.14, width: 3.0, depth: 0.06, kind: "metal" },
       { id: "target-bank.frame-left-cheek", x: -1.68, z: -2.58, width: 0.06, depth: 0.78, angle: 0.16, kind: "metal" },
-      { id: "target-bank.frame-right-cheek", x: 1.68, z: -2.58, width: 0.06, depth: 0.78, angle: -0.16, kind: "metal" }
+      { id: "target-bank.frame-right-cheek", x: 1.68, z: -2.58, width: 0.06, depth: 0.78, angle: -0.16, kind: "metal" },
+      { id: "target-bank.divider-1", x: -0.96, z: -2.56, width: 0.045, depth: 0.72, angle: 0.12, kind: "metal" },
+      { id: "target-bank.divider-2", x: -0.32, z: -2.66, width: 0.045, depth: 0.72, angle: 0.04, kind: "metal" },
+      { id: "target-bank.divider-3", x: 0.32, z: -2.66, width: 0.045, depth: 0.72, angle: -0.04, kind: "metal" },
+      { id: "target-bank.divider-4", x: 0.96, z: -2.56, width: 0.045, depth: 0.72, angle: -0.12, kind: "metal" }
     ],
     posts: [
       { id: "target-bank.post-left-upper", x: -1.64, z: -2.98, radius: 0.07, kind: "metal" },

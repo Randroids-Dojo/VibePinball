@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="target-bank-divider-rails" data-date="2026-06-10">
+    <h3>Target Bank Divider Rails</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/target-bank-divider-rails</code></dd>
+      <dt>PR</dt><dd>#19</dd>
+      <dt>Changed</dt><dd>made the SOCIAL target bank closer to a real standup-target assembly by adding four authored metal divider rails between the five targets. Rendering and physics consume the rails through the existing shared target-bank frame segment path.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-target-bank-divider-rails.png</code> confirmed a nonblank WebGL board with authored target-bank divider rails visible between the SOCIAL standups.</dd>
+      <dt>Assumptions</dt><dd>The divider rails are physical metal frame pieces and use the same render and Rapier collider contract as the existing target-bank rails.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-011</code>, <code>REQ-017</code>, <code>REQ-043</code>, and <code>REQ-083</code> gain stronger implementation and test coverage for the target bank as a framed mechanical assembly.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="plunger-spring-knob-hardware" data-date="2026-06-10">
     <h3>Plunger Spring Knob Hardware</h3>
     <dl>
