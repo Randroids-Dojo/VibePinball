@@ -189,7 +189,7 @@ export interface PopBumperDevice extends SensorZone {
   chromeRing: PopBumperChromeRing;
   capFasteners: PopBumperCapFastener[];
   ringPostIds: string[];
-  guardSegments: Segment[];
+  guardSegments: PopBumperGuardSegment[];
 }
 
 export interface PopBumperChromeRing {
@@ -201,6 +201,20 @@ export interface PopBumperChromeRing {
 
 export interface PopBumperCapFastener {
   id: string;
+  x: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
+export interface PopBumperGuardSegment extends Segment {
+  kind: "rubber";
+  fasteners: PopBumperGuardFastener[];
+}
+
+export interface PopBumperGuardFastener {
+  id: string;
+  targetId: string;
   x: number;
   z: number;
   radius: number;
@@ -898,6 +912,45 @@ const withSaucerWallFasteners = (
           x: segment.x + offset.x,
           z: segment.z + offset.z,
           radius: segment.kind === "wire" ? 0.028 : 0.032,
+          kind: "metal"
+        }
+      ]
+    };
+  });
+
+const withPopBumperGuardFasteners = (
+  segments: Array<Omit<PopBumperGuardSegment, "fasteners">>
+): PopBumperGuardSegment[] =>
+  segments.map((segment) => {
+    const angle = segment.angle ?? 0;
+    const halfSpan = Math.max(segment.width, segment.depth) * 0.38;
+    const offset = segment.width >= segment.depth
+      ? {
+          x: Math.cos(angle) * halfSpan,
+          z: -Math.sin(angle) * halfSpan
+        }
+      : {
+          x: Math.sin(angle) * halfSpan,
+          z: Math.cos(angle) * halfSpan
+        };
+
+    return {
+      ...segment,
+      fasteners: [
+        {
+          id: `${segment.id}.screw-a`,
+          targetId: segment.id,
+          x: segment.x - offset.x,
+          z: segment.z - offset.z,
+          radius: 0.026,
+          kind: "metal"
+        },
+        {
+          id: `${segment.id}.screw-b`,
+          targetId: segment.id,
+          x: segment.x + offset.x,
+          z: segment.z + offset.z,
+          radius: 0.026,
           kind: "metal"
         }
       ]
@@ -1605,10 +1658,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "pop-a.cap-screw-right", x: -1.03, z: -4.84, radius: 0.032, kind: "metal" }
       ],
       ringPostIds: ["post.pop-a.upper", "post.pop-a.outer", "post.pop-a.inner"],
-      guardSegments: [
+      guardSegments: withPopBumperGuardFasteners([
         { id: "pop-a.left-ring-rubber", x: -1.66, z: -4.48, width: 0.07, depth: 0.62, angle: -0.54, kind: "rubber" },
         { id: "pop-a.right-ring-rubber", x: -0.84, z: -4.48, width: 0.07, depth: 0.62, angle: 0.54, kind: "rubber" }
-      ]
+      ])
     },
     {
       id: "pop-b",
@@ -1625,10 +1678,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "pop-b.cap-screw-right", x: 1.37, z: -5.05, radius: 0.032, kind: "metal" }
       ],
       ringPostIds: ["post.pop-b.upper", "post.pop-b.outer", "post.pop-b.inner"],
-      guardSegments: [
+      guardSegments: withPopBumperGuardFasteners([
         { id: "pop-b.left-ring-rubber", x: 0.74, z: -4.68, width: 0.07, depth: 0.62, angle: -0.52, kind: "rubber" },
         { id: "pop-b.right-ring-rubber", x: 1.56, z: -4.7, width: 0.07, depth: 0.62, angle: 0.52, kind: "rubber" }
-      ]
+      ])
     },
     {
       id: "pop-c",
@@ -1645,10 +1698,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "pop-c.cap-screw-right", x: 0.16, z: -3.76, radius: 0.03, kind: "metal" }
       ],
       ringPostIds: ["post.pop-c.lower-left", "post.pop-c.lower-right", "post.pop-c.upper"],
-      guardSegments: [
+      guardSegments: withPopBumperGuardFasteners([
         { id: "pop-c.lower-left-ring-rubber", x: -0.48, z: -3.38, width: 0.07, depth: 0.58, angle: -0.58, kind: "rubber" },
         { id: "pop-c.lower-right-ring-rubber", x: 0.38, z: -3.38, width: 0.07, depth: 0.58, angle: 0.58, kind: "rubber" }
-      ]
+      ])
     }
   ],
   targetBank: {
