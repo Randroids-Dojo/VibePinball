@@ -323,13 +323,17 @@ export const silverballSocialBlueprint: TableBlueprint = {
   ],
   posts: [
     { id: "post.left-out-top", x: -3.18, z: 3.92, radius: 0.13, kind: "rubber" },
+    { id: "post.left-out-lower", x: -3.48, z: 5.58, radius: 0.12, kind: "rubber" },
     { id: "post.left-in-top", x: -2.02, z: 4.18, radius: 0.13, kind: "rubber" },
+    { id: "post.left-in-lower", x: -1.66, z: 5.58, radius: 0.12, kind: "rubber" },
     { id: "post.left-sling-a", x: -2.55, z: 3.25, radius: 0.15, kind: "rubber" },
     { id: "post.left-sling-b", x: -1.18, z: 3.72, radius: 0.15, kind: "rubber" },
     { id: "post.right-sling-a", x: 2.55, z: 3.25, radius: 0.15, kind: "rubber" },
     { id: "post.right-sling-b", x: 1.18, z: 3.72, radius: 0.15, kind: "rubber" },
     { id: "post.right-in-top", x: 2.02, z: 4.18, radius: 0.13, kind: "rubber" },
+    { id: "post.right-in-lower", x: 1.66, z: 5.58, radius: 0.12, kind: "rubber" },
     { id: "post.right-out-top", x: 3.18, z: 3.92, radius: 0.13, kind: "rubber" },
+    { id: "post.right-out-lower", x: 3.48, z: 5.58, radius: 0.12, kind: "rubber" },
     { id: "post.center-left", x: -0.75, z: 1.6, radius: 0.12, kind: "rubber" },
     { id: "post.center-right", x: 0.75, z: 1.6, radius: 0.12, kind: "rubber" },
     { id: "post.upper-left", x: -2.15, z: -2.55, radius: 0.12, kind: "rubber" },
@@ -357,10 +361,46 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "post.drain-right", x: 0.52, z: 6.66, radius: 0.13, kind: "rubber" }
   ],
   lanes: [
-    { id: "lane.lower.left-out", label: "Left outlane", x: -3.2, z: 5.1, radius: 0.32, clearance: 0.66, side: "left" },
-    { id: "lane.lower.left-in", label: "Left inlane", x: -1.98, z: 5.18, radius: 0.32, clearance: 0.63, side: "left" },
-    { id: "lane.lower.right-in", label: "Right inlane", x: 1.98, z: 5.18, radius: 0.32, clearance: 0.63, side: "right" },
-    { id: "lane.lower.right-out", label: "Right outlane", x: 3.2, z: 5.1, radius: 0.32, clearance: 0.66, side: "right" },
+    {
+      id: "lane.lower.left-out",
+      label: "Left outlane",
+      x: -3.2,
+      z: 5.1,
+      radius: 0.32,
+      clearance: 0.66,
+      side: "left",
+      guidePostIds: ["post.left-out-top", "post.left-out-lower"]
+    },
+    {
+      id: "lane.lower.left-in",
+      label: "Left inlane",
+      x: -1.98,
+      z: 5.18,
+      radius: 0.32,
+      clearance: 0.63,
+      side: "left",
+      guidePostIds: ["post.left-in-top", "post.left-in-lower", "post.drain-left"]
+    },
+    {
+      id: "lane.lower.right-in",
+      label: "Right inlane",
+      x: 1.98,
+      z: 5.18,
+      radius: 0.32,
+      clearance: 0.63,
+      side: "right",
+      guidePostIds: ["post.right-in-top", "post.right-in-lower", "post.drain-right"]
+    },
+    {
+      id: "lane.lower.right-out",
+      label: "Right outlane",
+      x: 3.2,
+      z: 5.1,
+      radius: 0.32,
+      clearance: 0.66,
+      side: "right",
+      guidePostIds: ["post.right-out-top", "post.right-out-lower"]
+    },
     {
       id: "lane.top.left",
       label: "Top left rollover",

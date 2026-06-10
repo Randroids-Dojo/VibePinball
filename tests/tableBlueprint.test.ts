@@ -18,6 +18,22 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.laneWalls.filter((segment) => segment.id.includes("lane.lower"))).toHaveLength(8);
   });
 
+  it("ties the lower inlanes and outlanes to authored rubber guide posts", () => {
+    const postById = new Map(blueprint.posts.map((post) => [post.id, post]));
+    const lowerLanes = blueprint.lanes.filter((lane) => lane.id.startsWith("lane.lower"));
+
+    for (const lane of lowerLanes) {
+      expect(lane.guidePostIds?.length, lane.id).toBeGreaterThanOrEqual(2);
+
+      for (const id of lane.guidePostIds ?? []) {
+        const post = postById.get(id);
+        expect(post, `${lane.id} references ${id}`).toBeDefined();
+        expect(post?.kind).toBe("rubber");
+        expect(Math.abs((post?.z ?? 0) - lane.z)).toBeLessThan(1.6);
+      }
+    }
+  });
+
   it("includes rollover wire switches and flipper return hardware", () => {
     expect(blueprint.rolloverWires).toHaveLength(blueprint.lanes.length);
     expect(blueprint.rolloverWires.every((wire) => wire.kind === "wire")).toBe(true);
