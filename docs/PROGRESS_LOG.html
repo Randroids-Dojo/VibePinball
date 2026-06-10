@@ -35,7 +35,7 @@
     <h3>Orbit Wall Shot Paths</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/orbit-wall-shot-path</code></dd>
-      <dt>PR</dt><dd>pending</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/78">PR 78</a></dd>
       <dt>Changed</dt><dd>linked the left and right orbit shot paths to their authored inner and outer orbit wall segment chains so those aimable shots reference the physical guide walls they travel through.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
       <dt>Assumptions</dt><dd>Each orbit path should include both inner and outer guide-wall segments because those paired metal rails define the playable orbit lane.</dd>
