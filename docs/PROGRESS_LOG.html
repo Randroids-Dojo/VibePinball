@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="top-arch-shooter-wrap" data-date="2026-06-10">
+    <h3>Top Arch Shooter Wrap</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/top-arch-shooter-wrap</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>made the upper arch and shooter-lane wrap closer to the physical blueprint by replacing the single straight top arch with authored tangent arch segments and adding three shooter-arch guide records. Rendering and physics now consume those records through the shared boundary pipeline, and the skill-shot path references the shooter arch plus right top-arch curve.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>git diff --check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-top-arch-shooter-wrap.png</code> confirmed a nonblank WebGL board with the segmented upper arch and right shooter wrap visible.</dd>
+      <dt>Assumptions</dt><dd>The segmented cuboid chain remains the approved approximation for curved metal guides until a mesh or convex-hull slice is justified.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-009</code>, <code>REQ-017</code>, and <code>REQ-083</code> gained stronger implementation and test coverage for top arch and shooter wrap hardware.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="apron-trough-hardware" data-date="2026-06-10">
     <h3>Apron Trough Hardware</h3>
     <dl>

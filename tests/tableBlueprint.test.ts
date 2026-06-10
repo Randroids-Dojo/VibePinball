@@ -82,6 +82,23 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.wireforms.map((wireform) => wireform.id)).toContain("wireform.right-orbit-return");
   });
 
+  it("uses segmented top arch and shooter wrap guides instead of one straight arch", () => {
+    const topArchSegments = blueprint.boundaries.filter((segment) => segment.id.startsWith("boundary.top-arch"));
+    const shooterArchSegments = blueprint.boundaries.filter((segment) =>
+      segment.id.startsWith("boundary.shooter-arch")
+    );
+    const skillShot = blueprint.shots.find((shot) => shot.id === "shot.skill-shot");
+
+    expect(topArchSegments).toHaveLength(3);
+    expect(topArchSegments.some((segment) => segment.id === "boundary.top-arch.center")).toBe(true);
+    expect(topArchSegments.filter((segment) => segment.angle !== undefined)).toHaveLength(2);
+    expect(shooterArchSegments).toHaveLength(3);
+    expect(shooterArchSegments.every((segment) => segment.kind === "metal")).toBe(true);
+    expect(skillShot?.deviceIds).toEqual(
+      expect.arrayContaining(["boundary.shooter-arch.top", "boundary.top-arch.right-curve"])
+    );
+  });
+
   it("models the left ramp as raised hardware with rails, lip, and supports", () => {
     const ramp = blueprint.ramps.find((item) => item.id === "ramp.left");
     expect(ramp).toBeDefined();

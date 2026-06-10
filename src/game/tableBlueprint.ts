@@ -258,14 +258,18 @@ export const silverballSocialBlueprint: TableBlueprint = {
   boundaries: [
     { id: "boundary.left-wall", x: -4.05, z: 0, width: 0.18, depth: 7.9, kind: "metal" },
     { id: "boundary.right-wall", x: 4.05, z: 0, width: 0.18, depth: 7.9, kind: "metal" },
-    { id: "boundary.top-arch", x: 0, z: -7.15, width: 3.65, depth: 0.18, kind: "metal" },
+    { id: "boundary.top-arch.left-curve", x: -2.46, z: -6.86, width: 0.16, depth: 1.42, angle: 0.58, kind: "metal" },
+    { id: "boundary.top-arch.center", x: 0, z: -7.18, width: 3.1, depth: 0.16, kind: "metal" },
+    { id: "boundary.top-arch.right-curve", x: 2.24, z: -6.88, width: 0.16, depth: 1.36, angle: -0.52, kind: "metal" },
+    { id: "boundary.shooter-arch.lower", x: 3.5, z: 0.95, width: 0.14, depth: 2.2, angle: -0.18, kind: "metal" },
+    { id: "boundary.shooter-arch.mid", x: 3.64, z: -2.25, width: 0.14, depth: 2.36, angle: 0.04, kind: "metal" },
+    { id: "boundary.shooter-arch.top", x: 3.18, z: -5.22, width: 0.14, depth: 1.62, angle: 0.46, kind: "metal" },
     { id: "boundary.left-apron", x: -2.42, z: 6.22, width: 1.22, depth: 0.2, angle: -0.36, kind: "metal" },
     { id: "boundary.right-apron", x: 2.42, z: 6.22, width: 1.22, depth: 0.2, angle: 0.36, kind: "metal" },
     { id: "boundary.apron-left-guide", x: -1.02, z: 6.95, width: 1.85, depth: 0.18, angle: 0.2, kind: "metal" },
     { id: "boundary.apron-right-guide", x: 1.02, z: 6.95, width: 1.85, depth: 0.18, angle: -0.2, kind: "metal" },
     { id: "boundary.trough-back", x: 0, z: 7.38, width: 1.3, depth: 0.14, kind: "metal" },
     { id: "boundary.shooter-divider", x: 2.72, z: 4.38, width: 0.12, depth: 2.72, kind: "metal" },
-    { id: "boundary.shooter-upper-guide", x: 3.32, z: 2.2, width: 0.15, depth: 1.75, angle: -0.38, kind: "metal" },
     { id: "boundary.plunger-stop", x: 3.2, z: 6.55, width: 0.68, depth: 0.16, angle: -0.18, kind: "rubber" }
   ],
   laneWalls: [
@@ -696,7 +700,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["target-bank-1", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["lock.saucer", "lock.saucer.back-wall", "lock.saucer.left-entry-wall", "lock.saucer.right-entry-wall", "lock.saucer.eject-guide"] },
     { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["orbit.right.entry", "orbit.right.exit", "handoff.upper-orbit-gates.right", "wireform.right-orbit-return.exit"] },
-    { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["lane.shooter.skill", "rollover.shooter.skill", "trough.shooter-feed-guide"] }
+    { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.shooter.skill", "rollover.shooter.skill"] }
   ]
 };
 
