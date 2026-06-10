@@ -413,7 +413,13 @@ describe("Silverball Social physical board blueprint", () => {
         "lane.top.left",
         "rollover.top.left",
         "lane.top.left.guide-cover",
-        "lane.top.left.rubber-band"
+        "lane.top.left.rubber-band",
+        "post.top-lane-left",
+        "post.top-lane-left.cap",
+        "post.top-lane-left-outer",
+        "post.top-lane-left-outer.cap",
+        "post.top-lane-left-inner",
+        "post.top-lane-left-inner.cap"
       ])
     );
   });
