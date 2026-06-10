@@ -336,6 +336,9 @@ describe("Silverball Social physical board blueprint", () => {
     );
     expect(skillShot?.deviceIds).toEqual(
       expect.arrayContaining([
+        "trough.shooter-feed-guide",
+        "trough.shooter-feed-guide.screw-upper",
+        "trough.shooter-feed-guide.screw-lower",
         "boundary.shooter-arch.top",
         "boundary.top-arch.right-curve",
         "lane.top.right",
