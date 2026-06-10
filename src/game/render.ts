@@ -655,7 +655,10 @@ const createFlipper = (flipperDevice: FlipperDevice, color: number) => {
 };
 
 const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
-  const drainMouth = drain.drainGuides.find((segment) => segment.id === "drain.center-mouth")!;
+  const drainMouth = drain.drainGuides.find((segment) => segment.id === "drain.center-mouth");
+  if (!drainMouth) {
+    return;
+  }
   const apron = mesh(
     new THREE.BoxGeometry(drain.apron.width, 0.08, drain.apron.depth),
     new THREE.MeshStandardMaterial({ color: 0x3b2219, roughness: 0.42 })
