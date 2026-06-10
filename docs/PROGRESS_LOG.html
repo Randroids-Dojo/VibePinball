@@ -35,7 +35,7 @@
     <h3>Target Bank Frame Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/target-bank-frame-hardware</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd>#13</dd>
       <dt>Changed</dt><dd>made the SOCIAL target bank closer to the physical blueprint by adding a shared metal frame assembly with top rail, bottom rail, side cheeks, and four mounting posts. Rendering now draws the bank frame from the shared blueprint, and physics consumes those frame segments and posts as fixed hardware around the five standup targets.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; local Playwright screenshot at <code>/tmp/vibepinball-target-bank-frame-hardware.png</code> confirmed a nonblank WebGL board with the authored target-bank frame visible.</dd>
       <dt>Assumptions</dt><dd>The target-bank frame uses original Silverball Social proportions and preserves the existing five-target spacing.</dd>
