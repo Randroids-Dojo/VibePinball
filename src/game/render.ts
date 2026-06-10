@@ -68,6 +68,8 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   const group = new THREE.Group();
   group.rotation.x = -blueprint.playfield.slopeAngle;
   scene.add(group);
+  const lampInsertById = new Map(blueprint.lampInserts.map((insert) => [insert.id, insert]));
+  const targetLampInsertIds = new Set(blueprint.targets.map((target) => target.lampInsertId));
 
   const ambient = new THREE.AmbientLight(0xf8e7c2, 1.15);
   scene.add(ambient);
@@ -104,7 +106,9 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     }
     addInsert(group, lane.x, lane.z, lane.side === "top" ? 0x5fd4ff : 0xf1c453);
   });
-  blueprint.lampInserts.forEach((insert) => addLampInsert(group, insert));
+  blueprint.lampInserts
+    .filter((insert) => !targetLampInsertIds.has(insert.id))
+    .forEach((insert) => addLampInsert(group, insert));
   blueprint.orbits.forEach((orbit) => {
     addInsert(group, orbit.entry.x, orbit.entry.z, 0x76ff8f);
     addInsert(group, orbit.exit.x, orbit.exit.z, 0x5fd4ff);
@@ -198,7 +202,10 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     addSegment(group, device.rearStop, 0.28);
     addTargetDecal(group, device.label, device.face.x, device.face.z + 0.075, device.face.angle ?? 0, device.decalColor);
     addDeckLabel(group, device.label, device.face.x, device.face.z - 0.05, 0.34, 0.28, device.face.angle ?? 0);
-    addInsert(group, device.face.x, device.face.z + 0.42, 0xffd56f);
+    const targetInsert = lampInsertById.get(device.lampInsertId);
+    if (targetInsert) {
+      addLampInsert(group, targetInsert);
+    }
   });
 
   blueprint.saucers.forEach((saucer) => {
