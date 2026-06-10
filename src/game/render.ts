@@ -22,6 +22,7 @@ import {
   type PlungerDevice,
   type PopBumperGuardSegment,
   type Post,
+  type RampCrossBrace,
   type RampEntranceLip,
   type RampPath,
   type RampSideRailFastener,
@@ -328,6 +329,8 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
   floor.rotation.set(pitch, ramp.angle, 0);
   group.add(floor);
 
+  ramp.crossBraces.forEach((brace) => addRampCrossBrace(group, brace));
+
   ramp.sideRails.forEach((rail) => {
     addRail(
       group,
@@ -364,6 +367,29 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
     );
     cap.position.set(support.x, support.height + support.cap.height / 2, support.z);
     group.add(cap);
+  });
+};
+
+const addRampCrossBrace = (group: THREE.Group, brace: RampCrossBrace) => {
+  addRail(
+    group,
+    brace.x,
+    brace.z,
+    brace.width,
+    brace.depth,
+    brace.angle ?? 0,
+    0xcbd3d6,
+    brace.y,
+    brace.pitch,
+    0.04
+  );
+  brace.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
+      new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, fastener.y, fastener.z);
+    group.add(screw);
   });
 };
 
