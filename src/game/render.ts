@@ -881,6 +881,20 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
     slotMesh.position.set(slot.x, 0.2, slot.z);
     group.add(slotMesh);
   });
+  drain.trough.slotRims.forEach((rim) => {
+    const ringMesh = mesh(
+      new THREE.TorusGeometry(
+        (rim.innerRadius + rim.outerRadius) / 2,
+        (rim.outerRadius - rim.innerRadius) / 2,
+        10,
+        32
+      ),
+      new THREE.MeshStandardMaterial({ color: 0xc8ccd0, roughness: 0.18, metalness: 0.85 })
+    );
+    ringMesh.rotation.x = Math.PI / 2;
+    ringMesh.position.set(rim.x, 0.225 + rim.height / 2, rim.z);
+    group.add(ringMesh);
+  });
   addDeckLabel(group, "SILVERBALL SOCIAL", drain.apron.x, drain.apron.z - 0.05, 3.4, 0.28, 0);
 };
 
