@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="target-face-shot-path" data-date="2026-06-10">
+    <h3>Target Face Shot Path</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/target-face-shot-path</code></dd>
+      <dt>PR</dt><dd>pending</dd>
+      <dt>Changed</dt><dd>added the five authored SOCIAL target face plate IDs to the center-bank shot path so the aimable target-bank shot references the visible target faces as physical board hardware.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
+      <dt>Assumptions</dt><dd>The center-bank shot path should include the visible target face plates because those are the primary aimed physical surfaces for the target-bank shot.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-011</code> and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code> and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="pop-bumper-lamp-lenses" data-date="2026-06-10">
     <h3>Pop Bumper Lamp Lenses</h3>
     <dl>
