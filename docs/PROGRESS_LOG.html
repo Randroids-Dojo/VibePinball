@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="target-bank-switch-rail" data-date="2026-06-11">
+    <h3>Target Bank Switch Rail Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/target-bank-switch-rail</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>added an authored switch mounting rail behind the SOCIAL target-bank leaf switches, rendered the metal rail and its fasteners from the shared blueprint, and linked those IDs into the center-bank physical shot path.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run type-check</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; local Playwright visual smoke on <code>http://127.0.0.1:3012</code>; dependency gate returned <code>v0.2.3</code>.</dd>
+      <dt>Assumptions</dt><dd>The target-bank switch rail is visible standup-target mounting hardware and should not change target hit radius, target impulse, scoring, lock progress, or lamp rules in this slice.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-011</code>, <code>REQ-017</code>, <code>REQ-042</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/06-camera-and-rendering.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint. Chrome plus VibeReview mechanics playtest remains blocked until the selected Chrome profile has the Codex Chrome Extension installed or enabled.</dd>
+    </dl>
+  </article>
+
   <article data-slice="target-bank-leaf-switches" data-date="2026-06-11">
     <h3>Target Bank Leaf-Switch Hardware</h3>
     <dl>
