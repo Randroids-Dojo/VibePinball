@@ -1494,6 +1494,7 @@ describe("Silverball Social physical board blueprint", () => {
     }
 
     const rightOrbitInsert = blueprint.lampInserts.find((insert) => insert.id === "insert.right-orbit-arrow");
+    const jackpotInsert = blueprint.lampInserts.find((insert) => insert.id === "insert.jackpot");
 
     expect(rightOrbitInsert?.label).toBe("Orbit");
     expect(rightOrbitInsert?.shape).toBe("arrow");
@@ -1502,10 +1503,17 @@ describe("Silverball Social physical board blueprint", () => {
     expect(rightOrbitInsert?.lens.kind).toBe("plastic");
     expect(rightOrbitInsert?.lens.width).toBeGreaterThan(rightOrbitInsert?.radius ?? 0);
     expect(rightOrbitInsert?.lens.depth).toBeGreaterThan(0);
+    expect(jackpotInsert?.label).toBe("Jackpot");
+    expect(jackpotInsert?.shape).toBe("bar");
+    expect(jackpotInsert?.lens.id).toBe("insert.jackpot.lens");
+    expect(jackpotInsert?.lens.targetId).toBe(jackpotInsert?.id);
+    expect(jackpotInsert?.lens.kind).toBe("plastic");
     expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
       expect.arrayContaining([
         rightOrbitInsert?.id ?? "",
         rightOrbitInsert?.lens.id ?? "",
+        jackpotInsert?.id ?? "",
+        jackpotInsert?.lens.id ?? "",
         "handoff.right-orbit-entry.inner-guide",
         "handoff.right-orbit-entry.outer-guide",
         ...((entryHandoff?.segments ?? []).flatMap((segment) =>
