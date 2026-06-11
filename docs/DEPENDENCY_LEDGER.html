@@ -35,15 +35,15 @@
     <dl>
       <dt>Name</dt><dd><code>@randroids-dojo/vibekit</code></dd>
       <dt>Why watched</dt><dd>internally maintained, pre-1.0, and part of the approved VibePinball stack for math, RNG, storage, audio context, server KV, and rate limiting.</dd>
-      <dt>Source</dt><dd><a href="https://github.com/Randroids-Dojo/VibeKit/releases">https://github.com/Randroids-Dojo/VibeKit/releases</a></dd>
+      <dt>Source</dt><dd><a href="https://github.com/Randroids-Dojo/VibeKit/tags">https://github.com/Randroids-Dojo/VibeKit/tags</a></dd>
       <dt>Pin format</dt><dd><code>github:Randroids-Dojo/VibeKit#vX.Y.Z</code> (tag-pinned)</dd>
-      <dt>Currently pinned</dt><dd><code>v0.2.0</code> in <code>package.json</code> as <code>github:Randroids-Dojo/VibeKit#v0.2.0</code></dd>
-      <dt>Detect-new</dt><dd><code>gh api repos/Randroids-Dojo/VibeKit/releases/latest --jq .tag_name</code></dd>
+      <dt>Currently pinned</dt><dd><code>v0.2.3</code> in <code>package.json</code> as <code>github:Randroids-Dojo/VibeKit#v0.2.3</code></dd>
+      <dt>Detect-new</dt><dd><code>git ls-remote --tags https://github.com/Randroids-Dojo/VibeKit.git "v*" | sed -E 's#.*refs/tags/##; s#\^\{\}##' | sort -V | tail -n 1</code></dd>
       <dt>Bootstrap / cookbook</dt><dd>the <code>vibekit</code> skill supplies <code>/vibekit add</code> and <code>/vibekit cookbook</code>. VibePinball expects the app setup slice to use the kit for math, RNG, storage, audio context, server KV, and rate-limit patterns.</dd>
       <dt>Migration notes</dt><dd>
         <ul>
           <li>The kit is pre-1.0; any release may break callers (release-please uses <code>bump-patch-for-minor-pre-major</code>, so feat-level changes still ship as patches and may carry signature changes).</li>
-          <li>Read the kit's <code>CHANGELOG.md</code> between the pinned and target tag.</li>
+          <li>Read the kit's <code>CHANGELOG.md</code> between the pinned and target tag. The project currently publishes newer VibeKit versions as git tags, so prefer tag comparison when GitHub Releases are absent.</li>
           <li>Type errors usually surface in <code>pnpm type-check</code>; runtime regressions in unit tests + the targeted Playwright smoke for any UI that touches the kit.</li>
           <li>When the initial app scaffold lands, add <code>transpilePackages: ['@randroids-dojo/vibekit']</code> if the chosen Next.js version still needs it for source-shipped TypeScript dependencies.</li>
           <li>For wire-up patterns, consult <code>/vibekit cookbook &lt;module&gt;</code> before inventing local wrappers.</li>
