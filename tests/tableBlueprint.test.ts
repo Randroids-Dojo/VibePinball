@@ -1717,6 +1717,20 @@ describe("Silverball Social physical board blueprint", () => {
     expect(saucer?.heldBallMarker.radius).toBeGreaterThan(0);
     expect(saucer?.heldBallMarker.radius).toBeLessThan(blueprint.scale.ballRadius);
     expect(saucer?.heldBallMarker.color).toBeGreaterThan(0);
+    expect(saucer?.ejectCoil.id).toBe("lock.saucer.eject-coil");
+    expect(saucer?.ejectCoil.targetId).toBe(saucer?.id);
+    expect(saucer?.ejectCoil.kind).toBe("coil");
+    expect(saucer?.ejectCoil.coilRadius).toBeGreaterThan(0.08);
+    expect(saucer?.ejectCoil.coilDepth).toBeGreaterThan(0.2);
+    expect(saucer?.ejectCoil.rodLength).toBeGreaterThan(blueprint.scale.ballRadius);
+    expect(saucer?.ejectCoil.rodRadius).toBeGreaterThan(0.02);
+    expect(saucer?.ejectCoil.bracket.id).toBe("lock.saucer.eject-coil.bracket");
+    expect(saucer?.ejectCoil.bracket.kind).toBe("metal");
+    expect(saucer?.ejectCoil.bracketFasteners).toHaveLength(2);
+    expect(saucer?.ejectCoil.bracketFasteners.every((fastener) => fastener.id.startsWith(`${saucer?.ejectCoil.bracket.id}.screw-`))).toBe(true);
+    expect(saucer?.ejectCoil.bracketFasteners.every((fastener) => fastener.targetId === saucer?.ejectCoil.bracket.id)).toBe(true);
+    expect(saucer?.ejectCoil.bracketFasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+    expect(saucer?.ejectCoil.bracketFasteners.every((fastener) => fastener.radius > 0.02)).toBe(true);
     expect(saucer?.cup.fasteners).toHaveLength(3);
     expect(saucer?.cup.fasteners.every((fastener) => fastener.id.startsWith(`${saucer?.cup.id}.screw-`))).toBe(true);
     expect(saucer?.cup.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
@@ -1744,6 +1758,9 @@ describe("Silverball Social physical board blueprint", () => {
         lockInsert?.lens.id ?? "",
         saucer?.captureSensor.id ?? "",
         saucer?.heldBallMarker.id ?? "",
+        saucer?.ejectCoil.id ?? "",
+        saucer?.ejectCoil.bracket.id ?? "",
+        ...((saucer?.ejectCoil.bracketFasteners ?? []).map((fastener) => fastener.id)),
         saucer?.cup.id ?? "",
         ...((saucer?.cup.fasteners ?? []).map((fastener) => fastener.id)),
         ...((saucer?.walls ?? []).flatMap((wall) => [
@@ -2234,6 +2251,9 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.saucers.flatMap((saucer) => [
         saucer.captureSensor.id,
         saucer.heldBallMarker.id,
+        saucer.ejectCoil.id,
+        saucer.ejectCoil.bracket.id,
+        ...saucer.ejectCoil.bracketFasteners.map((fastener) => fastener.id),
         saucer.cup.id,
         ...saucer.cup.fasteners.map((fastener) => fastener.id),
         ...saucer.walls.map((segment) => segment.id),

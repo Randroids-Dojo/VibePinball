@@ -34,6 +34,7 @@ import {
   type RampSideRailFastener,
   type RampSideWall,
   type RolloverWire,
+  type SaucerEjectCoil,
   type SaucerWallSegment,
   type SlingDevice,
   type TargetDevice,
@@ -246,6 +247,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
       group.add(screw);
     });
     saucer.walls.forEach((segment) => addSaucerWallSegment(group, segment));
+    addSaucerEjectCoil(group, saucer.ejectCoil);
     saucer.posts.forEach((post) => addPost(group, post));
     const heldBall = mesh(
       new THREE.SphereGeometry(saucer.heldBallMarker.radius, 24, 14),
@@ -1065,6 +1067,47 @@ const addSaucerWallSegment = (group: THREE.Group, segment: SaucerWallSegment) =>
       new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, segment.kind === "wire" ? 0.655 : 0.485, fastener.z);
+    group.add(screw);
+  });
+};
+
+const addSaucerEjectCoil = (group: THREE.Group, coil: SaucerEjectCoil) => {
+  const coilBody = mesh(
+    new THREE.CylinderGeometry(coil.coilRadius, coil.coilRadius, coil.coilDepth, 24),
+    new THREE.MeshStandardMaterial({ color: 0x3a3030, roughness: 0.28, metalness: 0.55 })
+  );
+  coilBody.rotation.x = Math.PI / 2;
+  coilBody.rotation.z = coil.angle;
+  coilBody.position.set(coil.x, 0.4, coil.z);
+  group.add(coilBody);
+
+  const rod = mesh(
+    new THREE.CylinderGeometry(coil.rodRadius, coil.rodRadius, coil.rodLength, 18),
+    new THREE.MeshStandardMaterial({ color: 0xd6dee0, roughness: 0.16, metalness: 0.9 })
+  );
+  rod.rotation.x = Math.PI / 2;
+  rod.rotation.z = coil.angle;
+  rod.position.set(
+    coil.x + Math.sin(coil.angle) * (coil.rodLength * 0.22),
+    0.4,
+    coil.z + Math.cos(coil.angle) * (coil.rodLength * 0.22)
+  );
+  group.add(rod);
+
+  const bracket = mesh(
+    new THREE.BoxGeometry(coil.bracket.width, 0.04, coil.bracket.depth),
+    new THREE.MeshStandardMaterial({ color: 0xaeb8ba, roughness: 0.2, metalness: 0.86 })
+  );
+  bracket.rotation.y = coil.bracket.angle ?? 0;
+  bracket.position.set(coil.bracket.x, 0.44, coil.bracket.z);
+  group.add(bracket);
+
+  coil.bracketFasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, 0.475, fastener.z);
     group.add(screw);
   });
 };
