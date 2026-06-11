@@ -16,6 +16,8 @@ export type TableEvent =
   | { type: "target"; id: string }
   | { type: "lane"; id: string }
   | { type: "lockEnter"; id: string }
+  | { type: "lockHeld"; id: string }
+  | { type: "lockEject"; id: string }
   | { type: "rampEnter"; id: string }
   | { type: "rampMade"; id: string }
   | { type: "orbitMade"; id: string }
