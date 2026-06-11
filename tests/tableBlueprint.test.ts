@@ -1493,7 +1493,27 @@ describe("Silverball Social physical board blueprint", () => {
         )),
         ...((returnHandoffs.find((handoff) => handoff.id === "handoff.right-orbit-exit")?.posts ?? []).flatMap((post) =>
           post.cap ? [post.id, post.cap.id] : [post.id]
-        ))
+        )),
+        "lane.lower.right-in",
+        "lane.lower.right-in.outer",
+        "lane.lower.right-in.outer.screw-a",
+        "lane.lower.right-in.outer.screw-b",
+        "lane.lower.right-in.inner",
+        "lane.lower.right-in.inner.screw-a",
+        "lane.lower.right-in.inner.screw-b",
+        "rollover.lower.right-in",
+        "rollover.lower.right-in.screw-left",
+        "rollover.lower.right-in.screw-right",
+        "lane.lower.right-in.guide-cover",
+        "lane.lower.right-in.guide-cover.screw-upper",
+        "lane.lower.right-in.guide-cover.screw-lower",
+        "lane.lower.right-in.rubber-band",
+        "post.right-in-top",
+        "post.right-in-top.cap",
+        "post.right-in-lower",
+        "post.right-in-lower.cap",
+        "post.drain-right",
+        "post.drain-right.cap"
       ])
     );
   });
