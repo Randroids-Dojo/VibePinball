@@ -92,6 +92,7 @@ export interface CabinetHardware {
   body: CabinetBox;
   backbox: CabinetBox;
   legs: CabinetLeg[];
+  sideArtPanels: CabinetSideArtPanel[];
   sideRails: Segment[];
   glassRims: Segment[];
   glassPanel: CabinetGlassPanel;
@@ -137,6 +138,31 @@ export interface CabinetLevelerFoot {
   z: number;
   radius: number;
   height: number;
+  kind: "metal";
+}
+
+export interface CabinetSideArtPanel {
+  id: string;
+  side: "left" | "right";
+  label: string;
+  x: number;
+  y: number;
+  z: number;
+  width: number;
+  height: number;
+  depth: number;
+  color: number;
+  emissive: number;
+  fasteners: CabinetSideArtFastener[];
+}
+
+export interface CabinetSideArtFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
   kind: "metal";
 }
 
@@ -1983,6 +2009,46 @@ export const silverballSocialBlueprint: TableBlueprint = {
         color: 0x8f989c,
         leveler: { id: "cabinet.leg.back-right.leveler", targetId: "cabinet.leg.back-right", x: 4.7, y: -1.62, z: -7.09, radius: 0.18, height: 0.04, kind: "metal" },
         kind: "metal"
+      }
+    ],
+    sideArtPanels: [
+      {
+        id: "cabinet.side-art.left",
+        side: "left",
+        label: "SILVERBALL",
+        x: -4.94,
+        y: -0.74,
+        z: 1.0,
+        width: 0.06,
+        height: 0.66,
+        depth: 4.8,
+        color: 0x7f2c22,
+        emissive: 0x2b0d0a,
+        fasteners: [
+          { id: "cabinet.side-art.left.screw-front-top", targetId: "cabinet.side-art.left", x: -4.98, y: -0.51, z: 3.12, radius: 0.036, kind: "metal" },
+          { id: "cabinet.side-art.left.screw-front-bottom", targetId: "cabinet.side-art.left", x: -4.98, y: -0.97, z: 3.12, radius: 0.036, kind: "metal" },
+          { id: "cabinet.side-art.left.screw-back-top", targetId: "cabinet.side-art.left", x: -4.98, y: -0.51, z: -1.12, radius: 0.036, kind: "metal" },
+          { id: "cabinet.side-art.left.screw-back-bottom", targetId: "cabinet.side-art.left", x: -4.98, y: -0.97, z: -1.12, radius: 0.036, kind: "metal" }
+        ]
+      },
+      {
+        id: "cabinet.side-art.right",
+        side: "right",
+        label: "SOCIAL",
+        x: 4.94,
+        y: -0.74,
+        z: 1.0,
+        width: 0.06,
+        height: 0.66,
+        depth: 4.8,
+        color: 0xf1c453,
+        emissive: 0x4d3308,
+        fasteners: [
+          { id: "cabinet.side-art.right.screw-front-top", targetId: "cabinet.side-art.right", x: 4.98, y: -0.51, z: 3.12, radius: 0.036, kind: "metal" },
+          { id: "cabinet.side-art.right.screw-front-bottom", targetId: "cabinet.side-art.right", x: 4.98, y: -0.97, z: 3.12, radius: 0.036, kind: "metal" },
+          { id: "cabinet.side-art.right.screw-back-top", targetId: "cabinet.side-art.right", x: 4.98, y: -0.51, z: -1.12, radius: 0.036, kind: "metal" },
+          { id: "cabinet.side-art.right.screw-back-bottom", targetId: "cabinet.side-art.right", x: 4.98, y: -0.97, z: -1.12, radius: 0.036, kind: "metal" }
+        ]
       }
     ],
     sideRails: [

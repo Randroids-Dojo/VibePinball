@@ -9,6 +9,7 @@ import {
   type BoundarySegment,
   type CabinetHardware,
   type CabinetHeaderPanel,
+  type CabinetSideArtPanel,
   type CabinetTopperLight,
   type DrainDevice,
   type DrainGuide,
@@ -1132,6 +1133,8 @@ const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
   body.receiveShadow = true;
   scene.add(body);
 
+  cabinet.sideArtPanels.forEach((panel) => addCabinetSideArtPanel(scene, panel));
+
   cabinet.legs.forEach((leg) => {
     const legMesh = mesh(
       new THREE.BoxGeometry(leg.width, leg.height, leg.depth),
@@ -1198,6 +1201,41 @@ const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
       scene.add(screw);
     });
   });
+};
+
+const addCabinetSideArtPanel = (scene: THREE.Scene, panel: CabinetSideArtPanel) => {
+  const sidePanel = mesh(
+    new THREE.BoxGeometry(panel.width, panel.height, panel.depth),
+    new THREE.MeshStandardMaterial({
+      color: panel.color,
+      emissive: panel.emissive,
+      emissiveIntensity: 0.22,
+      roughness: 0.34
+    })
+  );
+  sidePanel.position.set(panel.x, panel.y, panel.z);
+  scene.add(sidePanel);
+
+  panel.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.rotation.z = Math.PI / 2;
+    screw.position.set(fastener.x, fastener.y, fastener.z);
+    scene.add(screw);
+  });
+
+  addCabinetSideArtLabel(
+    scene,
+    panel.label,
+    panel.x + (panel.side === "left" ? -panel.width : panel.width),
+    panel.y,
+    panel.z,
+    panel.depth * 0.64,
+    panel.height * 0.42,
+    panel.side === "left" ? -Math.PI / 2 : Math.PI / 2
+  );
 };
 
 const addCabinetHeaderPanel = (scene: THREE.Scene, panel: CabinetHeaderPanel) => {
@@ -1342,6 +1380,48 @@ const addBackboxLabel = (
     })
   );
   labelMesh.position.set(x, y, z);
+  scene.add(labelMesh);
+};
+
+const addCabinetSideArtLabel = (
+  scene: THREE.Scene,
+  label: string,
+  x: number,
+  y: number,
+  z: number,
+  width: number,
+  height: number,
+  rotationY: number
+) => {
+  const canvas = document.createElement("canvas");
+  canvas.width = 256;
+  canvas.height = 96;
+  const context = canvas.getContext("2d");
+  if (!context) {
+    return;
+  }
+
+  context.fillStyle = "#2a100c";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = "#ffe6ac";
+  context.font = "bold 44px sans-serif";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText(label, canvas.width / 2, canvas.height / 2);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  const labelMesh = mesh(
+    new THREE.PlaneGeometry(width, height),
+    new THREE.MeshStandardMaterial({
+      map: texture,
+      emissive: 0x5f2c12,
+      emissiveIntensity: 0.2,
+      roughness: 0.3,
+      side: THREE.DoubleSide
+    })
+  );
+  labelMesh.position.set(x, y, z);
+  labelMesh.rotation.y = rotationY;
   scene.add(labelMesh);
 };
 

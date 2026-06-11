@@ -69,6 +69,23 @@ describe("Silverball Social physical board blueprint", () => {
       expect(leg.leveler.height).toBeGreaterThan(0);
       expect(leg.leveler.y).toBeLessThan(leg.y);
     }
+    expect(blueprint.cabinet.sideArtPanels.map((panel) => panel.id)).toEqual(
+      expect.arrayContaining(["cabinet.side-art.left", "cabinet.side-art.right"])
+    );
+    expect(blueprint.cabinet.sideArtPanels.map((panel) => panel.side).sort()).toEqual(["left", "right"]);
+    expect(blueprint.cabinet.sideArtPanels.every((panel) => panel.label.length > 0)).toBe(true);
+    expect(blueprint.cabinet.sideArtPanels.every((panel) => Math.abs(panel.x) > blueprint.cabinet.body.width / 2)).toBe(true);
+    expect(blueprint.cabinet.sideArtPanels.every((panel) => panel.y > blueprint.cabinet.body.y - blueprint.cabinet.body.height / 2)).toBe(true);
+    expect(blueprint.cabinet.sideArtPanels.every((panel) => panel.y < blueprint.cabinet.body.y + blueprint.cabinet.body.height / 2)).toBe(true);
+    expect(blueprint.cabinet.sideArtPanels.every((panel) => panel.depth > blueprint.cabinet.body.depth * 0.25)).toBe(true);
+    expect(blueprint.cabinet.sideArtPanels.every((panel) => panel.fasteners.length === 4)).toBe(true);
+    for (const panel of blueprint.cabinet.sideArtPanels) {
+      expect(panel.fasteners.every((fastener) => fastener.id.startsWith(`${panel.id}.screw-`)), panel.id).toBe(true);
+      expect(panel.fasteners.every((fastener) => fastener.targetId === panel.id), panel.id).toBe(true);
+      expect(panel.fasteners.every((fastener) => fastener.kind === "metal"), panel.id).toBe(true);
+      expect(panel.fasteners.every((fastener) => fastener.radius >= 0.03), panel.id).toBe(true);
+      expect(panel.fasteners.every((fastener) => Math.sign(fastener.x) === Math.sign(panel.x)), panel.id).toBe(true);
+    }
     expect(blueprint.cabinet.sideRails.map((rail) => rail.id)).toEqual(
       expect.arrayContaining(["cabinet.left-side-rail", "cabinet.right-side-rail"])
     );
@@ -2031,6 +2048,8 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.cabinet.backbox.id,
       blueprint.cabinet.dmdPanel.id,
       ...blueprint.cabinet.legs.flatMap((leg) => [leg.id, leg.leveler.id]),
+      ...blueprint.cabinet.sideArtPanels.map((item) => item.id),
+      ...blueprint.cabinet.sideArtPanels.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
       ...blueprint.cabinet.sideRails.map((item) => item.id),
       ...blueprint.cabinet.glassRims.map((item) => item.id),
       blueprint.cabinet.glassPanel.id,
