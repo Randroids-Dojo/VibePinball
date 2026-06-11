@@ -96,6 +96,7 @@ export class PinballPhysics {
   private nudgeHeat = 0;
   private launched = false;
   private launchedSeconds: number | null = null;
+  private lowSpeedSeconds = 0;
   private saucerHoldSeconds = 0;
   private saucerHeldBy: SaucerDevice | null = null;
   private saucerHoldEventPending = false;
@@ -133,6 +134,7 @@ export class PinballPhysics {
     this.nudgeHeat = 0;
     this.cooldowns.clear();
     this.launchedSeconds = null;
+    this.lowSpeedSeconds = 0;
     this.saucerHeldBy = null;
     this.saucerHoldSeconds = 0;
     this.saucerHoldEventPending = false;
@@ -159,6 +161,7 @@ export class PinballPhysics {
     }
 
     this.clampBallSpeed();
+    this.recoverLowSpeedBall(dt);
     this.detectDeviceHits(events, scoringEnabled);
 
     let pos = this.ball.translation();
@@ -442,6 +445,47 @@ export class PinballPhysics {
       this.ball.setLinvel({ x: vel.x * scale, y: vel.y * scale, z: vel.z * scale }, true);
     }
   }
+
+  private recoverLowSpeedBall(dt: number): void {
+    if (!this.launched || this.launchedSeconds === null || this.launchedSeconds < 1 || this.saucerHeldBy) {
+      this.lowSpeedSeconds = 0;
+      return;
+    }
+
+    const pos = this.ball.translation();
+    if (pos.y > 0.75) {
+      this.lowSpeedSeconds = 0;
+      return;
+    }
+
+    const vel = this.ball.linvel();
+    const speed = Math.hypot(vel.x, vel.y, vel.z);
+    if (speed > 0.18) {
+      this.lowSpeedSeconds = 0;
+      return;
+    }
+
+    this.lowSpeedSeconds += dt;
+    if (this.lowSpeedSeconds < 0.9) {
+      return;
+    }
+
+    if (pos.z > 4.15 && Math.abs(pos.x) < 2.4) {
+      return;
+    }
+
+    this.lowSpeedSeconds = 0;
+    this.ball.setTranslation({
+      x: pos.x * 0.72,
+      y: blueprint.playfield.surfaceY + blueprint.scale.ballRadius + 0.04,
+      z: Math.min(pos.z + 0.28, blueprint.drain.troughZ - 0.35)
+    }, true);
+    this.ball.setLinvel({
+      x: -pos.x * 1.1 + blueprint.playfield.gravity.x * 0.04,
+      y: vel.y,
+      z: Math.max(2.2, blueprint.playfield.gravity.z * 0.24)
+    }, true);
+  }
 }
 
 const createYawPitchRotation = (yaw: number, pitch = 0) => {
@@ -495,6 +539,21 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
 
   const addWall = (x: number, z: number, hx: number, hz: number, angle = 0, restitution = 0.62) => {
     addBoxCollider(x, 0.16, z, hx, 0.32, hz, angle, 0, restitution);
+  };
+
+  const addPlayfieldDeck = () => {
+    const deck = blueprint.playfield;
+    addBoxCollider(
+      deck.x,
+      deck.surfaceY - deck.thickness / 2,
+      deck.z,
+      deck.width / 2,
+      deck.thickness / 2,
+      deck.depth / 2,
+      0,
+      0,
+      0.18
+    );
   };
 
   const addSegment = (segment: Segment) => {
@@ -686,6 +745,7 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
     return body;
   };
 
+  addPlayfieldDeck();
   blueprint.boundaries.forEach(addSegment);
   blueprint.laneWalls.forEach(addSegment);
   blueprint.rubberBands.forEach(addSegment);
