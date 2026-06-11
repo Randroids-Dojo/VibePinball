@@ -944,6 +944,7 @@ export interface LampInsert {
   x: number;
   z: number;
   radius: number;
+  angle?: number;
   color: number;
   shape: "circle" | "arrow" | "bar";
   lens: LampInsertLens;
@@ -958,6 +959,7 @@ export interface LampInsertLens {
   width: number;
   depth: number;
   height: number;
+  angle?: number;
   color: number;
   shape: "circle" | "arrow" | "bar";
   kind: "plastic";
@@ -1673,6 +1675,7 @@ const withLampInsertLens = (
     width: insert.shape === "bar" ? insert.radius * 3.2 : insert.radius * 1.85,
     depth: insert.shape === "bar" ? insert.radius * 1.65 : insert.radius * 1.85,
     height: 0.018,
+    angle: insert.angle,
     color: insert.color,
     shape: insert.shape,
     kind: "plastic"
@@ -3446,19 +3449,19 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "insert.bonus-1", label: "Bonus 1", x: -0.66, z: 2.72, radius: 0.14, color: 0xffe08a, shape: "circle" },
     { id: "insert.bonus-2", label: "Bonus 2", x: 0, z: 2.55, radius: 0.14, color: 0xffe08a, shape: "circle" },
     { id: "insert.bonus-3", label: "Bonus 3", x: 0.66, z: 2.72, radius: 0.14, color: 0xffe08a, shape: "circle" },
-    { id: "insert.lower.left-out-arrow", label: "Left Out", x: -3.2, z: 5.1, radius: 0.16, color: 0xf1c453, shape: "arrow" },
-    { id: "insert.lower.left-in-arrow", label: "Left In", x: -1.98, z: 5.18, radius: 0.16, color: 0xf1c453, shape: "arrow" },
-    { id: "insert.lower.right-in-arrow", label: "Right In", x: 1.98, z: 5.18, radius: 0.16, color: 0xf1c453, shape: "arrow" },
-    { id: "insert.lower.right-out-arrow", label: "Right Out", x: 3.2, z: 5.1, radius: 0.16, color: 0xf1c453, shape: "arrow" },
-    { id: "insert.top.left-arrow", label: "Top Left", x: -1.05, z: -6.48, radius: 0.16, color: 0x5fd4ff, shape: "arrow" },
-    { id: "insert.top.center-arrow", label: "Top Center", x: 0, z: -6.62, radius: 0.16, color: 0x5fd4ff, shape: "arrow" },
-    { id: "insert.top.right-arrow", label: "Top Right", x: 1.05, z: -6.48, radius: 0.16, color: 0x5fd4ff, shape: "arrow" },
-    { id: "insert.left-ramp-arrow", label: "Ramp", x: -1.72, z: 0.74, radius: 0.2, color: 0x9fd0ff, shape: "arrow" },
-    { id: "insert.left-orbit-arrow", label: "Orbit", x: -2.82, z: 0.42, radius: 0.2, color: 0x76ff8f, shape: "arrow" },
-    { id: "insert.right-orbit-arrow", label: "Orbit", x: 2.82, z: 0.42, radius: 0.2, color: 0x76ff8f, shape: "arrow" },
+    { id: "insert.lower.left-out-arrow", label: "Left Out", x: -3.2, z: 5.1, radius: 0.16, angle: -0.34, color: 0xf1c453, shape: "arrow" },
+    { id: "insert.lower.left-in-arrow", label: "Left In", x: -1.98, z: 5.18, radius: 0.16, angle: -0.16, color: 0xf1c453, shape: "arrow" },
+    { id: "insert.lower.right-in-arrow", label: "Right In", x: 1.98, z: 5.18, radius: 0.16, angle: 0.16, color: 0xf1c453, shape: "arrow" },
+    { id: "insert.lower.right-out-arrow", label: "Right Out", x: 3.2, z: 5.1, radius: 0.16, angle: 0.34, color: 0xf1c453, shape: "arrow" },
+    { id: "insert.top.left-arrow", label: "Top Left", x: -1.05, z: -6.48, radius: 0.16, angle: -0.1, color: 0x5fd4ff, shape: "arrow" },
+    { id: "insert.top.center-arrow", label: "Top Center", x: 0, z: -6.62, radius: 0.16, angle: 0, color: 0x5fd4ff, shape: "arrow" },
+    { id: "insert.top.right-arrow", label: "Top Right", x: 1.05, z: -6.48, radius: 0.16, angle: 0.1, color: 0x5fd4ff, shape: "arrow" },
+    { id: "insert.left-ramp-arrow", label: "Ramp", x: -1.72, z: 0.74, radius: 0.2, angle: -0.38, color: 0x9fd0ff, shape: "arrow" },
+    { id: "insert.left-orbit-arrow", label: "Orbit", x: -2.82, z: 0.42, radius: 0.2, angle: -0.58, color: 0x76ff8f, shape: "arrow" },
+    { id: "insert.right-orbit-arrow", label: "Orbit", x: 2.82, z: 0.42, radius: 0.2, angle: 0.58, color: 0x76ff8f, shape: "arrow" },
     { id: "insert.lock-ready", label: "Lock", x: 0.9, z: -2.92, radius: 0.18, color: 0xff4b4b, shape: "bar" },
     { id: "insert.jackpot", label: "Jackpot", x: 0, z: -1.42, radius: 0.22, color: 0xf4d35e, shape: "bar" },
-    { id: "insert.skill-shot", label: "Skill", x: 3.04, z: -5.78, radius: 0.18, color: 0x5fd4ff, shape: "arrow" },
+    { id: "insert.skill-shot", label: "Skill", x: 3.04, z: -5.78, radius: 0.18, angle: 0.28, color: 0x5fd4ff, shape: "arrow" },
     { id: "insert.social-s", label: "S", x: -1.28, z: -1.98, radius: 0.12, color: 0xffd56f, shape: "bar" },
     { id: "insert.social-o", label: "O", x: -0.64, z: -2.14, radius: 0.12, color: 0xffd56f, shape: "bar" },
     { id: "insert.social-c", label: "C", x: 0, z: -2.22, radius: 0.12, color: 0xffd56f, shape: "bar" },

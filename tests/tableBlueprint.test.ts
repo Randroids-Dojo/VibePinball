@@ -1521,6 +1521,20 @@ describe("Silverball Social physical board blueprint", () => {
   });
 
   it("defines lamp inserts and ramp handoff hardware as authored board details", () => {
+    const expectedArrowAngles = new Map([
+      ["insert.lower.left-out-arrow", -0.34],
+      ["insert.lower.left-in-arrow", -0.16],
+      ["insert.lower.right-in-arrow", 0.16],
+      ["insert.lower.right-out-arrow", 0.34],
+      ["insert.top.left-arrow", -0.1],
+      ["insert.top.center-arrow", 0],
+      ["insert.top.right-arrow", 0.1],
+      ["insert.left-ramp-arrow", -0.38],
+      ["insert.left-orbit-arrow", -0.58],
+      ["insert.right-orbit-arrow", 0.58],
+      ["insert.skill-shot", 0.28]
+    ]);
+
     expect(blueprint.lampInserts.length).toBeGreaterThanOrEqual(12);
     expect(blueprint.lampInserts.map((insert) => insert.id)).toEqual(
       expect.arrayContaining([
@@ -1553,10 +1567,16 @@ describe("Silverball Social physical board blueprint", () => {
       expect(insert.lens.color).toBe(insert.color);
       expect(insert.lens.x).toBe(insert.x);
       expect(insert.lens.z).toBe(insert.z);
+      expect(insert.lens.angle).toBe(insert.angle);
       expect(insert.lens.radius).toBeGreaterThan(insert.radius);
       expect(insert.lens.height).toBeGreaterThan(0);
       expect(insert.lens.width).toBeGreaterThan(insert.radius);
       expect(insert.lens.depth).toBeGreaterThan(insert.radius);
+
+      if (insert.shape === "arrow") {
+        expect(Number.isFinite(insert.angle), insert.id).toBe(true);
+        expect(insert.angle, insert.id).toBeCloseTo(expectedArrowAngles.get(insert.id) ?? Number.NaN);
+      }
     }
     expect(blueprint.handoffs.map((handoff) => handoff.id)).toEqual(
       expect.arrayContaining([
