@@ -35,12 +35,12 @@
     <h3>Early Ball Save</h3>
     <dl>
       <dt>Branch</dt><dd><code>fix/tune-launch-path-after-playtest</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/196">PR 196</a></dd>
       <dt>Changed</dt><dd>added a one-use ball-save path for fast post-launch drains, so an immediate launch drain serves the same ball again instead of consuming ball one. Physics marks quick drains and rules consume the apron ball-save behavior.</dd>
       <dt>Verification</dt><dd><code>pnpm run test -- tests/physics.test.ts tests/rules.test.ts</code>; <code>pnpm run lint:dash</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; dependency gate returned <code>v0.2.3</code>.</dd>
       <dt>Assumptions</dt><dd>The authored apron ball-save lamp hardware represents a standard launch grace feature and should protect only the first fast drain for the current ball.</dd>
       <dt>GDD coverage</dt><dd><code>REQ-019</code>, <code>REQ-020</code>, <code>REQ-025</code>, <code>REQ-029</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/03-physics-simulation.html</code>, <code>docs/gdd/05-scoring-and-rules.html</code>, and <code>docs/gdd/10-testing-and-release.html</code>.</dd>
-      <dt>Followups</dt><dd><code>VibePinball-tune-launch-path-05c7e973</code> remains open until this slice is merged and production-smoked. <code>VibePinball-investigate-lane-award-0e0077dc</code> remains open for the separate lane-award stall finding.</dd>
+      <dt>Followups</dt><dd><code>VibePinball-tune-launch-path-05c7e973</code> closed after PR 196 merged and production smoke passed. <code>VibePinball-investigate-lane-award-0e0077dc</code> remains open for the separate lane-award stall finding.</dd>
     </dl>
   </article>
 
