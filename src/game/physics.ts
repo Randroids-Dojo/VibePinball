@@ -66,6 +66,25 @@ export const plasticStandoffColliderPosts = (
   plastics = blueprint.plastics
 ): PlasticStandoff[] => plastics.flatMap((cover) => cover.standoffs);
 
+export const saucerCupRimColliderSegments = (
+  saucers = blueprint.saucers
+): Segment[] => saucers.flatMap((saucer) => {
+  const radius = saucer.cup.outerRadius;
+  const thickness = Math.max(saucer.cup.outerRadius - saucer.cup.innerRadius, 0.08);
+  const segmentAngles = [-2.38, -1.62, -0.86, 0.86, 1.62, 2.38];
+  const chordWidth = radius * 0.52;
+
+  return segmentAngles.map((angle, index) => ({
+    id: `${saucer.cup.id}.rim-${index + 1}`,
+    x: saucer.x + Math.sin(angle) * radius,
+    z: saucer.z - Math.cos(angle) * radius,
+    width: chordWidth,
+    depth: thickness,
+    angle,
+    kind: "metal" as const
+  }));
+});
+
 export class PinballPhysics {
   private readonly rapier: RapierModule;
   private readonly world: World;
@@ -692,6 +711,7 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
     saucer.posts.forEach((post) => addPost(post.x, post.z, post.radius, 0.6));
     saucer.walls.forEach(addSegment);
   });
+  saucerCupRimColliderSegments().forEach(addSegment);
   const leftFlipper = blueprint.flippers.find((flipper) => flipper.side === "left");
   const rightFlipper = blueprint.flippers.find((flipper) => flipper.side === "right");
   if (!leftFlipper || !rightFlipper) {
