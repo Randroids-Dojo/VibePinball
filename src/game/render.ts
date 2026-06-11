@@ -146,11 +146,6 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   group.add(ball);
   const saucerHoldMarkers = new Map<string, THREE.Mesh>();
 
-  const bumperMaterial = new THREE.MeshStandardMaterial({
-    color: 0xf1c453,
-    emissive: 0x5c3c05,
-    roughness: 0.25
-  });
   blueprint.bumpers.forEach((device) => {
     const bumper = mesh(
       new THREE.CylinderGeometry(device.capRadius, device.capRadius + 0.1, 0.38, 32),
@@ -185,10 +180,14 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
       group.add(screw);
     });
     const skirt = mesh(
-      new THREE.CylinderGeometry(device.skirtRadius, device.skirtRadius, 0.08, 32),
-      bumperMaterial
+      new THREE.CylinderGeometry(device.skirt.radius, device.skirt.radius, device.skirt.height, 32),
+      new THREE.MeshStandardMaterial({
+        color: device.skirt.color,
+        emissive: 0x5c3c05,
+        roughness: 0.25
+      })
     );
-    skirt.position.set(device.x, 0.12, device.z);
+    skirt.position.set(device.skirt.x, 0.12, device.skirt.z);
     group.add(skirt);
     addRing(group, device.x, device.z, device.chromeRing.radius, device.chromeRing.tubeRadius, 0xb7c4c7);
     device.guardSegments.forEach((segment) => addPopBumperGuardSegment(group, segment));
