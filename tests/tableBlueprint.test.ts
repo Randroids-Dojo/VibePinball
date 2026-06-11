@@ -1249,7 +1249,17 @@ describe("Silverball Social physical board blueprint", () => {
 
   it("models the lock saucer with bowl walls, entry posts, hold point, and eject vector", () => {
     const saucer = blueprint.saucers.find((item) => item.id === "lock.saucer");
+    const lockInsert = blueprint.lampInserts.find((insert) => insert.id === "insert.lock-ready");
+    const lockSaucerShot = blueprint.shots.find((shot) => shot.id === "shot.lock-saucer");
     expect(saucer).toBeDefined();
+    expect(lockInsert?.label).toBe("Lock");
+    expect(lockInsert?.shape).toBe("bar");
+    expect(lockInsert?.lens.id).toBe("insert.lock-ready.lens");
+    expect(lockInsert?.lens.targetId).toBe(lockInsert?.id);
+    expect(lockInsert?.lens.kind).toBe("plastic");
+    expect(lockInsert?.lens.width).toBeGreaterThan(lockInsert?.radius ?? 0);
+    expect(lockInsert?.lens.depth).toBeGreaterThan(0);
+    expect(lockInsert?.lens.height).toBeGreaterThan(0);
     expect(saucer?.cup.id).toBe("lock.saucer.cup");
     expect(saucer?.cup.kind).toBe("metal");
     expect(saucer?.cup.innerRadius).toBeGreaterThan(blueprint.scale.ballRadius);
@@ -1276,8 +1286,10 @@ describe("Silverball Social physical board blueprint", () => {
           .toBeLessThanOrEqual(Math.max(wall.width, wall.depth) / 2);
       }
     }
-    expect(blueprint.shots.find((shot) => shot.id === "shot.lock-saucer")?.deviceIds).toEqual(
+    expect(lockSaucerShot?.deviceIds).toEqual(
       expect.arrayContaining([
+        lockInsert?.id ?? "",
+        lockInsert?.lens.id ?? "",
         saucer?.cup.id ?? "",
         ...((saucer?.cup.fasteners ?? []).map((fastener) => fastener.id)),
         ...((saucer?.walls ?? []).flatMap((wall) => [
