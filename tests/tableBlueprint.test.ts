@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { targetBankColliderSegments } from "../src/game/physics";
 import { silverballSocialBlueprint } from "../src/game/tableBlueprint";
 
 const blueprint = silverballSocialBlueprint;
@@ -1456,6 +1457,25 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.targetBank.frameSegments.filter((segment) => segment.id.startsWith("target-bank.divider-"))).toHaveLength(4);
     expect(blueprint.targetBank.frameSegments.find((segment) => segment.id === "target-bank.frame-top-rail")?.width).toBeGreaterThan(maxTargetX - minTargetX);
     expect(blueprint.targetBank.frameSegments.find((segment) => segment.id === "target-bank.frame-bottom-rail")?.width).toBeGreaterThan(maxTargetX - minTargetX);
+  });
+
+  it("routes target bank switch hardware through fixed physics segments", () => {
+    const colliderSegmentIds = targetBankColliderSegments().map((segment) => segment.id);
+    const colliderSegmentIdSet = new Set(colliderSegmentIds);
+
+    expect(colliderSegmentIdSet).toContain(blueprint.targetBank.switchRail.id);
+    expect(colliderSegmentIds).toEqual(
+      expect.arrayContaining(blueprint.targetBank.frameSegments.map((segment) => segment.id))
+    );
+    expect(colliderSegmentIds).toEqual(
+      expect.arrayContaining(blueprint.targets.flatMap((target) => [
+        target.mountPlate.id,
+        target.rearStop.id,
+        ...target.switchBlades.map((blade) => blade.id)
+      ]))
+    );
+    expect(blueprint.targets.every((target) => colliderSegmentIdSet.has(`${target.id}.leaf-switch.front-blade`))).toBe(true);
+    expect(blueprint.targets.every((target) => colliderSegmentIdSet.has(`${target.id}.leaf-switch.rear-blade`))).toBe(true);
   });
 
   it("defines drain, trough, and orbit sensors as real physical devices", () => {
