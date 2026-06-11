@@ -1130,6 +1130,24 @@ const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
   body.receiveShadow = true;
   scene.add(body);
 
+  cabinet.legs.forEach((leg) => {
+    const legMesh = mesh(
+      new THREE.BoxGeometry(leg.width, leg.height, leg.depth),
+      new THREE.MeshStandardMaterial({ color: leg.color, roughness: 0.2, metalness: 0.78 })
+    );
+    legMesh.position.set(leg.x, leg.y, leg.z);
+    legMesh.rotation.x = leg.tiltX;
+    legMesh.rotation.z = leg.tiltZ;
+    scene.add(legMesh);
+
+    const leveler = mesh(
+      new THREE.CylinderGeometry(leg.leveler.radius, leg.leveler.radius, leg.leveler.height, 24),
+      new THREE.MeshStandardMaterial({ color: 0xc5ccd0, roughness: 0.16, metalness: 0.86 })
+    );
+    leveler.position.set(leg.leveler.x, leg.leveler.y, leg.leveler.z);
+    scene.add(leveler);
+  });
+
   const backbox = mesh(
     new THREE.BoxGeometry(cabinet.backbox.width, cabinet.backbox.height, cabinet.backbox.depth),
     new THREE.MeshStandardMaterial({ color: cabinet.backbox.color, roughness: 0.38 })

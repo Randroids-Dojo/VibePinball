@@ -91,6 +91,7 @@ export interface FlipperStopFastener {
 export interface CabinetHardware {
   body: CabinetBox;
   backbox: CabinetBox;
+  legs: CabinetLeg[];
   sideRails: Segment[];
   glassRims: Segment[];
   glassPanel: CabinetGlassPanel;
@@ -109,6 +110,32 @@ export interface CabinetBox {
   height: number;
   depth: number;
   color: number;
+}
+
+export interface CabinetLeg {
+  id: string;
+  x: number;
+  y: number;
+  z: number;
+  width: number;
+  height: number;
+  depth: number;
+  tiltX: number;
+  tiltZ: number;
+  color: number;
+  leveler: CabinetLevelerFoot;
+  kind: "metal";
+}
+
+export interface CabinetLevelerFoot {
+  id: string;
+  targetId: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  height: number;
+  kind: "metal";
 }
 
 export interface CabinetDisplayPanel {
@@ -1861,6 +1888,64 @@ export const silverballSocialBlueprint: TableBlueprint = {
       depth: 0.7,
       color: 0x161b1b
     },
+    legs: [
+      {
+        id: "cabinet.leg.front-left",
+        x: -4.62,
+        y: -1.06,
+        z: 7.18,
+        width: 0.18,
+        height: 1.02,
+        depth: 0.24,
+        tiltX: -0.08,
+        tiltZ: -0.11,
+        color: 0x8f989c,
+        leveler: { id: "cabinet.leg.front-left.leveler", targetId: "cabinet.leg.front-left", x: -4.7, y: -1.62, z: 7.25, radius: 0.18, height: 0.04, kind: "metal" },
+        kind: "metal"
+      },
+      {
+        id: "cabinet.leg.front-right",
+        x: 4.62,
+        y: -1.06,
+        z: 7.18,
+        width: 0.18,
+        height: 1.02,
+        depth: 0.24,
+        tiltX: -0.08,
+        tiltZ: 0.11,
+        color: 0x8f989c,
+        leveler: { id: "cabinet.leg.front-right.leveler", targetId: "cabinet.leg.front-right", x: 4.7, y: -1.62, z: 7.25, radius: 0.18, height: 0.04, kind: "metal" },
+        kind: "metal"
+      },
+      {
+        id: "cabinet.leg.back-left",
+        x: -4.62,
+        y: -1.06,
+        z: -7.02,
+        width: 0.18,
+        height: 1.02,
+        depth: 0.24,
+        tiltX: 0.08,
+        tiltZ: -0.11,
+        color: 0x8f989c,
+        leveler: { id: "cabinet.leg.back-left.leveler", targetId: "cabinet.leg.back-left", x: -4.7, y: -1.62, z: -7.09, radius: 0.18, height: 0.04, kind: "metal" },
+        kind: "metal"
+      },
+      {
+        id: "cabinet.leg.back-right",
+        x: 4.62,
+        y: -1.06,
+        z: -7.02,
+        width: 0.18,
+        height: 1.02,
+        depth: 0.24,
+        tiltX: 0.08,
+        tiltZ: 0.11,
+        color: 0x8f989c,
+        leveler: { id: "cabinet.leg.back-right.leveler", targetId: "cabinet.leg.back-right", x: 4.7, y: -1.62, z: -7.09, radius: 0.18, height: 0.04, kind: "metal" },
+        kind: "metal"
+      }
+    ],
     sideRails: [
       { id: "cabinet.left-side-rail", x: -4.32, z: 0.1, width: 0.18, depth: 16.05, kind: "metal" },
       { id: "cabinet.right-side-rail", x: 4.32, z: 0.1, width: 0.18, depth: 16.05, kind: "metal" }
