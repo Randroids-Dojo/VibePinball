@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { targetBankColliderSegments } from "../src/game/physics";
+import { rampSideWallColliderSegments, targetBankColliderSegments } from "../src/game/physics";
 import { silverballSocialBlueprint } from "../src/game/tableBlueprint";
 
 const blueprint = silverballSocialBlueprint;
@@ -872,6 +872,9 @@ describe("Silverball Social physical board blueprint", () => {
     );
     expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
       expect.arrayContaining((ramp?.sideWalls ?? []).flatMap((wall) => wall.fasteners.map((fastener) => fastener.id)))
+    );
+    expect(rampSideWallColliderSegments()).toEqual(
+      expect.arrayContaining(ramp?.sideWalls ?? [])
     );
     expect(ramp?.sideRails.map((rail) => rail.id)).toEqual([
       "ramp.left.side-rail.left",
