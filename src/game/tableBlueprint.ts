@@ -93,6 +93,7 @@ export interface CabinetHardware {
   backbox: CabinetBox;
   legs: CabinetLeg[];
   sideArtPanels: CabinetSideArtPanel[];
+  controlButtons: CabinetControlButton[];
   sideRails: Segment[];
   glassRims: Segment[];
   glassPanel: CabinetGlassPanel;
@@ -164,6 +165,23 @@ export interface CabinetSideArtFastener {
   z: number;
   radius: number;
   kind: "metal";
+}
+
+export interface CabinetControlButton {
+  id: string;
+  action: "left-flipper" | "right-flipper" | "start";
+  label: string;
+  side: "left" | "right" | "front";
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  depth: number;
+  color: number;
+  emissive: number;
+  bezelRadius: number;
+  bezelDepth: number;
+  kind: "button";
 }
 
 export interface CabinetDisplayPanel {
@@ -2049,6 +2067,56 @@ export const silverballSocialBlueprint: TableBlueprint = {
           { id: "cabinet.side-art.right.screw-back-top", targetId: "cabinet.side-art.right", x: 4.98, y: -0.51, z: -1.12, radius: 0.036, kind: "metal" },
           { id: "cabinet.side-art.right.screw-back-bottom", targetId: "cabinet.side-art.right", x: 4.98, y: -0.97, z: -1.12, radius: 0.036, kind: "metal" }
         ]
+      }
+    ],
+    controlButtons: [
+      {
+        id: "cabinet.button.left-flipper",
+        action: "left-flipper",
+        label: "FLIP",
+        side: "left",
+        x: -5.03,
+        y: -0.46,
+        z: 4.95,
+        radius: 0.13,
+        depth: 0.055,
+        color: 0xd94b3d,
+        emissive: 0x4d100d,
+        bezelRadius: 0.17,
+        bezelDepth: 0.028,
+        kind: "button"
+      },
+      {
+        id: "cabinet.button.right-flipper",
+        action: "right-flipper",
+        label: "FLIP",
+        side: "right",
+        x: 5.03,
+        y: -0.46,
+        z: 4.95,
+        radius: 0.13,
+        depth: 0.055,
+        color: 0xd94b3d,
+        emissive: 0x4d100d,
+        bezelRadius: 0.17,
+        bezelDepth: 0.028,
+        kind: "button"
+      },
+      {
+        id: "cabinet.button.start",
+        action: "start",
+        label: "START",
+        side: "front",
+        x: -3.05,
+        y: -0.42,
+        z: 8.92,
+        radius: 0.14,
+        depth: 0.06,
+        color: 0xf1c453,
+        emissive: 0x5f3c08,
+        bezelRadius: 0.18,
+        bezelDepth: 0.03,
+        kind: "button"
       }
     ],
     sideRails: [

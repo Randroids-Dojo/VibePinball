@@ -7,6 +7,7 @@ import {
   type ApronFastener,
   type ArcadeHallContext,
   type BoundarySegment,
+  type CabinetControlButton,
   type CabinetHardware,
   type CabinetHeaderPanel,
   type CabinetSideArtPanel,
@@ -1134,6 +1135,7 @@ const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
   scene.add(body);
 
   cabinet.sideArtPanels.forEach((panel) => addCabinetSideArtPanel(scene, panel));
+  cabinet.controlButtons.forEach((button) => addCabinetControlButton(scene, button));
 
   cabinet.legs.forEach((leg) => {
     const legMesh = mesh(
@@ -1201,6 +1203,46 @@ const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
       scene.add(screw);
     });
   });
+};
+
+const addCabinetControlButton = (scene: THREE.Scene, button: CabinetControlButton) => {
+  const normal =
+    button.side === "left"
+      ? new THREE.Vector3(-1, 0, 0)
+      : button.side === "right"
+        ? new THREE.Vector3(1, 0, 0)
+        : new THREE.Vector3(0, 0, 1);
+  const base = new THREE.Vector3(button.x, button.y, button.z);
+  const capPosition = base.clone().addScaledVector(normal, button.bezelDepth * 0.58);
+
+  const orientFaceCylinder = (object: THREE.Object3D) => {
+    if (button.side === "front") {
+      object.rotation.x = Math.PI / 2;
+      return;
+    }
+    object.rotation.z = Math.PI / 2;
+  };
+
+  const bezel = mesh(
+    new THREE.CylinderGeometry(button.bezelRadius, button.bezelRadius, button.bezelDepth, 32),
+    new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.16, metalness: 0.86 })
+  );
+  orientFaceCylinder(bezel);
+  bezel.position.copy(base);
+  scene.add(bezel);
+
+  const cap = mesh(
+    new THREE.CylinderGeometry(button.radius, button.radius, button.depth, 32),
+    new THREE.MeshStandardMaterial({
+      color: button.color,
+      emissive: button.emissive,
+      emissiveIntensity: 0.35,
+      roughness: 0.24
+    })
+  );
+  orientFaceCylinder(cap);
+  cap.position.copy(capPosition);
+  scene.add(cap);
 };
 
 const addCabinetSideArtPanel = (scene: THREE.Scene, panel: CabinetSideArtPanel) => {
