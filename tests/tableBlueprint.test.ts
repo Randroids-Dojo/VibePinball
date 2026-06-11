@@ -1643,6 +1643,14 @@ describe("Silverball Social physical board blueprint", () => {
     expect(saucer?.cup.innerRadius).toBeGreaterThan(blueprint.scale.ballRadius);
     expect(saucer?.cup.outerRadius).toBeGreaterThan(saucer?.cup.innerRadius ?? 0);
     expect(saucer?.cup.height).toBeGreaterThan(0);
+    expect(saucer?.captureSensor.id).toBe("lock.saucer.capture-sensor");
+    expect(saucer?.captureSensor.kind).toBe("capture-sensor");
+    expect(saucer?.captureSensor.x).toBeCloseTo(saucer?.x ?? 0);
+    expect(saucer?.captureSensor.z).toBeCloseTo(saucer?.z ?? 0);
+    expect(saucer?.captureSensor.radius).toBeGreaterThan(blueprint.scale.ballRadius);
+    expect(saucer?.captureSensor.radius).toBeLessThan(saucer?.cup.innerRadius ?? 1);
+    expect(saucer?.captureSensor.height).toBeGreaterThan(0);
+    expect(saucer?.captureSensor.color).toBeGreaterThan(0);
     expect(saucer?.heldBallMarker.id).toBe("lock.saucer.held-ball-marker");
     expect(saucer?.heldBallMarker.kind).toBe("locked-ball-marker");
     expect(saucer?.heldBallMarker.x).toBeCloseTo(saucer?.holdX ?? 0);
@@ -1675,6 +1683,7 @@ describe("Silverball Social physical board blueprint", () => {
       expect.arrayContaining([
         lockInsert?.id ?? "",
         lockInsert?.lens.id ?? "",
+        saucer?.captureSensor.id ?? "",
         saucer?.heldBallMarker.id ?? "",
         saucer?.cup.id ?? "",
         ...((saucer?.cup.fasteners ?? []).map((fastener) => fastener.id)),
@@ -2160,6 +2169,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.targetBank.posts.flatMap((item) => item.cap ? [item.cap.id] : []),
       ...blueprint.saucers.map((item) => item.id),
       ...blueprint.saucers.flatMap((saucer) => [
+        saucer.captureSensor.id,
         saucer.heldBallMarker.id,
         saucer.cup.id,
         ...saucer.cup.fasteners.map((fastener) => fastener.id),
