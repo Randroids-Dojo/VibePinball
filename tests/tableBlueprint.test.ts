@@ -1461,7 +1461,27 @@ describe("Silverball Social physical board blueprint", () => {
         )),
         ...((returnHandoffs.find((handoff) => handoff.id === "handoff.ramp-left-exit")?.posts ?? []).flatMap((post) =>
           post.cap ? [post.id, post.cap.id] : [post.id]
-        ))
+        )),
+        "lane.lower.left-in",
+        "lane.lower.left-in.outer",
+        "lane.lower.left-in.outer.screw-a",
+        "lane.lower.left-in.outer.screw-b",
+        "lane.lower.left-in.inner",
+        "lane.lower.left-in.inner.screw-a",
+        "lane.lower.left-in.inner.screw-b",
+        "rollover.lower.left-in",
+        "rollover.lower.left-in.screw-left",
+        "rollover.lower.left-in.screw-right",
+        "lane.lower.left-in.guide-cover",
+        "lane.lower.left-in.guide-cover.screw-upper",
+        "lane.lower.left-in.guide-cover.screw-lower",
+        "lane.lower.left-in.rubber-band",
+        "post.left-in-top",
+        "post.left-in-top.cap",
+        "post.left-in-lower",
+        "post.left-in-lower.cap",
+        "post.drain-left",
+        "post.drain-left.cap"
       ])
     );
     expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
