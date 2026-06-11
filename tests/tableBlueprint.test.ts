@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  plasticStandoffColliderPosts,
   rampCrossBraceColliderSegments,
   rampSideWallColliderSegments,
   targetBankColliderSegments
@@ -1640,11 +1641,17 @@ describe("Silverball Social physical board blueprint", () => {
   });
 
   it("mounts every plastic cover on authored metal standoffs", () => {
+    const colliderPostIds = new Set(plasticStandoffColliderPosts().map((standoff) => standoff.id));
+
     for (const cover of blueprint.plastics) {
       expect(cover.standoffs.length, cover.id).toBeGreaterThanOrEqual(2);
+      expect(plasticStandoffColliderPosts()).toEqual(
+        expect.arrayContaining(cover.standoffs)
+      );
 
       for (const standoff of cover.standoffs) {
         expect(standoff.id.startsWith(`${cover.id}.standoff.`), standoff.id).toBe(true);
+        expect(colliderPostIds.has(standoff.id), standoff.id).toBe(true);
         expect(standoff.kind).toBe("metal");
         expect(standoff.height).toBeGreaterThan(0.45);
         expect(standoff.height).toBeLessThanOrEqual(cover.layerY);

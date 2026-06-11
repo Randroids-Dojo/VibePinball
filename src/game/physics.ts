@@ -3,6 +3,7 @@ import type { RigidBody, World } from "@dimforge/rapier3d-compat";
 import {
   silverballSocialBlueprint,
   type FlipperDevice,
+  type PlasticStandoff,
   type RampCrossBrace,
   type RampPath,
   type RampSideWall,
@@ -60,6 +61,10 @@ export const rampSideWallColliderSegments = (
 export const rampCrossBraceColliderSegments = (
   ramps = blueprint.ramps
 ): RampCrossBrace[] => ramps.flatMap((ramp) => ramp.crossBraces);
+
+export const plasticStandoffColliderPosts = (
+  plastics = blueprint.plastics
+): PlasticStandoff[] => plastics.flatMap((cover) => cover.standoffs);
 
 export class PinballPhysics {
   private readonly rapier: RapierModule;
@@ -603,6 +608,16 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
     }
   };
 
+  const addPlasticStandoff = (standoff: PlasticStandoff) => {
+    const body = world.createRigidBody(
+      rapier.RigidBodyDesc.fixed().setTranslation(standoff.x, standoff.height / 2, standoff.z)
+    );
+    world.createCollider(
+      rapier.ColliderDesc.cylinder(standoff.height / 2, standoff.radius).setRestitution(0.58).setFriction(0.22),
+      body
+    );
+  };
+
   const addFlipper = (flipper: FlipperDevice) => {
     const body = world.createRigidBody(
       rapier.RigidBodyDesc.kinematicPositionBased()
@@ -654,6 +669,7 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
   addSegment(blueprint.plunger.gate);
   addPost(blueprint.plunger.gateHingePost.x, blueprint.plunger.gateHingePost.z, blueprint.plunger.gateHingePost.radius, 0.58);
   addPost(blueprint.plunger.gateStopPost.x, blueprint.plunger.gateStopPost.z, blueprint.plunger.gateStopPost.radius, 0.58);
+  plasticStandoffColliderPosts().forEach(addPlasticStandoff);
   blueprint.ramps.forEach(addRamp);
   blueprint.handoffs
     .flatMap((handoff) => handoff.segments)
