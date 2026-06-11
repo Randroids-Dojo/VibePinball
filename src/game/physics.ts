@@ -4,6 +4,7 @@ import {
   silverballSocialBlueprint,
   type FlipperDevice,
   type RampPath,
+  type RampSideWall,
   type Segment,
   type SaucerDevice,
   type SensorZone,
@@ -50,6 +51,10 @@ export const targetBankColliderSegments = (
     ...target.switchBlades
   ])
 ];
+
+export const rampSideWallColliderSegments = (
+  ramps = blueprint.ramps
+): RampSideWall[] => ramps.flatMap((ramp) => ramp.sideWalls);
 
 export class PinballPhysics {
   private readonly rapier: RapierModule;
@@ -489,6 +494,20 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
       pitch,
       0.5
     );
+
+    for (const wall of rampSideWallColliderSegments([ramp])) {
+      addBoxCollider(
+        wall.x,
+        (wall.startY + wall.endY) / 2,
+        wall.z,
+        wall.width / 2,
+        wall.height / 2,
+        wall.depth / 2,
+        wall.angle,
+        wall.pitch,
+        0.56
+      );
+    }
 
     for (const rail of ramp.sideRails) {
       addBoxCollider(
