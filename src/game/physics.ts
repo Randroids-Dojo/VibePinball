@@ -3,6 +3,7 @@ import type { RigidBody, World } from "@dimforge/rapier3d-compat";
 import {
   silverballSocialBlueprint,
   type FlipperDevice,
+  type RampCrossBrace,
   type RampPath,
   type RampSideWall,
   type Segment,
@@ -55,6 +56,10 @@ export const targetBankColliderSegments = (
 export const rampSideWallColliderSegments = (
   ramps = blueprint.ramps
 ): RampSideWall[] => ramps.flatMap((ramp) => ramp.sideWalls);
+
+export const rampCrossBraceColliderSegments = (
+  ramps = blueprint.ramps
+): RampCrossBrace[] => ramps.flatMap((ramp) => ramp.crossBraces);
 
 export class PinballPhysics {
   private readonly rapier: RapierModule;
@@ -506,6 +511,20 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
         wall.angle,
         wall.pitch,
         0.56
+      );
+    }
+
+    for (const brace of rampCrossBraceColliderSegments([ramp])) {
+      addBoxCollider(
+        brace.x,
+        brace.y,
+        brace.z,
+        brace.width / 2,
+        0.02,
+        brace.depth / 2,
+        brace.angle ?? 0,
+        brace.pitch,
+        0.62
       );
     }
 

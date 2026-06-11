@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="ramp-cross-brace-colliders" data-date="2026-06-11">
+    <h3>Ramp Cross-Brace Colliders</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/ramp-cross-brace-colliders</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>routed the authored left-ramp metal cross braces through the Rapier fixed-collider path, so the raised ramp support structure is physical instead of render-only hardware.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run type-check</code>; broader verification pending before PR.</dd>
+      <dt>Assumptions</dt><dd>The metal cross braces are low-profile physical ramp support surfaces and should use the existing metal restitution without changing ramp entry scoring, ramp-made scoring, or launch tuning.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-010</code>, <code>REQ-017</code>, <code>REQ-065</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint. Chrome plus VibeReview mechanics playtest remains blocked until the selected Chrome profile has the Codex Chrome Extension installed or enabled.</dd>
+    </dl>
+  </article>
+
   <article data-slice="ramp-side-wall-colliders" data-date="2026-06-11">
     <h3>Ramp Side-Wall Colliders</h3>
     <dl>
