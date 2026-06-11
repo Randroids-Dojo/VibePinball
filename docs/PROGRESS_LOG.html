@@ -35,7 +35,7 @@
     <h3>Trough Eject Coil Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/trough-eject-coil-hardware</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/173">PR 173</a></dd>
       <dt>Changed</dt><dd>added an authored trough eject-coil assembly with coil body, plunger rod, mounting bracket, and bracket fasteners, rendered it from the shared blueprint, and linked its IDs into the skill-shot physical path.</dd>
       <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run type-check</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; local Playwright visual smoke on <code>http://127.0.0.1:3012</code>; dependency gate returned <code>v0.2.3</code>.</dd>
       <dt>Assumptions</dt><dd>The trough eject coil is visible ball-return hardware and should not change drain detection, ball serving, plunger charge, launch impulse, or skill-shot rules in this slice.</dd>
