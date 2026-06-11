@@ -104,7 +104,9 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     if (lane.guideCover) {
       addLaneGuideCover(group, lane.guideCover);
     }
-    addInsert(group, lane.x, lane.z, lane.side === "top" ? 0x5fd4ff : 0xf1c453);
+    if (!lane.lampInsertId || !lampInsertById.has(lane.lampInsertId)) {
+      addInsert(group, lane.x, lane.z, lane.side === "top" ? 0x5fd4ff : 0xf1c453);
+    }
   });
   blueprint.lampInserts
     .filter((insert) => !targetLampInsertIds.has(insert.id))
