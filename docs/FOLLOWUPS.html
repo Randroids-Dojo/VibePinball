@@ -77,7 +77,16 @@
 
 <section id="polish">
   <h2>Polish</h2>
-  <p>(none yet)</p>
+  <section data-f="F-004" data-vibereview-session="20260609-191250-9232B7B2" data-capture="3442B653-7480-4AA3-AFD7-0F5298B9643C" data-priority="polish">
+    <h3>F-004: Chrome mechanics playtest found instant-drain and lane-award stall risks.</h3>
+    <dl>
+      <dt>Context</dt><dd>Captured during local VibeReview session <code>20260609-191250-9232B7B2</code> as capture <code>3442B653-7480-4AA3-AFD7-0F5298B9643C</code> while playing <code>http://localhost:3011/</code> through the Codex Chrome Extension.</dd>
+      <dt>Feedback</dt><dd>Chrome mechanics playtest on localhost:3011: ball one drained in about three seconds after launch with no target or lock progress, then ball two reached a lane award and appeared to stall. Repeated flipper and nudge input left the HUD at Ball 2, Targets 0/5, Locks 0/2, score 950, and message Lane award.</dd>
+      <dt>Blocker (if any)</dt><dd>none recorded.</dd>
+      <dt>Unblock condition</dt><dd>the launch path gives the player a playable first shot more consistently, and the lane-award state cannot trap or stall the ball without visible recovery.</dd>
+      <dt>PR / Dot reference</dt><dd><code>VibePinball-investigate-lane-award-0e0077dc</code>; <code>VibePinball-tune-launch-path-05c7e973</code></dd>
+    </dl>
+  </section>
 </section>
 </main>
 
