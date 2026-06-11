@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="right-orbit-wall-fasteners" data-date="2026-06-10">
+    <h3>Right Orbit Wall Fasteners</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/right-orbit-wall-fasteners</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>linked the right-orbit path to the authored right orbit wall screw IDs so the physical shot map includes the fasteners holding the paired metal orbit guide rails.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
+      <dt>Assumptions</dt><dd>The right orbit wall screws belong to the right-orbit path because they mount the paired metal side rails that guide the ball around the upper-right orbit lane.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-010</code>, <code>REQ-017</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="left-orbit-wall-fasteners" data-date="2026-06-10">
     <h3>Left Orbit Wall Fasteners</h3>
     <dl>
