@@ -48,6 +48,27 @@ describe("Silverball Social physical board blueprint", () => {
   it("models cabinet rails, glass rim, and lockdown bar as authored hardware", () => {
     expect(blueprint.cabinet.body.id).toBe("cabinet.body");
     expect(blueprint.cabinet.backbox.id).toBe("cabinet.backbox");
+    expect(blueprint.cabinet.legs).toHaveLength(4);
+    expect(blueprint.cabinet.legs.map((leg) => leg.id)).toEqual(
+      expect.arrayContaining([
+        "cabinet.leg.front-left",
+        "cabinet.leg.front-right",
+        "cabinet.leg.back-left",
+        "cabinet.leg.back-right"
+      ])
+    );
+    expect(blueprint.cabinet.legs.every((leg) => leg.kind === "metal")).toBe(true);
+    expect(blueprint.cabinet.legs.every((leg) => leg.height > 0.8)).toBe(true);
+    expect(blueprint.cabinet.legs.every((leg) => Math.abs(leg.x) > blueprint.cabinet.body.width * 0.42)).toBe(true);
+    expect(blueprint.cabinet.legs.every((leg) => Math.abs(leg.z) > blueprint.cabinet.body.depth * 0.38)).toBe(true);
+    for (const leg of blueprint.cabinet.legs) {
+      expect(leg.leveler.id).toBe(`${leg.id}.leveler`);
+      expect(leg.leveler.targetId).toBe(leg.id);
+      expect(leg.leveler.kind).toBe("metal");
+      expect(leg.leveler.radius).toBeGreaterThan(leg.width / 2);
+      expect(leg.leveler.height).toBeGreaterThan(0);
+      expect(leg.leveler.y).toBeLessThan(leg.y);
+    }
     expect(blueprint.cabinet.sideRails.map((rail) => rail.id)).toEqual(
       expect.arrayContaining(["cabinet.left-side-rail", "cabinet.right-side-rail"])
     );
@@ -1987,6 +2008,7 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.cabinet.body.id,
       blueprint.cabinet.backbox.id,
       blueprint.cabinet.dmdPanel.id,
+      ...blueprint.cabinet.legs.flatMap((leg) => [leg.id, leg.leveler.id]),
       ...blueprint.cabinet.sideRails.map((item) => item.id),
       ...blueprint.cabinet.glassRims.map((item) => item.id),
       blueprint.cabinet.glassPanel.id,
