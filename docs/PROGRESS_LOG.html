@@ -35,9 +35,9 @@
     <h3>Saucer Cup Rim Colliders</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/saucer-cup-rim-colliders</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/193">PR 193</a></dd>
       <dt>Changed</dt><dd>generated fixed metal collider segments from the authored lock-saucer cup rim so the rendered cup now has physical bowl-edge collision instead of relying only on surrounding guide walls and posts.</dd>
-      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run type-check</code>; broader verification pending before PR.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run type-check</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; dependency gate returned <code>v0.2.3</code>; main deploy and production smoke passed after merge.</dd>
       <dt>Assumptions</dt><dd>The cup rim should be a segmented metal guide around the rear and side arcs while keeping the saucer entry path open for capture.</dd>
       <dt>GDD coverage</dt><dd><code>REQ-012</code>, <code>REQ-017</code>, <code>REQ-065</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
       <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint. Chrome plus VibeReview mechanics playtest remains blocked until the selected Chrome profile has the Codex Chrome Extension installed or enabled.</dd>
