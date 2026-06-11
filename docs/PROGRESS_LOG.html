@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="right-orbit-jackpot-insert" data-date="2026-06-11">
+    <h3>Right Orbit Jackpot Insert</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/right-orbit-jackpot-insert</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>linked the right-orbit shot path to the authored jackpot insert and clear lens hardware so the multiball jackpot objective has a visible physical lamp on the orbit route. Updated Playwright smoke server wiring to honor a <code>PORT</code> override so local smoke tests do not attach to an unrelated app already listening on port 3000.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
+      <dt>Assumptions</dt><dd>The jackpot insert belongs to the right-orbit shot path because the physical blueprint names right orbit as an orbit award or jackpot shot during multiball.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-010</code>, <code>REQ-017</code>, <code>REQ-036</code>, <code>REQ-050</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, <code>docs/gdd/05-scoring-and-rules.html</code>, <code>docs/gdd/07-audio-and-feedback.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint. Chrome and VibeReview playtest remains pending: Chrome is running and the native host manifest is correct, but the selected Chrome profile reports the Codex Chrome Extension as not installed or enabled. VibeReview is running on port 37717 with session <code>20260609-191250-9232B7B2</code>, status <code>paused</code>, and zero captures.</dd>
+    </dl>
+  </article>
+
   <article data-slice="skill-shot-insert-lens" data-date="2026-06-11">
     <h3>Skill Shot Insert Lens</h3>
     <dl>
