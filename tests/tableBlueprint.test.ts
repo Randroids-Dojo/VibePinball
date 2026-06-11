@@ -86,6 +86,34 @@ describe("Silverball Social physical board blueprint", () => {
       expect(panel.fasteners.every((fastener) => fastener.radius >= 0.03), panel.id).toBe(true);
       expect(panel.fasteners.every((fastener) => Math.sign(fastener.x) === Math.sign(panel.x)), panel.id).toBe(true);
     }
+    expect(blueprint.cabinet.controlButtons.map((button) => button.id)).toEqual(
+      expect.arrayContaining([
+        "cabinet.button.left-flipper",
+        "cabinet.button.right-flipper",
+        "cabinet.button.start"
+      ])
+    );
+    expect(blueprint.cabinet.controlButtons.map((button) => button.action).sort()).toEqual([
+      "left-flipper",
+      "right-flipper",
+      "start"
+    ]);
+    expect(blueprint.cabinet.controlButtons.every((button) => button.kind === "button")).toBe(true);
+    expect(blueprint.cabinet.controlButtons.every((button) => button.radius > 0)).toBe(true);
+    expect(blueprint.cabinet.controlButtons.every((button) => button.bezelRadius > button.radius)).toBe(true);
+    expect(blueprint.cabinet.controlButtons.every((button) => button.depth > 0 && button.bezelDepth > 0)).toBe(true);
+    expect(blueprint.cabinet.controlButtons.every((button) => button.y > blueprint.cabinet.body.y - blueprint.cabinet.body.height / 2)).toBe(true);
+    expect(blueprint.cabinet.controlButtons.every((button) => button.y < blueprint.cabinet.body.y + blueprint.cabinet.body.height / 2)).toBe(true);
+    expect(
+      blueprint.cabinet.controlButtons
+        .filter((button) => button.side !== "front")
+        .every((button) => Math.abs(button.x) > blueprint.cabinet.body.width / 2)
+    ).toBe(true);
+    expect(
+      blueprint.cabinet.controlButtons
+        .filter((button) => button.side === "front")
+        .every((button) => button.z > blueprint.cabinet.body.z + blueprint.cabinet.body.depth / 2)
+    ).toBe(true);
     expect(blueprint.cabinet.sideRails.map((rail) => rail.id)).toEqual(
       expect.arrayContaining(["cabinet.left-side-rail", "cabinet.right-side-rail"])
     );
@@ -2050,6 +2078,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.cabinet.legs.flatMap((leg) => [leg.id, leg.leveler.id]),
       ...blueprint.cabinet.sideArtPanels.map((item) => item.id),
       ...blueprint.cabinet.sideArtPanels.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
+      ...blueprint.cabinet.controlButtons.map((item) => item.id),
       ...blueprint.cabinet.sideRails.map((item) => item.id),
       ...blueprint.cabinet.glassRims.map((item) => item.id),
       blueprint.cabinet.glassPanel.id,
