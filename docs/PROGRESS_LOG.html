@@ -35,7 +35,7 @@
     <h3>Lock Saucer Lifecycle Events</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/lock-saucer-lifecycle-events</code></dd>
-      <dt>PR</dt><dd>#TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/185">PR 185</a></dd>
       <dt>Changed</dt><dd>added explicit <code>lockHeld</code> and <code>lockEject</code> lifecycle events to the authored lock-saucer hold and eject path, while keeping lock scoring and lock-count progress owned by <code>lockEnter</code>.</dd>
       <dt>Verification</dt><dd><code>pnpm run test -- tests/rules.test.ts</code>; <code>pnpm run type-check</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; dependency gate returned <code>v0.2.3</code>.</dd>
       <dt>Assumptions</dt><dd>The held and eject events are mechanical lifecycle signals and should not award score or advance lock count independently of the existing entry event.</dd>
