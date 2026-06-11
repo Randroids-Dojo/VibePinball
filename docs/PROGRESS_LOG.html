@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="skill-shot-insert-lens" data-date="2026-06-11">
+    <h3>Skill Shot Insert Lens</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/skill-shot-insert-lens</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>linked the skill-shot path to the clear lens hardware for the top skill insert so the plunger target includes the full visible insert assembly, not only the insert body.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>. Chrome and VibeReview playtest pending until the Codex Chrome Extension is installed or enabled in the selected Chrome profile.</dd>
+      <dt>Assumptions</dt><dd>The clear lens record belongs to the skill-shot path because it marks the lit plunger target at the shooter lane rollover area.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-009</code>, <code>REQ-017</code>, <code>REQ-032</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, <code>docs/gdd/05-scoring-and-rules.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint. Chrome and VibeReview playtest remains pending until the Codex Chrome Extension is installed or enabled in the selected Chrome profile.</dd>
+    </dl>
+  </article>
+
   <article data-slice="center-bank-insert-lenses" data-date="2026-06-11">
     <h3>Center Bank Insert Lenses</h3>
     <dl>
