@@ -35,9 +35,9 @@
     <h3>Plastic Standoff Colliders</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/plastic-standoff-colliders</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/191">PR 191</a></dd>
       <dt>Changed</dt><dd>routed authored elevated plastic-cover metal standoffs through the Rapier fixed-cylinder collider path, so lane, sling, bumper-nest, and shooter-arch plastic supports are physical posts instead of render-only mounts.</dd>
-      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run type-check</code>; broader verification pending before PR.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run type-check</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; dependency gate returned <code>v0.2.3</code>; main deploy and production smoke passed after merge.</dd>
       <dt>Assumptions</dt><dd>The metal standoffs are physical support posts and should use conservative metal-post collision without making the elevated plastic cover sheets themselves block normal ball travel.</dd>
       <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-017</code>, <code>REQ-065</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
       <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint. Chrome plus VibeReview mechanics playtest remains blocked until the selected Chrome profile has the Codex Chrome Extension installed or enabled.</dd>
