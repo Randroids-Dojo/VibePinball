@@ -892,7 +892,8 @@ describe("Silverball Social physical board blueprint", () => {
   });
 
   it("models the pop bumper nest with authored ring posts and rubber guards", () => {
-    const postIds = new Set(blueprint.posts.map((post) => post.id));
+    const postById = new Map(blueprint.posts.map((post) => [post.id, post]));
+    const postIds = new Set(postById.keys());
 
     for (const bumper of blueprint.bumpers) {
       expect(bumper.ringPostIds).toHaveLength(3);
@@ -915,6 +916,26 @@ describe("Silverball Social physical board blueprint", () => {
         expect(postIds.has(id), id).toBe(true);
       }
     }
+
+    const popA = blueprint.bumpers.find((bumper) => bumper.id === "pop-a");
+    const leftOrbitShot = blueprint.shots.find((shot) => shot.id === "shot.left-orbit");
+
+    expect(leftOrbitShot?.deviceIds).toEqual(
+      expect.arrayContaining([
+        popA?.id ?? "",
+        popA?.chromeRing.id ?? "",
+        popA?.lampLens.id ?? "",
+        ...((popA?.capFasteners ?? []).map((fastener) => fastener.id)),
+        ...((popA?.ringPostIds ?? []).flatMap((id) => {
+          const post = postById.get(id);
+          return post?.cap ? [id, post.cap.id] : [id];
+        })),
+        ...((popA?.guardSegments ?? []).flatMap((segment) => [
+          segment.id,
+          ...segment.fasteners.map((fastener) => fastener.id)
+        ]))
+      ])
+    );
   });
 
   it("models each standup target with a rear stop and face decal color", () => {
