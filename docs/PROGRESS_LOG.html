@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="sling-rebound-paths" data-date="2026-06-11">
+    <h3>Sling Rebound Paths</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/sling-rebound-paths</code></dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/142">PR 142</a></dd>
+      <dt>Changed</dt><dd>added explicit left and right sling rebound path records so the physical shot-path ledger includes each sling's rubber face, top plastic, fasteners, lamp insert, clear lens, and anchored post hardware.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
+      <dt>Assumptions</dt><dd>Sling rebounds are physical ball paths but not player-aimed shots, so their <code>primaryFlipper</code> metadata is <code>none</code>.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-008</code>, <code>REQ-017</code>, <code>REQ-018</code>, <code>REQ-050</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, <code>docs/gdd/07-audio-and-feedback.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint. Chrome and VibeReview playtest remains pending until the Codex Chrome Extension is installed or enabled in the selected Chrome profile.</dd>
+    </dl>
+  </article>
+
   <article data-slice="lower-outlane-drain-paths" data-date="2026-06-11">
     <h3>Lower Outlane Drain Paths</h3>
     <dl>

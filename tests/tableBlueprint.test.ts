@@ -271,6 +271,46 @@ describe("Silverball Social physical board blueprint", () => {
     );
   });
 
+  it("maps sling rebound paths to their rubber, lamp, plastic, and post hardware", () => {
+    const leftSlingRebound = blueprint.shots.find((shot) => shot.id === "shot.left-sling-rebound");
+    const rightSlingRebound = blueprint.shots.find((shot) => shot.id === "shot.right-sling-rebound");
+
+    expect(leftSlingRebound?.primaryFlipper).toBe("none");
+    expect(rightSlingRebound?.primaryFlipper).toBe("none");
+    expect(leftSlingRebound?.deviceIds).toEqual(
+      expect.arrayContaining([
+        "sling.left",
+        "sling.left.rubber-face",
+        "sling.left.top-plastic",
+        "sling.left.top-plastic.screw-outer",
+        "sling.left.top-plastic.screw-inner",
+        "sling.left.top-plastic.screw-nose",
+        "insert.sling.left",
+        "insert.sling.left.lens",
+        "post.left-sling-a",
+        "post.left-sling-a.cap",
+        "post.left-sling-b",
+        "post.left-sling-b.cap"
+      ])
+    );
+    expect(rightSlingRebound?.deviceIds).toEqual(
+      expect.arrayContaining([
+        "sling.right",
+        "sling.right.rubber-face",
+        "sling.right.top-plastic",
+        "sling.right.top-plastic.screw-outer",
+        "sling.right.top-plastic.screw-inner",
+        "sling.right.top-plastic.screw-nose",
+        "insert.sling.right",
+        "insert.sling.right.lens",
+        "post.right-sling-a",
+        "post.right-sling-a.cap",
+        "post.right-sling-b",
+        "post.right-sling-b.cap"
+      ])
+    );
+  });
+
   it("models flippers as blueprint-authored capsule-like bat hardware", () => {
     for (const flipper of blueprint.flippers) {
       expect(flipper.length).toBeCloseTo(1.2);
