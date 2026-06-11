@@ -223,6 +223,19 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     );
     cup.position.set(saucer.x, 0.18, saucer.z);
     group.add(cup);
+    const captureSensor = mesh(
+      new THREE.CylinderGeometry(saucer.captureSensor.radius, saucer.captureSensor.radius, saucer.captureSensor.height, 32),
+      new THREE.MeshStandardMaterial({
+        color: saucer.captureSensor.color,
+        emissive: saucer.captureSensor.color,
+        emissiveIntensity: 0.18,
+        transparent: true,
+        opacity: 0.54,
+        roughness: 0.12
+      })
+    );
+    captureSensor.position.set(saucer.captureSensor.x, 0.275, saucer.captureSensor.z);
+    group.add(captureSensor);
     saucer.cup.fasteners.forEach((fastener) => {
       const screw = mesh(
         new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.026, 18),
