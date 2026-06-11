@@ -181,6 +181,7 @@ export class PinballPhysics {
       this.ball.applyImpulse({ x: -1.75, y: 0, z: -strength }, true);
       this.plungerCharge = 0;
       this.launched = true;
+      events.push({ type: "launch" });
     }
 
     if (!scoringEnabled) {

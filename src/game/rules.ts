@@ -12,6 +12,7 @@ const eventScores: Record<TableEvent["type"], number> = {
   rampEnter: 0,
   rampMade: 1500,
   orbitMade: 1250,
+  launch: 0,
   skillShot: 5000,
   drain: 0,
   tiltWarning: 0,
@@ -122,6 +123,13 @@ export const applyTableEvent = (
       ...award(state, eventScores.orbitMade),
       bonus: state.bonus + 150,
       message: "Orbit."
+    };
+  }
+
+  if (event.type === "launch") {
+    return {
+      ...state,
+      message: "Ball launched. Aim for the skill shot."
     };
   }
 

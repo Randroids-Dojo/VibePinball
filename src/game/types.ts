@@ -19,6 +19,7 @@ export type TableEvent =
   | { type: "rampEnter"; id: string }
   | { type: "rampMade"; id: string }
   | { type: "orbitMade"; id: string }
+  | { type: "launch" }
   | { type: "skillShot" }
   | { type: "drain" }
   | { type: "tiltWarning" }
