@@ -1592,6 +1592,24 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
   spring.rotation.x = Math.PI / 2;
   group.add(spring);
 
+  plunger.springRetainers.forEach((retainer) => {
+    const washer = mesh(
+      new THREE.CylinderGeometry(retainer.radius, retainer.radius, retainer.depth, 24),
+      new THREE.MeshStandardMaterial({ color: 0xc8d3d5, roughness: 0.16, metalness: 0.88 })
+    );
+    washer.rotation.x = Math.PI / 2;
+    washer.position.set(retainer.x, 0.28, retainer.z);
+    group.add(washer);
+  });
+
+  const collar = mesh(
+    new THREE.CylinderGeometry(plunger.stopCollar.radius, plunger.stopCollar.radius, plunger.stopCollar.depth, 24),
+    new THREE.MeshStandardMaterial({ color: 0xaebabc, roughness: 0.18, metalness: 0.9 })
+  );
+  collar.rotation.x = Math.PI / 2;
+  collar.position.set(plunger.stopCollar.x, 0.28, plunger.stopCollar.z);
+  group.add(collar);
+
   const knob = mesh(
     new THREE.CylinderGeometry(plunger.knob.radius, plunger.knob.radius, plunger.knob.depth, 24),
     new THREE.MeshStandardMaterial({ color: 0x121416, roughness: 0.34, metalness: 0.08 })
