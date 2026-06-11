@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="bonus-insert-ladder-path" data-date="2026-06-11">
+    <h3>Bonus Insert Ladder Path</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/bonus-insert-ladder-path</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added an explicit bonus ladder path record so the physical shot-path ledger includes the three bonus lamp inserts and clear lens hardware used for bonus-count feedback.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
+      <dt>Assumptions</dt><dd>The bonus ladder is gameplay-visible feedback hardware rather than an aimed scoring shot, so its <code>primaryFlipper</code> metadata is <code>none</code>.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-016</code>, <code>REQ-050</code>, <code>REQ-055</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/05-scoring-and-rules.html</code>, <code>docs/gdd/07-audio-and-feedback.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint. Chrome and VibeReview playtest remains pending until the Codex Chrome Extension is installed or enabled in the selected Chrome profile.</dd>
+    </dl>
+  </article>
+
   <article data-slice="flipper-stop-rebound-paths" data-date="2026-06-11">
     <h3>Flipper Stop Rebound Paths</h3>
     <dl>
