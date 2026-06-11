@@ -1414,6 +1414,20 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.shots.find((shot) => shot.id === "shot.center-bank")?.deviceIds).toEqual(
       expect.arrayContaining(blueprint.targetBank.frameSegments.flatMap((segment) => segment.fasteners.map((fastener) => fastener.id)))
     );
+    expect(blueprint.targetBank.switchRail.id).toBe("target-bank.switch-rail");
+    expect(blueprint.targetBank.switchRail.kind).toBe("metal");
+    expect(blueprint.targetBank.switchRail.width).toBeGreaterThan(maxTargetX - minTargetX);
+    expect(blueprint.targetBank.switchRail.depth).toBeGreaterThan(0.04);
+    expect(blueprint.targetBank.switchRail.z).toBeLessThan(Math.min(...blueprint.targets.map((target) => target.face.z)));
+    expect(blueprint.targetBank.switchRail.fasteners).toHaveLength(4);
+    expect(blueprint.targetBank.switchRail.fasteners.every((fastener) => fastener.id.startsWith(`${blueprint.targetBank.switchRail.id}.screw-`))).toBe(true);
+    expect(blueprint.targetBank.switchRail.fasteners.every((fastener) => fastener.targetId === blueprint.targetBank.switchRail.id)).toBe(true);
+    expect(blueprint.targetBank.switchRail.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+    expect(blueprint.targetBank.switchRail.fasteners.every((fastener) => fastener.radius >= 0.028)).toBe(true);
+    expect(blueprint.shots.find((shot) => shot.id === "shot.center-bank")?.deviceIds).toContain(blueprint.targetBank.switchRail.id);
+    expect(blueprint.shots.find((shot) => shot.id === "shot.center-bank")?.deviceIds).toEqual(
+      expect.arrayContaining(blueprint.targetBank.switchRail.fasteners.map((fastener) => fastener.id))
+    );
     expect(blueprint.targetBank.posts).toHaveLength(4);
     expect(blueprint.shots.find((shot) => shot.id === "shot.center-bank")?.deviceIds).toEqual(
       expect.arrayContaining(blueprint.targetBank.posts.map((post) => post.id))
@@ -2259,6 +2273,8 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.targetBank.id,
       ...blueprint.targetBank.frameSegments.map((item) => item.id),
       ...blueprint.targetBank.frameSegments.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
+      blueprint.targetBank.switchRail.id,
+      ...blueprint.targetBank.switchRail.fasteners.map((fastener) => fastener.id),
       ...blueprint.targetBank.posts.map((item) => item.id),
       ...blueprint.targetBank.posts.flatMap((item) => item.cap ? [item.cap.id] : []),
       ...blueprint.saucers.map((item) => item.id),
