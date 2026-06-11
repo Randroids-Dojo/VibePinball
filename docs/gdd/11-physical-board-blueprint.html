@@ -217,7 +217,7 @@
         <tr>
           <td>Left ramp</td>
           <td>Right flipper</td>
-          <td>Right flipper through left ramp mouth, up raised lane, onto left wireform return.</td>
+          <td>Right flipper through left ramp mouth, up raised lane, onto left wireform return and lit left inlane arrow.</td>
           <td>Awards ramp, returns safely to left inlane, starts combo timer.</td>
         </tr>
         <tr>
@@ -235,7 +235,7 @@
         <tr>
           <td>Right orbit</td>
           <td>Left flipper</td>
-          <td>Left flipper to right side orbit, around upper right guide, into return wireform.</td>
+          <td>Left flipper to right side orbit, around upper right guide, into return wireform and lit right inlane arrow.</td>
           <td>Awards orbit or lights jackpot during multiball.</td>
         </tr>
         <tr>
@@ -247,13 +247,13 @@
         <tr>
           <td>Left outlane drain</td>
           <td>None</td>
-          <td>Lower left outlane rollover through the left apron guide into the center drain mouth.</td>
+          <td>Lower left outlane rollover and lit outlane arrow through the left apron guide into the center drain mouth.</td>
           <td>Records the side-drain hardware path and feeds drain handling.</td>
         </tr>
         <tr>
           <td>Right outlane drain</td>
           <td>None</td>
-          <td>Lower right outlane rollover through the right apron guide into the center drain mouth.</td>
+          <td>Lower right outlane rollover and lit outlane arrow through the right apron guide into the center drain mouth.</td>
           <td>Records the side-drain hardware path and feeds drain handling.</td>
         </tr>
         <tr>
@@ -398,6 +398,7 @@
 <section data-role="build-log">
   <h2>Build log</h2>
   <ul>
+    <li data-date="2026-06-11">Added authored lower-lane arrow lamp inserts and clear lenses for all four lower inlanes and outlanes so the physical board blueprint names the lit lane-status hardware called for by the lower-lane component contract. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/render.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/145">PR 145</a>.</li>
     <li data-date="2026-06-11">Added an explicit bonus ladder path record so the physical board blueprint names the bonus-count insert ladder and clear lens hardware as a gameplay-visible feedback group. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/144">PR 144</a>.</li>
     <li data-date="2026-06-11">Added explicit left and right flipper rebound path records so the physical board blueprint names each flipper assembly's ball-contact bat, return stop, end-rubber, pivot cap, and fastener hardware as lower-playfield rebound paths. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/143">PR 143</a>.</li>
     <li data-date="2026-06-11">Added explicit left and right sling rebound path records so the physical board blueprint names each sling assembly's rubber face, top plastic, fasteners, lamp insert, clear lens, and post anchors as lower-playfield rebound paths. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/142">PR 142</a>.</li>
