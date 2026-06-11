@@ -9,6 +9,8 @@ const eventScores: Record<TableEvent["type"], number> = {
   target: 1000,
   lane: 500,
   lockEnter: 2500,
+  lockHeld: 0,
+  lockEject: 0,
   rampEnter: 0,
   rampMade: 1500,
   orbitMade: 1250,
@@ -108,6 +110,14 @@ export const applyTableEvent = (
           ? `Ball lock ${nextLockedBalls}/2.`
           : "Lock is already full."
     };
+  }
+
+  if (event.type === "lockHeld") {
+    return state;
+  }
+
+  if (event.type === "lockEject") {
+    return state;
   }
 
   if (event.type === "rampMade") {

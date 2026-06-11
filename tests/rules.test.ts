@@ -86,4 +86,21 @@ describe("pinball rules", () => {
     expect(state.score).toBe(0);
     expect(state.message).toBe("Ball launched. Aim for the skill shot.");
   });
+
+  it("tracks saucer lifecycle events without changing lock scoring", () => {
+    let state = startGame();
+    for (const id of ["target-bank-1", "target-bank-2", "target-bank-3", "target-bank-4", "target-bank-5"]) {
+      state = applyTableEvent(state, { type: "target", id });
+    }
+    state = applyTableEvent(state, { type: "lockEnter", id: "lock.saucer" });
+    const lockedState = state;
+
+    state = applyTableEvent(state, { type: "lockHeld", id: "lock.saucer" });
+    state = applyTableEvent(state, { type: "lockEject", id: "lock.saucer" });
+
+    expect(state.score).toBe(lockedState.score);
+    expect(state.locks).toBe(lockedState.locks);
+    expect(state.lockedBalls).toBe(lockedState.lockedBalls);
+    expect(state.message).toBe(lockedState.message);
+  });
 });

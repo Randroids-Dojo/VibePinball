@@ -63,6 +63,7 @@ export class PinballPhysics {
   private launched = false;
   private saucerHoldSeconds = 0;
   private saucerHeldBy: SaucerDevice | null = null;
+  private saucerHoldEventPending = false;
 
   private constructor(rapier: RapierModule, world: World, ball: RigidBody, tableBodies: TableColliderBodies) {
     this.rapier = rapier;
@@ -98,6 +99,7 @@ export class PinballPhysics {
     this.cooldowns.clear();
     this.saucerHeldBy = null;
     this.saucerHoldSeconds = 0;
+    this.saucerHoldEventPending = false;
     this.ball.setTranslation({ x: 3.18, y: 0.35, z: 5.55 }, true);
     this.ball.setLinvel({ x: 0, y: 0, z: 0 }, true);
     this.ball.setAngvel({ x: 0, y: 0, z: 0 }, true);
@@ -108,7 +110,7 @@ export class PinballPhysics {
     const leftFlipperAngle = this.flipperAngle("left", actions.leftFlipper);
     const rightFlipperAngle = this.flipperAngle("right", actions.rightFlipper);
     this.accumulator += Math.min(dt, 0.05);
-    this.tickSaucerHold(dt);
+    this.tickSaucerHold(dt, events, scoringEnabled);
     this.tickInput(actions, dt, events, scoringEnabled);
 
     while (this.accumulator >= 1 / 60) {
@@ -327,17 +329,22 @@ export class PinballPhysics {
   private captureSaucer(saucer: SaucerDevice): void {
     this.saucerHeldBy = saucer;
     this.saucerHoldSeconds = 0.36;
+    this.saucerHoldEventPending = true;
     this.ball.setTranslation({ x: saucer.holdX, y: 0.32, z: saucer.holdZ }, true);
     this.ball.setLinvel({ x: 0, y: 0, z: 0 }, true);
     this.ball.setAngvel({ x: 0, y: 0, z: 0 }, true);
   }
 
-  private tickSaucerHold(dt: number): void {
+  private tickSaucerHold(dt: number, events: TableEvent[], scoringEnabled: boolean): void {
     if (!this.saucerHeldBy) {
       return;
     }
 
     const saucer = this.saucerHeldBy;
+    if (scoringEnabled && this.saucerHoldEventPending) {
+      events.push({ type: "lockHeld", id: saucer.id });
+    }
+    this.saucerHoldEventPending = false;
     this.ball.setTranslation({ x: saucer.holdX, y: 0.32, z: saucer.holdZ }, true);
     this.ball.setLinvel({ x: 0, y: 0, z: 0 }, true);
     this.saucerHoldSeconds -= dt;
@@ -350,6 +357,9 @@ export class PinballPhysics {
     const dz = saucer.ejectZ - saucer.holdZ;
     const length = Math.max(Math.hypot(dx, dz), 0.001);
     this.saucerHeldBy = null;
+    if (scoringEnabled) {
+      events.push({ type: "lockEject", id: saucer.id });
+    }
     this.ball.applyImpulse({
       x: dx / length * saucer.ejectStrength,
       y: 0,
