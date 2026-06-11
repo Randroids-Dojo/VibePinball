@@ -660,6 +660,9 @@ describe("Silverball Social physical board blueprint", () => {
         "trough.shooter-feed-guide.screw-lower",
         "shooter.plunger",
         "shooter.plunger-spring",
+        "shooter.plunger-spring.front-retainer",
+        "shooter.plunger-spring.back-retainer",
+        "shooter.plunger-stop-collar",
         "shooter.plunger-knob",
         "shooter.lane-groove",
         "shooter.plunger-housing",
@@ -1517,6 +1520,21 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.plunger.spring.id).toBe("shooter.plunger-spring");
     expect(blueprint.plunger.spring.kind).toBe("metal");
     expect(blueprint.plunger.spring.radius).toBeGreaterThan(blueprint.plunger.spring.tubeRadius);
+    expect(blueprint.plunger.springRetainers.map((retainer) => retainer.id)).toEqual([
+      "shooter.plunger-spring.front-retainer",
+      "shooter.plunger-spring.back-retainer"
+    ]);
+    expect(blueprint.plunger.springRetainers.every((retainer) => retainer.targetId === blueprint.plunger.spring.id)).toBe(true);
+    expect(blueprint.plunger.springRetainers.every((retainer) => retainer.kind === "metal")).toBe(true);
+    expect(blueprint.plunger.springRetainers.every((retainer) => retainer.radius > blueprint.plunger.spring.radius * 0.7)).toBe(true);
+    expect(blueprint.plunger.springRetainers.every((retainer) => retainer.depth > 0)).toBe(true);
+    expect(blueprint.plunger.springRetainers[0]?.z).toBeLessThan(blueprint.plunger.spring.z);
+    expect(blueprint.plunger.springRetainers[1]?.z).toBeGreaterThan(blueprint.plunger.spring.z);
+    expect(blueprint.plunger.stopCollar.id).toBe("shooter.plunger-stop-collar");
+    expect(blueprint.plunger.stopCollar.kind).toBe("metal");
+    expect(blueprint.plunger.stopCollar.radius).toBeGreaterThan(0.06);
+    expect(blueprint.plunger.stopCollar.depth).toBeGreaterThan(0);
+    expect(blueprint.plunger.stopCollar.z).toBeLessThan(blueprint.plunger.spring.z);
     expect(blueprint.plunger.knob.id).toBe("shooter.plunger-knob");
     expect(blueprint.plunger.knob.kind).toBe("plastic");
     expect(blueprint.plunger.knob.radius).toBeGreaterThan(blueprint.plunger.spring.radius);
@@ -2241,6 +2259,8 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.plunger.housing.id,
       ...blueprint.plunger.housingFasteners.map((fastener) => fastener.id),
       blueprint.plunger.spring.id,
+      ...blueprint.plunger.springRetainers.map((retainer) => retainer.id),
+      blueprint.plunger.stopCollar.id,
       blueprint.plunger.knob.id,
       ...blueprint.plunger.lowerGuides.map((guide) => guide.id),
       ...blueprint.plunger.guideFasteners.map((fastener) => fastener.id),
