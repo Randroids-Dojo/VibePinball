@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="skill-shot-bumper-feed-hardware" data-date="2026-06-10">
+    <h3>Skill Shot Bumper Feed Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/skill-shot-bumper-feed-hardware</code></dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/132">PR 132</a></dd>
+      <dt>Changed</dt><dd>linked the skill-shot path to the authored pop-b bumper nest hardware so the top-lane feed includes the chrome ring, lamp lens, cap fasteners, capped ring posts, rubber guards, and guard fasteners around the upper-right bumper entry.</dd>
+      <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
+      <dt>Assumptions</dt><dd>The top center and right rollover lanes feed pop-b first because that bumper sits directly below the upper-right lane cluster in the current physical blueprint.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-009</code>, <code>REQ-017</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/03-physics-simulation.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint.</dd>
+    </dl>
+  </article>
+
   <article data-slice="left-orbit-bumper-feed-hardware" data-date="2026-06-10">
     <h3>Left Orbit Bumper Feed Hardware</h3>
     <dl>
