@@ -412,6 +412,10 @@ describe("Silverball Social physical board blueprint", () => {
         "post.left-out-lower.cap",
         "boundary.left-apron",
         "boundary.apron-left-guide",
+        "apron.ball-save-lamp",
+        "apron.ball-save-lamp.lens",
+        "apron.shoot-again-lamp",
+        "apron.shoot-again-lamp.lens",
         "drain.center",
         "drain.left-guide",
         "drain.center-mouth"
@@ -433,6 +437,10 @@ describe("Silverball Social physical board blueprint", () => {
         "post.right-out-lower.cap",
         "boundary.right-apron",
         "boundary.apron-right-guide",
+        "apron.ball-save-lamp",
+        "apron.ball-save-lamp.lens",
+        "apron.shoot-again-lamp",
+        "apron.shoot-again-lamp.lens",
         "drain.center",
         "drain.right-guide",
         "drain.center-mouth"
@@ -1449,6 +1457,17 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.drain.apronCards.every((card) => card.protector.thickness > 0)).toBe(true);
     expect(blueprint.drain.apronFasteners).toHaveLength(8);
     expect(blueprint.drain.apronFasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+    expect(blueprint.drain.apronLamps.map((lamp) => lamp.id)).toEqual(
+      expect.arrayContaining(["apron.ball-save-lamp", "apron.shoot-again-lamp"])
+    );
+    expect(blueprint.drain.apronLamps).toHaveLength(2);
+    expect(blueprint.drain.apronLamps.every((lamp) => lamp.shape === "bar")).toBe(true);
+    expect(blueprint.drain.apronLamps.every((lamp) => lamp.radius > 0.09)).toBe(true);
+    expect(blueprint.drain.apronLamps.every((lamp) => lamp.lens.id === `${lamp.id}.lens`)).toBe(true);
+    expect(blueprint.drain.apronLamps.every((lamp) => lamp.lens.targetId === lamp.id)).toBe(true);
+    expect(blueprint.drain.apronLamps.every((lamp) => lamp.lens.kind === "plastic")).toBe(true);
+    expect(blueprint.drain.apronLamps.every((lamp) => lamp.lens.width > lamp.radius * 3)).toBe(true);
+    expect(blueprint.drain.apronLamps.every((lamp) => lamp.lens.depth > lamp.radius)).toBe(true);
     expect(blueprint.drain.drainGuides.map((guide) => guide.id)).toEqual(
       expect.arrayContaining(["drain.left-guide", "drain.right-guide", "drain.center-mouth"])
     );
@@ -2140,6 +2159,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.drain.apronCards.map((item) => item.id),
       ...blueprint.drain.apronCards.map((item) => item.protector.id),
       ...blueprint.drain.apronFasteners.map((item) => item.id),
+      ...blueprint.drain.apronLamps.flatMap((item) => [item.id, item.lens.id]),
       blueprint.cabinet.body.id,
       blueprint.cabinet.backbox.id,
       blueprint.cabinet.dmdPanel.id,

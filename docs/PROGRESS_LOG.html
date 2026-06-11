@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="apron-ball-save-lamps" data-date="2026-06-11">
+    <h3>Apron Ball-Save Lamp Hardware</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>feature/apron-ball-save-lamps</code></dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/175">PR 175</a></dd>
+      <dt>Changed</dt><dd>added authored lower-apron ball-save and shoot-again lamp inserts with clear lenses, rendered them from the shared blueprint, and linked their IDs into the side-drain physical feedback paths.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run type-check</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; local Playwright visual smoke on <code>http://127.0.0.1:3012</code>; dependency gate returned <code>v0.2.3</code>.</dd>
+      <dt>Assumptions</dt><dd>The apron lamps are visible ball-save messaging hardware and should not change drain detection, ball save timing, scoring, or ball serving in this slice.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-013</code>, <code>REQ-042</code>, <code>REQ-050</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/02-table-layout.html</code>, <code>docs/gdd/06-camera-and-rendering.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> remains open until the full board is visually and playably accepted against the reference blueprint. Chrome plus VibeReview mechanics playtest remains blocked until the selected Chrome profile has the Codex Chrome Extension installed or enabled.</dd>
+    </dl>
+  </article>
+
   <article data-slice="trough-eject-coil-hardware" data-date="2026-06-11">
     <h3>Trough Eject Coil Hardware</h3>
     <dl>

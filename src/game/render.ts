@@ -689,19 +689,19 @@ const addSegmentTo = (
   );
 };
 
-const addInsert = (group: THREE.Group, x: number, z: number, color: number) => {
+const addInsert = (group: THREE.Group, x: number, z: number, color: number, radius = 0.16, y = 0.045) => {
   const insert = mesh(
-    new THREE.CylinderGeometry(0.16, 0.16, 0.035, 24),
+    new THREE.CylinderGeometry(radius, radius, 0.035, 24),
     new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.28, roughness: 0.38 })
   );
-  insert.position.set(x, 0.045, z);
+  insert.position.set(x, y, z);
   group.add(insert);
 };
 
-const addLampInsert = (group: THREE.Group, insert: LampInsert) => {
+const addLampInsert = (group: THREE.Group, insert: LampInsert, y = 0.045) => {
   if (insert.shape === "circle") {
-    addInsert(group, insert.x, insert.z, insert.color);
-    addLampInsertLens(group, insert);
+    addInsert(group, insert.x, insert.z, insert.color, insert.radius, y);
+    addLampInsertLens(group, insert, y + 0.025);
     return;
   }
 
@@ -715,11 +715,11 @@ const addLampInsert = (group: THREE.Group, insert: LampInsert) => {
         roughness: 0.34
       })
     );
-    bar.position.set(insert.x, 0.045, insert.z);
+    bar.position.set(insert.x, y, insert.z);
     bar.rotation.y = insert.angle ?? 0;
     group.add(bar);
-    addDeckLabel(group, insert.label, insert.x, insert.z, insert.radius * 2.5, insert.radius, insert.angle ?? 0);
-    addLampInsertLens(group, insert);
+    addDeckLabel(group, insert.label, insert.x, insert.z, insert.radius * 2.5, insert.radius, insert.angle ?? 0, y + 0.025);
+    addLampInsertLens(group, insert, y + 0.025);
     return;
   }
 
@@ -732,13 +732,13 @@ const addLampInsert = (group: THREE.Group, insert: LampInsert) => {
       roughness: 0.34
     })
   );
-  arrow.position.set(insert.x, 0.055, insert.z);
+  arrow.position.set(insert.x, y + 0.01, insert.z);
   arrow.rotation.y = Math.PI + (insert.angle ?? 0);
   group.add(arrow);
-  addLampInsertLens(group, insert);
+  addLampInsertLens(group, insert, y + 0.035);
 };
 
-const addLampInsertLens = (group: THREE.Group, insert: LampInsert) => {
+const addLampInsertLens = (group: THREE.Group, insert: LampInsert, y: number) => {
   const material = new THREE.MeshStandardMaterial({
     color: insert.lens.color,
     emissive: insert.lens.color,
@@ -754,7 +754,7 @@ const addLampInsertLens = (group: THREE.Group, insert: LampInsert) => {
       new THREE.CylinderGeometry(insert.lens.radius, insert.lens.radius, insert.lens.height, 28),
       material
     );
-    lens.position.set(insert.lens.x, 0.07, insert.lens.z);
+    lens.position.set(insert.lens.x, y, insert.lens.z);
     lens.rotation.y = insert.lens.angle ?? 0;
     group.add(lens);
     return;
@@ -765,7 +765,7 @@ const addLampInsertLens = (group: THREE.Group, insert: LampInsert) => {
       new THREE.BoxGeometry(insert.lens.width, insert.lens.height, insert.lens.depth),
       material
     );
-    lens.position.set(insert.lens.x, 0.07, insert.lens.z);
+    lens.position.set(insert.lens.x, y, insert.lens.z);
     group.add(lens);
     return;
   }
@@ -774,7 +774,7 @@ const addLampInsertLens = (group: THREE.Group, insert: LampInsert) => {
     new THREE.ConeGeometry(insert.lens.radius, insert.lens.height, 3),
     material
   );
-  lens.position.set(insert.lens.x, 0.08, insert.lens.z);
+  lens.position.set(insert.lens.x, y, insert.lens.z);
   lens.rotation.y = Math.PI + (insert.lens.angle ?? 0);
   group.add(lens);
 };
@@ -1706,6 +1706,7 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
   drain.trough.fasteners.forEach((fastener) => addTroughFastener(group, fastener));
   drain.apronCards.forEach((card) => addApronCard(group, card));
   drain.apronFasteners.forEach((fastener) => addApronFastener(group, fastener));
+  drain.apronLamps.forEach((lamp) => addLampInsert(group, lamp, 0.14));
   drain.trough.ballSlots.forEach((slot) => {
     const slotMesh = mesh(
       new THREE.CylinderGeometry(slot.radius, slot.radius, 0.035, 24),
