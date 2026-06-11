@@ -5,6 +5,7 @@ import {
   type ApronCard,
   type ApronCardProtector,
   type ApronFastener,
+  type ArcadeHallContext,
   type BoundarySegment,
   type CabinetHardware,
   type DrainDevice,
@@ -82,6 +83,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   const warmLamp = new THREE.PointLight(0xf1c453, 4.4, 22);
   warmLamp.position.set(0, 3.2, -3.2);
   scene.add(warmLamp);
+  addArcadeHallContext(scene, blueprint.arcadeHall);
 
   const playfield = mesh(
     new THREE.BoxGeometry(blueprint.playfield.width, blueprint.playfield.thickness, blueprint.playfield.depth),
@@ -1042,6 +1044,75 @@ const addSaucerWallSegment = (group: THREE.Group, segment: SaucerWallSegment) =>
     );
     screw.position.set(fastener.x, segment.kind === "wire" ? 0.655 : 0.485, fastener.z);
     group.add(screw);
+  });
+};
+
+const addArcadeHallContext = (scene: THREE.Scene, hall: ArcadeHallContext) => {
+  const floor = mesh(
+    new THREE.BoxGeometry(hall.floor.width, 0.08, hall.floor.depth),
+    new THREE.MeshStandardMaterial({ color: hall.floor.color, roughness: 0.72 })
+  );
+  floor.position.set(hall.floor.x, hall.floor.y, hall.floor.z);
+  floor.receiveShadow = true;
+  scene.add(floor);
+
+  hall.backWall.forEach((panel) => {
+    const panelMesh = mesh(
+      new THREE.BoxGeometry(panel.width, panel.height, panel.depth),
+      new THREE.MeshStandardMaterial({
+        color: panel.color,
+        emissive: panel.emissive ?? 0x000000,
+        emissiveIntensity: panel.emissive ? 0.32 : 0,
+        roughness: 0.55
+      })
+    );
+    panelMesh.position.set(panel.x, panel.y, panel.z);
+    scene.add(panelMesh);
+  });
+
+  hall.sideMachines.forEach((machine) => {
+    const cabinet = mesh(
+      new THREE.BoxGeometry(machine.width, machine.height, machine.depth),
+      new THREE.MeshStandardMaterial({ color: machine.cabinetColor, roughness: 0.42 })
+    );
+    cabinet.position.set(machine.x, machine.y, machine.z);
+    cabinet.rotation.y = machine.angle;
+    scene.add(cabinet);
+
+    const screen = mesh(
+      new THREE.BoxGeometry(machine.width * 0.7, machine.height * 0.24, 0.055),
+      new THREE.MeshStandardMaterial({
+        color: machine.screenColor,
+        emissive: machine.screenColor,
+        emissiveIntensity: 0.28,
+        roughness: 0.18
+      })
+    );
+    screen.position.set(
+      machine.x - Math.sin(machine.angle) * (machine.depth / 2 + 0.035),
+      machine.y + machine.height * 0.16,
+      machine.z + Math.cos(machine.angle) * (machine.depth / 2 + 0.035)
+    );
+    screen.rotation.y = machine.angle;
+    scene.add(screen);
+  });
+
+  hall.overheadLights.forEach((fixture) => {
+    const shade = mesh(
+      new THREE.CylinderGeometry(fixture.radius, fixture.radius * 1.15, 0.14, 24),
+      new THREE.MeshStandardMaterial({
+        color: fixture.color,
+        emissive: fixture.color,
+        emissiveIntensity: 0.32,
+        roughness: 0.22
+      })
+    );
+    shade.position.set(fixture.x, fixture.y, fixture.z);
+    scene.add(shade);
+
+    const light = new THREE.PointLight(fixture.color, fixture.intensity, 10);
+    light.position.set(fixture.x, fixture.y - 0.28, fixture.z);
+    scene.add(light);
   });
 };
 

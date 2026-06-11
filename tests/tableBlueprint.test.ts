@@ -100,6 +100,40 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
+  it("models the arcade hall context as authored scene hardware", () => {
+    const hall = blueprint.arcadeHall;
+
+    expect(hall.floor.id).toBe("arcade-hall.floor-mat");
+    expect(hall.floor.width).toBeGreaterThan(blueprint.cabinet.body.width);
+    expect(hall.floor.depth).toBeGreaterThan(blueprint.cabinet.body.depth);
+    expect(hall.floor.y).toBeLessThan(blueprint.cabinet.body.y);
+    expect(hall.floor.color).toBeGreaterThan(0);
+
+    expect(hall.backWall.map((panel) => panel.id)).toEqual(
+      expect.arrayContaining([
+        "arcade-hall.back-wall.left-panel",
+        "arcade-hall.back-wall.center-sign",
+        "arcade-hall.back-wall.right-panel"
+      ])
+    );
+    expect(hall.backWall.every((panel) => panel.width > 0 && panel.height > 0 && panel.depth > 0)).toBe(true);
+    expect(hall.backWall.every((panel) => panel.z < blueprint.cabinet.backbox.z)).toBe(true);
+    expect(hall.backWall.some((panel) => panel.emissive && panel.emissive > 0)).toBe(true);
+
+    expect(hall.sideMachines.map((machine) => machine.id)).toEqual(
+      expect.arrayContaining(["arcade-hall.left-neighbor-cabinet", "arcade-hall.right-neighbor-cabinet"])
+    );
+    expect(hall.sideMachines.every((machine) => Math.abs(machine.x) > blueprint.cabinet.body.width / 2)).toBe(true);
+    expect(hall.sideMachines.every((machine) => machine.height > blueprint.cabinet.body.height)).toBe(true);
+    expect(hall.sideMachines.every((machine) => machine.screenColor > 0 && machine.cabinetColor > 0)).toBe(true);
+
+    expect(hall.overheadLights.map((light) => light.id)).toEqual(
+      expect.arrayContaining(["arcade-hall.light-left", "arcade-hall.light-center", "arcade-hall.light-right"])
+    );
+    expect(hall.overheadLights.every((light) => light.y > blueprint.cabinet.backbox.y)).toBe(true);
+    expect(hall.overheadLights.every((light) => light.radius > 0 && light.intensity > 0)).toBe(true);
+  });
+
   it("contains the lower playfield devices required by the reference-board acceptance criteria", () => {
     expect(blueprint.flippers).toHaveLength(2);
     expect(blueprint.slings).toHaveLength(2);
