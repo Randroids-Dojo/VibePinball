@@ -197,6 +197,30 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
+  it("models upper rollover arrow inserts as authored lamp hardware", () => {
+    const insertById = new Map(blueprint.lampInserts.map((insert) => [insert.id, insert]));
+    const lanes = [
+      { laneId: "lane.top.left", insertId: "insert.top.left-arrow", maxZOffset: 0.02 },
+      { laneId: "lane.top.center", insertId: "insert.top.center-arrow", maxZOffset: 0.02 },
+      { laneId: "lane.top.right", insertId: "insert.top.right-arrow", maxZOffset: 0.02 },
+      { laneId: "lane.shooter.skill", insertId: "insert.skill-shot", maxZOffset: 0.6 }
+    ];
+
+    for (const { laneId, insertId, maxZOffset } of lanes) {
+      const lane = blueprint.lanes.find((item) => item.id === laneId);
+      const insert = insertById.get(insertId);
+
+      expect(lane?.lampInsertId).toBe(insertId);
+      expect(insert, laneId).toBeDefined();
+      expect(insert?.shape).toBe("arrow");
+      expect(insert?.lens.id).toBe(`${insert?.id}.lens`);
+      expect(insert?.lens.targetId).toBe(insert?.id);
+      expect(insert?.lens.kind).toBe("plastic");
+      expect(Math.abs((insert?.x ?? 0) - (lane?.x ?? 0)), laneId).toBeLessThan(0.02);
+      expect(Math.abs((insert?.z ?? 0) - (lane?.z ?? 0)), laneId).toBeLessThan(maxZOffset);
+    }
+  });
+
   it("models exposed rubber posts with metal washer caps", () => {
     const rubberPosts = blueprint.posts.filter((post) => post.kind === "rubber");
 
@@ -539,6 +563,8 @@ describe("Silverball Social physical board blueprint", () => {
         "rollover.top.center",
         "rollover.top.center.screw-left",
         "rollover.top.center.screw-right",
+        "insert.top.center-arrow",
+        "insert.top.center-arrow.lens",
         "lane.top.center.guide-cover",
         "lane.top.center.guide-cover.screw-left",
         "lane.top.center.guide-cover.screw-right",
@@ -557,6 +583,8 @@ describe("Silverball Social physical board blueprint", () => {
         "rollover.top.right",
         "rollover.top.right.screw-left",
         "rollover.top.right.screw-right",
+        "insert.top.right-arrow",
+        "insert.top.right-arrow.lens",
         "lane.top.right.guide-cover",
         "lane.top.right.guide-cover.screw-left",
         "lane.top.right.guide-cover.screw-right",
@@ -632,6 +660,8 @@ describe("Silverball Social physical board blueprint", () => {
         "rollover.top.left",
         "rollover.top.left.screw-left",
         "rollover.top.left.screw-right",
+        "insert.top.left-arrow",
+        "insert.top.left-arrow.lens",
         "lane.top.left.guide-cover",
         "lane.top.left.guide-cover.screw-left",
         "lane.top.left.guide-cover.screw-right",
@@ -1501,6 +1531,9 @@ describe("Silverball Social physical board blueprint", () => {
         "insert.lower.left-in-arrow",
         "insert.lower.right-in-arrow",
         "insert.lower.right-out-arrow",
+        "insert.top.left-arrow",
+        "insert.top.center-arrow",
+        "insert.top.right-arrow",
         "insert.left-ramp-arrow",
         "insert.right-orbit-arrow",
         "insert.lock-ready",
