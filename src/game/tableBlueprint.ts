@@ -99,6 +99,8 @@ export interface CabinetHardware {
   fasteners: CabinetFastener[];
   dmdPanel: CabinetDisplayPanel;
   speakerGrilles: SpeakerGrille[];
+  headerPanel: CabinetHeaderPanel;
+  topperLights: CabinetTopperLight[];
 }
 
 export interface CabinetBox {
@@ -195,6 +197,43 @@ export interface SpeakerGrilleFastener {
   z: number;
   radius: number;
   kind: "metal";
+}
+
+export interface CabinetHeaderPanel {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+  z: number;
+  width: number;
+  height: number;
+  depth: number;
+  color: number;
+  emissive: number;
+  fasteners: CabinetHeaderFastener[];
+}
+
+export interface CabinetHeaderFastener {
+  id: string;
+  targetId: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  kind: "metal";
+}
+
+export interface CabinetTopperLight {
+  id: string;
+  targetId: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  height: number;
+  color: number;
+  emissive: number;
+  kind: "lamp";
 }
 
 export interface ArcadeHallContext {
@@ -1999,6 +2038,29 @@ export const silverballSocialBlueprint: TableBlueprint = {
       color: 0xf1c453,
       emissive: 0x6f3f06
     },
+    headerPanel: {
+      id: "cabinet.header-panel",
+      label: "LEAGUE NIGHT",
+      x: 0,
+      y: 2.72,
+      z: -8.47,
+      width: 6.35,
+      height: 0.72,
+      depth: 0.075,
+      color: 0x7f2c22,
+      emissive: 0x39110c,
+      fasteners: [
+        { id: "cabinet.header-panel.screw-top-left", targetId: "cabinet.header-panel", x: -2.88, y: 3.0, z: -8.42, radius: 0.036, kind: "metal" },
+        { id: "cabinet.header-panel.screw-top-right", targetId: "cabinet.header-panel", x: 2.88, y: 3.0, z: -8.42, radius: 0.036, kind: "metal" },
+        { id: "cabinet.header-panel.screw-bottom-left", targetId: "cabinet.header-panel", x: -2.88, y: 2.44, z: -8.42, radius: 0.036, kind: "metal" },
+        { id: "cabinet.header-panel.screw-bottom-right", targetId: "cabinet.header-panel", x: 2.88, y: 2.44, z: -8.42, radius: 0.036, kind: "metal" }
+      ]
+    },
+    topperLights: [
+      { id: "cabinet.topper-light.left", targetId: "cabinet.header-panel", x: -2.55, y: 3.32, z: -8.68, radius: 0.16, height: 0.16, color: 0xf1c453, emissive: 0x5f3c08, kind: "lamp" },
+      { id: "cabinet.topper-light.center", targetId: "cabinet.header-panel", x: 0, y: 3.38, z: -8.68, radius: 0.18, height: 0.18, color: 0x5fd4ff, emissive: 0x124e68, kind: "lamp" },
+      { id: "cabinet.topper-light.right", targetId: "cabinet.header-panel", x: 2.55, y: 3.32, z: -8.68, radius: 0.16, height: 0.16, color: 0xf1c453, emissive: 0x5f3c08, kind: "lamp" }
+    ],
     speakerGrilles: withSpeakerGrilleFasteners([
       {
         id: "cabinet.left-speaker-grille",

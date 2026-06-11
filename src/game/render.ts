@@ -8,6 +8,8 @@ import {
   type ArcadeHallContext,
   type BoundarySegment,
   type CabinetHardware,
+  type CabinetHeaderPanel,
+  type CabinetTopperLight,
   type DrainDevice,
   type DrainGuide,
   type ElevatedSupportCollar,
@@ -1165,6 +1167,8 @@ const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
   );
   dmd.position.set(cabinet.dmdPanel.x, cabinet.dmdPanel.y, cabinet.dmdPanel.z);
   scene.add(dmd);
+  addCabinetHeaderPanel(scene, cabinet.headerPanel);
+  cabinet.topperLights.forEach((light) => addCabinetTopperLight(scene, light));
 
   cabinet.speakerGrilles.forEach((grille) => {
     const panel = mesh(
@@ -1194,6 +1198,48 @@ const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
       scene.add(screw);
     });
   });
+};
+
+const addCabinetHeaderPanel = (scene: THREE.Scene, panel: CabinetHeaderPanel) => {
+  const header = mesh(
+    new THREE.BoxGeometry(panel.width, panel.height, panel.depth),
+    new THREE.MeshStandardMaterial({
+      color: panel.color,
+      emissive: panel.emissive,
+      emissiveIntensity: 0.38,
+      roughness: 0.26
+    })
+  );
+  header.position.set(panel.x, panel.y, panel.z);
+  scene.add(header);
+
+  panel.fasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.rotation.x = Math.PI / 2;
+    screw.position.set(fastener.x, fastener.y, fastener.z);
+    scene.add(screw);
+  });
+
+  addBackboxLabel(scene, panel.label, panel.x, panel.y, panel.z + panel.depth * 0.66, panel.width * 0.64, panel.height * 0.34);
+};
+
+const addCabinetTopperLight = (scene: THREE.Scene, light: CabinetTopperLight) => {
+  const lamp = mesh(
+    new THREE.CylinderGeometry(light.radius, light.radius * 0.92, light.height, 24),
+    new THREE.MeshStandardMaterial({
+      color: light.color,
+      emissive: light.emissive,
+      emissiveIntensity: 0.7,
+      roughness: 0.18,
+      metalness: 0.05
+    })
+  );
+  lamp.position.set(light.x, light.y, light.z);
+  lamp.rotation.x = Math.PI / 2;
+  scene.add(lamp);
 };
 
 const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {
@@ -1257,6 +1303,46 @@ const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {
     screw.position.set(fastener.x, fastener.y, fastener.z);
     group.add(screw);
   });
+};
+
+const addBackboxLabel = (
+  scene: THREE.Scene,
+  label: string,
+  x: number,
+  y: number,
+  z: number,
+  width: number,
+  height: number
+) => {
+  const canvas = document.createElement("canvas");
+  canvas.width = 256;
+  canvas.height = 96;
+  const context = canvas.getContext("2d");
+  if (!context) {
+    return;
+  }
+
+  context.fillStyle = "#1b0d0a";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = "#ffe6ac";
+  context.font = "bold 44px sans-serif";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText(label, canvas.width / 2, canvas.height / 2);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  const labelMesh = mesh(
+    new THREE.PlaneGeometry(width, height),
+    new THREE.MeshStandardMaterial({
+      map: texture,
+      emissive: 0x5f2c12,
+      emissiveIntensity: 0.22,
+      roughness: 0.3,
+      side: THREE.DoubleSide
+    })
+  );
+  labelMesh.position.set(x, y, z);
+  scene.add(labelMesh);
 };
 
 const addDeckLabel = (

@@ -103,6 +103,28 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.cabinet.fasteners.every((fastener) => fastener.y > 0.6 && fastener.y < 0.95)).toBe(true);
     expect(blueprint.cabinet.dmdPanel.id).toBe("cabinet.dmd-panel");
     expect(blueprint.cabinet.dmdPanel.label).toBe("SILVERBALL SOCIAL");
+    expect(blueprint.cabinet.headerPanel.id).toBe("cabinet.header-panel");
+    expect(blueprint.cabinet.headerPanel.label).toBe("LEAGUE NIGHT");
+    expect(blueprint.cabinet.headerPanel.width).toBeGreaterThan(blueprint.cabinet.dmdPanel.width);
+    expect(blueprint.cabinet.headerPanel.height).toBeLessThan(blueprint.cabinet.backbox.height);
+    expect(blueprint.cabinet.headerPanel.y).toBeGreaterThan(blueprint.cabinet.dmdPanel.y);
+    expect(blueprint.cabinet.headerPanel.z).toBeGreaterThan(blueprint.cabinet.backbox.z);
+    expect(blueprint.cabinet.headerPanel.fasteners).toHaveLength(4);
+    expect(blueprint.cabinet.headerPanel.fasteners.every((fastener) => fastener.id.startsWith("cabinet.header-panel.screw-"))).toBe(true);
+    expect(blueprint.cabinet.headerPanel.fasteners.every((fastener) => fastener.targetId === blueprint.cabinet.headerPanel.id)).toBe(true);
+    expect(blueprint.cabinet.headerPanel.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+    expect(blueprint.cabinet.topperLights.map((light) => light.id)).toEqual(
+      expect.arrayContaining([
+        "cabinet.topper-light.left",
+        "cabinet.topper-light.center",
+        "cabinet.topper-light.right"
+      ])
+    );
+    expect(blueprint.cabinet.topperLights).toHaveLength(3);
+    expect(blueprint.cabinet.topperLights.every((light) => light.targetId === blueprint.cabinet.headerPanel.id)).toBe(true);
+    expect(blueprint.cabinet.topperLights.every((light) => light.kind === "lamp")).toBe(true);
+    expect(blueprint.cabinet.topperLights.every((light) => light.y > blueprint.cabinet.headerPanel.y)).toBe(true);
+    expect(blueprint.cabinet.topperLights.every((light) => light.radius > 0 && light.height > 0)).toBe(true);
     expect(blueprint.cabinet.speakerGrilles.map((grille) => grille.id)).toEqual(
       expect.arrayContaining(["cabinet.left-speaker-grille", "cabinet.right-speaker-grille"])
     );
@@ -2016,6 +2038,9 @@ describe("Silverball Social physical board blueprint", () => {
       ...blueprint.cabinet.fasteners.map((item) => item.id),
       ...blueprint.cabinet.speakerGrilles.map((item) => item.id),
       ...blueprint.cabinet.speakerGrilles.flatMap((item) => item.fasteners.map((fastener) => fastener.id)),
+      blueprint.cabinet.headerPanel.id,
+      ...blueprint.cabinet.headerPanel.fasteners.map((fastener) => fastener.id),
+      ...blueprint.cabinet.topperLights.map((light) => light.id),
       blueprint.drain.trough.id,
       ...blueprint.drain.trough.ballSlots.map((item) => item.id),
       ...blueprint.drain.trough.slotRims.map((item) => item.id),
