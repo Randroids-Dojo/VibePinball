@@ -35,7 +35,7 @@
     <h3>Skill Shot Lower Bumper Feed Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/skill-shot-lower-bumper-feed-hardware</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/133">PR 133</a></dd>
       <dt>Changed</dt><dd>linked the skill-shot path to the authored pop-c bumper nest hardware so the top-lane feed continues through the lower bumper entry with chrome ring, lamp lens, cap fasteners, capped ring posts, rubber guards, and guard fasteners.</dd>
       <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
       <dt>Assumptions</dt><dd>The skill-shot top-lane feed can continue from pop-b into pop-c because pop-c is the lower rebound bumper directly below the upper lane cluster in the current physical blueprint.</dd>
