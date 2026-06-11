@@ -38,6 +38,19 @@ export interface PhysicsSnapshot {
 
 const blueprint = silverballSocialBlueprint;
 
+export const targetBankColliderSegments = (
+  targets = blueprint.targets,
+  targetBank = blueprint.targetBank
+): Segment[] => [
+  ...targetBank.frameSegments,
+  targetBank.switchRail,
+  ...targets.flatMap((target) => [
+    target.mountPlate,
+    target.rearStop,
+    ...target.switchBlades
+  ])
+];
+
 export class PinballPhysics {
   private readonly rapier: RapierModule;
   private readonly world: World;
@@ -606,12 +619,10 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
     addPost(bumper.x, bumper.z, bumper.skirtRadius, 0.92);
     bumper.guardSegments.forEach(addSegment);
   });
-  blueprint.targetBank.frameSegments.forEach(addSegment);
+  targetBankColliderSegments().forEach(addSegment);
   blueprint.targetBank.posts.forEach((post) => addPost(post.x, post.z, post.radius, 0.58));
   blueprint.targets.forEach((target) => {
     addWall(target.face.x, target.face.z, target.face.width / 2, target.face.thickness / 2, target.face.angle ?? 0, 0.72);
-    addSegment(target.mountPlate);
-    addSegment(target.rearStop);
   });
   blueprint.saucers.forEach((saucer) => {
     saucer.posts.forEach((post) => addPost(post.x, post.z, post.radius, 0.6));
