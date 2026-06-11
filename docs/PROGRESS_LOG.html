@@ -35,7 +35,7 @@
     <h3>Center Bank Insert Lenses</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/center-bank-insert-lenses</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/138">PR 138</a></dd>
       <dt>Changed</dt><dd>linked the center target-bank shot path to the clear lens hardware for all five SOCIAL target inserts so the bank shot includes the full visible insert assembly, not only the insert bodies.</dd>
       <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>. Chrome and VibeReview playtest pending until the Codex Chrome Extension is installed or enabled in the selected Chrome profile.</dd>
       <dt>Assumptions</dt><dd>The clear lens records belong to the center-bank shot path because each target-bank insert is visible target hardware directly below a standup target face.</dd>
