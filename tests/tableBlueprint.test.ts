@@ -395,6 +395,7 @@ describe("Silverball Social physical board blueprint", () => {
         "post.top-lane-right",
         "post.top-lane-right.cap",
         "pop-b",
+        "pop-c",
         "lane.shooter.skill",
         "lane.shooter.skill.outer",
         "lane.shooter.skill.outer.screw-a",
@@ -920,6 +921,7 @@ describe("Silverball Social physical board blueprint", () => {
 
     const popA = blueprint.bumpers.find((bumper) => bumper.id === "pop-a");
     const popB = blueprint.bumpers.find((bumper) => bumper.id === "pop-b");
+    const popC = blueprint.bumpers.find((bumper) => bumper.id === "pop-c");
     const leftOrbitShot = blueprint.shots.find((shot) => shot.id === "shot.left-orbit");
     const skillShot = blueprint.shots.find((shot) => shot.id === "shot.skill-shot");
 
@@ -950,6 +952,22 @@ describe("Silverball Social physical board blueprint", () => {
           return post?.cap ? [id, post.cap.id] : [id];
         })),
         ...((popB?.guardSegments ?? []).flatMap((segment) => [
+          segment.id,
+          ...segment.fasteners.map((fastener) => fastener.id)
+        ]))
+      ])
+    );
+    expect(skillShot?.deviceIds).toEqual(
+      expect.arrayContaining([
+        popC?.id ?? "",
+        popC?.chromeRing.id ?? "",
+        popC?.lampLens.id ?? "",
+        ...((popC?.capFasteners ?? []).map((fastener) => fastener.id)),
+        ...((popC?.ringPostIds ?? []).flatMap((id) => {
+          const post = postById.get(id);
+          return post?.cap ? [id, post.cap.id] : [id];
+        })),
+        ...((popC?.guardSegments ?? []).flatMap((segment) => [
           segment.id,
           ...segment.fasteners.map((fastener) => fastener.id)
         ]))
