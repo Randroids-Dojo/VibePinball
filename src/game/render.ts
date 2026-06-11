@@ -36,6 +36,7 @@ import {
   type TargetBankFrameSegment,
   type TargetBankHardware,
   type TroughFastener,
+  type TroughOptoPair,
   type WireformRailFastener,
   type WireformTieFastener,
   type WireformPath
@@ -1470,7 +1471,39 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
     ringMesh.position.set(rim.x, 0.225 + rim.height / 2, rim.z);
     group.add(ringMesh);
   });
+  drain.trough.optoPairs.forEach((opto) => addTroughOptoPair(group, opto));
   addDeckLabel(group, "SILVERBALL SOCIAL", drain.apron.x, drain.apron.z - 0.05, 3.4, 0.28, 0);
+};
+
+const addTroughOptoPair = (group: THREE.Group, opto: TroughOptoPair) => {
+  [opto.emitter, opto.receiver].forEach((eye) => {
+    const eyeMesh = mesh(
+      new THREE.CylinderGeometry(eye.radius, eye.radius, eye.height, 16),
+      new THREE.MeshStandardMaterial({
+        color: eye.color,
+        emissive: eye.color,
+        emissiveIntensity: eye.kind === "opto-emitter" ? 0.22 : 0.12,
+        roughness: 0.2,
+        metalness: 0.35
+      })
+    );
+    eyeMesh.position.set(eye.x, 0.32, eye.z);
+    group.add(eyeMesh);
+  });
+
+  const beam = mesh(
+    new THREE.BoxGeometry(opto.beam.width, 0.012, opto.beam.depth),
+    new THREE.MeshStandardMaterial({
+      color: opto.beam.color,
+      emissive: opto.beam.color,
+      emissiveIntensity: 0.18,
+      transparent: true,
+      opacity: 0.34,
+      roughness: 0.3
+    })
+  );
+  beam.position.set(opto.beam.x, 0.315, opto.beam.z);
+  group.add(beam);
 };
 
 const addDrainGuide = (group: THREE.Group, guide: DrainGuide) => {

@@ -930,6 +930,7 @@ export interface TroughDevice {
   depth: number;
   ballSlots: SensorZone[];
   slotRims: TroughSlotRim[];
+  optoPairs: TroughOptoPair[];
   walls: Segment[];
   feedGuide: Segment;
   fasteners: TroughFastener[];
@@ -953,6 +954,36 @@ export interface TroughSlotRim {
   outerRadius: number;
   height: number;
   kind: "metal";
+}
+
+export interface TroughOptoPair {
+  id: string;
+  slotId: string;
+  emitter: TroughOptoEye;
+  receiver: TroughOptoEye;
+  beam: TroughOptoBeam;
+}
+
+export interface TroughOptoEye {
+  id: string;
+  slotId: string;
+  x: number;
+  z: number;
+  radius: number;
+  height: number;
+  color: number;
+  kind: "opto-emitter" | "opto-receiver";
+}
+
+export interface TroughOptoBeam {
+  id: string;
+  slotId: string;
+  x: number;
+  z: number;
+  width: number;
+  depth: number;
+  color: number;
+  kind: "opto-beam";
 }
 
 export interface PlasticCover {
@@ -3407,6 +3438,29 @@ export const silverballSocialBlueprint: TableBlueprint = {
           outerRadius: 0.245,
           height: 0.045,
           kind: "metal"
+        }
+      ],
+      optoPairs: [
+        {
+          id: "trough.slot-1.opto",
+          slotId: "trough.slot-1",
+          emitter: { id: "trough.slot-1.opto.emitter", slotId: "trough.slot-1", x: -0.77, z: 7.54, radius: 0.034, height: 0.05, color: 0xff7a3d, kind: "opto-emitter" },
+          receiver: { id: "trough.slot-1.opto.receiver", slotId: "trough.slot-1", x: -0.27, z: 7.54, radius: 0.034, height: 0.05, color: 0x7ee7ff, kind: "opto-receiver" },
+          beam: { id: "trough.slot-1.opto.beam", slotId: "trough.slot-1", x: -0.52, z: 7.54, width: 0.5, depth: 0.018, color: 0x7ee7ff, kind: "opto-beam" }
+        },
+        {
+          id: "trough.slot-2.opto",
+          slotId: "trough.slot-2",
+          emitter: { id: "trough.slot-2.opto.emitter", slotId: "trough.slot-2", x: -0.25, z: 7.54, radius: 0.034, height: 0.05, color: 0xff7a3d, kind: "opto-emitter" },
+          receiver: { id: "trough.slot-2.opto.receiver", slotId: "trough.slot-2", x: 0.25, z: 7.54, radius: 0.034, height: 0.05, color: 0x7ee7ff, kind: "opto-receiver" },
+          beam: { id: "trough.slot-2.opto.beam", slotId: "trough.slot-2", x: 0, z: 7.54, width: 0.5, depth: 0.018, color: 0x7ee7ff, kind: "opto-beam" }
+        },
+        {
+          id: "trough.slot-3.opto",
+          slotId: "trough.slot-3",
+          emitter: { id: "trough.slot-3.opto.emitter", slotId: "trough.slot-3", x: 0.27, z: 7.54, radius: 0.034, height: 0.05, color: 0xff7a3d, kind: "opto-emitter" },
+          receiver: { id: "trough.slot-3.opto.receiver", slotId: "trough.slot-3", x: 0.77, z: 7.54, radius: 0.034, height: 0.05, color: 0x7ee7ff, kind: "opto-receiver" },
+          beam: { id: "trough.slot-3.opto.beam", slotId: "trough.slot-3", x: 0.52, z: 7.54, width: 0.5, depth: 0.018, color: 0x7ee7ff, kind: "opto-beam" }
         }
       ],
       walls: [

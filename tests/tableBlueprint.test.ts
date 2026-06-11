@@ -1374,6 +1374,26 @@ describe("Silverball Social physical board blueprint", () => {
       expect(rim.x).toBeCloseTo(slot?.x ?? 0);
       expect(rim.z).toBeCloseTo(slot?.z ?? 0);
     });
+    expect(blueprint.drain.trough.optoPairs).toHaveLength(blueprint.drain.trough.ballSlots.length);
+    blueprint.drain.trough.optoPairs.forEach((opto) => {
+      const slot = blueprint.drain.trough.ballSlots.find((candidate) => candidate.id === opto.slotId);
+      expect(slot).toBeDefined();
+      expect(opto.id).toBe(`${opto.slotId}.opto`);
+      expect(opto.emitter.id).toBe(`${opto.id}.emitter`);
+      expect(opto.receiver.id).toBe(`${opto.id}.receiver`);
+      expect(opto.beam.id).toBe(`${opto.id}.beam`);
+      expect(opto.emitter.slotId).toBe(opto.slotId);
+      expect(opto.receiver.slotId).toBe(opto.slotId);
+      expect(opto.beam.slotId).toBe(opto.slotId);
+      expect(opto.emitter.kind).toBe("opto-emitter");
+      expect(opto.receiver.kind).toBe("opto-receiver");
+      expect(opto.beam.kind).toBe("opto-beam");
+      expect(opto.emitter.radius).toBeGreaterThan(0.025);
+      expect(opto.receiver.radius).toBeGreaterThan(0.025);
+      expect(opto.beam.width).toBeGreaterThan(slot?.radius ?? 0);
+      expect(Math.abs(opto.beam.x - (slot?.x ?? 0)), opto.id).toBeLessThanOrEqual(0.01);
+      expect(Math.abs(opto.beam.z - (slot?.z ?? 0)), opto.id).toBeLessThanOrEqual(0.01);
+    });
     expect(blueprint.drain.trough.walls.map((wall) => wall.id)).toEqual(
       expect.arrayContaining(["trough.left-wall", "trough.right-wall", "trough.back-wall"])
     );
@@ -1977,6 +1997,12 @@ describe("Silverball Social physical board blueprint", () => {
       blueprint.drain.trough.id,
       ...blueprint.drain.trough.ballSlots.map((item) => item.id),
       ...blueprint.drain.trough.slotRims.map((item) => item.id),
+      ...blueprint.drain.trough.optoPairs.flatMap((opto) => [
+        opto.id,
+        opto.emitter.id,
+        opto.receiver.id,
+        opto.beam.id
+      ]),
       ...blueprint.drain.trough.walls.map((item) => item.id),
       blueprint.drain.trough.feedGuide.id,
       ...blueprint.drain.trough.fasteners.map((item) => item.id),
