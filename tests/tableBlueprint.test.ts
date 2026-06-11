@@ -1416,6 +1416,23 @@ describe("Silverball Social physical board blueprint", () => {
         expect(standoff.radius).toBeGreaterThan(0.025);
         expect(standoff.radius).toBeLessThanOrEqual(0.05);
         expect(standoff.capRadius).toBeGreaterThan(standoff.radius);
+        expect(standoff.foot.id).toBe(`${standoff.id}.foot`);
+        expect(standoff.foot.targetId).toBe(standoff.id);
+        expect(standoff.foot.kind).toBe("metal");
+        expect(standoff.foot.radius).toBeGreaterThan(standoff.radius * 2);
+        expect(standoff.foot.height).toBeGreaterThan(0);
+        expect(standoff.foot.fasteners).toHaveLength(2);
+        expect(standoff.foot.fasteners.every((fastener) => fastener.id.startsWith(`${standoff.foot.id}.screw-`)), standoff.id).toBe(true);
+        expect(standoff.foot.fasteners.every((fastener) => fastener.targetId === standoff.foot.id), standoff.id).toBe(true);
+        expect(standoff.foot.fasteners.every((fastener) => fastener.kind === "metal"), standoff.id).toBe(true);
+        expect(standoff.foot.fasteners.every((fastener) => fastener.radius >= 0.022), standoff.id).toBe(true);
+        expect(standoff.collar.id).toBe(`${standoff.id}.collar`);
+        expect(standoff.collar.targetId).toBe(standoff.id);
+        expect(standoff.collar.kind).toBe("metal");
+        expect(standoff.collar.radius).toBeGreaterThan(standoff.radius);
+        expect(standoff.collar.height).toBeGreaterThan(0);
+        expect(standoff.collar.y).toBeGreaterThan(standoff.height - 0.08);
+        expect(standoff.collar.y).toBeLessThanOrEqual(standoff.height);
       }
     }
   });
@@ -2057,7 +2074,14 @@ describe("Silverball Social physical board blueprint", () => {
       ]),
       ...blueprint.orbits.flatMap((orbit) => [orbit.id, orbit.entry.id, orbit.exit.id]),
       ...blueprint.plastics.map((item) => item.id),
-      ...blueprint.plastics.flatMap((item) => item.standoffs.map((standoff) => standoff.id)),
+      ...blueprint.plastics.flatMap((item) =>
+        item.standoffs.flatMap((standoff) => [
+          standoff.id,
+          standoff.foot.id,
+          standoff.collar.id,
+          ...standoff.foot.fasteners.map((fastener) => fastener.id)
+        ])
+      ),
       ...blueprint.playfieldArt.map((item) => item.id),
       ...blueprint.lampInserts.map((item) => item.id),
       ...blueprint.lampInserts.map((item) => item.lens.id),
