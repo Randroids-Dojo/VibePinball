@@ -39,6 +39,7 @@ import {
   type TargetDevice,
   type TargetBankFrameSegment,
   type TargetBankHardware,
+  type TroughEjectCoil,
   type TroughFastener,
   type TroughOptoPair,
   type WireformRailFastener,
@@ -1728,6 +1729,7 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
     group.add(ringMesh);
   });
   drain.trough.optoPairs.forEach((opto) => addTroughOptoPair(group, opto));
+  addTroughEjectCoil(group, drain.trough.ejectCoil);
   addDeckLabel(group, "SILVERBALL SOCIAL", drain.apron.x, drain.apron.z - 0.05, 3.4, 0.28, 0);
 };
 
@@ -1760,6 +1762,47 @@ const addTroughOptoPair = (group: THREE.Group, opto: TroughOptoPair) => {
   );
   beam.position.set(opto.beam.x, 0.315, opto.beam.z);
   group.add(beam);
+};
+
+const addTroughEjectCoil = (group: THREE.Group, coil: TroughEjectCoil) => {
+  const coilBody = mesh(
+    new THREE.CylinderGeometry(coil.coilRadius, coil.coilRadius, coil.coilDepth, 24),
+    new THREE.MeshStandardMaterial({ color: 0x3a3030, roughness: 0.28, metalness: 0.55 })
+  );
+  coilBody.rotation.x = Math.PI / 2;
+  coilBody.rotation.z = coil.angle;
+  coilBody.position.set(coil.x, 0.35, coil.z);
+  group.add(coilBody);
+
+  const rod = mesh(
+    new THREE.CylinderGeometry(coil.rodRadius, coil.rodRadius, coil.rodLength, 18),
+    new THREE.MeshStandardMaterial({ color: 0xd6dee0, roughness: 0.16, metalness: 0.9 })
+  );
+  rod.rotation.x = Math.PI / 2;
+  rod.rotation.z = coil.angle;
+  rod.position.set(
+    coil.x + Math.sin(coil.angle) * (coil.rodLength * 0.24),
+    0.35,
+    coil.z + Math.cos(coil.angle) * (coil.rodLength * 0.24)
+  );
+  group.add(rod);
+
+  const bracket = mesh(
+    new THREE.BoxGeometry(coil.bracket.width, 0.04, coil.bracket.depth),
+    new THREE.MeshStandardMaterial({ color: 0xaeb8ba, roughness: 0.2, metalness: 0.86 })
+  );
+  bracket.rotation.y = coil.bracket.angle ?? 0;
+  bracket.position.set(coil.bracket.x, 0.42, coil.bracket.z);
+  group.add(bracket);
+
+  coil.bracketFasteners.forEach((fastener) => {
+    const screw = mesh(
+      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    );
+    screw.position.set(fastener.x, 0.455, fastener.z);
+    group.add(screw);
+  });
 };
 
 const addDrainGuide = (group: THREE.Group, guide: DrainGuide) => {
