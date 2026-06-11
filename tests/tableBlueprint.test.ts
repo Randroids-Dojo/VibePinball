@@ -1372,6 +1372,7 @@ describe("Silverball Social physical board blueprint", () => {
       expect(segment.fasteners.every((fastener) => fastener.radius >= (segment.kind === "wire" ? 0.026 : 0.032)), segment.id).toBe(true);
     }
 
+    const leftRampInsert = blueprint.lampInserts.find((insert) => insert.id === "insert.left-ramp-arrow");
     const leftRampShot = blueprint.shots.find((shot) => shot.id === "shot.left-ramp");
     const entryPostIds = (entryHandoff?.posts ?? []).flatMap((post) =>
       post.cap ? [post.id, post.cap.id] : [post.id]
@@ -1380,8 +1381,17 @@ describe("Silverball Social physical board blueprint", () => {
       segment.fasteners.map((fastener) => fastener.id)
     );
 
+    expect(leftRampInsert?.label).toBe("Ramp");
+    expect(leftRampInsert?.shape).toBe("arrow");
+    expect(leftRampInsert?.lens.id).toBe("insert.left-ramp-arrow.lens");
+    expect(leftRampInsert?.lens.targetId).toBe(leftRampInsert?.id);
+    expect(leftRampInsert?.lens.kind).toBe("plastic");
+    expect(leftRampInsert?.lens.width).toBeGreaterThan(leftRampInsert?.radius ?? 0);
+    expect(leftRampInsert?.lens.depth).toBeGreaterThan(0);
     expect(leftRampShot?.deviceIds).toEqual(
       expect.arrayContaining([
+        leftRampInsert?.id ?? "",
+        leftRampInsert?.lens.id ?? "",
         "handoff.ramp-left-entry.flap",
         "handoff.ramp-left-entry.left-guide",
         "handoff.ramp-left-entry.right-guide",
