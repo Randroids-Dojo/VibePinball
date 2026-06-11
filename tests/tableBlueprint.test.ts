@@ -3,6 +3,7 @@ import {
   plasticStandoffColliderPosts,
   rampCrossBraceColliderSegments,
   rampSideWallColliderSegments,
+  saucerCupRimColliderSegments,
   targetBankColliderSegments
 } from "../src/game/physics";
 import { silverballSocialBlueprint } from "../src/game/tableBlueprint";
@@ -1799,6 +1800,13 @@ describe("Silverball Social physical board blueprint", () => {
     expect(saucer?.cup.fasteners.every((fastener) => fastener.id.startsWith(`${saucer?.cup.id}.screw-`))).toBe(true);
     expect(saucer?.cup.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
     expect(saucer?.cup.fasteners.every((fastener) => fastener.radius > 0)).toBe(true);
+    const cupRimSegments = saucerCupRimColliderSegments().filter((segment) => segment.id.startsWith(`${saucer?.cup.id}.rim-`));
+    expect(cupRimSegments).toHaveLength(6);
+    expect(cupRimSegments.every((segment) => segment.kind === "metal")).toBe(true);
+    expect(cupRimSegments.every((segment) => segment.width > 0)).toBe(true);
+    expect(cupRimSegments.every((segment) => segment.depth >= 0.08)).toBe(true);
+    expect(cupRimSegments.every((segment) => Math.hypot(segment.x - (saucer?.x ?? 0), segment.z - (saucer?.z ?? 0)) > (saucer?.cup.innerRadius ?? 0))).toBe(true);
+    expect(cupRimSegments.every((segment) => Math.hypot(segment.x - (saucer?.x ?? 0), segment.z - (saucer?.z ?? 0)) <= (saucer?.cup.outerRadius ?? 0) + 0.01)).toBe(true);
     for (const fastener of saucer?.cup.fasteners ?? []) {
       const offset = Math.hypot(fastener.x - (saucer?.x ?? 0), fastener.z - (saucer?.z ?? 0));
       expect(offset).toBeGreaterThan(saucer?.cup.innerRadius ?? 0);
