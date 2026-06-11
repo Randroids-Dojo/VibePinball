@@ -35,7 +35,7 @@
     <h3>Left Ramp Insert Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/left-ramp-insert-hardware</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/135">PR 135</a></dd>
       <dt>Changed</dt><dd>linked the left-ramp shot path to the authored ramp-arrow insert and clear lens hardware so the ramp shot includes the lit target insert called for by the physical blueprint.</dd>
       <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
       <dt>Assumptions</dt><dd>The ramp arrow insert belongs to the left-ramp shot path because it marks the aimable ramp target on the playfield.</dd>
