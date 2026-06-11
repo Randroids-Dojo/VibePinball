@@ -268,6 +268,18 @@
           <td>Lower right sling rubber face, top plastic, lamp insert, and post anchors.</td>
           <td>Records the active lower-playfield rebound assembly and its lit feedback hardware.</td>
         </tr>
+        <tr>
+          <td>Left flipper rebound</td>
+          <td>None</td>
+          <td>Lower left flipper bat, rubber sleeve, pivot cap, return stop, end rubber, and fasteners.</td>
+          <td>Records the lower-playfield ball-contact assembly that controls left-side rebounds.</td>
+        </tr>
+        <tr>
+          <td>Right flipper rebound</td>
+          <td>None</td>
+          <td>Lower right flipper bat, rubber sleeve, pivot cap, return stop, end rubber, and fasteners.</td>
+          <td>Records the lower-playfield ball-contact assembly that controls right-side rebounds.</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -380,6 +392,7 @@
 <section data-role="build-log">
   <h2>Build log</h2>
   <ul>
+    <li data-date="2026-06-11">Added explicit left and right flipper rebound path records so the physical board blueprint names each flipper assembly's ball-contact bat, return stop, end-rubber, pivot cap, and fastener hardware as lower-playfield rebound paths. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/143">PR 143</a>.</li>
     <li data-date="2026-06-11">Added explicit left and right sling rebound path records so the physical board blueprint names each sling assembly's rubber face, top plastic, fasteners, lamp insert, clear lens, and post anchors as lower-playfield rebound paths. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/142">PR 142</a>.</li>
     <li data-date="2026-06-11">Added explicit left and right outlane drain path records so the physical board blueprint names the complete side-drain routes from lower outlane rollover hardware through the apron guides and center drain mouth. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/141">PR 141</a>.</li>
     <li data-date="2026-06-11">Linked the right-orbit shot path to the authored jackpot insert and clear lens records so the physical shot map includes the complete multiball jackpot target hardware on the orbit route. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/140">PR 140</a>.</li>

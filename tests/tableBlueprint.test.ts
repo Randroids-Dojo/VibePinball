@@ -311,6 +311,44 @@ describe("Silverball Social physical board blueprint", () => {
     );
   });
 
+  it("maps flipper rebound paths to their bat, stop, and end-rubber hardware", () => {
+    const leftFlipperRebound = blueprint.shots.find((shot) => shot.id === "shot.left-flipper-rebound");
+    const rightFlipperRebound = blueprint.shots.find((shot) => shot.id === "shot.right-flipper-rebound");
+
+    expect(leftFlipperRebound?.primaryFlipper).toBe("none");
+    expect(rightFlipperRebound?.primaryFlipper).toBe("none");
+    expect(leftFlipperRebound?.deviceIds).toEqual(
+      expect.arrayContaining([
+        "flipper.left",
+        "flipper.left.rubber-sleeve",
+        "flipper.left.pivot-cap",
+        "flipper.left.bat-screw-inner",
+        "flipper.left.bat-screw-outer",
+        "flipper.left.return-stop",
+        "flipper.left.return-stop.screw-inner",
+        "flipper.left.return-stop.screw-outer",
+        "flipper.left.end-rubber",
+        "flipper.left.end-rubber.screw-inner",
+        "flipper.left.end-rubber.screw-outer"
+      ])
+    );
+    expect(rightFlipperRebound?.deviceIds).toEqual(
+      expect.arrayContaining([
+        "flipper.right",
+        "flipper.right.rubber-sleeve",
+        "flipper.right.pivot-cap",
+        "flipper.right.bat-screw-inner",
+        "flipper.right.bat-screw-outer",
+        "flipper.right.return-stop",
+        "flipper.right.return-stop.screw-inner",
+        "flipper.right.return-stop.screw-outer",
+        "flipper.right.end-rubber",
+        "flipper.right.end-rubber.screw-inner",
+        "flipper.right.end-rubber.screw-outer"
+      ])
+    );
+  });
+
   it("models flippers as blueprint-authored capsule-like bat hardware", () => {
     for (const flipper of blueprint.flippers) {
       expect(flipper.length).toBeCloseTo(1.2);
