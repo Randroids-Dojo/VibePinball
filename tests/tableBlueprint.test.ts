@@ -1194,6 +1194,14 @@ describe("Silverball Social physical board blueprint", () => {
     for (const bumper of blueprint.bumpers) {
       expect(bumper.skirtRadius).toBeGreaterThan(bumper.capRadius);
       expect(bumper.radius).toBeGreaterThanOrEqual(bumper.skirtRadius);
+      expect(bumper.skirt.id).toBe(`${bumper.id}.skirt`);
+      expect(bumper.skirt.kind).toBe("switch-skirt");
+      expect(bumper.skirt.x).toBeCloseTo(bumper.x);
+      expect(bumper.skirt.z).toBeCloseTo(bumper.z);
+      expect(bumper.skirt.radius).toBeCloseTo(bumper.skirtRadius);
+      expect(bumper.skirt.radius).toBeGreaterThan(bumper.capRadius);
+      expect(bumper.skirt.height).toBeGreaterThan(0);
+      expect(bumper.skirt.color).toBeGreaterThan(0);
       expect(bumper.chromeRing.id).toBe(`${bumper.id}.chrome-ring`);
       expect(bumper.chromeRing.kind).toBe("metal");
       expect(bumper.chromeRing.radius).toBeCloseTo(bumper.radius);
@@ -1254,6 +1262,7 @@ describe("Silverball Social physical board blueprint", () => {
     expect(leftOrbitShot?.deviceIds).toEqual(
       expect.arrayContaining([
         popA?.id ?? "",
+        popA?.skirt.id ?? "",
         popA?.chromeRing.id ?? "",
         popA?.lampLens.id ?? "",
         ...((popA?.capFasteners ?? []).map((fastener) => fastener.id)),
@@ -1270,6 +1279,7 @@ describe("Silverball Social physical board blueprint", () => {
     expect(skillShot?.deviceIds).toEqual(
       expect.arrayContaining([
         popB?.id ?? "",
+        popB?.skirt.id ?? "",
         popB?.chromeRing.id ?? "",
         popB?.lampLens.id ?? "",
         ...((popB?.capFasteners ?? []).map((fastener) => fastener.id)),
@@ -1286,6 +1296,7 @@ describe("Silverball Social physical board blueprint", () => {
     expect(skillShot?.deviceIds).toEqual(
       expect.arrayContaining([
         popC?.id ?? "",
+        popC?.skirt.id ?? "",
         popC?.chromeRing.id ?? "",
         popC?.lampLens.id ?? "",
         ...((popC?.capFasteners ?? []).map((fastener) => fastener.id)),
@@ -2221,6 +2232,7 @@ describe("Silverball Social physical board blueprint", () => {
       ...(blueprint.plunger.gateStopPost.cap ? [blueprint.plunger.gateStopPost.cap.id] : []),
       ...blueprint.bumpers.flatMap((item) => [
         item.id,
+        item.skirt.id,
         item.chromeRing.id,
         item.lampLens.id,
         ...item.capFasteners.map((fastener) => fastener.id),
