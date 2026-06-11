@@ -1342,6 +1342,19 @@ describe("Silverball Social physical board blueprint", () => {
       expect(target.face.height).toBeGreaterThan(0.65);
       expect(target.face.thickness).toBeGreaterThan(0.1);
       expect(target.face.color).toBeGreaterThan(0);
+      expect(target.switchBlades).toHaveLength(2);
+      expect(target.switchBlades.map((blade) => blade.id)).toEqual([
+        `${target.id}.leaf-switch.front-blade`,
+        `${target.id}.leaf-switch.rear-blade`
+      ]);
+      expect(target.switchBlades.every((blade) => blade.targetId === target.id)).toBe(true);
+      expect(target.switchBlades.every((blade) => blade.kind === "metal")).toBe(true);
+      expect(target.switchBlades.every((blade) => blade.width > 0.2)).toBe(true);
+      expect(target.switchBlades.every((blade) => blade.depth < 0.04)).toBe(true);
+      expect(target.switchBlades[0]?.z ?? 0).toBeGreaterThan(target.switchBlades[1]?.z ?? 0);
+      expect(centerBankShot?.deviceIds).toEqual(
+        expect.arrayContaining(target.switchBlades.map((blade) => blade.id))
+      );
       expect(target.rearStop.id).toBe(`${target.id}.rear-stop`);
       expect(target.rearStop.kind).toBe("rubber");
       expect(target.rearStop.depth).toBeGreaterThan(0);
@@ -2239,6 +2252,7 @@ describe("Silverball Social physical board blueprint", () => {
       ]),
       ...blueprint.targets.map((item) => item.id),
       ...blueprint.targets.map((item) => item.face.id),
+      ...blueprint.targets.flatMap((item) => item.switchBlades.map((blade) => blade.id)),
       ...blueprint.targets.map((item) => item.rearStop.id),
       ...blueprint.targets.map((item) => item.mountPlate.id),
       ...blueprint.targets.flatMap((item) => item.mountFasteners.map((fastener) => fastener.id)),

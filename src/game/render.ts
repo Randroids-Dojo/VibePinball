@@ -1049,6 +1049,7 @@ const addTargetBankFrameSegment = (group: THREE.Group, segment: TargetBankFrameS
 
 const addTargetMountHardware = (group: THREE.Group, target: TargetDevice) => {
   addSegment(group, target.mountPlate, 0.2);
+  target.switchBlades.forEach((blade) => addSegment(group, blade, 0.22));
   target.mountFasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.035, 16),
