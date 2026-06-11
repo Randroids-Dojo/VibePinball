@@ -35,7 +35,7 @@
     <h3>Right Orbit Insert Hardware</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/right-orbit-insert-hardware</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/136">PR 136</a></dd>
       <dt>Changed</dt><dd>linked the right-orbit shot path to the authored orbit-arrow insert and clear lens hardware so the right orbit shot includes the lit target insert called for by the physical blueprint.</dd>
       <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>. Chrome and VibeReview playtest pending until the Codex Chrome Extension is installed or enabled in the selected Chrome profile.</dd>
       <dt>Assumptions</dt><dd>The right orbit arrow insert belongs to the right-orbit shot path because it marks the aimable right orbit target on the playfield.</dd>
