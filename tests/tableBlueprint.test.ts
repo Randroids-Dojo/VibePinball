@@ -1015,7 +1015,11 @@ describe("Silverball Social physical board blueprint", () => {
       expect(insert?.label).toBe(target.label);
       expect(insert?.x).toBeCloseTo(target.x);
       expect(insert?.z ?? 0).toBeGreaterThan(target.z);
+      expect(centerBankShot?.deviceIds).toContain(insert?.lens.id);
       expect(insert?.lens.targetId).toBe(target.lampInsertId);
+      expect(insert?.lens.kind).toBe("plastic");
+      expect(insert?.lens.width).toBeGreaterThan(insert?.radius ?? 0);
+      expect(insert?.lens.depth).toBeGreaterThan(insert?.radius ?? 0);
     }
   });
 
