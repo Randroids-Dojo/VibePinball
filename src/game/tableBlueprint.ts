@@ -2081,7 +2081,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     woodColor: 0x8d3f2f,
     gravity: {
       x: -1.25,
-      y: 0,
+      y: -9.8,
       z: 8.8
     }
   },

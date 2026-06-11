@@ -218,7 +218,8 @@
       ],
       "testRefs": [
         "tests/tableBlueprint.test.ts",
-        "tests/playable.smoke.ts"
+        "tests/playable.smoke.ts",
+        "tests/physics.test.ts"
       ],
       "followupRefs": []
     },
@@ -264,7 +265,8 @@
       ],
       "testRefs": [
         "tests/tableBlueprint.test.ts",
-        "tests/playable.smoke.ts"
+        "tests/playable.smoke.ts",
+        "tests/physics.test.ts"
       ],
       "followupRefs": []
     },
@@ -946,9 +948,13 @@
       "id": "REQ-071",
       "requirement": "Physics harnesses verify flipper activation, drain detection, sensors, plunger ranges, nudge accumulation, and multiball accounting where feasible.",
       "gddRef": "docs/gdd/10-testing-and-release.html#physics-tests",
-      "status": "not_started",
-      "implementationRefs": [],
-      "testRefs": [],
+      "status": "partial",
+      "implementationRefs": [
+        "src/game/physics.ts"
+      ],
+      "testRefs": [
+        "tests/physics.test.ts"
+      ],
       "followupRefs": []
     },
     {
@@ -1074,7 +1080,8 @@
       ],
       "testRefs": [
         "tests/tableBlueprint.test.ts",
-        "tests/rules.test.ts"
+        "tests/rules.test.ts",
+        "tests/physics.test.ts"
       ],
       "followupRefs": [
         "F-003"

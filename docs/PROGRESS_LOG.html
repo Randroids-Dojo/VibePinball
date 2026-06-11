@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="playfield-deck-ball-search" data-date="2026-06-11">
+    <h3>Playfield Deck Ball Search</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>fix/lane-award-stall</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>added a physical playfield deck collider, restored vertical gravity from the authored playfield record, and added a low-speed ball-search recovery for live balls stranded above the flippers. This keeps lane, ramp, and saucer rebounds on the board instead of allowing hidden vertical drift or dead-zone stalls.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/physics.test.ts tests/tableBlueprint.test.ts</code>; <code>pnpm run lint:dash</code>; <code>git diff --check</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; dependency gate returned <code>v0.2.3</code>.</dd>
+      <dt>Assumptions</dt><dd>A real steep pinball table should not leave a live ball motionless in upper side dead zones; a small ball-search kick is acceptable for non-flipper dead spots.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-014</code>, <code>REQ-017</code>, <code>REQ-071</code>, and <code>REQ-083</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/03-physics-simulation.html</code>, <code>docs/gdd/10-testing-and-release.html</code>, and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>VibePinball-investigate-lane-award-0e0077dc</code> remains open until this slice is merged and production-smoked.</dd>
+    </dl>
+  </article>
+
   <article data-slice="early-ball-save" data-date="2026-06-11">
     <h3>Early Ball Save</h3>
     <dl>

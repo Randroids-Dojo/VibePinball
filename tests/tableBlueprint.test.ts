@@ -29,7 +29,7 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.playfield.slopeAngle).toBeGreaterThan(0.04);
     expect(blueprint.playfield.slopeAngle).toBeLessThan(0.12);
     expect(blueprint.playfield.gravity.z).toBeGreaterThan(0);
-    expect(blueprint.playfield.gravity.y).toBe(0);
+    expect(blueprint.playfield.gravity.y).toBeLessThan(0);
     expect(Math.hypot(blueprint.playfield.gravity.x, blueprint.playfield.gravity.z)).toBeGreaterThan(8);
     expect(blueprint.playfield.woodColor).toBeGreaterThan(0);
   });
