@@ -211,7 +211,7 @@
         <tr>
           <td>Left orbit</td>
           <td>Right flipper</td>
-          <td>Right flipper to left side lane, around top arch, through bumper entry or full orbit.</td>
+          <td>Right flipper to left side lane, around top arch, across the lit top-left rollover arrow, through bumper entry or full orbit.</td>
           <td>Feeds upper bumpers, awards orbit when completed, can chain to right return.</td>
         </tr>
         <tr>
@@ -241,7 +241,7 @@
         <tr>
           <td>Skill shot</td>
           <td>Plunger</td>
-          <td>Shooter lane to top rollover lane before the bumpers.</td>
+          <td>Shooter lane to lit top center or top right rollover arrows before the bumpers, with the shooter skill-lane arrow marking the launch target.</td>
           <td>Awards skill shot if the lit rollover is crossed before any major device.</td>
         </tr>
         <tr>
@@ -398,6 +398,7 @@
 <section data-role="build-log">
   <h2>Build log</h2>
   <ul>
+    <li data-date="2026-06-11">Added authored top rollover arrow insert hardware and linked the left-orbit and skill-shot paths to the upper lane insert bodies and clear lenses. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR TBD.</li>
     <li data-date="2026-06-11">Added authored lower-lane arrow lamp inserts and clear lenses for all four lower inlanes and outlanes so the physical board blueprint names the lit lane-status hardware called for by the lower-lane component contract. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/render.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/145">PR 145</a>.</li>
     <li data-date="2026-06-11">Added an explicit bonus ladder path record so the physical board blueprint names the bonus-count insert ladder and clear lens hardware as a gameplay-visible feedback group. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/144">PR 144</a>.</li>
     <li data-date="2026-06-11">Added explicit left and right flipper rebound path records so the physical board blueprint names each flipper assembly's ball-contact bat, return stop, end-rubber, pivot cap, and fastener hardware as lower-playfield rebound paths. Files: <code>src/game/tableBlueprint.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/143">PR 143</a>.</li>
