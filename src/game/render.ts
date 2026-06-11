@@ -234,10 +234,10 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     saucer.walls.forEach((segment) => addSaucerWallSegment(group, segment));
     saucer.posts.forEach((post) => addPost(group, post));
     const heldBall = mesh(
-      new THREE.SphereGeometry(blueprint.scale.ballRadius * 0.72, 24, 14),
-      new THREE.MeshStandardMaterial({ color: 0xbec7ca, roughness: 0.18, metalness: 0.82 })
+      new THREE.SphereGeometry(saucer.heldBallMarker.radius, 24, 14),
+      new THREE.MeshStandardMaterial({ color: saucer.heldBallMarker.color, roughness: 0.18, metalness: 0.82 })
     );
-    heldBall.position.set(saucer.holdX, 0.35, saucer.holdZ);
+    heldBall.position.set(saucer.heldBallMarker.x, 0.35, saucer.heldBallMarker.z);
     heldBall.visible = false;
     group.add(heldBall);
     saucerHoldMarkers.set(saucer.id, heldBall);
