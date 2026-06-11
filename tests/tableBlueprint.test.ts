@@ -659,6 +659,10 @@ describe("Silverball Social physical board blueprint", () => {
         "trough.shooter-feed-guide.screw-upper",
         "trough.shooter-feed-guide.screw-lower",
         "shooter.plunger",
+        "trough.eject-coil",
+        "trough.eject-coil.bracket",
+        "trough.eject-coil.bracket.screw-left",
+        "trough.eject-coil.bracket.screw-right",
         "shooter.plunger-spring",
         "shooter.plunger-spring.front-retainer",
         "shooter.plunger-spring.back-retainer",
@@ -1499,6 +1503,24 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.drain.trough.walls.map((wall) => wall.id)).toEqual(
       expect.arrayContaining(["trough.left-wall", "trough.right-wall", "trough.back-wall"])
     );
+    expect(blueprint.drain.trough.ejectCoil.id).toBe("trough.eject-coil");
+    expect(blueprint.drain.trough.ejectCoil.targetId).toBe(blueprint.drain.trough.id);
+    expect(blueprint.drain.trough.ejectCoil.kind).toBe("coil");
+    expect(blueprint.drain.trough.ejectCoil.coilRadius).toBeGreaterThan(0.08);
+    expect(blueprint.drain.trough.ejectCoil.coilDepth).toBeGreaterThan(0.2);
+    expect(blueprint.drain.trough.ejectCoil.rodLength).toBeGreaterThan(blueprint.scale.ballRadius);
+    expect(blueprint.drain.trough.ejectCoil.rodRadius).toBeGreaterThan(0.02);
+    expect(blueprint.drain.trough.ejectCoil.bracket.id).toBe("trough.eject-coil.bracket");
+    expect(blueprint.drain.trough.ejectCoil.bracket.kind).toBe("metal");
+    expect(blueprint.drain.trough.ejectCoil.bracketFasteners).toHaveLength(2);
+    expect(
+      blueprint.drain.trough.ejectCoil.bracketFasteners.every((fastener) =>
+        fastener.id.startsWith(`${blueprint.drain.trough.ejectCoil.bracket.id}.screw-`)
+      )
+    ).toBe(true);
+    expect(blueprint.drain.trough.ejectCoil.bracketFasteners.every((fastener) => fastener.targetId === blueprint.drain.trough.ejectCoil.bracket.id)).toBe(true);
+    expect(blueprint.drain.trough.ejectCoil.bracketFasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
+    expect(blueprint.drain.trough.ejectCoil.bracketFasteners.every((fastener) => fastener.radius > 0.02)).toBe(true);
     expect(blueprint.drain.trough.feedGuide.id).toBe("trough.shooter-feed-guide");
     expect(blueprint.drain.trough.feedGuide.kind).toBe("metal");
     expect(blueprint.drain.trough.fasteners).toHaveLength(8);
@@ -2144,6 +2166,9 @@ describe("Silverball Social physical board blueprint", () => {
         opto.receiver.id,
         opto.beam.id
       ]),
+      blueprint.drain.trough.ejectCoil.id,
+      blueprint.drain.trough.ejectCoil.bracket.id,
+      ...blueprint.drain.trough.ejectCoil.bracketFasteners.map((item) => item.id),
       ...blueprint.drain.trough.walls.map((item) => item.id),
       blueprint.drain.trough.feedGuide.id,
       ...blueprint.drain.trough.fasteners.map((item) => item.id),
