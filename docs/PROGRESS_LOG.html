@@ -35,7 +35,7 @@
     <h3>Left Orbit Wall Fasteners</h3>
     <dl>
       <dt>Branch</dt><dd><code>feature/left-orbit-wall-fasteners</code></dd>
-      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/126">PR 126</a></dd>
       <dt>Changed</dt><dd>linked the left-orbit path to the authored left orbit wall screw IDs so the physical shot map includes the fasteners holding the paired metal orbit guide rails.</dd>
       <dt>Verification</dt><dd><code>pnpm run lint:dash</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>git diff --check</code>; <code>pnpm run type-check</code>; <code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>pnpm run test:smoke</code>; dependency gate returned <code>v0.2.0</code>.</dd>
       <dt>Assumptions</dt><dd>The left orbit wall screws belong to the left-orbit path because they mount the paired metal side rails that guide the ball around the upper-left orbit lane.</dd>
