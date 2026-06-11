@@ -2239,6 +2239,101 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
+  it("satisfies the physical board blueprint acceptance criteria", () => {
+    const lowerLanes = blueprint.lanes.filter((lane) => lane.id.startsWith("lane.lower"));
+    const topLanes = blueprint.lanes.filter((lane) => lane.id.startsWith("lane.top"));
+    const laneWallIds = new Set(blueprint.laneWalls.map((wall) => wall.id));
+    const laneRolloverIds = new Set(blueprint.rolloverWires.map((wire) => wire.id));
+    const lampInsertIds = new Set(blueprint.lampInserts.flatMap((insert) => [insert.id, insert.lens.id]));
+    const leftRamp = blueprint.ramps.find((ramp) => ramp.id === "ramp.left");
+    const rightOrbit = blueprint.orbits.find((orbit) => orbit.id === "orbit.right");
+    const rightOrbitReturn = blueprint.wireforms.find((wireform) => wireform.id === rightOrbit?.returnWireformId);
+    const leftRampReturn = blueprint.wireforms.find((wireform) => wireform.id === "wireform.left-return");
+    const shotById = new Map(blueprint.shots.map((shot) => [shot.id, shot]));
+    const majorShotIds = [
+      "shot.left-orbit",
+      "shot.left-ramp",
+      "shot.center-bank",
+      "shot.lock-saucer",
+      "shot.right-orbit",
+      "shot.skill-shot",
+      "shot.left-outlane-drain",
+      "shot.right-outlane-drain",
+      "shot.left-sling-rebound",
+      "shot.right-sling-rebound",
+      "shot.left-flipper-rebound",
+      "shot.right-flipper-rebound"
+    ];
+
+    expect(lowerLanes.map((lane) => lane.id).sort()).toEqual([
+      "lane.lower.left-in",
+      "lane.lower.left-out",
+      "lane.lower.right-in",
+      "lane.lower.right-out"
+    ]);
+    expect(blueprint.slings).toHaveLength(2);
+    expect(blueprint.flippers).toHaveLength(2);
+    expect(blueprint.drain.id).toBe("drain.center");
+    expect(blueprint.plunger.id).toBe("shooter.plunger");
+    expect(blueprint.plunger.laneGroove.id).toBe("shooter.lane-groove");
+
+    expect(topLanes).toHaveLength(3);
+    expect(topLanes.every((lane) => laneRolloverIds.has(`rollover.${lane.id.replace("lane.", "")}`))).toBe(true);
+    expect(blueprint.bumpers).toHaveLength(3);
+    expect(shotById.get("shot.left-orbit")?.deviceIds.some((id) => id.startsWith("pop-a"))).toBe(true);
+    expect(shotById.get("shot.skill-shot")?.deviceIds.some((id) => id.startsWith("pop-b"))).toBe(true);
+
+    expect(blueprint.targets).toHaveLength(5);
+    expect(blueprint.targetBank.id).toBe("target-bank.social");
+    expect(blueprint.saucers.map((saucer) => saucer.id)).toContain("lock.saucer");
+
+    expect(leftRamp).toBeDefined();
+    expect(leftRamp?.entry.id).toBe("ramp.left.entry");
+    expect(leftRamp?.exit.id).toBe("ramp.left.exit");
+    expect(leftRamp?.sideRails.length).toBeGreaterThanOrEqual(2);
+    expect(leftRampReturn?.rails.length).toBeGreaterThanOrEqual(2);
+    expect(shotById.get("shot.left-ramp")?.deviceIds).toEqual(
+      expect.arrayContaining(["ramp.left.entry", "ramp.left.exit", "lane.lower.left-in"])
+    );
+
+    expect(rightOrbit).toBeDefined();
+    expect(rightOrbit?.entry.id).toBe("orbit.right.entry");
+    expect(rightOrbit?.exit.id).toBe("orbit.right.exit");
+    expect(rightOrbitReturn?.rails.length).toBeGreaterThanOrEqual(2);
+    expect(shotById.get("shot.right-orbit")?.deviceIds).toEqual(
+      expect.arrayContaining(["orbit.right.entry", "orbit.right.exit", "lane.lower.right-in"])
+    );
+
+    for (const lane of blueprint.lanes) {
+      expect(laneWallIds.has(`${lane.id}.inner`) || laneWallIds.has(`${lane.id}.inner-left`), lane.id).toBe(true);
+      expect(laneWallIds.has(`${lane.id}.outer`) || laneWallIds.has(`${lane.id}.inner-right`), lane.id).toBe(true);
+      expect(laneRolloverIds.has(`rollover.${lane.id.replace("lane.", "")}`), lane.id).toBe(true);
+      expect(lane.lampInsertId ? lampInsertIds.has(lane.lampInsertId) : true, lane.id).toBe(true);
+      expect(lane.clearance).toBeGreaterThanOrEqual(blueprint.scale.ballRadius * 2 * 1.35);
+      expect(lane.clearance).toBeLessThanOrEqual(blueprint.scale.ballRadius * 2 * 2.5);
+    }
+
+    for (const id of majorShotIds) {
+      const shot = shotById.get(id);
+      expect(shot, id).toBeDefined();
+      expect(shot?.deviceIds.some((deviceId) => !deviceId.startsWith("playfield.art.")), id).toBe(true);
+      expect(shot?.deviceIds.some((deviceId) =>
+        deviceId.startsWith("lane.")
+        || deviceId.startsWith("rollover.")
+        || deviceId.startsWith("ramp.")
+        || deviceId.startsWith("orbit.")
+        || deviceId.startsWith("handoff.")
+        || deviceId.startsWith("wireform.")
+        || deviceId.startsWith("target")
+        || deviceId.startsWith("lock.saucer")
+        || deviceId.startsWith("sling.")
+        || deviceId.startsWith("flipper.")
+        || deviceId.startsWith("drain.")
+        || deviceId.startsWith("shooter.")
+      ), id).toBe(true);
+    }
+  });
+
   it("defines shot paths with stable device ids present in the blueprint", () => {
     const deviceIds = new Set([
       blueprint.drain.id,

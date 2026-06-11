@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="physical-board-acceptance-closure" data-date="2026-06-11">
+    <h3>Physical Board Acceptance Closure</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>chore/close-physical-board-blueprint</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>added a final physical-board acceptance test that maps the GDD criteria to authored board records, shot paths, lane clearances, and shared stable device IDs. The physical board followup and Chrome plus VibeReview mechanics followup are marked resolved by the shipped board, launch, and lane-stall PRs.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/tableBlueprint.test.ts</code>; <code>pnpm run lint:dash</code>; <code>git diff --check</code>; <code>jq empty docs/GDD_COVERAGE.json</code>; <code>pnpm run type-check</code>; <code>pnpm run test</code>; <code>pnpm run build</code>; <code>PORT=3010 pnpm run test:smoke</code>; dependency gate returned <code>v0.2.3</code>.</dd>
+      <dt>Assumptions</dt><dd>The final physical-board acceptance is based on the current Silverball Social blueprint records, not a licensed copy of the reference board art or theme.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-083</code> is marked <code>done</code> after the final acceptance test covers the criteria in <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd><code>F-003</code> and <code>F-004</code> are marked resolved; <code>VibePinball-implement-physical-pinball-11e5121f</code> is closed in this slice.</dd>
+    </dl>
+  </article>
+
   <article data-slice="playfield-deck-ball-search" data-date="2026-06-11">
     <h3>Playfield Deck Ball Search</h3>
     <dl>
