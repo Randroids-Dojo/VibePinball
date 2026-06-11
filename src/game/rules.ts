@@ -34,7 +34,8 @@ export const createInitialGameState = (): GameState => ({
   tilted: false,
   skillShotOpen: true,
   hitTargets: new Set(),
-  lockedBalls: 0
+  lockedBalls: 0,
+  ballSaveAvailable: true
 });
 
 export const startGame = (): GameState => ({
@@ -64,7 +65,7 @@ export const applyTableEvent = (
   }
 
   if (event.type === "drain") {
-    return drainBall(state);
+    return drainBall(state, event.quick === true);
   }
 
   if (event.type === "tiltWarning") {
@@ -188,7 +189,18 @@ const award = (state: GameState, points: number): GameState => ({
   score: state.score + points
 });
 
-const drainBall = (state: GameState): GameState => {
+const drainBall = (state: GameState, quickDrain = false): GameState => {
+  if (quickDrain && state.ballSaveAvailable) {
+    return {
+      ...state,
+      bonus: 0,
+      plungerCharge: 0,
+      skillShotOpen: true,
+      ballSaveAvailable: false,
+      message: `Ball ${state.ball} saved. Launch again.`
+    };
+  }
+
   const bonus = state.tilted ? 0 : state.bonus;
   if (state.ball >= maxBalls) {
     return {
@@ -197,6 +209,7 @@ const drainBall = (state: GameState): GameState => {
       score: state.score + bonus,
       bonus: 0,
       plungerCharge: 0,
+      ballSaveAvailable: false,
       message: `Game over. Final score ${state.score + bonus}.`
     };
   }
@@ -211,6 +224,7 @@ const drainBall = (state: GameState): GameState => {
     plungerCharge: 0,
     skillShotOpen: true,
     lockedBalls: state.lockedBalls,
+    ballSaveAvailable: true,
     message: `Ball ${state.ball + 1} ready.`
   };
 };

@@ -95,6 +95,7 @@ export class PinballPhysics {
   private plungerCharge = 0;
   private nudgeHeat = 0;
   private launched = false;
+  private launchedSeconds: number | null = null;
   private saucerHoldSeconds = 0;
   private saucerHeldBy: SaucerDevice | null = null;
   private saucerHoldEventPending = false;
@@ -131,6 +132,7 @@ export class PinballPhysics {
     this.plungerCharge = 0;
     this.nudgeHeat = 0;
     this.cooldowns.clear();
+    this.launchedSeconds = null;
     this.saucerHeldBy = null;
     this.saucerHoldSeconds = 0;
     this.saucerHoldEventPending = false;
@@ -146,6 +148,9 @@ export class PinballPhysics {
     this.accumulator += Math.min(dt, 0.05);
     this.tickSaucerHold(dt, events, scoringEnabled);
     this.tickInput(actions, dt, events, scoringEnabled);
+    if (scoringEnabled && this.launchedSeconds !== null) {
+      this.launchedSeconds += dt;
+    }
 
     while (this.accumulator >= 1 / 60) {
       this.updateFlipperBodies(leftFlipperAngle, rightFlipperAngle);
@@ -158,7 +163,7 @@ export class PinballPhysics {
 
     let pos = this.ball.translation();
     if (this.isInsideDrain(pos.x, pos.z)) {
-      events.push({ type: "drain" });
+      events.push({ type: "drain", quick: this.isQuickDrain() });
       this.resetBall();
       pos = this.ball.translation();
     }
@@ -230,6 +235,7 @@ export class PinballPhysics {
       this.ball.applyImpulse({ x: -1.75, y: 0, z: -strength }, true);
       this.plungerCharge = 0;
       this.launched = true;
+      this.launchedSeconds = 0;
       events.push({ type: "launch" });
     }
 
@@ -422,6 +428,10 @@ export class PinballPhysics {
   private isInsideDrain(x: number, z: number): boolean {
     const drain = blueprint.drain;
     return (x - drain.x) ** 2 + (z - drain.z) ** 2 < drain.radius ** 2 || z > drain.troughZ;
+  }
+
+  private isQuickDrain(): boolean {
+    return this.launchedSeconds !== null && this.launchedSeconds <= 6;
   }
 
   private clampBallSpeed(): void {

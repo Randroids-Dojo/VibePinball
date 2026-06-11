@@ -23,7 +23,7 @@ export type TableEvent =
   | { type: "orbitMade"; id: string }
   | { type: "launch" }
   | { type: "skillShot" }
-  | { type: "drain" }
+  | { type: "drain"; quick?: boolean }
   | { type: "tiltWarning" }
   | { type: "tilt" };
 
@@ -44,4 +44,5 @@ export interface GameState extends HudState {
   skillShotOpen: boolean;
   hitTargets: Set<string>;
   lockedBalls: number;
+  ballSaveAvailable: boolean;
 }
