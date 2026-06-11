@@ -349,6 +349,32 @@ describe("Silverball Social physical board blueprint", () => {
     );
   });
 
+  it("maps the bonus ladder path to authored insert and lens hardware", () => {
+    const bonusLadder = blueprint.shots.find((shot) => shot.id === "shot.bonus-ladder");
+    const bonusInserts = blueprint.lampInserts.filter((insert) => insert.id.startsWith("insert.bonus-"));
+
+    expect(bonusLadder?.primaryFlipper).toBe("none");
+    expect(bonusInserts.map((insert) => insert.id)).toEqual(["insert.bonus-1", "insert.bonus-2", "insert.bonus-3"]);
+    expect(bonusLadder?.deviceIds).toEqual(
+      expect.arrayContaining([
+        "insert.bonus-1",
+        "insert.bonus-1.lens",
+        "insert.bonus-2",
+        "insert.bonus-2.lens",
+        "insert.bonus-3",
+        "insert.bonus-3.lens"
+      ])
+    );
+    for (const insert of bonusInserts) {
+      expect(insert.label).toMatch(/^Bonus [1-3]$/);
+      expect(insert.shape).toBe("circle");
+      expect(insert.lens.id).toBe(`${insert.id}.lens`);
+      expect(insert.lens.targetId).toBe(insert.id);
+      expect(insert.lens.kind).toBe("plastic");
+      expect(bonusLadder?.deviceIds).toContain(insert.lens.id);
+    }
+  });
+
   it("models flippers as blueprint-authored capsule-like bat hardware", () => {
     for (const flipper of blueprint.flippers) {
       expect(flipper.length).toBeCloseTo(1.2);
@@ -1445,6 +1471,9 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.lampInserts.length).toBeGreaterThanOrEqual(12);
     expect(blueprint.lampInserts.map((insert) => insert.id)).toEqual(
       expect.arrayContaining([
+        "insert.bonus-1",
+        "insert.bonus-2",
+        "insert.bonus-3",
         "insert.left-ramp-arrow",
         "insert.right-orbit-arrow",
         "insert.lock-ready",
