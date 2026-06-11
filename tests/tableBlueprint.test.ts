@@ -1477,8 +1477,19 @@ describe("Silverball Social physical board blueprint", () => {
       expect(segment.fasteners.every((fastener) => fastener.radius >= 0.026), segment.id).toBe(true);
     }
 
+    const rightOrbitInsert = blueprint.lampInserts.find((insert) => insert.id === "insert.right-orbit-arrow");
+
+    expect(rightOrbitInsert?.label).toBe("Orbit");
+    expect(rightOrbitInsert?.shape).toBe("arrow");
+    expect(rightOrbitInsert?.lens.id).toBe("insert.right-orbit-arrow.lens");
+    expect(rightOrbitInsert?.lens.targetId).toBe(rightOrbitInsert?.id);
+    expect(rightOrbitInsert?.lens.kind).toBe("plastic");
+    expect(rightOrbitInsert?.lens.width).toBeGreaterThan(rightOrbitInsert?.radius ?? 0);
+    expect(rightOrbitInsert?.lens.depth).toBeGreaterThan(0);
     expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
       expect.arrayContaining([
+        rightOrbitInsert?.id ?? "",
+        rightOrbitInsert?.lens.id ?? "",
         "handoff.right-orbit-entry.inner-guide",
         "handoff.right-orbit-entry.outer-guide",
         ...((entryHandoff?.segments ?? []).flatMap((segment) =>
