@@ -79,4 +79,11 @@ describe("pinball rules", () => {
     expect(setPlungerCharge(createInitialGameState(), 2).plungerCharge).toBe(1);
     expect(setPlungerCharge(createInitialGameState(), -2).plungerCharge).toBe(0);
   });
+
+  it("announces when the plunger launches the ball", () => {
+    const state = applyTableEvent(startGame(), { type: "launch" });
+
+    expect(state.score).toBe(0);
+    expect(state.message).toBe("Ball launched. Aim for the skill shot.");
+  });
 });

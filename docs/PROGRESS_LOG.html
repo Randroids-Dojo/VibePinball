@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="launch-hud-message" data-date="2026-06-11">
+    <h3>Launch HUD Message</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>fix/launch-hud-message</code></dd>
+      <dt>PR</dt><dd>PR TBD</dd>
+      <dt>Changed</dt><dd>added an explicit launch table event from the plunger release path, then used it to move the DMD message out of the pre-launch prompt once the ball enters live play.</dd>
+      <dt>Verification</dt><dd><code>pnpm run test -- tests/rules.test.ts</code>; <code>PORT=3010 pnpm run test:smoke</code> passed after tightening the smoke assertion to prove the pre-launch prompt clears on both desktop and mobile.</dd>
+      <dt>Assumptions</dt><dd>The launch event is feedback-only and awards zero points because score remains owned by the later skill-shot, lane, ramp, orbit, bumper, target, and drain events.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-005</code>, <code>REQ-039</code>, and <code>REQ-051</code> gain stronger implementation and test coverage through Build log entries in <code>docs/gdd/03-physics-simulation.html</code>, <code>docs/gdd/05-scoring-and-rules.html</code>, and <code>docs/gdd/07-audio-and-feedback.html</code>.</dd>
+      <dt>Followups</dt><dd><code>VibePinball-update-hud-msg-0910d2f4</code> will be closed after this PR is linked and verification is complete. <code>VibePinball-restore-chrome-vibereview-122c4d7d</code> remains open for the requested Chrome plus VibeReview held-control capture path.</dd>
+    </dl>
+  </article>
+
   <article data-slice="lamp-insert-orientation" data-date="2026-06-11">
     <h3>Lamp Insert Orientation</h3>
     <dl>

@@ -20,6 +20,7 @@ test("renders a playable table and responds to launch input", async ({ page }) =
   await page.waitForTimeout(450);
   await expect(launchButton).toBeVisible();
   await page.keyboard.up("Space");
+  await expect(page.locator(".message")).not.toHaveText("Ball 1 ready. Charge the plunger.");
   await page.waitForTimeout(800);
 
   const scoreText = page.locator(".score");
