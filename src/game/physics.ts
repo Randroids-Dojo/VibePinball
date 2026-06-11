@@ -471,6 +471,7 @@ export class PinballPhysics {
     }
 
     if (pos.z > 4.15 && Math.abs(pos.x) < 2.4) {
+      this.lowSpeedSeconds = 0;
       return;
     }
 
