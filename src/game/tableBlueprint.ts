@@ -170,6 +170,58 @@ export interface SpeakerGrilleFastener {
   kind: "metal";
 }
 
+export interface ArcadeHallContext {
+  floor: ArcadeHallFloor;
+  backWall: ArcadeHallPanel[];
+  sideMachines: ArcadeHallMachine[];
+  overheadLights: ArcadeHallLight[];
+}
+
+export interface ArcadeHallFloor {
+  id: string;
+  x: number;
+  y: number;
+  z: number;
+  width: number;
+  depth: number;
+  color: number;
+}
+
+export interface ArcadeHallPanel {
+  id: string;
+  x: number;
+  y: number;
+  z: number;
+  width: number;
+  height: number;
+  depth: number;
+  color: number;
+  emissive?: number;
+}
+
+export interface ArcadeHallMachine {
+  id: string;
+  x: number;
+  y: number;
+  z: number;
+  width: number;
+  height: number;
+  depth: number;
+  angle: number;
+  cabinetColor: number;
+  screenColor: number;
+}
+
+export interface ArcadeHallLight {
+  id: string;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  color: number;
+  intensity: number;
+}
+
 export interface Post {
   id: string;
   x: number;
@@ -1030,6 +1082,7 @@ export interface TableBlueprint {
   scale: TableScale;
   playfield: PlayfieldDeck;
   cabinet: CabinetHardware;
+  arcadeHall: ArcadeHallContext;
   boundaries: BoundarySegment[];
   laneWalls: LaneWallSegment[];
   rubberBands: RubberBand[];
@@ -1808,6 +1861,81 @@ export const silverballSocialBlueprint: TableBlueprint = {
         color: 0x090b0b
       }
     ])
+  },
+  arcadeHall: {
+    floor: {
+      id: "arcade-hall.floor-mat",
+      x: 0,
+      y: -1.61,
+      z: 1.2,
+      width: 16.6,
+      depth: 23.5,
+      color: 0x191412
+    },
+    backWall: [
+      {
+        id: "arcade-hall.back-wall.left-panel",
+        x: -4.7,
+        y: 1.1,
+        z: -10.05,
+        width: 4.8,
+        height: 3.4,
+        depth: 0.12,
+        color: 0x2d1c26
+      },
+      {
+        id: "arcade-hall.back-wall.center-sign",
+        x: 0,
+        y: 2.7,
+        z: -10,
+        width: 4.3,
+        height: 0.7,
+        depth: 0.14,
+        color: 0x332017,
+        emissive: 0x61400e
+      },
+      {
+        id: "arcade-hall.back-wall.right-panel",
+        x: 4.7,
+        y: 1.1,
+        z: -10.05,
+        width: 4.8,
+        height: 3.4,
+        depth: 0.12,
+        color: 0x1b2b2d
+      }
+    ],
+    sideMachines: [
+      {
+        id: "arcade-hall.left-neighbor-cabinet",
+        x: -6.35,
+        y: -0.18,
+        z: -1.2,
+        width: 1.15,
+        height: 2.85,
+        depth: 3.2,
+        angle: 0.16,
+        cabinetColor: 0x30213b,
+        screenColor: 0x5fd4ff
+      },
+      {
+        id: "arcade-hall.right-neighbor-cabinet",
+        x: 6.35,
+        y: -0.18,
+        z: -1.15,
+        width: 1.15,
+        height: 2.85,
+        depth: 3.2,
+        angle: -0.16,
+        cabinetColor: 0x34281b,
+        screenColor: 0xf1c453
+      }
+    ],
+    overheadLights: [
+      { id: "arcade-hall.light-left", x: -3.4, y: 4.9, z: -3.6, radius: 0.32, color: 0xf6d174, intensity: 1.8 },
+      { id: "arcade-hall.light-center", x: 0, y: 5.2, z: -4.4, radius: 0.36, color: 0xffe6ac, intensity: 2.2 },
+      { id: "arcade-hall.light-right", x: 3.4, y: 4.9, z: -3.6, radius: 0.32, color: 0x9fd0ff, intensity: 1.45 }
+    ]
   },
   boundaries: withBoundaryFasteners([
     { id: "boundary.left-wall", x: -4.05, z: 0, width: 0.18, depth: 7.9, kind: "metal" },
