@@ -225,6 +225,52 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
+  it("maps lower outlane drain paths to their lane and drain hardware", () => {
+    const leftOutlaneDrain = blueprint.shots.find((shot) => shot.id === "shot.left-outlane-drain");
+    const rightOutlaneDrain = blueprint.shots.find((shot) => shot.id === "shot.right-outlane-drain");
+
+    expect(leftOutlaneDrain?.primaryFlipper).toBe("none");
+    expect(rightOutlaneDrain?.primaryFlipper).toBe("none");
+    expect(leftOutlaneDrain?.deviceIds).toEqual(
+      expect.arrayContaining([
+        "lane.lower.left-out",
+        "lane.lower.left-out.outer",
+        "lane.lower.left-out.inner",
+        "rollover.lower.left-out",
+        "lane.lower.left-out.guide-cover",
+        "lane.lower.left-out.rubber-band",
+        "post.left-out-top",
+        "post.left-out-top.cap",
+        "post.left-out-lower",
+        "post.left-out-lower.cap",
+        "boundary.left-apron",
+        "boundary.apron-left-guide",
+        "drain.center",
+        "drain.left-guide",
+        "drain.center-mouth"
+      ])
+    );
+    expect(rightOutlaneDrain?.deviceIds).toEqual(
+      expect.arrayContaining([
+        "lane.lower.right-out",
+        "lane.lower.right-out.inner",
+        "lane.lower.right-out.outer",
+        "rollover.lower.right-out",
+        "lane.lower.right-out.guide-cover",
+        "lane.lower.right-out.rubber-band",
+        "post.right-out-top",
+        "post.right-out-top.cap",
+        "post.right-out-lower",
+        "post.right-out-lower.cap",
+        "boundary.right-apron",
+        "boundary.apron-right-guide",
+        "drain.center",
+        "drain.right-guide",
+        "drain.center-mouth"
+      ])
+    );
+  });
+
   it("models flippers as blueprint-authored capsule-like bat hardware", () => {
     for (const flipper of blueprint.flippers) {
       expect(flipper.length).toBeCloseTo(1.2);
