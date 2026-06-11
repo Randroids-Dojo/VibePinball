@@ -64,6 +64,21 @@ describe("pinball rules", () => {
     expect(state.score).toBe(1250);
   });
 
+  it("uses one ball save for fast post-launch drains", () => {
+    let state = applyTableEvent(startGame(), { type: "launch" });
+    state = applyTableEvent(state, { type: "drain", quick: true });
+
+    expect(state.ball).toBe(1);
+    expect(state.message).toBe("Ball 1 saved. Launch again.");
+    expect(state.ballSaveAvailable).toBe(false);
+
+    state = applyTableEvent(state, { type: "launch" });
+    state = applyTableEvent(state, { type: "drain", quick: true });
+
+    expect(state.ball).toBe(2);
+    expect(state.message).toBe("Ball 2 ready.");
+  });
+
   it("cancels scoring and bonus after tilt until drain", () => {
     let state = startGame();
     state = applyTableEvent(state, { type: "tilt" });
