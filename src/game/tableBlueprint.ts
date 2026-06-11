@@ -974,8 +974,54 @@ export interface PlasticStandoff {
   height: number;
   radius: number;
   capRadius: number;
+  foot: ElevatedSupportFoot;
+  collar: ElevatedSupportCollar;
   kind: "metal";
 }
+
+const withPlasticStandoffMounts = (
+  standoff: Omit<PlasticStandoff, "foot" | "collar">
+): PlasticStandoff => {
+  const footRadius = Math.max(standoff.radius * 2.55, 0.112);
+  const collarHeight = 0.042;
+
+  return {
+    ...standoff,
+    foot: {
+      id: `${standoff.id}.foot`,
+      targetId: standoff.id,
+      radius: footRadius,
+      height: 0.024,
+      fasteners: [
+        {
+          id: `${standoff.id}.foot.screw-left`,
+          targetId: `${standoff.id}.foot`,
+          x: standoff.x - footRadius * 0.48,
+          z: standoff.z,
+          radius: 0.022,
+          kind: "metal"
+        },
+        {
+          id: `${standoff.id}.foot.screw-right`,
+          targetId: `${standoff.id}.foot`,
+          x: standoff.x + footRadius * 0.48,
+          z: standoff.z,
+          radius: 0.022,
+          kind: "metal"
+        }
+      ],
+      kind: "metal"
+    },
+    collar: {
+      id: `${standoff.id}.collar`,
+      targetId: standoff.id,
+      y: standoff.height - collarHeight / 2,
+      radius: Math.max(standoff.radius * 1.62, 0.068),
+      height: collarHeight,
+      kind: "metal"
+    }
+  };
+};
 
 export interface PlayfieldArt {
   id: string;
@@ -3392,8 +3438,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
       color: 0xf6d174,
       layerY: 0.62,
       standoffs: [
-        { id: "plastic.left-lane-cover.standoff.lower", x: -3.14, z: 4.08, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" },
-        { id: "plastic.left-lane-cover.standoff.upper", x: -2.18, z: 3.28, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }
+        withPlasticStandoffMounts({ id: "plastic.left-lane-cover.standoff.lower", x: -3.14, z: 4.08, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }),
+        withPlasticStandoffMounts({ id: "plastic.left-lane-cover.standoff.upper", x: -2.18, z: 3.28, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" })
       ]
     },
     {
@@ -3406,8 +3452,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
       color: 0xf6d174,
       layerY: 0.62,
       standoffs: [
-        { id: "plastic.right-lane-cover.standoff.lower", x: 3.14, z: 4.08, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" },
-        { id: "plastic.right-lane-cover.standoff.upper", x: 2.18, z: 3.28, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }
+        withPlasticStandoffMounts({ id: "plastic.right-lane-cover.standoff.lower", x: 3.14, z: 4.08, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }),
+        withPlasticStandoffMounts({ id: "plastic.right-lane-cover.standoff.upper", x: 2.18, z: 3.28, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" })
       ]
     },
     {
@@ -3420,8 +3466,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
       color: 0xffe6ac,
       layerY: 0.58,
       standoffs: [
-        { id: "plastic.left-sling-cover.standoff.outer", x: -2.5, z: 3.12, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" },
-        { id: "plastic.left-sling-cover.standoff.inner", x: -1.42, z: 3.56, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" }
+        withPlasticStandoffMounts({ id: "plastic.left-sling-cover.standoff.outer", x: -2.5, z: 3.12, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" }),
+        withPlasticStandoffMounts({ id: "plastic.left-sling-cover.standoff.inner", x: -1.42, z: 3.56, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" })
       ]
     },
     {
@@ -3434,8 +3480,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
       color: 0xffe6ac,
       layerY: 0.58,
       standoffs: [
-        { id: "plastic.right-sling-cover.standoff.outer", x: 2.5, z: 3.12, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" },
-        { id: "plastic.right-sling-cover.standoff.inner", x: 1.42, z: 3.56, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" }
+        withPlasticStandoffMounts({ id: "plastic.right-sling-cover.standoff.outer", x: 2.5, z: 3.12, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" }),
+        withPlasticStandoffMounts({ id: "plastic.right-sling-cover.standoff.inner", x: 1.42, z: 3.56, height: 0.54, radius: 0.04, capRadius: 0.07, kind: "metal" })
       ]
     },
     {
@@ -3447,9 +3493,9 @@ export const silverballSocialBlueprint: TableBlueprint = {
       color: 0xf3cf6e,
       layerY: 0.74,
       standoffs: [
-        { id: "plastic.bumper-nest-cover.standoff.left", x: -1.72, z: -4.22, height: 0.7, radius: 0.045, capRadius: 0.08, kind: "metal" },
-        { id: "plastic.bumper-nest-cover.standoff.center", x: -0.02, z: -5.62, height: 0.7, radius: 0.045, capRadius: 0.08, kind: "metal" },
-        { id: "plastic.bumper-nest-cover.standoff.right", x: 1.72, z: -4.28, height: 0.7, radius: 0.045, capRadius: 0.08, kind: "metal" }
+        withPlasticStandoffMounts({ id: "plastic.bumper-nest-cover.standoff.left", x: -1.72, z: -4.22, height: 0.7, radius: 0.045, capRadius: 0.08, kind: "metal" }),
+        withPlasticStandoffMounts({ id: "plastic.bumper-nest-cover.standoff.center", x: -0.02, z: -5.62, height: 0.7, radius: 0.045, capRadius: 0.08, kind: "metal" }),
+        withPlasticStandoffMounts({ id: "plastic.bumper-nest-cover.standoff.right", x: 1.72, z: -4.28, height: 0.7, radius: 0.045, capRadius: 0.08, kind: "metal" })
       ]
     },
     {
@@ -3462,8 +3508,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
       color: 0x9fd0ff,
       layerY: 0.68,
       standoffs: [
-        { id: "plastic.shooter-arch-cover.standoff.lower", x: 2.5, z: -5.08, height: 0.64, radius: 0.04, capRadius: 0.07, kind: "metal" },
-        { id: "plastic.shooter-arch-cover.standoff.upper", x: 3.3, z: -6.36, height: 0.64, radius: 0.04, capRadius: 0.07, kind: "metal" }
+        withPlasticStandoffMounts({ id: "plastic.shooter-arch-cover.standoff.lower", x: 2.5, z: -5.08, height: 0.64, radius: 0.04, capRadius: 0.07, kind: "metal" }),
+        withPlasticStandoffMounts({ id: "plastic.shooter-arch-cover.standoff.upper", x: 3.3, z: -6.36, height: 0.64, radius: 0.04, capRadius: 0.07, kind: "metal" })
       ]
     }
   ],

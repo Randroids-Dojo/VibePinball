@@ -950,12 +950,16 @@ const addPlasticCover = (
   cover: PlasticCover
 ) => {
   cover.standoffs.forEach((standoff) => {
+    addElevatedSupportFoot(group, standoff.x, standoff.z, standoff.foot);
+
     const post = mesh(
       new THREE.CylinderGeometry(standoff.radius, standoff.radius, standoff.height, 18),
       new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.18, metalness: 0.82 })
     );
     post.position.set(standoff.x, standoff.height / 2, standoff.z);
     group.add(post);
+
+    addElevatedSupportCollar(group, standoff.x, standoff.z, standoff.collar);
 
     const cap = mesh(
       new THREE.CylinderGeometry(standoff.capRadius, standoff.capRadius, 0.035, 18),
