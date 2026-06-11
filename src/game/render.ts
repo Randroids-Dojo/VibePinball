@@ -696,8 +696,9 @@ const addLampInsert = (group: THREE.Group, insert: LampInsert) => {
       })
     );
     bar.position.set(insert.x, 0.045, insert.z);
+    bar.rotation.y = insert.angle ?? 0;
     group.add(bar);
-    addDeckLabel(group, insert.label, insert.x, insert.z, insert.radius * 2.5, insert.radius, 0);
+    addDeckLabel(group, insert.label, insert.x, insert.z, insert.radius * 2.5, insert.radius, insert.angle ?? 0);
     addLampInsertLens(group, insert);
     return;
   }
@@ -712,7 +713,7 @@ const addLampInsert = (group: THREE.Group, insert: LampInsert) => {
     })
   );
   arrow.position.set(insert.x, 0.055, insert.z);
-  arrow.rotation.y = Math.PI;
+  arrow.rotation.y = Math.PI + (insert.angle ?? 0);
   group.add(arrow);
   addLampInsertLens(group, insert);
 };
@@ -734,6 +735,7 @@ const addLampInsertLens = (group: THREE.Group, insert: LampInsert) => {
       material
     );
     lens.position.set(insert.lens.x, 0.07, insert.lens.z);
+    lens.rotation.y = insert.lens.angle ?? 0;
     group.add(lens);
     return;
   }
@@ -753,7 +755,7 @@ const addLampInsertLens = (group: THREE.Group, insert: LampInsert) => {
     material
   );
   lens.position.set(insert.lens.x, 0.08, insert.lens.z);
-  lens.rotation.y = Math.PI;
+  lens.rotation.y = Math.PI + (insert.lens.angle ?? 0);
   group.add(lens);
 };
 
