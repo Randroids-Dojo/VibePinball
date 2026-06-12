@@ -277,7 +277,7 @@ export class PinballPhysics {
     }
 
     if (!actions.plunger && this.plungerCharge > 0 && pos.x > 3.05 && pos.z > 4.55) {
-      const launchSpeed = 10 + this.plungerCharge * 14;
+      const launchSpeed = 10 + this.plungerCharge * 16;
       this.ball.applyImpulse({ x: 0, y: 0, z: -launchSpeed * this.ball.mass() }, true);
       this.plungerCharge = 0;
       this.launched = true;
@@ -622,7 +622,7 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
         .setRotation(createYawPitchRotation(angle, pitch))
     );
     world.createCollider(
-      rapier.ColliderDesc.cuboid(hx, hy, hz).setRestitution(restitution).setFriction(0.18),
+      rapier.ColliderDesc.cuboid(hx, hy, hz).setRestitution(restitution).setFriction(0.1),
       body
     );
   };
@@ -661,7 +661,7 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
   const addPost = (x: number, z: number, radius: number, restitution = 0.82) => {
     const body = world.createRigidBody(rapier.RigidBodyDesc.fixed().setTranslation(x, 0.2, z));
     world.createCollider(
-      rapier.ColliderDesc.cylinder(0.34, radius).setRestitution(restitution).setFriction(0.16),
+      rapier.ColliderDesc.cylinder(0.34, radius).setRestitution(restitution).setFriction(0.12),
       body
     );
   };
