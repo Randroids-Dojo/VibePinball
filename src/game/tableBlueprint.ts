@@ -3141,10 +3141,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
       face: { id: "target-bank-1.face", x: -1.28, z: -2.44, width: 0.36, height: 0.72, thickness: 0.14, angle: 0.18, color: 0xd94b4b, kind: "plastic" },
       lampInsertId: "insert.social-s",
       switchBlades: makeTargetSwitchBlades("target-bank-1", -1.28, -2.44, 0.18),
-      mountPlate: { id: "target-bank-1.mount-plate", x: -1.28, z: -2.21, width: 0.48, depth: 0.1, angle: 0.18, kind: "metal" },
+      mountPlate: { id: "target-bank-1.mount-plate", x: -1.22, z: -2.77, width: 0.48, depth: 0.1, angle: 0.18, kind: "metal" },
       mountFasteners: [
-        { id: "target-bank-1.mount-screw-left", x: -1.45, z: -2.16, radius: 0.032, kind: "metal" },
-        { id: "target-bank-1.mount-screw-right", x: -1.11, z: -2.24, radius: 0.032, kind: "metal" }
+        { id: "target-bank-1.mount-screw-left", x: -1.39, z: -2.74, radius: 0.032, kind: "metal" },
+        { id: "target-bank-1.mount-screw-right", x: -1.05, z: -2.8, radius: 0.032, kind: "metal" }
       ],
       decalColor: 0xffd56f,
       rearStop: { id: "target-bank-1.rear-stop", x: -1.28, z: -2.72, width: 0.42, depth: 0.08, angle: 0.18, kind: "rubber" }
@@ -3159,10 +3159,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
       face: { id: "target-bank-2.face", x: -0.64, z: -2.6, width: 0.36, height: 0.72, thickness: 0.14, angle: 0.08, color: 0xd94b4b, kind: "plastic" },
       lampInsertId: "insert.social-o",
       switchBlades: makeTargetSwitchBlades("target-bank-2", -0.64, -2.6, 0.08),
-      mountPlate: { id: "target-bank-2.mount-plate", x: -0.64, z: -2.36, width: 0.48, depth: 0.1, angle: 0.08, kind: "metal" },
+      mountPlate: { id: "target-bank-2.mount-plate", x: -0.61, z: -2.94, width: 0.48, depth: 0.1, angle: 0.08, kind: "metal" },
       mountFasteners: [
-        { id: "target-bank-2.mount-screw-left", x: -0.82, z: -2.33, radius: 0.032, kind: "metal" },
-        { id: "target-bank-2.mount-screw-right", x: -0.46, z: -2.39, radius: 0.032, kind: "metal" }
+        { id: "target-bank-2.mount-screw-left", x: -0.78, z: -2.93, radius: 0.032, kind: "metal" },
+        { id: "target-bank-2.mount-screw-right", x: -0.44, z: -2.95, radius: 0.032, kind: "metal" }
       ],
       decalColor: 0xffd56f,
       rearStop: { id: "target-bank-2.rear-stop", x: -0.64, z: -2.88, width: 0.42, depth: 0.08, angle: 0.08, kind: "rubber" }
@@ -3177,10 +3177,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
       face: { id: "target-bank-3.face", x: 0, z: -2.68, width: 0.36, height: 0.72, thickness: 0.14, color: 0xd94b4b, kind: "plastic" },
       lampInsertId: "insert.social-c",
       switchBlades: makeTargetSwitchBlades("target-bank-3", 0, -2.68),
-      mountPlate: { id: "target-bank-3.mount-plate", x: 0, z: -2.43, width: 0.48, depth: 0.1, kind: "metal" },
+      mountPlate: { id: "target-bank-3.mount-plate", x: 0, z: -3.02, width: 0.48, depth: 0.1, kind: "metal" },
       mountFasteners: [
-        { id: "target-bank-3.mount-screw-left", x: -0.18, z: -2.43, radius: 0.032, kind: "metal" },
-        { id: "target-bank-3.mount-screw-right", x: 0.18, z: -2.43, radius: 0.032, kind: "metal" }
+        { id: "target-bank-3.mount-screw-left", x: -0.18, z: -3.02, radius: 0.032, kind: "metal" },
+        { id: "target-bank-3.mount-screw-right", x: 0.18, z: -3.02, radius: 0.032, kind: "metal" }
       ],
       decalColor: 0xffd56f,
       rearStop: { id: "target-bank-3.rear-stop", x: 0, z: -2.96, width: 0.42, depth: 0.08, kind: "rubber" }
@@ -3195,10 +3195,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
       face: { id: "target-bank-4.face", x: 0.64, z: -2.6, width: 0.36, height: 0.72, thickness: 0.14, angle: -0.08, color: 0xd94b4b, kind: "plastic" },
       lampInsertId: "insert.social-i",
       switchBlades: makeTargetSwitchBlades("target-bank-4", 0.64, -2.6, -0.08),
-      mountPlate: { id: "target-bank-4.mount-plate", x: 0.64, z: -2.36, width: 0.48, depth: 0.1, angle: -0.08, kind: "metal" },
+      mountPlate: { id: "target-bank-4.mount-plate", x: 0.61, z: -2.94, width: 0.48, depth: 0.1, angle: -0.08, kind: "metal" },
       mountFasteners: [
-        { id: "target-bank-4.mount-screw-left", x: 0.46, z: -2.39, radius: 0.032, kind: "metal" },
-        { id: "target-bank-4.mount-screw-right", x: 0.82, z: -2.33, radius: 0.032, kind: "metal" }
+        { id: "target-bank-4.mount-screw-left", x: 0.44, z: -2.95, radius: 0.032, kind: "metal" },
+        { id: "target-bank-4.mount-screw-right", x: 0.78, z: -2.93, radius: 0.032, kind: "metal" }
       ],
       decalColor: 0xffd56f,
       rearStop: { id: "target-bank-4.rear-stop", x: 0.64, z: -2.88, width: 0.42, depth: 0.08, angle: -0.08, kind: "rubber" }
@@ -3213,10 +3213,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
       face: { id: "target-bank-5.face", x: 1.28, z: -2.44, width: 0.36, height: 0.72, thickness: 0.14, angle: -0.18, color: 0xd94b4b, kind: "plastic" },
       lampInsertId: "insert.social-a",
       switchBlades: makeTargetSwitchBlades("target-bank-5", 1.28, -2.44, -0.18),
-      mountPlate: { id: "target-bank-5.mount-plate", x: 1.28, z: -2.21, width: 0.48, depth: 0.1, angle: -0.18, kind: "metal" },
+      mountPlate: { id: "target-bank-5.mount-plate", x: 1.22, z: -2.77, width: 0.48, depth: 0.1, angle: -0.18, kind: "metal" },
       mountFasteners: [
-        { id: "target-bank-5.mount-screw-left", x: 1.11, z: -2.24, radius: 0.032, kind: "metal" },
-        { id: "target-bank-5.mount-screw-right", x: 1.45, z: -2.16, radius: 0.032, kind: "metal" }
+        { id: "target-bank-5.mount-screw-left", x: 1.05, z: -2.8, radius: 0.032, kind: "metal" },
+        { id: "target-bank-5.mount-screw-right", x: 1.39, z: -2.74, radius: 0.032, kind: "metal" }
       ],
       decalColor: 0xffd56f,
       rearStop: { id: "target-bank-5.rear-stop", x: 1.28, z: -2.72, width: 0.42, depth: 0.08, angle: -0.18, kind: "rubber" }
@@ -3279,7 +3279,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       holdZ: -3.42,
       ejectX: 1.8,
       ejectZ: 2.4,
-      ejectStrength: 1.85,
+      ejectStrength: 6,
       walls: withSaucerWallFasteners([
         { id: "lock.saucer.back-wall", x: 0.92, z: -3.76, width: 0.82, depth: 0.06, kind: "metal" },
         { id: "lock.saucer.left-entry-wall", x: 0.54, z: -3.36, width: 0.06, depth: 0.52, angle: -0.28, kind: "metal" },

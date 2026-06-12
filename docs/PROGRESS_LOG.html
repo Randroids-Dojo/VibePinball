@@ -31,11 +31,24 @@
 
 <main id="entries">
 
+  <article data-slice="honest-device-impulses" data-date="2026-06-12">
+    <h3>Honest Device Impulses</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>fix/honest-device-impulses</code></dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/202">PR 202</a></dd>
+      <dt>Changed</dt><dd>made every gameplay impulse mass-scaled so values mean exit speed instead of saturating the global speed clamp: bumper kicks (8), sling kicks (7), saucer eject (6), nudges (2), and the interim flipper assist (16). Pop bumpers were dead because their sensor radius equaled their solid collider radius, so contact events could never fire; the sensor now triggers at skirt contact and the kick is radial and normalized. Slings now fire on rubber-face contact via point-to-face distance instead of a center proximity circle. Targets turned out to be unreachable for a second reason as well: the bank's front bottom rail was a solid full-height wall in front of all five faces, and each target's mount plate was authored on the player side of its face, so balls always bounced off mounting hardware. The bottom rail is now a sub-ball-height molding with no collider (rendered low), mount plates moved behind their assemblies, and target hits score purely from rebound physics with no injected impulse. Added a <code>placeBall</code> physics hook for deterministic device tests.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (66 passing, including new contact tests for bumper kick, sling face trigger, target rebound energy bound, and saucer capture-eject speed); <code>pnpm build</code>; <code>PORT=3017 pnpm exec playwright test</code> (2 passing); an organic six-ball headless session produced target, sling, orbit, and lane events with no clamp-saturated speeds.</dd>
+      <dt>Assumptions</dt><dd>Organic bumper-nest traffic is low because the orbit path bypasses the guarded nest; treated as flow tuning for the trap and flow audit rather than a physics defect since contact kicks are unit-proven.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-018</code> gained <code>tests/physics.test.ts</code> coverage; build log entries added to <code>docs/gdd/03-physics-simulation.html</code> and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd>None new.</dd>
+    </dl>
+  </article>
+
   <article data-slice="ball-containment-and-real-lane-corridors" data-date="2026-06-12">
     <h3>Ball Containment And Real Lane Corridors</h3>
     <dl>
       <dt>Branch</dt><dd><code>fix/ball-containment</code></dd>
-      <dt>PR</dt><dd>TBD</dd>
+      <dt>PR</dt><dd><a href="https://github.com/Randroids-Dojo/VibePinball/pull/201">PR 201</a></dd>
       <dt>Changed</dt><dd>enabled CCD on the ball and added a physical containment box: the playfield glass gained a collider and moved from y 0.88 to y 1.85 so it clears the wireforms and ramp rails that previously poked through it, cabinet inner walls now run deck-to-glass, and an escaped-ball failsafe re-seats any ball that leaves the box. CCD exposed that the right outlane assembly occupied the plunger corridor and only worked through tunneling, so the right side was re-authored: the outlane moved into the strip between the inlane wall and a new vertical divider, the shooter lane became a sealed vertical corridor centered on x 3.27 feeding the right orbit channel, the orbit entry gained a longer lane-guide funnel, and the launched ball now travels plunger to upper playfield with zero phantom contacts. Removed the lateral gravity bias, scaled the plunger impulse by real ball mass so charge maps to launch speed, allowed re-plunging any ball that comes to rest in the shooter lane, sealed the left outlane wedge sliver against the side wall, capped the left dead-strip mouth, re-strung all four lower-lane rubber bands along their walls instead of across corridors, and added deck-level ramp entry skirts so the ball can no longer wedge under the low end of the left ramp. Added a blueprint plot generator at <code>scripts/plot-blueprint.ts</code> for top-down geometry review.</dd>
       <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (64 passing, including a new cabinet containment property test across launch charges with flipper mashing and a glass clearance acceptance test); <code>pnpm build</code>; <code>PORT=3017 pnpm exec playwright test</code> (2 passing); headless physics traces confirming full-charge launches reach the upper playfield and weak launches fall back to a re-plungeable rest.</dd>
       <dt>Assumptions</dt><dd>Balls returning down the shared orbit and shooter channel may come to rest at the plunger and be re-plunged; a one-way gate at the corridor top is logged as a followup rather than blocking this slice.</dd>

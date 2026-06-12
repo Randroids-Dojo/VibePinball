@@ -1405,7 +1405,7 @@ describe("Silverball Social physical board blueprint", () => {
       expect(target.mountPlate.kind).toBe("metal");
       expect(target.mountPlate.width).toBeGreaterThan(0.4);
       expect(target.mountPlate.depth).toBeGreaterThan(0.06);
-      expect(target.mountPlate.z).toBeGreaterThan(target.rearStop.z);
+      expect(target.mountPlate.z).toBeLessThan(target.rearStop.z);
       expect(target.mountFasteners).toHaveLength(2);
       expect(target.mountFasteners.every((fastener) => fastener.id.startsWith(`${target.id}.mount-screw-`))).toBe(true);
       expect(target.mountFasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
@@ -1507,8 +1507,13 @@ describe("Silverball Social physical board blueprint", () => {
 
     expect(colliderSegmentIdSet).toContain(blueprint.targetBank.switchRail.id);
     expect(colliderSegmentIds).toEqual(
-      expect.arrayContaining(blueprint.targetBank.frameSegments.map((segment) => segment.id))
+      expect.arrayContaining(
+        blueprint.targetBank.frameSegments
+          .filter((segment) => segment.id !== "target-bank.frame-bottom-rail")
+          .map((segment) => segment.id)
+      )
     );
+    expect(colliderSegmentIdSet.has("target-bank.frame-bottom-rail"), "front molding stays below ball height").toBe(false);
     expect(colliderSegmentIds).toEqual(
       expect.arrayContaining(blueprint.targets.flatMap((target) => [
         target.mountPlate.id,
