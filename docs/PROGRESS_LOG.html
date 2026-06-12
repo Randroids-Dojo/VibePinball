@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="board-polish-closure" data-date="2026-06-12">
+    <h3>Board Polish Closure</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>chore/close-board-polish</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>closed the board polish arc (PRs 201 through 205) with a permanent extended flow regression test: eight launch rounds and 28,800 mixed-input frames asserting the ball stays inside the cabinet box, never leaves the deck surface band, never stalls outside the flipper cradle and plunger zones for more than a second, and keeps producing launch, orbit, sling, and target events. Archived the five completed board-polish tracker dots.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> including the new <code>tests/flow.test.ts</code>; production smoke after each merged PR in the arc.</dd>
+      <dt>Assumptions</dt><dd>Flipper cradling and balls resting at the re-plungeable shooter lane are intentional rest states, not stalls.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-015</code> and <code>REQ-017</code> gained the extended flow test reference.</dd>
+      <dt>Followups</dt><dd>Open: <code>F-002</code> (audio helper), <code>F-006</code> (one-way gate), <code>F-007</code> (skill-shot reachability and bumper-nest flow tuning).</dd>
+    </dl>
+  </article>
+
   <article data-slice="intent-driven-hardware-palette" data-date="2026-06-12">
     <h3>Intent-Driven Hardware Palette</h3>
     <dl>

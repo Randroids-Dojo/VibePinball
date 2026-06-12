@@ -234,7 +234,8 @@
       ],
       "testRefs": [
         "tests/tableBlueprint.test.ts",
-        "tests/playable.smoke.ts"
+        "tests/playable.smoke.ts",
+        "tests/flow.test.ts"
       ],
       "followupRefs": []
     },
@@ -267,7 +268,8 @@
       "testRefs": [
         "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts",
-        "tests/physics.test.ts"
+        "tests/physics.test.ts",
+        "tests/flow.test.ts"
       ],
       "followupRefs": []
     },
