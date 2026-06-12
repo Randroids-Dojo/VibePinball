@@ -1038,13 +1038,18 @@ const addTargetBankHardware = (group: THREE.Group, targetBank: TargetBankHardwar
 };
 
 const addTargetBankFrameSegment = (group: THREE.Group, segment: TargetBankFrameSegment) => {
-  addSegment(group, segment, 0.48);
+  const isFrontMolding = segment.id === "target-bank.frame-bottom-rail";
+  if (isFrontMolding) {
+    addRail(group, segment.x, segment.z, segment.width, segment.depth, segment.angle ?? 0, 0xb7c4c7, 0.03, 0, 0.06);
+  } else {
+    addSegment(group, segment, 0.48);
+  }
   segment.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
       new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
     );
-    screw.position.set(fastener.x, 0.705, fastener.z);
+    screw.position.set(fastener.x, isFrontMolding ? 0.075 : 0.705, fastener.z);
     group.add(screw);
   });
 };

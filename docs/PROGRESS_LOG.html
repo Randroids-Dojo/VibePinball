@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="honest-device-impulses" data-date="2026-06-12">
+    <h3>Honest Device Impulses</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>fix/honest-device-impulses</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>made every gameplay impulse mass-scaled so values mean exit speed instead of saturating the global speed clamp: bumper kicks (8), sling kicks (7), saucer eject (6), nudges (2), and the interim flipper assist (16). Pop bumpers were dead because their sensor radius equaled their solid collider radius, so contact events could never fire; the sensor now triggers at skirt contact and the kick is radial and normalized. Slings now fire on rubber-face contact via point-to-face distance instead of a center proximity circle. Targets turned out to be unreachable for a second reason as well: the bank's front bottom rail was a solid full-height wall in front of all five faces, and each target's mount plate was authored on the player side of its face, so balls always bounced off mounting hardware. The bottom rail is now a sub-ball-height molding with no collider (rendered low), mount plates moved behind their assemblies, and target hits score purely from rebound physics with no injected impulse. Added a <code>placeBall</code> physics hook for deterministic device tests.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (66 passing, including new contact tests for bumper kick, sling face trigger, target rebound energy bound, and saucer capture-eject speed); <code>pnpm build</code>; <code>PORT=3017 pnpm exec playwright test</code> (2 passing); an organic six-ball headless session produced target, sling, orbit, and lane events with no clamp-saturated speeds.</dd>
+      <dt>Assumptions</dt><dd>Organic bumper-nest traffic is low because the orbit path bypasses the guarded nest; treated as flow tuning for the trap and flow audit rather than a physics defect since contact kicks are unit-proven.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-018</code> gained <code>tests/physics.test.ts</code> coverage; build log entries added to <code>docs/gdd/03-physics-simulation.html</code> and <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd>None new.</dd>
+    </dl>
+  </article>
+
   <article data-slice="ball-containment-and-real-lane-corridors" data-date="2026-06-12">
     <h3>Ball Containment And Real Lane Corridors</h3>
     <dl>

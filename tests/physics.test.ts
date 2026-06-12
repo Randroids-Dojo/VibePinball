@@ -44,6 +44,111 @@ describe("pinball physics", () => {
     }
   });
 
+  it("kicks the ball away from a pop bumper on skirt contact", async () => {
+    const physics = await PinballPhysics.create();
+    physics.placeBall(-1.25, -4.0, 0, -4);
+
+    let sawBumper = false;
+    let previous = step(physics);
+    for (let i = 0; i < 90; i += 1) {
+      const snapshot = step(physics);
+      if (snapshot.events.some((event) => event.type === "bumper")) {
+        sawBumper = true;
+        previous = snapshot;
+        break;
+      }
+      previous = snapshot;
+    }
+    expect(sawBumper).toBe(true);
+
+    let maxSpeed = 0;
+    let lastBall = previous.ball;
+    for (let i = 0; i < 30; i += 1) {
+      const snapshot = step(physics);
+      maxSpeed = Math.max(maxSpeed, planarDistance(snapshot.ball, lastBall) * 60);
+      lastBall = snapshot.ball;
+    }
+    expect(maxSpeed).toBeGreaterThan(2);
+    expect(maxSpeed).toBeLessThan(14);
+  });
+
+  it("scores target hits from rebound physics without injecting energy", async () => {
+    const physics = await PinballPhysics.create();
+    physics.placeBall(0, -1.8, 0, -5);
+
+    let sawTarget = false;
+    let lastBall = { x: 0, y: 0, z: -1.8 };
+    for (let i = 0; i < 90; i += 1) {
+      const snapshot = step(physics);
+      lastBall = snapshot.ball;
+      if (snapshot.events.some((event) => event.type === "target")) {
+        sawTarget = true;
+        break;
+      }
+    }
+    expect(sawTarget).toBe(true);
+
+    let reboundSpeed = 0;
+    for (let i = 0; i < 10; i += 1) {
+      const snapshot = step(physics);
+      reboundSpeed = Math.max(reboundSpeed, planarDistance(snapshot.ball, lastBall) * 60);
+      lastBall = snapshot.ball;
+    }
+    expect(reboundSpeed).toBeLessThan(7);
+  });
+
+  it("fires the sling kick on rubber face contact", async () => {
+    const physics = await PinballPhysics.create();
+    physics.placeBall(-1.56, 3.17, -2.56, 3.08);
+
+    let sawSling = false;
+    for (let i = 0; i < 30; i += 1) {
+      const snapshot = step(physics);
+      if (snapshot.events.some((event) => event.type === "sling" && event.side === "left")) {
+        sawSling = true;
+        break;
+      }
+    }
+    expect(sawSling).toBe(true);
+
+    let lastBall = physics.step(emptyActionState(), 0, false).ball;
+    let maxSpeed = 0;
+    for (let i = 0; i < 30; i += 1) {
+      const snapshot = step(physics);
+      maxSpeed = Math.max(maxSpeed, planarDistance(snapshot.ball, lastBall) * 60);
+      lastBall = snapshot.ball;
+    }
+    expect(maxSpeed).toBeGreaterThan(2);
+    expect(maxSpeed).toBeLessThan(14);
+  });
+
+  it("captures and ejects the lock saucer ball at a playable speed", async () => {
+    const physics = await PinballPhysics.create();
+    physics.placeBall(0.92, -4.35, 0, 3);
+
+    let sawEnter = false;
+    let sawEject = false;
+    let lastBall = { x: 0.92, y: 0, z: -2.6 };
+    let postEjectSpeed = 0;
+    for (let i = 0; i < 180; i += 1) {
+      const snapshot = step(physics);
+      if (snapshot.events.some((event) => event.type === "lockEnter")) {
+        sawEnter = true;
+      }
+      if (snapshot.events.some((event) => event.type === "lockEject")) {
+        sawEject = true;
+      }
+      if (sawEject) {
+        postEjectSpeed = Math.max(postEjectSpeed, planarDistance(snapshot.ball, lastBall) * 60);
+      }
+      lastBall = snapshot.ball;
+    }
+    expect(sawEnter).toBe(true);
+    expect(sawEject).toBe(true);
+    expect(postEjectSpeed).toBeGreaterThan(2);
+    expect(postEjectSpeed).toBeLessThan(15);
+  });
+
   it("keeps low-speed live balls recoverable after launch settling", async () => {
     const physics = await PinballPhysics.create();
     const beforeRecovery = await launchAndSettle(physics, 36, 900);

@@ -10,6 +10,7 @@ import {
   type Segment,
   type SaucerDevice,
   type SensorZone,
+  type SlingDevice,
   type WireformPath
 } from "./tableBlueprint";
 
@@ -45,7 +46,9 @@ export const targetBankColliderSegments = (
   targets = blueprint.targets,
   targetBank = blueprint.targetBank
 ): Segment[] => [
-  ...targetBank.frameSegments,
+  ...targetBank.frameSegments.filter(
+    (segment) => segment.id !== "target-bank.frame-bottom-rail"
+  ),
   targetBank.switchRail,
   ...targets.flatMap((target) => [
     target.mountPlate,
@@ -141,6 +144,20 @@ export class PinballPhysics {
     this.saucerHoldEventPending = false;
     this.ball.setTranslation({ x: 3.27, y: 0.35, z: 5.55 }, true);
     this.ball.setLinvel({ x: 0, y: 0, z: 0 }, true);
+    this.ball.setAngvel({ x: 0, y: 0, z: 0 }, true);
+  }
+
+  placeBall(x: number, z: number, velocityX: number, velocityZ: number): void {
+    this.launched = true;
+    this.launchedSeconds = 10;
+    this.lowSpeedSeconds = 0;
+    this.saucerHeldBy = null;
+    this.ball.setTranslation({
+      x,
+      y: blueprint.playfield.surfaceY + blueprint.scale.ballRadius + 0.02,
+      z
+    }, true);
+    this.ball.setLinvel({ x: velocityX, y: 0, z: velocityZ }, true);
     this.ball.setAngvel({ x: 0, y: 0, z: 0 }, true);
   }
 
@@ -250,19 +267,21 @@ export class PinballPhysics {
       return;
     }
 
+    const flipperKick = 16 * this.ball.mass();
     if (actions.leftFlipper && this.isNear(pos.x, pos.z, -1.35, 4.65, 1.35, "left-flipper", 0.08)) {
-      this.ball.applyImpulse({ x: 2.6, y: 0, z: -6.7 }, true);
+      this.ball.applyImpulse({ x: 0.36 * flipperKick, y: 0, z: -0.93 * flipperKick }, true);
     }
 
     if (actions.rightFlipper && this.isNear(pos.x, pos.z, 1.35, 4.65, 1.35, "right-flipper", 0.08)) {
-      this.ball.applyImpulse({ x: -2.6, y: 0, z: -6.7 }, true);
+      this.ball.applyImpulse({ x: -0.36 * flipperKick, y: 0, z: -0.93 * flipperKick }, true);
     }
 
     if (actions.nudgeLeft || actions.nudgeRight || actions.nudgeUp) {
       this.nudgeHeat += dt * 5.5;
       if (!this.cooldowns.has("nudge")) {
-        const x = actions.nudgeLeft ? -2.2 : actions.nudgeRight ? 2.2 : 0;
-        const z = actions.nudgeUp ? -2.2 : 0;
+        const nudgeKick = 2 * this.ball.mass();
+        const x = actions.nudgeLeft ? -nudgeKick : actions.nudgeRight ? nudgeKick : 0;
+        const z = actions.nudgeUp ? -nudgeKick : 0;
         this.ball.applyImpulse({ x, y: 0, z }, true);
         this.cooldowns.set("nudge", 0.25);
         if (this.nudgeHeat > 3.6) {
@@ -280,28 +299,37 @@ export class PinballPhysics {
     }
 
     const pos = this.ball.translation();
+    const ballMass = this.ball.mass();
+
     for (const bumper of blueprint.bumpers) {
-      if (this.isNear(pos.x, pos.z, bumper.x, bumper.z, bumper.skirtRadius, `bumper-${bumper.id}`, 0.35)) {
+      const contactRadius = bumper.skirtRadius + blueprint.scale.ballRadius + 0.02;
+      if (this.isNear(pos.x, pos.z, bumper.x, bumper.z, contactRadius, `bumper-${bumper.id}`, 0.35)) {
         const dx = pos.x - bumper.x;
         const dz = pos.z - bumper.z;
-        this.ball.applyImpulse({ x: dx * 3.5, y: 0, z: dz * 3.5 - 1.2 }, true);
+        const length = Math.max(Math.hypot(dx, dz), 0.001);
+        this.ball.applyImpulse({
+          x: (dx / length) * 8 * ballMass,
+          y: 0,
+          z: (dz / length) * 8 * ballMass
+        }, true);
         events.push({ type: "bumper", id: bumper.id });
       }
     }
 
     for (const target of blueprint.targets) {
       if (this.isNear(pos.x, pos.z, target.x, target.z, target.radius, `target-${target.id}`, 1.2)) {
-        this.ball.applyImpulse({ x: (pos.x - target.x) * 2.6, y: 0, z: 4.5 }, true);
         events.push({ type: "target", id: target.id });
       }
     }
 
     for (const sling of blueprint.slings) {
-      if (this.isNear(pos.x, pos.z, sling.x, sling.z, 0.55, `sling-${sling.side}`, 0.25)) {
+      const cooldownKey = `sling-${sling.side}`;
+      if (!this.cooldowns.has(cooldownKey) && this.isTouchingSlingFace(pos.x, pos.z, sling)) {
+        this.cooldowns.set(cooldownKey, 0.25);
         this.ball.applyImpulse({
-          x: sling.impulseNormalX * 3.6,
+          x: sling.impulseNormalX * 7 * ballMass,
           y: 0,
-          z: sling.impulseNormalZ * 3.6
+          z: sling.impulseNormalZ * 7 * ballMass
         }, true);
         events.push({ type: "sling", side: sling.side });
       }
@@ -350,6 +378,21 @@ export class PinballPhysics {
       }
     }
 
+  }
+
+  private isTouchingSlingFace(x: number, z: number, sling: SlingDevice): boolean {
+    const face = sling.rubberFace;
+    const angle = face.angle ?? 0;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const dx = x - face.x;
+    const dz = z - face.z;
+    const localX = dx * cos - dz * sin;
+    const localZ = dx * sin + dz * cos;
+    const clampedX = Math.min(Math.max(localX, -face.width / 2), face.width / 2);
+    const clampedZ = Math.min(Math.max(localZ, -face.depth / 2), face.depth / 2);
+    const distance = Math.hypot(localX - clampedX, localZ - clampedZ);
+    return distance <= blueprint.scale.ballRadius + 0.06;
   }
 
   private isNear(
@@ -408,9 +451,9 @@ export class PinballPhysics {
       events.push({ type: "lockEject", id: saucer.id });
     }
     this.ball.applyImpulse({
-      x: dx / length * saucer.ejectStrength,
+      x: dx / length * saucer.ejectStrength * this.ball.mass(),
       y: 0,
-      z: dz / length * saucer.ejectStrength
+      z: dz / length * saucer.ejectStrength * this.ball.mass()
     }, true);
   }
 
