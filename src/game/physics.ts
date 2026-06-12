@@ -103,12 +103,20 @@ export class PinballPhysics {
   private saucerHoldSeconds = 0;
   private saucerHeldBy: SaucerDevice | null = null;
   private saucerHoldEventPending = false;
+  private leftFlipperAngle: number;
+  private rightFlipperAngle: number;
+
+  private static readonly SUBSTEP = 1 / 180;
+  private static readonly FLIP_SPEED = 28;
+  private static readonly FLIP_RETURN_SPEED = 14;
 
   private constructor(rapier: RapierModule, world: World, ball: RigidBody, tableBodies: TableColliderBodies) {
     this.rapier = rapier;
     this.world = world;
     this.ball = ball;
     this.flipperBodies = tableBodies.flippers;
+    this.leftFlipperAngle = blueprint.flippers.find((item) => item.side === "left")?.restAngle ?? 0;
+    this.rightFlipperAngle = blueprint.flippers.find((item) => item.side === "right")?.restAngle ?? 0;
   }
 
   static async create(): Promise<PinballPhysics> {
@@ -116,6 +124,7 @@ export class PinballPhysics {
     await rapier.init();
 
     const world = new rapier.World(blueprint.playfield.gravity);
+    world.timestep = PinballPhysics.SUBSTEP;
     const ballBody = world.createRigidBody(
       rapier.RigidBodyDesc.dynamic()
         .setTranslation(3.27, 0.35, 5.55)
@@ -163,8 +172,6 @@ export class PinballPhysics {
 
   step(actions: ActionState, dt: number, scoringEnabled: boolean): PhysicsSnapshot {
     const events: TableEvent[] = [];
-    const leftFlipperAngle = this.flipperAngle("left", actions.leftFlipper);
-    const rightFlipperAngle = this.flipperAngle("right", actions.rightFlipper);
     this.accumulator += Math.min(dt, 0.05);
     this.tickSaucerHold(dt, events, scoringEnabled);
     this.tickInput(actions, dt, events, scoringEnabled);
@@ -172,10 +179,11 @@ export class PinballPhysics {
       this.launchedSeconds += dt;
     }
 
-    while (this.accumulator >= 1 / 60) {
-      this.updateFlipperBodies(leftFlipperAngle, rightFlipperAngle);
+    while (this.accumulator >= PinballPhysics.SUBSTEP) {
+      this.advanceFlipperAngles(actions);
+      this.updateFlipperBodies(this.leftFlipperAngle, this.rightFlipperAngle);
       this.world.step();
-      this.accumulator -= 1 / 60;
+      this.accumulator -= PinballPhysics.SUBSTEP;
     }
 
     this.clampBallSpeed();
@@ -206,19 +214,33 @@ export class PinballPhysics {
       saucerHold: this.saucerHeldBy
         ? { id: this.saucerHeldBy.id, x: this.saucerHeldBy.holdX, z: this.saucerHeldBy.holdZ }
         : null,
-      leftFlipperAngle,
-      rightFlipperAngle,
+      leftFlipperAngle: this.leftFlipperAngle,
+      rightFlipperAngle: this.rightFlipperAngle,
       plungerCharge: this.plungerCharge,
       events
     };
   }
 
-  private flipperAngle(side: "left" | "right", active: boolean): number {
-    const flipper = blueprint.flippers.find((item) => item.side === side);
-    if (!flipper) {
-      return 0;
+  private advanceFlipperAngles(actions: ActionState): void {
+    const leftFlipper = blueprint.flippers.find((item) => item.side === "left");
+    const rightFlipper = blueprint.flippers.find((item) => item.side === "right");
+    if (leftFlipper) {
+      this.leftFlipperAngle = PinballPhysics.sweepToward(this.leftFlipperAngle, leftFlipper, actions.leftFlipper);
     }
-    return active ? flipper.activeAngle : flipper.restAngle;
+    if (rightFlipper) {
+      this.rightFlipperAngle = PinballPhysics.sweepToward(this.rightFlipperAngle, rightFlipper, actions.rightFlipper);
+    }
+  }
+
+  private static sweepToward(current: number, flipper: FlipperDevice, active: boolean): number {
+    const target = active ? flipper.activeAngle : flipper.restAngle;
+    const speed = active ? PinballPhysics.FLIP_SPEED : PinballPhysics.FLIP_RETURN_SPEED;
+    const maxDelta = speed * PinballPhysics.SUBSTEP;
+    const delta = target - current;
+    if (Math.abs(delta) <= maxDelta) {
+      return target;
+    }
+    return current + Math.sign(delta) * maxDelta;
   }
 
   private updateFlipperBodies(leftFlipperAngle: number, rightFlipperAngle: number): void {
@@ -265,15 +287,6 @@ export class PinballPhysics {
 
     if (!scoringEnabled) {
       return;
-    }
-
-    const flipperKick = 16 * this.ball.mass();
-    if (actions.leftFlipper && this.isNear(pos.x, pos.z, -1.35, 4.65, 1.35, "left-flipper", 0.08)) {
-      this.ball.applyImpulse({ x: 0.36 * flipperKick, y: 0, z: -0.93 * flipperKick }, true);
-    }
-
-    if (actions.rightFlipper && this.isNear(pos.x, pos.z, 1.35, 4.65, 1.35, "right-flipper", 0.08)) {
-      this.ball.applyImpulse({ x: -0.36 * flipperKick, y: 0, z: -0.93 * flipperKick }, true);
     }
 
     if (actions.nudgeLeft || actions.nudgeRight || actions.nudgeUp) {

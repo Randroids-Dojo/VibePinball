@@ -44,6 +44,59 @@ describe("pinball physics", () => {
     }
   });
 
+  it("launches a resting ball up-table through physical flipper contact", async () => {
+    const physics = await PinballPhysics.create();
+    physics.placeBall(-0.76, 4.7, 0, 0);
+
+    for (let i = 0; i < 30; i += 1) {
+      step(physics);
+    }
+    const settled = step(physics);
+
+    const flipping = { ...emptyActionState(), leftFlipper: true };
+    let flipped = settled;
+    for (let i = 0; i < 30; i += 1) {
+      flipped = step(physics, flipping);
+    }
+
+    expect(settled.ball.z - flipped.ball.z).toBeGreaterThan(1);
+    expect(planarDistance(settled.ball, flipped.ball)).toBeGreaterThan(1);
+  });
+
+  it("applies no phantom force to balls away from the flippers", async () => {
+    const physics = await PinballPhysics.create();
+
+    for (let i = 0; i < 120; i += 1) {
+      step(physics);
+    }
+    const resting = step(physics);
+
+    const mashing = { ...emptyActionState(), leftFlipper: true, rightFlipper: true };
+    let after = resting;
+    for (let i = 0; i < 60; i += 1) {
+      after = step(physics, mashing);
+    }
+
+    expect(planarDistance(resting.ball, after.ball)).toBeLessThan(0.1);
+  });
+
+  it("sweeps the flipper angle over time instead of teleporting it", async () => {
+    const physics = await PinballPhysics.create();
+    const atRest = step(physics);
+
+    const flipping = { ...emptyActionState(), leftFlipper: true };
+    const firstFrame = step(physics, flipping);
+    const secondFrame = step(physics, flipping);
+    let settledAngle = secondFrame;
+    for (let i = 0; i < 10; i += 1) {
+      settledAngle = step(physics, flipping);
+    }
+
+    expect(firstFrame.leftFlipperAngle).toBeGreaterThan(atRest.leftFlipperAngle);
+    expect(firstFrame.leftFlipperAngle).toBeLessThan(settledAngle.leftFlipperAngle);
+    expect(secondFrame.leftFlipperAngle).toBeGreaterThan(firstFrame.leftFlipperAngle);
+  });
+
   it("kicks the ball away from a pop bumper on skirt contact", async () => {
     const physics = await PinballPhysics.create();
     physics.placeBall(-1.25, -4.0, 0, -4);
