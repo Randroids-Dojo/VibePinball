@@ -55,13 +55,13 @@ describe("pinball physics", () => {
 
     const flipping = { ...emptyActionState(), leftFlipper: true };
     let flipped = settled;
-    let highestZ = settled.ball.z;
+    let furthestUpTableZ = settled.ball.z;
     for (let i = 0; i < 30; i += 1) {
       flipped = step(physics, flipping);
-      highestZ = Math.min(highestZ, flipped.ball.z);
+      furthestUpTableZ = Math.min(furthestUpTableZ, flipped.ball.z);
     }
 
-    expect(settled.ball.z - highestZ).toBeGreaterThan(1);
+    expect(settled.ball.z - furthestUpTableZ).toBeGreaterThan(1);
     expect(planarDistance(settled.ball, flipped.ball)).toBeGreaterThan(1);
   });
 

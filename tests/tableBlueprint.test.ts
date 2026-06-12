@@ -2300,7 +2300,8 @@ describe("Silverball Social physical board blueprint", () => {
     }
 
     for (const wireform of blueprint.wireforms) {
-      const railGap = wireform.railOffset * 2 - 0.05;
+      const railWidth = wireform.rails[0]?.width ?? 0.05;
+      const railGap = wireform.railOffset * 2 - railWidth;
       expect(railGap, `${wireform.id} carries the ball on its rails`).toBeLessThan(ballDiameter);
     }
 
@@ -2321,7 +2322,8 @@ describe("Silverball Social physical board blueprint", () => {
 
     const drainPosts = blueprint.posts.filter((post) => post.id.startsWith("post.drain-"));
     expect(drainPosts).toHaveLength(2);
-    const postClearance = Math.abs(drainPosts[0].x - drainPosts[1].x) - 2 * (drainPosts[0].radius + 0.035);
+    const drainPostCapRadius = drainPosts[0].cap?.radius ?? drainPosts[0].radius;
+    const postClearance = Math.abs(drainPosts[0].x - drainPosts[1].x) - 2 * drainPostCapRadius;
     expect(postClearance, "drain mouth admits the ball").toBeGreaterThan(ballDiameter + 0.1);
   });
 
