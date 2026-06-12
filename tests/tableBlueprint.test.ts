@@ -268,10 +268,10 @@ describe("Silverball Social physical board blueprint", () => {
   });
 
   it("models lane wall rails as mounted hardware", () => {
-    expect(blueprint.laneWalls).toHaveLength(29);
+    expect(blueprint.laneWalls).toHaveLength(31);
     expect(blueprint.laneWalls.every((segment) => segment.fasteners.length === 2)).toBe(true);
     expect(blueprint.laneWalls.filter((segment) => segment.kind === "rubber")).toHaveLength(8);
-    expect(blueprint.laneWalls.filter((segment) => segment.kind === "metal")).toHaveLength(21);
+    expect(blueprint.laneWalls.filter((segment) => segment.kind === "metal")).toHaveLength(23);
 
     for (const segment of blueprint.laneWalls) {
       expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
@@ -1106,8 +1106,8 @@ describe("Silverball Social physical board blueprint", () => {
       expect(wireform.railY).toBeGreaterThanOrEqual(0.85);
       expect(wireform.railY).toBeLessThanOrEqual(1.45);
       expect(wireform.railHeight).toBeGreaterThan(0);
-      expect(wireform.railOffset).toBeGreaterThan(blueprint.scale.ballRadius + railHalfWidth);
-      expect(wireform.railOffset * 2 - railHalfWidth * 2).toBeGreaterThan(ballDiameter);
+      expect(wireform.railOffset).toBeGreaterThan(0.1);
+      expect(wireform.railOffset * 2 - railHalfWidth * 2).toBeLessThan(ballDiameter);
       expect(wireform.tieWidth).toBeGreaterThan(wireform.railOffset * 2);
       expect(wireform.segments.length).toBeGreaterThanOrEqual(2);
       expect(wireform.rails).toHaveLength(wireform.segments.length * 2);
@@ -2264,6 +2264,67 @@ describe("Silverball Social physical board blueprint", () => {
       expect(art.layerY, art.id).toBeLessThanOrEqual(0.06);
       expect(art.color, art.id).toBeGreaterThan(0);
     }
+  });
+
+  it("keeps audited clearances trap-free for the ball", () => {
+    const ballDiameter = blueprint.scale.ballRadius * 2;
+    const wallById = new Map(blueprint.laneWalls.map((wall) => [wall.id, wall]));
+    const segmentEnds = (segment: { x: number; z: number; depth: number; angle?: number }) => {
+      const angle = segment.angle ?? 0;
+      const dx = Math.sin(angle) * segment.depth / 2;
+      const dz = Math.cos(angle) * segment.depth / 2;
+      return {
+        upTable: { x: segment.x - dx, z: segment.z - dz },
+        downTable: { x: segment.x + dx, z: segment.z + dz }
+      };
+    };
+
+    const leftFlipper = blueprint.flippers.find((flipper) => flipper.side === "left");
+    const rightFlipper = blueprint.flippers.find((flipper) => flipper.side === "right");
+    for (const flipper of [leftFlipper, rightFlipper]) {
+      expect(flipper).toBeDefined();
+    }
+    const tipInnerReach = (flipper: NonNullable<typeof leftFlipper>) =>
+      Math.abs(flipper.x) - (flipper.length - flipper.batRadius) * Math.cos(flipper.restAngle) - flipper.batRadius;
+    const drainGap = tipInnerReach(leftFlipper!) + tipInnerReach(rightFlipper!);
+    expect(drainGap, "center drain gap admits the ball but stays tight").toBeGreaterThan(ballDiameter * 1.05);
+    expect(drainGap).toBeLessThan(ballDiameter * 2);
+
+    for (const side of ["left", "right"] as const) {
+      const flipper = side === "left" ? leftFlipper! : rightFlipper!;
+      const inOuter = wallById.get(`lane.lower.${side}-in.outer`);
+      expect(inOuter, side).toBeDefined();
+      const guideEnd = segmentEnds(inOuter!).downTable;
+      const passBehindGap = Math.hypot(guideEnd.x - flipper.x, guideEnd.z - flipper.z) - flipper.pivotRadius - inOuter!.width / 2;
+      expect(passBehindGap, `${side} inlane guide seals against the flipper pivot`).toBeLessThan(ballDiameter);
+    }
+
+    for (const wireform of blueprint.wireforms) {
+      const railWidth = wireform.rails[0]?.width ?? 0.05;
+      const railGap = wireform.railOffset * 2 - railWidth;
+      expect(railGap, `${wireform.id} carries the ball on its rails`).toBeLessThan(ballDiameter);
+    }
+
+    for (const side of ["left", "right"] as const) {
+      const chain = ["lower", "mid", "link", "upper"].map((part) => {
+        const wall = wallById.get(`orbit.${side}.outer.${part}`);
+        expect(wall, `orbit.${side}.outer.${part}`).toBeDefined();
+        return wall!;
+      });
+      for (let i = 0; i < chain.length - 1; i += 1) {
+        const gap = Math.hypot(
+          segmentEnds(chain[i]).upTable.x - segmentEnds(chain[i + 1]).downTable.x,
+          segmentEnds(chain[i]).upTable.z - segmentEnds(chain[i + 1]).downTable.z
+        );
+        expect(gap, `orbit.${side}.outer ${chain[i].id} to ${chain[i + 1].id}`).toBeLessThan(ballDiameter);
+      }
+    }
+
+    const drainPosts = blueprint.posts.filter((post) => post.id.startsWith("post.drain-"));
+    expect(drainPosts).toHaveLength(2);
+    const drainPostCapRadius = drainPosts[0].cap?.radius ?? drainPosts[0].radius;
+    const postClearance = Math.abs(drainPosts[0].x - drainPosts[1].x) - 2 * drainPostCapRadius;
+    expect(postClearance, "drain mouth admits the ball").toBeGreaterThan(ballDiameter + 0.1);
   });
 
   it("keeps lane clearances compatible with the physical ball radius", () => {

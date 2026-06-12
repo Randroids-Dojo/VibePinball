@@ -2450,14 +2450,15 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "lane.lower.left-out.outer", x: -3.745, z: 4.675, width: 0.1, depth: 1.5, angle: 0.25, kind: "rubber" },
     { id: "lane.lower.left-out.inner", x: -2.86, z: 4.86, width: 0.1, depth: 1.18, angle: 0.22, kind: "rubber" },
     { id: "lane.lower.left-divider.cap", x: -2.67, z: 4.43, width: 0.1, depth: 0.71, angle: 1.13, kind: "rubber" },
-    { id: "lane.lower.left-in.outer", x: -2.3, z: 5.08, width: 0.1, depth: 1.0, angle: 0.1, kind: "rubber" },
-    { id: "lane.lower.left-in.inner", x: -1.67, z: 5.0, width: 0.1, depth: 0.96, angle: 0.22, kind: "rubber" },
-    { id: "lane.lower.right-in.inner", x: 1.67, z: 5.0, width: 0.1, depth: 0.96, angle: -0.22, kind: "rubber" },
-    { id: "lane.lower.right-in.outer", x: 2.3, z: 5.08, width: 0.1, depth: 1.0, angle: -0.1, kind: "rubber" },
+    { id: "lane.lower.left-in.outer", x: -2.21, z: 5.12, width: 0.1, depth: 1.12, angle: 0.253, kind: "rubber" },
+    { id: "lane.lower.left-in.inner", x: -1.71, z: 4.9, width: 0.1, depth: 0.75, angle: 0.18, kind: "rubber" },
+    { id: "lane.lower.right-in.inner", x: 1.71, z: 4.9, width: 0.1, depth: 0.75, angle: -0.18, kind: "rubber" },
+    { id: "lane.lower.right-in.outer", x: 2.21, z: 5.12, width: 0.1, depth: 1.12, angle: -0.253, kind: "rubber" },
     { id: "lane.lower.right-out.inner", x: 2.98, z: 4.95, width: 0.1, depth: 1.7, angle: 0, kind: "rubber" },
     { id: "lane.lower.right-out.outer", x: 3.56, z: 3.965, width: 0.1, depth: 3.1, angle: 0, kind: "metal" },
     { id: "orbit.left.outer.lower", x: -3.62, z: 0.02, width: 0.1, depth: 2.22, angle: -0.18, kind: "metal" },
     { id: "orbit.left.outer.mid", x: -3.48, z: -2.32, width: 0.1, depth: 2.28, angle: -0.04, kind: "metal" },
+    { id: "orbit.left.outer.link", x: -3.115, z: -4.035, width: 0.1, depth: 1.31, angle: -0.502, kind: "metal" },
     { id: "orbit.left.outer.upper", x: -3.06, z: -5.34, width: 0.1, depth: 1.55, angle: 0.34, kind: "metal" },
     { id: "orbit.left.inner.lower", x: -2.82, z: 0.1, width: 0.1, depth: 1.82, angle: -0.08, kind: "metal" },
     { id: "orbit.left.inner.mid", x: -2.5, z: -2.46, width: 0.1, depth: 1.86, angle: 0.18, kind: "metal" },
@@ -2467,6 +2468,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "orbit.right.inner.upper", x: 2.02, z: -4.9, width: 0.1, depth: 1.28, angle: -0.46, kind: "metal" },
     { id: "orbit.right.outer.lower", x: 3.62, z: 0.02, width: 0.1, depth: 2.22, angle: 0.18, kind: "metal" },
     { id: "orbit.right.outer.mid", x: 3.48, z: -2.32, width: 0.1, depth: 2.28, angle: 0.04, kind: "metal" },
+    { id: "orbit.right.outer.link", x: 3.115, z: -4.035, width: 0.1, depth: 1.31, angle: 0.502, kind: "metal" },
     { id: "orbit.right.outer.upper", x: 3.06, z: -5.34, width: 0.1, depth: 1.55, angle: -0.34, kind: "metal" },
     { id: "lane.top.left.outer", x: -1.48, z: -6.52, width: 0.08, depth: 0.96, angle: -0.05, kind: "metal" },
     { id: "lane.top.left.inner", x: -0.62, z: -6.56, width: 0.08, depth: 0.98, angle: 0.04, kind: "metal" },
@@ -2491,22 +2493,22 @@ export const silverballSocialBlueprint: TableBlueprint = {
     },
     {
       id: "lane.lower.left-in.rubber-band",
-      x: -1.71,
-      z: 5.0,
+      x: -1.69,
+      z: 4.87,
       width: 0.075,
-      depth: 1.16,
-      angle: 0.09,
+      depth: 0.91,
+      angle: 0.155,
       kind: "rubber",
       startPostId: "post.left-in-top",
       endPostId: "post.left-in-lower"
     },
     {
       id: "lane.lower.right-in.rubber-band",
-      x: 1.71,
-      z: 5.0,
+      x: 1.69,
+      z: 4.87,
       width: 0.075,
-      depth: 1.16,
-      angle: -0.09,
+      depth: 0.91,
+      angle: -0.155,
       kind: "rubber",
       startPostId: "post.right-in-top",
       endPostId: "post.right-in-lower"
@@ -2579,54 +2581,54 @@ export const silverballSocialBlueprint: TableBlueprint = {
   flipperStops: [
     {
       id: "flipper.left.return-stop",
-      x: -0.66,
-      z: 4.42,
+      x: -0.81,
+      z: 5.32,
       width: 0.38,
       depth: 0.1,
       angle: 0.28,
       kind: "rubber",
       fasteners: [
-        { id: "flipper.left.return-stop.screw-inner", targetId: "flipper.left.return-stop", x: -0.78, z: 4.38, radius: 0.032, kind: "metal" },
-        { id: "flipper.left.return-stop.screw-outer", targetId: "flipper.left.return-stop", x: -0.54, z: 4.46, radius: 0.032, kind: "metal" }
+        { id: "flipper.left.return-stop.screw-inner", targetId: "flipper.left.return-stop", x: -0.93, z: 5.28, radius: 0.032, kind: "metal" },
+        { id: "flipper.left.return-stop.screw-outer", targetId: "flipper.left.return-stop", x: -0.69, z: 5.36, radius: 0.032, kind: "metal" }
       ]
     },
     {
       id: "flipper.left.end-rubber",
-      x: -1.93,
-      z: 4.5,
+      x: -2.08,
+      z: 5.4,
       width: 0.32,
       depth: 0.1,
       angle: -0.34,
       kind: "rubber",
       fasteners: [
-        { id: "flipper.left.end-rubber.screw-inner", targetId: "flipper.left.end-rubber", x: -2.04, z: 4.54, radius: 0.03, kind: "metal" },
-        { id: "flipper.left.end-rubber.screw-outer", targetId: "flipper.left.end-rubber", x: -1.82, z: 4.46, radius: 0.03, kind: "metal" }
+        { id: "flipper.left.end-rubber.screw-inner", targetId: "flipper.left.end-rubber", x: -2.19, z: 5.44, radius: 0.03, kind: "metal" },
+        { id: "flipper.left.end-rubber.screw-outer", targetId: "flipper.left.end-rubber", x: -1.97, z: 5.36, radius: 0.03, kind: "metal" }
       ]
     },
     {
       id: "flipper.right.return-stop",
-      x: 0.66,
-      z: 4.42,
+      x: 0.81,
+      z: 5.32,
       width: 0.38,
       depth: 0.1,
       angle: -0.28,
       kind: "rubber",
       fasteners: [
-        { id: "flipper.right.return-stop.screw-inner", targetId: "flipper.right.return-stop", x: 0.78, z: 4.38, radius: 0.032, kind: "metal" },
-        { id: "flipper.right.return-stop.screw-outer", targetId: "flipper.right.return-stop", x: 0.54, z: 4.46, radius: 0.032, kind: "metal" }
+        { id: "flipper.right.return-stop.screw-inner", targetId: "flipper.right.return-stop", x: 0.93, z: 5.28, radius: 0.032, kind: "metal" },
+        { id: "flipper.right.return-stop.screw-outer", targetId: "flipper.right.return-stop", x: 0.69, z: 5.36, radius: 0.032, kind: "metal" }
       ]
     },
     {
       id: "flipper.right.end-rubber",
-      x: 1.93,
-      z: 4.5,
+      x: 2.08,
+      z: 5.4,
       width: 0.32,
       depth: 0.1,
       angle: 0.34,
       kind: "rubber",
       fasteners: [
-        { id: "flipper.right.end-rubber.screw-inner", targetId: "flipper.right.end-rubber", x: 2.04, z: 4.54, radius: 0.03, kind: "metal" },
-        { id: "flipper.right.end-rubber.screw-outer", targetId: "flipper.right.end-rubber", x: 1.82, z: 4.46, radius: 0.03, kind: "metal" }
+        { id: "flipper.right.end-rubber.screw-inner", targetId: "flipper.right.end-rubber", x: 2.19, z: 5.44, radius: 0.03, kind: "metal" },
+        { id: "flipper.right.end-rubber.screw-outer", targetId: "flipper.right.end-rubber", x: 1.97, z: 5.36, radius: 0.03, kind: "metal" }
       ]
     }
   ],
@@ -2634,13 +2636,13 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "post.left-out-top", x: -3.85, z: 4.15, radius: 0.13, kind: "rubber" },
     { id: "post.left-out-lower", x: -3.52, z: 5.45, radius: 0.12, kind: "rubber" },
     { id: "post.left-in-top", x: -1.76, z: 4.42, radius: 0.1, kind: "rubber" },
-    { id: "post.left-in-lower", x: -1.66, z: 5.58, radius: 0.12, kind: "rubber" },
+    { id: "post.left-in-lower", x: -1.62, z: 5.32, radius: 0.12, kind: "rubber" },
     { id: "post.left-sling-a", x: -2.55, z: 3.25, radius: 0.15, kind: "rubber" },
     { id: "post.left-sling-b", x: -1.18, z: 3.72, radius: 0.15, kind: "rubber" },
     { id: "post.right-sling-a", x: 2.55, z: 3.25, radius: 0.15, kind: "rubber" },
     { id: "post.right-sling-b", x: 1.18, z: 3.72, radius: 0.15, kind: "rubber" },
     { id: "post.right-in-top", x: 1.76, z: 4.42, radius: 0.1, kind: "rubber" },
-    { id: "post.right-in-lower", x: 1.66, z: 5.58, radius: 0.12, kind: "rubber" },
+    { id: "post.right-in-lower", x: 1.62, z: 5.32, radius: 0.12, kind: "rubber" },
     { id: "post.right-out-top", x: 2.91, z: 4.04, radius: 0.09, kind: "rubber" },
     { id: "post.right-out-lower", x: 3.03, z: 5.68, radius: 0.1, kind: "rubber" },
     { id: "post.center-left", x: -0.75, z: 1.6, radius: 0.12, kind: "rubber" },
@@ -2882,8 +2884,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
     {
       id: "flipper.left",
       side: "left",
-      x: -1.35,
-      z: 4.72,
+      x: -1.5,
+      z: 5.62,
       restAngle: -0.22,
       activeAngle: 0.58,
       length: 1.2,
@@ -2908,8 +2910,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
     {
       id: "flipper.right",
       side: "right",
-      x: 1.35,
-      z: 4.72,
+      x: 1.5,
+      z: 5.62,
       restAngle: 0.22,
       activeAngle: -0.58,
       length: 1.2,
@@ -3643,7 +3645,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       label: "Left ramp return",
       railY: 1.08,
       railHeight: 0.22,
-      railOffset: 0.25,
+      railOffset: 0.15,
       tieWidth: 0.56,
       exit: { id: "wireform.left-return.exit", x: -2.18, z: 4.86, radius: 0.4 },
       segments: [
@@ -3693,7 +3695,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       label: "Right orbit return",
       railY: 1.16,
       railHeight: 0.24,
-      railOffset: 0.26,
+      railOffset: 0.15,
       tieWidth: 0.58,
       exit: { id: "wireform.right-orbit-return.exit", x: 2.18, z: 4.86, radius: 0.4 },
       segments: [

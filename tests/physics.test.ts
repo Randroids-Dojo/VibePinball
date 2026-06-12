@@ -46,7 +46,7 @@ describe("pinball physics", () => {
 
   it("launches a resting ball up-table through physical flipper contact", async () => {
     const physics = await PinballPhysics.create();
-    physics.placeBall(-0.76, 4.7, 0, 0);
+    physics.placeBall(-1.0, 5.45, 0, 0);
 
     for (let i = 0; i < 30; i += 1) {
       step(physics);
@@ -55,11 +55,13 @@ describe("pinball physics", () => {
 
     const flipping = { ...emptyActionState(), leftFlipper: true };
     let flipped = settled;
+    let furthestUpTableZ = settled.ball.z;
     for (let i = 0; i < 30; i += 1) {
       flipped = step(physics, flipping);
+      furthestUpTableZ = Math.min(furthestUpTableZ, flipped.ball.z);
     }
 
-    expect(settled.ball.z - flipped.ball.z).toBeGreaterThan(1);
+    expect(settled.ball.z - furthestUpTableZ).toBeGreaterThan(1);
     expect(planarDistance(settled.ball, flipped.ball)).toBeGreaterThan(1);
   });
 

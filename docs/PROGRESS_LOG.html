@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="trap-free-clearance-audit" data-date="2026-06-12">
+    <h3>Trap-Free Clearance Audit</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>fix/trap-clearance-audit</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>audited and fixed the clearance traps from <code>F-005</code>. The flipper area was geometrically wrong in two ways: the tip drain gap was 0.35 (narrower than the 0.425 ball, so center drains were impossible) and the inlanes exited below the flipper line so balls rolled past the flippers to the drain. Flippers moved to x 1.5 and z 5.62 with a 0.65 drain gap, the inlane outer guides now slant into the flipper pivots with a sealed pass-behind gap, the inner guides end above the pivot catch zone, and the stops, end rubbers, bands, and posts follow. Wireform rail offsets dropped from 0.25 to 0.15 so the clear gap (0.25) is narrower than the ball and wireforms carry instead of swallowing it. New orbit outer link walls seal the open windows between the mid and upper orbit walls on both sides, which previously let balls wedge in the dead columns beyond. Metal wall friction dropped to 0.10 (polished rails) and post friction to 0.12, and the full-charge launch now maps to the speed guard. Drain mouth passage and saucer funnel were audited and verified clear as authored.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (70 passing, including a new clearance acceptance test covering the flipper drain gap window, inlane guide seal, wireform carry gap, orbit outer chain continuity, and drain post passage); <code>pnpm build</code>; <code>PORT=3017 pnpm exec playwright test</code> (2 passing); an organic six-ball session showed inlanes feeding flippers (44 lane events) with launches completing the orbit entry every time.</dd>
+      <dt>Assumptions</dt><dd>Launched balls feed the bumper nest rather than the top skill lane because the authored right orbit ends at its mid-table exit sensor; skill-shot reachability is logged as a flow followup rather than bent into this geometry slice.</dd>
+      <dt>GDD coverage</dt><dd>Build log entries added to <code>docs/gdd/11-physical-board-blueprint.html</code> and <code>docs/gdd/03-physics-simulation.html</code>.</dd>
+      <dt>Followups</dt><dd>Resolved <code>F-005</code>. Created <code>F-007</code> for skill-shot reachability and bumper-nest flow tuning.</dd>
+    </dl>
+  </article>
+
   <article data-slice="physical-flipper-sweep" data-date="2026-06-12">
     <h3>Physical Flipper Sweep</h3>
     <dl>
