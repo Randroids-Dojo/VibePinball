@@ -249,7 +249,8 @@
       ],
       "testRefs": [
         "tests/input.test.ts",
-        "tests/playable.smoke.ts"
+        "tests/playable.smoke.ts",
+        "tests/physics.test.ts"
       ],
       "followupRefs": []
     },

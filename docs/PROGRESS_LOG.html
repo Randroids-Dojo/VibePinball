@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="physical-flipper-sweep" data-date="2026-06-12">
+    <h3>Physical Flipper Sweep</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>fix/flipper-sweep</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>flippers no longer teleport between rest and active poses with a proximity impulse assist. Flipper angles now sweep at finite angular velocity (28 rad/s flip, 14 rad/s spring return) advanced per physics substep, and the world steps at 180 Hz so the bat cannot jump past the ball between steps. The phantom flipper-zone impulse is removed entirely: shot power now comes from kinematic contact and varies with contact point, measured at roughly 13 units per second near the pivot up to the speed guard at the tip, exactly like a real flipper.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (69 passing, including new tests for physical flip launch, no phantom force on distant balls, and frame-by-frame angle sweep); <code>pnpm build</code>; <code>PORT=3017 pnpm exec playwright test</code> (2 passing); headless flip-speed sweep across five bat contact points.</dd>
+      <dt>Assumptions</dt><dd>180 Hz substepping triples world step cost, which is negligible for this collider count and keeps the render loop unchanged.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-016</code> gained <code>tests/physics.test.ts</code> coverage; build log entry added to <code>docs/gdd/03-physics-simulation.html</code>.</dd>
+      <dt>Followups</dt><dd>None new.</dd>
+    </dl>
+  </article>
+
   <article data-slice="honest-device-impulses" data-date="2026-06-12">
     <h3>Honest Device Impulses</h3>
     <dl>
