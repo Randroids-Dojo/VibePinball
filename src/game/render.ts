@@ -55,6 +55,26 @@ export interface PinballScene {
   dispose: () => void;
 }
 
+/**
+ * Hardware palette. Every entry is one visual intent; parts that share an
+ * intent share a color. Signal colors (inserts, lamps, decals) stay authored
+ * in the blueprint and are not part of this palette.
+ */
+const palette: Record<
+  "steel" | "steelBright" | "steelDark" | "rubber" | "well" | "coil" | "clearBlue" | "rampFloor" | "ball",
+  number
+> = {
+  steel: 0xb7c4c7,
+  steelBright: 0xd8e0e2,
+  steelDark: 0x6f7677,
+  rubber: 0x141414,
+  well: 0x0c0d0c,
+  coil: 0x3a3030,
+  clearBlue: 0x9fd0ff,
+  rampFloor: 0x74a8ff,
+  ball: 0xdce3e4
+};
+
 export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   const blueprint = silverballSocialBlueprint;
   const renderer = new THREE.WebGLRenderer({
@@ -143,7 +163,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
 
   const ball = mesh(
     new THREE.SphereGeometry(blueprint.scale.ballRadius, 32, 18),
-    new THREE.MeshStandardMaterial({ color: 0xdce3e4, roughness: 0.16, metalness: 0.85 })
+    new THREE.MeshStandardMaterial({ color: palette.ball, roughness: 0.16, metalness: 0.85 })
   );
   ball.castShadow = true;
   group.add(ball);
@@ -177,7 +197,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     device.capFasteners.forEach((fastener) => {
       const screw = mesh(
         new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.035, 16),
-        new THREE.MeshStandardMaterial({ color: 0xe0e7e8, roughness: 0.16, metalness: 0.86 })
+        new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.86 })
       );
       screw.position.set(fastener.x, 0.535, fastener.z);
       group.add(screw);
@@ -192,7 +212,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     );
     skirt.position.set(device.skirt.x, 0.12, device.skirt.z);
     group.add(skirt);
-    addRing(group, device.x, device.z, device.chromeRing.radius, device.chromeRing.tubeRadius, 0xb7c4c7);
+    addRing(group, device.x, device.z, device.chromeRing.radius, device.chromeRing.tubeRadius, palette.steel);
     device.guardSegments.forEach((segment) => addPopBumperGuardSegment(group, segment));
   });
 
@@ -222,7 +242,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   blueprint.saucers.forEach((saucer) => {
     const cup = mesh(
       new THREE.CylinderGeometry(saucer.cup.innerRadius, saucer.cup.outerRadius, saucer.cup.height, 32),
-      new THREE.MeshStandardMaterial({ color: 0x151515, roughness: 0.25, metalness: 0.65 })
+      new THREE.MeshStandardMaterial({ color: palette.rubber, roughness: 0.25, metalness: 0.65 })
     );
     cup.position.set(saucer.x, 0.18, saucer.z);
     group.add(cup);
@@ -242,7 +262,7 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     saucer.cup.fasteners.forEach((fastener) => {
       const screw = mesh(
         new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.026, 18),
-        new THREE.MeshStandardMaterial({ color: 0xc7d0d2, roughness: 0.16, metalness: 0.82 })
+        new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.82 })
       );
       screw.position.set(fastener.x, 0.275, fastener.z);
       group.add(screw);
@@ -345,7 +365,7 @@ const addRail = (
   width: number,
   depth: number,
   angle = 0,
-  color = 0xb7c4c7,
+  color = palette.steel,
   y = 0.28,
   pitch = 0,
   height = 0.4
@@ -367,7 +387,7 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
   const floor = mesh(
     new THREE.BoxGeometry(ramp.width, ramp.floorThickness, slopedDepth),
     new THREE.MeshStandardMaterial({
-      color: 0x74a8ff,
+      color: palette.rampFloor,
       transparent: true,
       opacity: 0.46,
       roughness: 0.18,
@@ -389,7 +409,7 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
       rail.width,
       rail.depth,
       rail.angle,
-      0x9fd0ff,
+      palette.clearBlue,
       (rail.startY + rail.endY) / 2,
       rail.pitch,
       rail.height
@@ -403,7 +423,7 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
 
     const supportMesh = mesh(
       new THREE.CylinderGeometry(support.radius, support.radius, support.height, 16),
-      new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.18, metalness: 0.82 })
+      new THREE.MeshStandardMaterial({ color: palette.steel, roughness: 0.18, metalness: 0.82 })
     );
     supportMesh.position.set(support.x, support.height / 2, support.z);
     group.add(supportMesh);
@@ -413,7 +433,7 @@ const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
 
     const cap = mesh(
       new THREE.CylinderGeometry(support.cap.radius, support.cap.radius, support.cap.height, 18),
-      new THREE.MeshStandardMaterial({ color: 0xe0e7e8, roughness: 0.16, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
     );
     cap.position.set(support.x, support.height + support.cap.height / 2, support.z);
     group.add(cap);
@@ -424,7 +444,7 @@ const addRampSideWall = (group: THREE.Group, wall: RampSideWall) => {
   const panel = mesh(
     new THREE.BoxGeometry(wall.width, wall.height, wall.depth),
     new THREE.MeshStandardMaterial({
-      color: 0x8fc9ff,
+      color: palette.clearBlue,
       transparent: true,
       opacity: 0.36,
       roughness: 0.12,
@@ -438,7 +458,7 @@ const addRampSideWall = (group: THREE.Group, wall: RampSideWall) => {
   wall.fasteners.forEach((fastener) => {
     const rivet = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
-      new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
     );
     rivet.position.set(fastener.x, fastener.y, fastener.z);
     group.add(rivet);
@@ -453,7 +473,7 @@ const addRampCrossBrace = (group: THREE.Group, brace: RampCrossBrace) => {
     brace.width,
     brace.depth,
     brace.angle ?? 0,
-    0xcbd3d6,
+    palette.steelBright,
     brace.y,
     brace.pitch,
     0.04
@@ -461,7 +481,7 @@ const addRampCrossBrace = (group: THREE.Group, brace: RampCrossBrace) => {
   brace.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
-      new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
     );
     screw.position.set(fastener.x, fastener.y, fastener.z);
     group.add(screw);
@@ -471,7 +491,7 @@ const addRampCrossBrace = (group: THREE.Group, brace: RampCrossBrace) => {
 const addRampSideRailFastener = (group: THREE.Group, fastener: RampSideRailFastener) => {
   const screw = mesh(
     new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-    new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
   );
   screw.position.set(fastener.x, fastener.y, fastener.z);
   group.add(screw);
@@ -483,12 +503,12 @@ const addSegment = (
   y: number
 ) => {
   const color = segment.kind === "rubber"
-    ? 0x141414
+    ? palette.rubber
     : segment.kind === "wire"
       ? 0xf4d35e
       : segment.kind === "plastic"
         ? 0xf5dfb5
-        : 0xb7c4c7;
+        : palette.steel;
   addRail(group, segment.x, segment.z, segment.width, segment.depth, segment.angle ?? 0, color, y);
 };
 
@@ -497,7 +517,7 @@ const addBoundarySegment = (group: THREE.Group, segment: BoundarySegment) => {
   segment.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.49, fastener.z);
     group.add(screw);
@@ -509,7 +529,7 @@ const addPopBumperGuardSegment = (group: THREE.Group, segment: PopBumperGuardSeg
   segment.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.61, fastener.z);
     group.add(screw);
@@ -521,7 +541,7 @@ const addLaneWallSegment = (group: THREE.Group, segment: LaneWallSegment) => {
   segment.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.585, fastener.z);
     group.add(screw);
@@ -533,7 +553,7 @@ const addHandoffSegment = (group: THREE.Group, segment: HandoffSegment) => {
   segment.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, segment.kind === "metal" ? 0.725 : 1.005, fastener.z);
     group.add(screw);
@@ -545,7 +565,7 @@ const addRampEntranceLip = (group: THREE.Group, lip: RampEntranceLip, y: number)
   lip.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, y + 0.225, fastener.z);
     group.add(screw);
@@ -557,7 +577,7 @@ const addRolloverWire = (group: THREE.Group, wire: RolloverWire) => {
   wire.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.235, fastener.z);
     group.add(screw);
@@ -569,7 +589,7 @@ const addFlipperStop = (group: THREE.Group, stop: FlipperStop) => {
   stop.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.49, fastener.z);
     group.add(screw);
@@ -580,7 +600,7 @@ const addPost = (group: THREE.Group, postRecord: Post) => {
   const post = mesh(
     new THREE.CylinderGeometry(postRecord.radius, postRecord.radius, 0.42, 20),
     new THREE.MeshStandardMaterial({
-      color: postRecord.kind === "rubber" ? 0x111111 : 0xb7c4c7,
+      color: postRecord.kind === "rubber" ? palette.rubber : palette.steel,
       roughness: 0.24,
       metalness: postRecord.kind === "metal" ? 0.75 : 0.05
     })
@@ -591,7 +611,7 @@ const addPost = (group: THREE.Group, postRecord: Post) => {
   if (postRecord.cap) {
     const cap = mesh(
       new THREE.CylinderGeometry(postRecord.cap.radius, postRecord.cap.radius, postRecord.cap.height, 20),
-      new THREE.MeshStandardMaterial({ color: 0xc7d0d2, roughness: 0.16, metalness: 0.82 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.82 })
     );
     cap.position.set(postRecord.x, 0.545, postRecord.z);
     group.add(cap);
@@ -663,7 +683,7 @@ const addSlingTopPlastic = (group: THREE.Group, sling: SlingDevice) => {
   topPlastic.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, topPlastic.thickness, 20),
-      new THREE.MeshStandardMaterial({ color: 0xd5dde0, roughness: 0.18, metalness: 0.84 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.18, metalness: 0.84 })
     );
     screw.position.set(fastener.x, topPlastic.layerY + topPlastic.thickness / 2 + 0.004, fastener.z);
     group.add(screw);
@@ -869,7 +889,7 @@ const addWireformPath = (group: THREE.Group, wireform: WireformPath) => {
 
     const supportMesh = mesh(
       new THREE.CylinderGeometry(support.radius, support.radius, support.height, 16),
-      new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.18, metalness: 0.82 })
+      new THREE.MeshStandardMaterial({ color: palette.steel, roughness: 0.18, metalness: 0.82 })
     );
     supportMesh.position.set(support.x, support.height / 2, support.z);
     group.add(supportMesh);
@@ -879,7 +899,7 @@ const addWireformPath = (group: THREE.Group, wireform: WireformPath) => {
 
     const supportCap = mesh(
       new THREE.CylinderGeometry(support.cap.radius, support.cap.radius, support.cap.height, 18),
-      new THREE.MeshStandardMaterial({ color: 0xe0e7e8, roughness: 0.16, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
     );
     supportCap.position.set(support.x, support.height + support.cap.height / 2, support.z);
     group.add(supportCap);
@@ -890,7 +910,7 @@ const addWireformPath = (group: THREE.Group, wireform: WireformPath) => {
 const addWireformRailFastener = (group: THREE.Group, fastener: WireformRailFastener) => {
   const clamp = mesh(
     new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-    new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
   );
   clamp.position.set(fastener.x, fastener.y, fastener.z);
   group.add(clamp);
@@ -899,7 +919,7 @@ const addWireformRailFastener = (group: THREE.Group, fastener: WireformRailFaste
 const addWireformTieFastener = (group: THREE.Group, fastener: WireformTieFastener) => {
   const screw = mesh(
     new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.02, 16),
-    new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
   );
   screw.position.set(fastener.x, fastener.y, fastener.z);
   group.add(screw);
@@ -913,7 +933,7 @@ const addElevatedSupportFoot = (
 ) => {
   const plate = mesh(
     new THREE.CylinderGeometry(foot.radius, foot.radius, foot.height, 24),
-    new THREE.MeshStandardMaterial({ color: 0xc7d0d2, roughness: 0.2, metalness: 0.82 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.2, metalness: 0.82 })
   );
   plate.position.set(x, 0.085, z);
   group.add(plate);
@@ -921,7 +941,7 @@ const addElevatedSupportFoot = (
   foot.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
-      new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.112, fastener.z);
     group.add(screw);
@@ -936,7 +956,7 @@ const addElevatedSupportCollar = (
 ) => {
   const ring = mesh(
     new THREE.CylinderGeometry(collar.radius, collar.radius, collar.height, 20),
-    new THREE.MeshStandardMaterial({ color: 0xd6dde0, roughness: 0.18, metalness: 0.86 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.18, metalness: 0.86 })
   );
   ring.position.set(x, collar.y, z);
   group.add(ring);
@@ -950,7 +970,7 @@ const addElevatedSupportSaddle = (
 ) => {
   const bracket = mesh(
     new THREE.BoxGeometry(saddle.width, saddle.height, saddle.depth),
-    new THREE.MeshStandardMaterial({ color: 0xcad2d5, roughness: 0.18, metalness: 0.86 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.18, metalness: 0.86 })
   );
   bracket.position.set(x, saddle.y, z);
   bracket.rotation.y = saddle.angle;
@@ -959,7 +979,7 @@ const addElevatedSupportSaddle = (
   saddle.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
-      new THREE.MeshStandardMaterial({ color: 0xe7edf0, roughness: 0.16, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
     );
     screw.position.set(fastener.x, saddle.y + saddle.height / 2 + 0.006, fastener.z);
     group.add(screw);
@@ -975,7 +995,7 @@ const addPlasticCover = (
 
     const post = mesh(
       new THREE.CylinderGeometry(standoff.radius, standoff.radius, standoff.height, 18),
-      new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.18, metalness: 0.82 })
+      new THREE.MeshStandardMaterial({ color: palette.steel, roughness: 0.18, metalness: 0.82 })
     );
     post.position.set(standoff.x, standoff.height / 2, standoff.z);
     group.add(post);
@@ -984,7 +1004,7 @@ const addPlasticCover = (
 
     const cap = mesh(
       new THREE.CylinderGeometry(standoff.capRadius, standoff.capRadius, 0.035, 18),
-      new THREE.MeshStandardMaterial({ color: 0xe2e9ea, roughness: 0.16, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
     );
     cap.position.set(standoff.x, cover.layerY + 0.045, standoff.z);
     group.add(cap);
@@ -1023,7 +1043,7 @@ const addLaneGuideCover = (group: THREE.Group, cover: LaneGuideCover) => {
   cover.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.035, 16),
-      new THREE.MeshStandardMaterial({ color: 0xe2e9ea, roughness: 0.16, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
     );
     screw.position.set(fastener.x, cover.layerY + 0.04, fastener.z);
     group.add(screw);
@@ -1040,14 +1060,14 @@ const addTargetBankHardware = (group: THREE.Group, targetBank: TargetBankHardwar
 const addTargetBankFrameSegment = (group: THREE.Group, segment: TargetBankFrameSegment) => {
   const isFrontMolding = segment.id === "target-bank.frame-bottom-rail";
   if (isFrontMolding) {
-    addRail(group, segment.x, segment.z, segment.width, segment.depth, segment.angle ?? 0, 0xb7c4c7, 0.03, 0, 0.06);
+    addRail(group, segment.x, segment.z, segment.width, segment.depth, segment.angle ?? 0, palette.steel, 0.03, 0, 0.06);
   } else {
     addSegment(group, segment, 0.48);
   }
   segment.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, isFrontMolding ? 0.075 : 0.705, fastener.z);
     group.add(screw);
@@ -1059,7 +1079,7 @@ const addTargetBankSwitchRail = (group: THREE.Group, rail: TargetBankSwitchRail)
   rail.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.545, fastener.z);
     group.add(screw);
@@ -1072,7 +1092,7 @@ const addTargetMountHardware = (group: THREE.Group, target: TargetDevice) => {
   target.mountFasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.035, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.16, metalness: 0.86 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.86 })
     );
     screw.position.set(fastener.x, 0.28, fastener.z);
     group.add(screw);
@@ -1084,7 +1104,7 @@ const addSaucerWallSegment = (group: THREE.Group, segment: SaucerWallSegment) =>
   segment.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, segment.kind === "wire" ? 0.655 : 0.485, fastener.z);
     group.add(screw);
@@ -1094,7 +1114,7 @@ const addSaucerWallSegment = (group: THREE.Group, segment: SaucerWallSegment) =>
 const addSaucerEjectCoil = (group: THREE.Group, coil: SaucerEjectCoil) => {
   const coilBody = mesh(
     new THREE.CylinderGeometry(coil.coilRadius, coil.coilRadius, coil.coilDepth, 24),
-    new THREE.MeshStandardMaterial({ color: 0x3a3030, roughness: 0.28, metalness: 0.55 })
+    new THREE.MeshStandardMaterial({ color: palette.coil, roughness: 0.28, metalness: 0.55 })
   );
   coilBody.rotation.x = Math.PI / 2;
   coilBody.rotation.z = coil.angle;
@@ -1103,7 +1123,7 @@ const addSaucerEjectCoil = (group: THREE.Group, coil: SaucerEjectCoil) => {
 
   const rod = mesh(
     new THREE.CylinderGeometry(coil.rodRadius, coil.rodRadius, coil.rodLength, 18),
-    new THREE.MeshStandardMaterial({ color: 0xd6dee0, roughness: 0.16, metalness: 0.9 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.9 })
   );
   rod.rotation.x = Math.PI / 2;
   rod.rotation.z = coil.angle;
@@ -1116,7 +1136,7 @@ const addSaucerEjectCoil = (group: THREE.Group, coil: SaucerEjectCoil) => {
 
   const bracket = mesh(
     new THREE.BoxGeometry(coil.bracket.width, 0.04, coil.bracket.depth),
-    new THREE.MeshStandardMaterial({ color: 0xaeb8ba, roughness: 0.2, metalness: 0.86 })
+    new THREE.MeshStandardMaterial({ color: palette.steel, roughness: 0.2, metalness: 0.86 })
   );
   bracket.rotation.y = coil.bracket.angle ?? 0;
   bracket.position.set(coil.bracket.x, 0.44, coil.bracket.z);
@@ -1125,7 +1145,7 @@ const addSaucerEjectCoil = (group: THREE.Group, coil: SaucerEjectCoil) => {
   coil.bracketFasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.475, fastener.z);
     group.add(screw);
@@ -1225,7 +1245,7 @@ const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
 
     const leveler = mesh(
       new THREE.CylinderGeometry(leg.leveler.radius, leg.leveler.radius, leg.leveler.height, 24),
-      new THREE.MeshStandardMaterial({ color: 0xc5ccd0, roughness: 0.16, metalness: 0.86 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.86 })
     );
     leveler.position.set(leg.leveler.x, leg.leveler.y, leg.leveler.z);
     scene.add(leveler);
@@ -1272,7 +1292,7 @@ const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
     grille.fasteners.forEach((fastener) => {
       const screw = mesh(
         new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
-        new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+        new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
       );
       screw.rotation.x = Math.PI / 2;
       screw.position.set(fastener.x, fastener.y, fastener.z);
@@ -1301,7 +1321,7 @@ const addCabinetControlButton = (scene: THREE.Scene, button: CabinetControlButto
 
   const bezel = mesh(
     new THREE.CylinderGeometry(button.bezelRadius, button.bezelRadius, button.bezelDepth, 32),
-    new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.16, metalness: 0.86 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.86 })
   );
   orientFaceCylinder(bezel);
   bezel.position.copy(base);
@@ -1337,7 +1357,7 @@ const addCabinetSideArtPanel = (scene: THREE.Scene, panel: CabinetSideArtPanel) 
   panel.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.rotation.z = Math.PI / 2;
     screw.position.set(fastener.x, fastener.y, fastener.z);
@@ -1372,7 +1392,7 @@ const addCabinetHeaderPanel = (scene: THREE.Scene, panel: CabinetHeaderPanel) =>
   panel.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.rotation.x = Math.PI / 2;
     screw.position.set(fastener.x, fastener.y, fastener.z);
@@ -1406,7 +1426,7 @@ const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {
     segment.width,
     segment.depth,
     segment.angle ?? 0,
-    0x6f7677,
+    palette.steelDark,
     0.58,
     0,
     0.3
@@ -1415,7 +1435,7 @@ const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {
     const rim = mesh(
       new THREE.BoxGeometry(segment.width, 0.035, segment.depth),
       new THREE.MeshStandardMaterial({
-        color: 0x9fd0ff,
+        color: palette.clearBlue,
         transparent: true,
         opacity: 0.32,
         roughness: 0.08,
@@ -1446,7 +1466,7 @@ const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {
     cabinet.lockdownBar.width,
     cabinet.lockdownBar.depth,
     cabinet.lockdownBar.angle ?? 0,
-    0xb7c4c7,
+    palette.steel,
     0.54,
     0,
     0.2
@@ -1454,7 +1474,7 @@ const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {
   cabinet.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.028, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, fastener.y, fastener.z);
     group.add(screw);
@@ -1616,7 +1636,7 @@ const addTargetDecal = (
 const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
   const groove = mesh(
     new THREE.BoxGeometry(plunger.laneGroove.width, 0.08, plunger.laneGroove.depth),
-    new THREE.MeshStandardMaterial({ color: 0x141b1b, roughness: 0.7 })
+    new THREE.MeshStandardMaterial({ color: palette.well, roughness: 0.7 })
   );
   groove.position.set(plunger.laneGroove.x, 0.06, plunger.laneGroove.z);
   group.add(groove);
@@ -1625,7 +1645,7 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
   plunger.guideFasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 18),
-      new THREE.MeshStandardMaterial({ color: 0xc8d3d5, roughness: 0.18, metalness: 0.85 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.18, metalness: 0.85 })
     );
     screw.position.set(fastener.x, 0.335, fastener.z);
     group.add(screw);
@@ -1634,7 +1654,7 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
   plunger.housingFasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 18),
-      new THREE.MeshStandardMaterial({ color: 0xc8d3d5, roughness: 0.18, metalness: 0.85 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.18, metalness: 0.85 })
     );
     screw.position.set(fastener.x, 0.375, fastener.z);
     group.add(screw);
@@ -1642,7 +1662,7 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
 
   const rod = mesh(
     new THREE.CylinderGeometry(0.045, 0.045, plunger.rodLength, 20),
-    new THREE.MeshStandardMaterial({ color: 0xd4dee0, roughness: 0.18, metalness: 0.88 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.18, metalness: 0.88 })
   );
   rod.rotation.x = Math.PI / 2;
   rod.position.set(plunger.rodX, 0.28, plunger.rodZ);
@@ -1650,7 +1670,7 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
 
   const spring = mesh(
     new THREE.TorusGeometry(plunger.spring.radius, plunger.spring.tubeRadius, 8, 18),
-    new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.2, metalness: 0.8 })
+    new THREE.MeshStandardMaterial({ color: palette.steel, roughness: 0.2, metalness: 0.8 })
   );
   spring.position.set(plunger.spring.x, 0.28, plunger.spring.z);
   spring.rotation.x = Math.PI / 2;
@@ -1659,7 +1679,7 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
   plunger.springRetainers.forEach((retainer) => {
     const washer = mesh(
       new THREE.CylinderGeometry(retainer.radius, retainer.radius, retainer.depth, 24),
-      new THREE.MeshStandardMaterial({ color: 0xc8d3d5, roughness: 0.16, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
     );
     washer.rotation.x = Math.PI / 2;
     washer.position.set(retainer.x, 0.28, retainer.z);
@@ -1668,7 +1688,7 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
 
   const collar = mesh(
     new THREE.CylinderGeometry(plunger.stopCollar.radius, plunger.stopCollar.radius, plunger.stopCollar.depth, 24),
-    new THREE.MeshStandardMaterial({ color: 0xaebabc, roughness: 0.18, metalness: 0.9 })
+    new THREE.MeshStandardMaterial({ color: palette.steel, roughness: 0.18, metalness: 0.9 })
   );
   collar.rotation.x = Math.PI / 2;
   collar.position.set(plunger.stopCollar.x, 0.28, plunger.stopCollar.z);
@@ -1676,7 +1696,7 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
 
   const knob = mesh(
     new THREE.CylinderGeometry(plunger.knob.radius, plunger.knob.radius, plunger.knob.depth, 24),
-    new THREE.MeshStandardMaterial({ color: 0x121416, roughness: 0.34, metalness: 0.08 })
+    new THREE.MeshStandardMaterial({ color: palette.rubber, roughness: 0.34, metalness: 0.08 })
   );
   knob.rotation.x = Math.PI / 2;
   knob.position.set(plunger.knob.x, 0.28, plunger.knob.z);
@@ -1716,19 +1736,19 @@ const createFlipper = (flipperDevice: FlipperDevice, color: number) => {
   flipper.add(body);
   const post = mesh(
     new THREE.CylinderGeometry(flipperDevice.pivotRadius, flipperDevice.pivotRadius, 0.26, 24),
-    new THREE.MeshStandardMaterial({ color: 0xb7c4c7, roughness: 0.22, metalness: 0.75 })
+    new THREE.MeshStandardMaterial({ color: palette.steel, roughness: 0.22, metalness: 0.75 })
   );
   flipper.add(post);
   const pivotCap = mesh(
     new THREE.CylinderGeometry(flipperDevice.pivotCap.radius, flipperDevice.pivotCap.radius, flipperDevice.pivotCap.height, 28),
-    new THREE.MeshStandardMaterial({ color: 0xd5dddf, roughness: 0.14, metalness: 0.86 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.86 })
   );
   pivotCap.position.y = 0.16;
   flipper.add(pivotCap);
   flipperDevice.batFasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.localX, 0.18, fastener.localZ);
     flipper.add(screw);
@@ -1751,14 +1771,14 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
 
   const drainPlate = mesh(
     new THREE.BoxGeometry(drainPlateWidth, 0.08, 0.52),
-    new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.5, metalness: 0.2 })
+    new THREE.MeshStandardMaterial({ color: palette.well, roughness: 0.5, metalness: 0.2 })
   );
   drainPlate.position.set(drain.x, 0.08, drain.z);
   group.add(drainPlate);
 
   const trough = mesh(
     new THREE.BoxGeometry(drain.trough.width, 0.12, drain.trough.depth),
-    new THREE.MeshStandardMaterial({ color: 0x1b1c1b, roughness: 0.35, metalness: 0.45 })
+    new THREE.MeshStandardMaterial({ color: palette.well, roughness: 0.35, metalness: 0.45 })
   );
   trough.position.set(drain.trough.x, 0.12, drain.trough.z);
   group.add(trough);
@@ -1773,7 +1793,7 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
   drain.trough.ballSlots.forEach((slot) => {
     const slotMesh = mesh(
       new THREE.CylinderGeometry(slot.radius, slot.radius, 0.035, 24),
-      new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.28, metalness: 0.35 })
+      new THREE.MeshStandardMaterial({ color: palette.well, roughness: 0.28, metalness: 0.35 })
     );
     slotMesh.position.set(slot.x, 0.2, slot.z);
     group.add(slotMesh);
@@ -1786,7 +1806,7 @@ const addDrainAndTrough = (group: THREE.Group, drain: DrainDevice) => {
         10,
         32
       ),
-      new THREE.MeshStandardMaterial({ color: 0xc8ccd0, roughness: 0.18, metalness: 0.85 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.18, metalness: 0.85 })
     );
     ringMesh.rotation.x = Math.PI / 2;
     ringMesh.position.set(rim.x, 0.225 + rim.height / 2, rim.z);
@@ -1831,7 +1851,7 @@ const addTroughOptoPair = (group: THREE.Group, opto: TroughOptoPair) => {
 const addTroughEjectCoil = (group: THREE.Group, coil: TroughEjectCoil) => {
   const coilBody = mesh(
     new THREE.CylinderGeometry(coil.coilRadius, coil.coilRadius, coil.coilDepth, 24),
-    new THREE.MeshStandardMaterial({ color: 0x3a3030, roughness: 0.28, metalness: 0.55 })
+    new THREE.MeshStandardMaterial({ color: palette.coil, roughness: 0.28, metalness: 0.55 })
   );
   coilBody.rotation.x = Math.PI / 2;
   coilBody.rotation.z = coil.angle;
@@ -1840,7 +1860,7 @@ const addTroughEjectCoil = (group: THREE.Group, coil: TroughEjectCoil) => {
 
   const rod = mesh(
     new THREE.CylinderGeometry(coil.rodRadius, coil.rodRadius, coil.rodLength, 18),
-    new THREE.MeshStandardMaterial({ color: 0xd6dee0, roughness: 0.16, metalness: 0.9 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.9 })
   );
   rod.rotation.x = Math.PI / 2;
   rod.rotation.z = coil.angle;
@@ -1853,7 +1873,7 @@ const addTroughEjectCoil = (group: THREE.Group, coil: TroughEjectCoil) => {
 
   const bracket = mesh(
     new THREE.BoxGeometry(coil.bracket.width, 0.04, coil.bracket.depth),
-    new THREE.MeshStandardMaterial({ color: 0xaeb8ba, roughness: 0.2, metalness: 0.86 })
+    new THREE.MeshStandardMaterial({ color: palette.steel, roughness: 0.2, metalness: 0.86 })
   );
   bracket.rotation.y = coil.bracket.angle ?? 0;
   bracket.position.set(coil.bracket.x, 0.42, coil.bracket.z);
@@ -1862,7 +1882,7 @@ const addTroughEjectCoil = (group: THREE.Group, coil: TroughEjectCoil) => {
   coil.bracketFasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.455, fastener.z);
     group.add(screw);
@@ -1874,7 +1894,7 @@ const addDrainGuide = (group: THREE.Group, guide: DrainGuide) => {
   guide.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
-      new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, 0.43, fastener.z);
     group.add(screw);
@@ -1884,7 +1904,7 @@ const addDrainGuide = (group: THREE.Group, guide: DrainGuide) => {
 const addTroughFastener = (group: THREE.Group, fastener: TroughFastener) => {
   const screw = mesh(
     new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
-    new THREE.MeshStandardMaterial({ color: 0xd8e0e2, roughness: 0.14, metalness: 0.88 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
   );
   screw.position.set(fastener.x, 0.43, fastener.z);
   group.add(screw);
@@ -1906,7 +1926,7 @@ const addApronCardProtector = (group: THREE.Group, protector: ApronCardProtector
   const plate = mesh(
     new THREE.BoxGeometry(protector.width, protector.thickness, protector.depth),
     new THREE.MeshStandardMaterial({
-      color: 0xccecff,
+      color: palette.clearBlue,
       transparent: true,
       opacity: 0.32,
       roughness: 0.08,
@@ -1921,7 +1941,7 @@ const addApronCardProtector = (group: THREE.Group, protector: ApronCardProtector
 const addApronFastener = (group: THREE.Group, fastener: ApronFastener) => {
   const screw = mesh(
     new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.025, 18),
-    new THREE.MeshStandardMaterial({ color: 0xc8d3d5, roughness: 0.18, metalness: 0.85 })
+    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.18, metalness: 0.85 })
   );
   screw.position.set(fastener.x, 0.135, fastener.z);
   group.add(screw);

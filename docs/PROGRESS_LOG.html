@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="intent-driven-hardware-palette" data-date="2026-06-12">
+    <h3>Intent-Driven Hardware Palette</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>chore/intent-palette</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>consolidated the renderer's roughly twenty-five near-identical hardcoded hardware colors into a named intent palette: <code>steel</code>, <code>steelBright</code>, <code>steelDark</code>, <code>rubber</code>, <code>well</code>, <code>coil</code>, <code>clearBlue</code>, <code>rampFloor</code>, and <code>ball</code>. Fifteen arbitrary silver variants and seven near-black variants collapsed into single intents; every remaining literal color in <code>render.ts</code> now carries one distinct purpose (signal colors, lights, emissives, woods, labels), and signal colors stay authored in the blueprint. The widget audit found no intent-free geometry: every mesh traces to a physical device, GDD-mandated cabinet and hall dressing, or player feedback.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (70 passing); <code>pnpm build</code>; <code>PORT=3017 pnpm exec playwright test</code> (2 passing); headless WebGL screenshot compared against production for visual consistency.</dd>
+      <dt>Assumptions</dt><dd>Visually merging near-identical metallic shades is imperceptible at gameplay scale and is the point: a color variation nobody can perceive is a variation without intent.</dd>
+      <dt>GDD coverage</dt><dd>Build log entry added to <code>docs/gdd/06-camera-and-rendering.html</code>.</dd>
+      <dt>Followups</dt><dd>None new.</dd>
+    </dl>
+  </article>
+
   <article data-slice="trap-free-clearance-audit" data-date="2026-06-12">
     <h3>Trap-Free Clearance Audit</h3>
     <dl>
