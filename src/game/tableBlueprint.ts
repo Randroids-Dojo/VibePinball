@@ -2080,7 +2080,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     slopeAngle: 0.08,
     woodColor: 0x8d3f2f,
     gravity: {
-      x: -1.25,
+      x: 0,
       y: -9.8,
       z: 8.8
     }
@@ -2265,7 +2265,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     glassPanel: {
       id: "cabinet.playfield-glass",
       x: 0,
-      y: 0.88,
+      y: 1.85,
       z: 0.1,
       width: 7.55,
       depth: 15.35,
@@ -2284,12 +2284,12 @@ export const silverballSocialBlueprint: TableBlueprint = {
       { id: "cabinet.right-side-rail.screw-mid-lower", targetId: "cabinet.right-side-rail", x: 4.32, y: 0.81, z: 2.08, radius: 0.055, kind: "metal" },
       { id: "cabinet.right-side-rail.screw-mid-upper", targetId: "cabinet.right-side-rail", x: 4.32, y: 0.81, z: -2.02, radius: 0.055, kind: "metal" },
       { id: "cabinet.right-side-rail.screw-upper", targetId: "cabinet.right-side-rail", x: 4.32, y: 0.81, z: -5.88, radius: 0.055, kind: "metal" },
-      { id: "cabinet.left-glass-rim.screw-lower", targetId: "cabinet.left-glass-rim", x: -3.86, y: 0.88, z: 5.42, radius: 0.038, kind: "metal" },
-      { id: "cabinet.left-glass-rim.screw-center", targetId: "cabinet.left-glass-rim", x: -3.86, y: 0.88, z: 0.1, radius: 0.038, kind: "metal" },
-      { id: "cabinet.left-glass-rim.screw-upper", targetId: "cabinet.left-glass-rim", x: -3.86, y: 0.88, z: -5.22, radius: 0.038, kind: "metal" },
-      { id: "cabinet.right-glass-rim.screw-lower", targetId: "cabinet.right-glass-rim", x: 3.86, y: 0.88, z: 5.42, radius: 0.038, kind: "metal" },
-      { id: "cabinet.right-glass-rim.screw-center", targetId: "cabinet.right-glass-rim", x: 3.86, y: 0.88, z: 0.1, radius: 0.038, kind: "metal" },
-      { id: "cabinet.right-glass-rim.screw-upper", targetId: "cabinet.right-glass-rim", x: 3.86, y: 0.88, z: -5.22, radius: 0.038, kind: "metal" },
+      { id: "cabinet.left-glass-rim.screw-lower", targetId: "cabinet.left-glass-rim", x: -3.86, y: 1.85, z: 5.42, radius: 0.038, kind: "metal" },
+      { id: "cabinet.left-glass-rim.screw-center", targetId: "cabinet.left-glass-rim", x: -3.86, y: 1.85, z: 0.1, radius: 0.038, kind: "metal" },
+      { id: "cabinet.left-glass-rim.screw-upper", targetId: "cabinet.left-glass-rim", x: -3.86, y: 1.85, z: -5.22, radius: 0.038, kind: "metal" },
+      { id: "cabinet.right-glass-rim.screw-lower", targetId: "cabinet.right-glass-rim", x: 3.86, y: 1.85, z: 5.42, radius: 0.038, kind: "metal" },
+      { id: "cabinet.right-glass-rim.screw-center", targetId: "cabinet.right-glass-rim", x: 3.86, y: 1.85, z: 0.1, radius: 0.038, kind: "metal" },
+      { id: "cabinet.right-glass-rim.screw-upper", targetId: "cabinet.right-glass-rim", x: 3.86, y: 1.85, z: -5.22, radius: 0.038, kind: "metal" },
       { id: "cabinet.lockdown-bar.screw-left", targetId: "cabinet.lockdown-bar", x: -1.95, y: 0.67, z: 7.68, radius: 0.06, kind: "metal" },
       { id: "cabinet.lockdown-bar.screw-center-left", targetId: "cabinet.lockdown-bar", x: -0.65, y: 0.67, z: 7.68, radius: 0.06, kind: "metal" },
       { id: "cabinet.lockdown-bar.screw-center-right", targetId: "cabinet.lockdown-bar", x: 0.65, y: 0.67, z: 7.68, radius: 0.06, kind: "metal" },
@@ -2436,7 +2436,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "boundary.top-arch.left-curve", x: -2.46, z: -6.86, width: 0.16, depth: 1.42, angle: 0.58, kind: "metal" },
     { id: "boundary.top-arch.center", x: 0, z: -7.18, width: 3.1, depth: 0.16, kind: "metal" },
     { id: "boundary.top-arch.right-curve", x: 2.24, z: -6.88, width: 0.16, depth: 1.36, angle: -0.52, kind: "metal" },
-    { id: "boundary.shooter-arch.lower", x: 3.5, z: 0.95, width: 0.14, depth: 2.2, angle: -0.18, kind: "metal" },
+    { id: "boundary.shooter-arch.lower", x: 3.66, z: 1.75, width: 0.14, depth: 1.4, angle: -0.05, kind: "metal" },
     { id: "boundary.shooter-arch.mid", x: 3.64, z: -2.25, width: 0.14, depth: 2.36, angle: 0.04, kind: "metal" },
     { id: "boundary.shooter-arch.top", x: 3.18, z: -5.22, width: 0.14, depth: 1.62, angle: 0.46, kind: "metal" },
     { id: "boundary.left-apron", x: -2.42, z: 6.22, width: 1.22, depth: 0.2, angle: -0.36, kind: "metal" },
@@ -2444,18 +2444,18 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "boundary.apron-left-guide", x: -1.02, z: 6.95, width: 1.85, depth: 0.18, angle: 0.2, kind: "metal" },
     { id: "boundary.apron-right-guide", x: 1.02, z: 6.95, width: 1.85, depth: 0.18, angle: -0.2, kind: "metal" },
     { id: "boundary.trough-back", x: 0, z: 7.38, width: 1.3, depth: 0.14, kind: "metal" },
-    { id: "boundary.shooter-divider", x: 2.72, z: 4.38, width: 0.12, depth: 2.72, kind: "metal" },
-    { id: "boundary.plunger-stop", x: 3.2, z: 6.55, width: 0.68, depth: 0.16, angle: -0.18, kind: "rubber" }
+    { id: "boundary.plunger-stop", x: 3.27, z: 6.6, width: 0.56, depth: 0.16, kind: "rubber" }
   ]),
   laneWalls: withLaneWallFasteners([
-    { id: "lane.lower.left-out.outer", x: -3.55, z: 4.7, width: 0.1, depth: 1.55, angle: -0.12, kind: "rubber" },
+    { id: "lane.lower.left-out.outer", x: -3.745, z: 4.675, width: 0.1, depth: 1.5, angle: 0.25, kind: "rubber" },
     { id: "lane.lower.left-out.inner", x: -2.86, z: 4.86, width: 0.1, depth: 1.18, angle: 0.22, kind: "rubber" },
-    { id: "lane.lower.left-in.outer", x: -2.3, z: 5.08, width: 0.1, depth: 1.0, angle: -0.28, kind: "rubber" },
+    { id: "lane.lower.left-divider.cap", x: -2.67, z: 4.43, width: 0.1, depth: 0.71, angle: 1.13, kind: "rubber" },
+    { id: "lane.lower.left-in.outer", x: -2.3, z: 5.08, width: 0.1, depth: 1.0, angle: 0.1, kind: "rubber" },
     { id: "lane.lower.left-in.inner", x: -1.67, z: 5.0, width: 0.1, depth: 0.96, angle: 0.22, kind: "rubber" },
     { id: "lane.lower.right-in.inner", x: 1.67, z: 5.0, width: 0.1, depth: 0.96, angle: -0.22, kind: "rubber" },
-    { id: "lane.lower.right-in.outer", x: 2.3, z: 5.08, width: 0.1, depth: 1.0, angle: 0.28, kind: "rubber" },
-    { id: "lane.lower.right-out.inner", x: 2.86, z: 4.86, width: 0.1, depth: 1.18, angle: -0.22, kind: "rubber" },
-    { id: "lane.lower.right-out.outer", x: 3.55, z: 4.7, width: 0.1, depth: 1.55, angle: 0.12, kind: "rubber" },
+    { id: "lane.lower.right-in.outer", x: 2.3, z: 5.08, width: 0.1, depth: 1.0, angle: -0.1, kind: "rubber" },
+    { id: "lane.lower.right-out.inner", x: 2.98, z: 4.95, width: 0.1, depth: 1.7, angle: 0, kind: "rubber" },
+    { id: "lane.lower.right-out.outer", x: 3.56, z: 3.965, width: 0.1, depth: 3.1, angle: 0, kind: "metal" },
     { id: "orbit.left.outer.lower", x: -3.62, z: 0.02, width: 0.1, depth: 2.22, angle: -0.18, kind: "metal" },
     { id: "orbit.left.outer.mid", x: -3.48, z: -2.32, width: 0.1, depth: 2.28, angle: -0.04, kind: "metal" },
     { id: "orbit.left.outer.upper", x: -3.06, z: -5.34, width: 0.1, depth: 1.55, angle: 0.34, kind: "metal" },
@@ -2480,44 +2480,44 @@ export const silverballSocialBlueprint: TableBlueprint = {
   rubberBands: [
     {
       id: "lane.lower.left-out.rubber-band",
-      x: -3.34,
-      z: 4.75,
+      x: -3.685,
+      z: 4.8,
       width: 0.075,
-      depth: 1.62,
-      angle: -0.18,
+      depth: 1.34,
+      angle: 0.25,
       kind: "rubber",
       startPostId: "post.left-out-top",
       endPostId: "post.left-out-lower"
     },
     {
       id: "lane.lower.left-in.rubber-band",
-      x: -1.84,
-      z: 4.87,
+      x: -1.71,
+      z: 5.0,
       width: 0.075,
-      depth: 1.42,
-      angle: 0.16,
+      depth: 1.16,
+      angle: 0.09,
       kind: "rubber",
       startPostId: "post.left-in-top",
       endPostId: "post.left-in-lower"
     },
     {
       id: "lane.lower.right-in.rubber-band",
-      x: 1.84,
-      z: 4.87,
+      x: 1.71,
+      z: 5.0,
       width: 0.075,
-      depth: 1.42,
-      angle: -0.16,
+      depth: 1.16,
+      angle: -0.09,
       kind: "rubber",
       startPostId: "post.right-in-top",
       endPostId: "post.right-in-lower"
     },
     {
       id: "lane.lower.right-out.rubber-band",
-      x: 3.34,
-      z: 4.75,
+      x: 2.97,
+      z: 4.86,
       width: 0.075,
-      depth: 1.62,
-      angle: 0.18,
+      depth: 1.65,
+      angle: 0.073,
       kind: "rubber",
       startPostId: "post.right-out-top",
       endPostId: "post.right-out-lower"
@@ -2570,7 +2570,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "rollover.lower.left-out", x: -3.2, z: 5.1, width: 0.48, depth: 0.035, angle: -0.12, kind: "wire" },
     { id: "rollover.lower.left-in", x: -1.98, z: 5.18, width: 0.48, depth: 0.035, angle: 0.1, kind: "wire" },
     { id: "rollover.lower.right-in", x: 1.98, z: 5.18, width: 0.48, depth: 0.035, angle: -0.1, kind: "wire" },
-    { id: "rollover.lower.right-out", x: 3.2, z: 5.1, width: 0.48, depth: 0.035, angle: 0.12, kind: "wire" },
+    { id: "rollover.lower.right-out", x: 2.64, z: 5.05, width: 0.4, depth: 0.035, angle: 0.05, kind: "wire" },
     { id: "rollover.top.left", x: -1.05, z: -6.48, width: 0.5, depth: 0.035, angle: -0.04, kind: "wire" },
     { id: "rollover.top.center", x: 0, z: -6.62, width: 0.5, depth: 0.035, kind: "wire" },
     { id: "rollover.top.right", x: 1.05, z: -6.48, width: 0.5, depth: 0.035, angle: 0.04, kind: "wire" },
@@ -2631,18 +2631,18 @@ export const silverballSocialBlueprint: TableBlueprint = {
     }
   ],
   posts: withRubberPostCaps([
-    { id: "post.left-out-top", x: -3.18, z: 3.92, radius: 0.13, kind: "rubber" },
-    { id: "post.left-out-lower", x: -3.48, z: 5.58, radius: 0.12, kind: "rubber" },
-    { id: "post.left-in-top", x: -2.02, z: 4.18, radius: 0.13, kind: "rubber" },
+    { id: "post.left-out-top", x: -3.85, z: 4.15, radius: 0.13, kind: "rubber" },
+    { id: "post.left-out-lower", x: -3.52, z: 5.45, radius: 0.12, kind: "rubber" },
+    { id: "post.left-in-top", x: -1.76, z: 4.42, radius: 0.1, kind: "rubber" },
     { id: "post.left-in-lower", x: -1.66, z: 5.58, radius: 0.12, kind: "rubber" },
     { id: "post.left-sling-a", x: -2.55, z: 3.25, radius: 0.15, kind: "rubber" },
     { id: "post.left-sling-b", x: -1.18, z: 3.72, radius: 0.15, kind: "rubber" },
     { id: "post.right-sling-a", x: 2.55, z: 3.25, radius: 0.15, kind: "rubber" },
     { id: "post.right-sling-b", x: 1.18, z: 3.72, radius: 0.15, kind: "rubber" },
-    { id: "post.right-in-top", x: 2.02, z: 4.18, radius: 0.13, kind: "rubber" },
+    { id: "post.right-in-top", x: 1.76, z: 4.42, radius: 0.1, kind: "rubber" },
     { id: "post.right-in-lower", x: 1.66, z: 5.58, radius: 0.12, kind: "rubber" },
-    { id: "post.right-out-top", x: 3.18, z: 3.92, radius: 0.13, kind: "rubber" },
-    { id: "post.right-out-lower", x: 3.48, z: 5.58, radius: 0.12, kind: "rubber" },
+    { id: "post.right-out-top", x: 2.91, z: 4.04, radius: 0.09, kind: "rubber" },
+    { id: "post.right-out-lower", x: 3.03, z: 5.68, radius: 0.1, kind: "rubber" },
     { id: "post.center-left", x: -0.75, z: 1.6, radius: 0.12, kind: "rubber" },
     { id: "post.center-right", x: 0.75, z: 1.6, radius: 0.12, kind: "rubber" },
     { id: "post.upper-left", x: -2.15, z: -2.55, radius: 0.12, kind: "rubber" },
@@ -2751,26 +2751,26 @@ export const silverballSocialBlueprint: TableBlueprint = {
     {
       id: "lane.lower.right-out",
       label: "Right outlane",
-      x: 3.2,
-      z: 5.1,
-      radius: 0.32,
-      clearance: 0.66,
+      x: 2.64,
+      z: 5.05,
+      radius: 0.24,
+      clearance: 0.53,
       side: "right",
       guidePostIds: ["post.right-out-top", "post.right-out-lower"],
       rubberBandIds: ["lane.lower.right-out.rubber-band"],
       lampInsertId: "insert.lower.right-out-arrow",
       guideCover: {
         id: "lane.lower.right-out.guide-cover",
-        x: 3.3,
-        z: 4.62,
-        width: 0.56,
-        depth: 0.78,
-        angle: 0.18,
+        x: 2.62,
+        z: 4.55,
+        width: 0.52,
+        depth: 0.72,
+        angle: 0.05,
         color: 0xf6d174,
         layerY: 0.56,
         fasteners: [
-          { id: "lane.lower.right-out.guide-cover.screw-upper", x: 3.42, z: 4.28, radius: 0.035, kind: "metal" },
-          { id: "lane.lower.right-out.guide-cover.screw-lower", x: 3.18, z: 4.94, radius: 0.035, kind: "metal" }
+          { id: "lane.lower.right-out.guide-cover.screw-upper", x: 2.7, z: 4.24, radius: 0.035, kind: "metal" },
+          { id: "lane.lower.right-out.guide-cover.screw-lower", x: 2.54, z: 4.86, radius: 0.035, kind: "metal" }
         ]
       }
     },
@@ -3371,7 +3371,9 @@ export const silverballSocialBlueprint: TableBlueprint = {
       segments: withHandoffFasteners([
         { id: "handoff.ramp-left-entry.flap", x: -1.78, z: 1.63, width: 0.74, depth: 0.06, angle: -0.2, kind: "metal" },
         { id: "handoff.ramp-left-entry.left-guide", x: -2.6, z: 1.14, width: 0.07, depth: 0.86, angle: -0.36, kind: "wire" },
-        { id: "handoff.ramp-left-entry.right-guide", x: -1.58, z: 1.06, width: 0.07, depth: 0.84, angle: -0.06, kind: "wire" }
+        { id: "handoff.ramp-left-entry.right-guide", x: -1.58, z: 1.06, width: 0.07, depth: 0.84, angle: -0.06, kind: "wire" },
+        { id: "handoff.ramp-left-entry.skirt-left", x: -2.98, z: 0.78, width: 0.08, depth: 1.6, angle: -0.2, kind: "metal" },
+        { id: "handoff.ramp-left-entry.skirt-right", x: -2.07, z: 0.78, width: 0.08, depth: 1.6, angle: -0.2, kind: "metal" }
       ]),
       posts: [
         {
@@ -3512,14 +3514,14 @@ export const silverballSocialBlueprint: TableBlueprint = {
       id: "handoff.right-orbit-entry",
       label: "Right orbit entry guide",
       segments: withHandoffFasteners([
-        { id: "handoff.right-orbit-entry.inner-guide", x: 2.68, z: 1.06, width: 0.06, depth: 0.82, angle: 0.18, kind: "wire" },
-        { id: "handoff.right-orbit-entry.outer-guide", x: 3.38, z: 1.02, width: 0.06, depth: 0.86, angle: -0.16, kind: "wire" }
+        { id: "handoff.right-orbit-entry.inner-guide", x: 2.585, z: 1.64, width: 0.06, depth: 1.99, angle: -0.166, kind: "wire" },
+        { id: "handoff.right-orbit-entry.outer-guide", x: 3.65, z: 1.25, width: 0.06, depth: 0.81, angle: -0.125, kind: "wire" }
       ]),
       posts: [
         {
           id: "handoff.right-orbit-entry.inner-guide.lower-post",
-          x: 2.61,
-          z: 1.45,
+          x: 2.44,
+          z: 2.58,
           radius: 0.052,
           kind: "metal",
           cap: { id: "handoff.right-orbit-entry.inner-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
@@ -3534,16 +3536,16 @@ export const silverballSocialBlueprint: TableBlueprint = {
         },
         {
           id: "handoff.right-orbit-entry.outer-guide.lower-post",
-          x: 3.45,
-          z: 1.42,
+          x: 3.62,
+          z: 1.62,
           radius: 0.052,
           kind: "metal",
           cap: { id: "handoff.right-orbit-entry.outer-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
         },
         {
           id: "handoff.right-orbit-entry.outer-guide.upper-post",
-          x: 3.31,
-          z: 0.62,
+          x: 3.71,
+          z: 0.82,
           radius: 0.052,
           kind: "metal",
           cap: { id: "handoff.right-orbit-entry.outer-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
@@ -3985,7 +3987,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       color: 0xf6d174,
       layerY: 0.62,
       standoffs: [
-        withPlasticStandoffMounts({ id: "plastic.left-lane-cover.standoff.lower", x: -3.14, z: 4.08, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }),
+        withPlasticStandoffMounts({ id: "plastic.left-lane-cover.standoff.lower", x: -2.95, z: 4.26, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }),
         withPlasticStandoffMounts({ id: "plastic.left-lane-cover.standoff.upper", x: -2.18, z: 3.28, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" })
       ]
     },
@@ -3999,7 +4001,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       color: 0xf6d174,
       layerY: 0.62,
       standoffs: [
-        withPlasticStandoffMounts({ id: "plastic.right-lane-cover.standoff.lower", x: 3.14, z: 4.08, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }),
+        withPlasticStandoffMounts({ id: "plastic.right-lane-cover.standoff.lower", x: 2.93, z: 4.38, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }),
         withPlasticStandoffMounts({ id: "plastic.right-lane-cover.standoff.upper", x: 2.18, z: 3.28, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" })
       ]
     },
@@ -4173,7 +4175,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "insert.lower.left-out-arrow", label: "Left Out", x: -3.2, z: 5.1, radius: 0.16, angle: -0.34, color: 0xf1c453, shape: "arrow" },
     { id: "insert.lower.left-in-arrow", label: "Left In", x: -1.98, z: 5.18, radius: 0.16, angle: -0.16, color: 0xf1c453, shape: "arrow" },
     { id: "insert.lower.right-in-arrow", label: "Right In", x: 1.98, z: 5.18, radius: 0.16, angle: 0.16, color: 0xf1c453, shape: "arrow" },
-    { id: "insert.lower.right-out-arrow", label: "Right Out", x: 3.2, z: 5.1, radius: 0.16, angle: 0.34, color: 0xf1c453, shape: "arrow" },
+    { id: "insert.lower.right-out-arrow", label: "Right Out", x: 2.64, z: 5.05, radius: 0.16, angle: 0.1, color: 0xf1c453, shape: "arrow" },
     { id: "insert.top.left-arrow", label: "Top Left", x: -1.05, z: -6.48, radius: 0.16, angle: -0.1, color: 0x5fd4ff, shape: "arrow" },
     { id: "insert.top.center-arrow", label: "Top Center", x: 0, z: -6.62, radius: 0.16, angle: 0, color: 0x5fd4ff, shape: "arrow" },
     { id: "insert.top.right-arrow", label: "Top Right", x: 1.05, z: -6.48, radius: 0.16, angle: 0.1, color: 0x5fd4ff, shape: "arrow" },
@@ -4191,33 +4193,33 @@ export const silverballSocialBlueprint: TableBlueprint = {
   ]),
   plunger: {
     id: "shooter.plunger",
-    rodX: 3.42,
+    rodX: 3.27,
     rodZ: 5.92,
     rodLength: 1.28,
-    spring: { id: "shooter.plunger-spring", x: 3.42, z: 6.18, radius: 0.16, tubeRadius: 0.018, kind: "metal" },
+    spring: { id: "shooter.plunger-spring", x: 3.27, z: 6.18, radius: 0.16, tubeRadius: 0.018, kind: "metal" },
     springRetainers: [
-      { id: "shooter.plunger-spring.front-retainer", targetId: "shooter.plunger-spring", x: 3.42, z: 5.96, radius: 0.13, depth: 0.042, kind: "metal" },
-      { id: "shooter.plunger-spring.back-retainer", targetId: "shooter.plunger-spring", x: 3.42, z: 6.4, radius: 0.13, depth: 0.042, kind: "metal" }
+      { id: "shooter.plunger-spring.front-retainer", targetId: "shooter.plunger-spring", x: 3.27, z: 5.96, radius: 0.13, depth: 0.042, kind: "metal" },
+      { id: "shooter.plunger-spring.back-retainer", targetId: "shooter.plunger-spring", x: 3.27, z: 6.4, radius: 0.13, depth: 0.042, kind: "metal" }
     ],
-    stopCollar: { id: "shooter.plunger-stop-collar", x: 3.42, z: 5.5, radius: 0.085, depth: 0.07, kind: "metal" },
-    knob: { id: "shooter.plunger-knob", x: 3.42, z: 6.82, radius: 0.18, depth: 0.16, kind: "plastic" },
-    laneGroove: { id: "shooter.lane-groove", x: 3.18, z: 5.3, width: 0.72, depth: 4.1, kind: "wood" },
-    housing: { id: "shooter.plunger-housing", x: 3.42, z: 6.12, width: 0.36, depth: 1.28, kind: "metal" },
+    stopCollar: { id: "shooter.plunger-stop-collar", x: 3.27, z: 5.5, radius: 0.085, depth: 0.07, kind: "metal" },
+    knob: { id: "shooter.plunger-knob", x: 3.27, z: 6.82, radius: 0.18, depth: 0.16, kind: "plastic" },
+    laneGroove: { id: "shooter.lane-groove", x: 3.27, z: 5.3, width: 0.5, depth: 4.1, kind: "wood" },
+    housing: { id: "shooter.plunger-housing", x: 3.27, z: 6.12, width: 0.36, depth: 1.28, kind: "metal" },
     housingFasteners: [
-      { id: "shooter.plunger-housing.screw-front-left", targetId: "shooter.plunger-housing", x: 3.29, z: 6.58, radius: 0.034, kind: "metal" },
-      { id: "shooter.plunger-housing.screw-front-right", targetId: "shooter.plunger-housing", x: 3.55, z: 6.58, radius: 0.034, kind: "metal" },
-      { id: "shooter.plunger-housing.screw-back-left", targetId: "shooter.plunger-housing", x: 3.29, z: 5.66, radius: 0.034, kind: "metal" },
-      { id: "shooter.plunger-housing.screw-back-right", targetId: "shooter.plunger-housing", x: 3.55, z: 5.66, radius: 0.034, kind: "metal" }
+      { id: "shooter.plunger-housing.screw-front-left", targetId: "shooter.plunger-housing", x: 3.14, z: 6.58, radius: 0.034, kind: "metal" },
+      { id: "shooter.plunger-housing.screw-front-right", targetId: "shooter.plunger-housing", x: 3.40, z: 6.58, radius: 0.034, kind: "metal" },
+      { id: "shooter.plunger-housing.screw-back-left", targetId: "shooter.plunger-housing", x: 3.14, z: 5.66, radius: 0.034, kind: "metal" },
+      { id: "shooter.plunger-housing.screw-back-right", targetId: "shooter.plunger-housing", x: 3.40, z: 5.66, radius: 0.034, kind: "metal" }
     ],
     lowerGuides: [
-      { id: "shooter.lower-left-guide", x: 2.86, z: 5.42, width: 0.07, depth: 2.2, angle: -0.03, kind: "metal" },
-      { id: "shooter.lower-right-guide", x: 3.56, z: 5.36, width: 0.07, depth: 2.24, angle: 0.03, kind: "metal" }
+      { id: "shooter.lower-left-guide", x: 2.98, z: 5.42, width: 0.07, depth: 2.2, angle: 0, kind: "metal" },
+      { id: "shooter.lower-right-guide", x: 3.56, z: 5.36, width: 0.07, depth: 2.24, angle: 0, kind: "metal" }
     ],
     guideFasteners: [
-      { id: "shooter.lower-left-guide.screw-lower", targetId: "shooter.lower-left-guide", x: 2.86, z: 6.26, radius: 0.034, kind: "metal" },
-      { id: "shooter.lower-left-guide.screw-upper", targetId: "shooter.lower-left-guide", x: 2.81, z: 4.58, radius: 0.034, kind: "metal" },
+      { id: "shooter.lower-left-guide.screw-lower", targetId: "shooter.lower-left-guide", x: 2.98, z: 6.26, radius: 0.034, kind: "metal" },
+      { id: "shooter.lower-left-guide.screw-upper", targetId: "shooter.lower-left-guide", x: 2.98, z: 4.58, radius: 0.034, kind: "metal" },
       { id: "shooter.lower-right-guide.screw-lower", targetId: "shooter.lower-right-guide", x: 3.56, z: 6.22, radius: 0.034, kind: "metal" },
-      { id: "shooter.lower-right-guide.screw-upper", targetId: "shooter.lower-right-guide", x: 3.61, z: 4.5, radius: 0.034, kind: "metal" }
+      { id: "shooter.lower-right-guide.screw-upper", targetId: "shooter.lower-right-guide", x: 3.56, z: 4.5, radius: 0.034, kind: "metal" }
     ],
     gate: { id: "shooter.one-way-gate", x: 3.06, z: -5.78, width: 0.66, depth: 0.08, angle: 0.34, kind: "metal" },
     gateHingePost: {
@@ -4239,7 +4241,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
   },
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "insert.left-orbit-arrow", "insert.left-orbit-arrow.lens", "orbit.left.entry", "handoff.left-orbit-entry.inner-guide", "handoff.left-orbit-entry.inner-guide.screw-a", "handoff.left-orbit-entry.inner-guide.screw-b", "handoff.left-orbit-entry.outer-guide", "handoff.left-orbit-entry.outer-guide.screw-a", "handoff.left-orbit-entry.outer-guide.screw-b", "handoff.left-orbit-entry.inner-guide.lower-post", "handoff.left-orbit-entry.inner-guide.lower-post.cap", "handoff.left-orbit-entry.inner-guide.upper-post", "handoff.left-orbit-entry.inner-guide.upper-post.cap", "handoff.left-orbit-entry.outer-guide.lower-post", "handoff.left-orbit-entry.outer-guide.lower-post.cap", "handoff.left-orbit-entry.outer-guide.upper-post", "handoff.left-orbit-entry.outer-guide.upper-post.cap", "orbit.left.outer.lower", "orbit.left.outer.lower.screw-a", "orbit.left.outer.lower.screw-b", "orbit.left.inner.lower", "orbit.left.inner.lower.screw-a", "orbit.left.inner.lower.screw-b", "orbit.left.outer.mid", "orbit.left.outer.mid.screw-a", "orbit.left.outer.mid.screw-b", "orbit.left.inner.mid", "orbit.left.inner.mid.screw-a", "orbit.left.inner.mid.screw-b", "orbit.left.outer.upper", "orbit.left.outer.upper.screw-a", "orbit.left.outer.upper.screw-b", "orbit.left.inner.upper", "orbit.left.inner.upper.screw-a", "orbit.left.inner.upper.screw-b", "boundary.top-arch.left-curve", "boundary.top-arch.center", "boundary.top-arch.right-curve", "orbit.left.exit", "handoff.upper-orbit-gates.left", "handoff.upper-orbit-gates.left.screw-a", "handoff.upper-orbit-gates.left.screw-b", "handoff.upper-orbit-gates.left.hinge-post", "handoff.upper-orbit-gates.left.hinge-post.cap", "handoff.upper-orbit-gates.left.stop-post", "handoff.upper-orbit-gates.left.stop-post.cap", "lane.top.left", "lane.top.left.outer", "lane.top.left.outer.screw-a", "lane.top.left.outer.screw-b", "lane.top.left.inner", "lane.top.left.inner.screw-a", "lane.top.left.inner.screw-b", "rollover.top.left", "rollover.top.left.screw-left", "rollover.top.left.screw-right", "insert.top.left-arrow", "insert.top.left-arrow.lens", "lane.top.left.guide-cover", "lane.top.left.guide-cover.screw-left", "lane.top.left.guide-cover.screw-right", "lane.top.left.rubber-band", "post.top-lane-left", "post.top-lane-left.cap", "post.top-lane-left-outer", "post.top-lane-left-outer.cap", "post.top-lane-left-inner", "post.top-lane-left-inner.cap", "pop-a", "pop-a.skirt", "pop-a.chrome-ring", "pop-a.lamp-lens", "pop-a.cap-screw-upper", "pop-a.cap-screw-left", "pop-a.cap-screw-right", "post.pop-a.upper", "post.pop-a.upper.cap", "post.pop-a.outer", "post.pop-a.outer.cap", "post.pop-a.inner", "post.pop-a.inner.cap", "pop-a.left-ring-rubber", "pop-a.left-ring-rubber.screw-a", "pop-a.left-ring-rubber.screw-b", "pop-a.right-ring-rubber", "pop-a.right-ring-rubber.screw-a", "pop-a.right-ring-rubber.screw-b"] },
-    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "insert.left-ramp-arrow", "insert.left-ramp-arrow.lens", "ramp.left", "ramp.left.entry", "ramp.left.entrance-lip", "ramp.left.entrance-lip.screw-a", "ramp.left.entrance-lip.screw-b", "ramp.left.side-wall.left", "ramp.left.side-wall.left.rivet-lower", "ramp.left.side-wall.left.rivet-mid", "ramp.left.side-wall.left.rivet-upper", "ramp.left.side-wall.right", "ramp.left.side-wall.right.rivet-lower", "ramp.left.side-wall.right.rivet-mid", "ramp.left.side-wall.right.rivet-upper", "ramp.left.side-rail.left", "ramp.left.side-rail.left.clamp-lower", "ramp.left.side-rail.left.clamp-mid", "ramp.left.side-rail.left.clamp-upper", "ramp.left.side-rail.right", "ramp.left.side-rail.right.clamp-lower", "ramp.left.side-rail.right.clamp-mid", "ramp.left.side-rail.right.clamp-upper", "ramp.left.cross-brace.lower", "ramp.left.cross-brace.lower.screw-left", "ramp.left.cross-brace.lower.screw-right", "ramp.left.cross-brace.mid", "ramp.left.cross-brace.mid.screw-left", "ramp.left.cross-brace.mid.screw-right", "ramp.left.cross-brace.upper", "ramp.left.cross-brace.upper.screw-left", "ramp.left.cross-brace.upper.screw-right", "ramp.left.support.entry", "ramp.left.support.entry.cap", "ramp.left.support.entry.foot", "ramp.left.support.entry.foot.screw-left", "ramp.left.support.entry.foot.screw-right", "ramp.left.support.entry.collar", "ramp.left.support.entry.saddle", "ramp.left.support.entry.saddle.screw-left", "ramp.left.support.entry.saddle.screw-right", "ramp.left.support.lower", "ramp.left.support.lower.cap", "ramp.left.support.lower.foot", "ramp.left.support.lower.foot.screw-left", "ramp.left.support.lower.foot.screw-right", "ramp.left.support.lower.collar", "ramp.left.support.lower.saddle", "ramp.left.support.lower.saddle.screw-left", "ramp.left.support.lower.saddle.screw-right", "ramp.left.support.mid", "ramp.left.support.mid.cap", "ramp.left.support.mid.foot", "ramp.left.support.mid.foot.screw-left", "ramp.left.support.mid.foot.screw-right", "ramp.left.support.mid.collar", "ramp.left.support.mid.saddle", "ramp.left.support.mid.saddle.screw-left", "ramp.left.support.mid.saddle.screw-right", "ramp.left.support.crest", "ramp.left.support.crest.cap", "ramp.left.support.crest.foot", "ramp.left.support.crest.foot.screw-left", "ramp.left.support.crest.foot.screw-right", "ramp.left.support.crest.collar", "ramp.left.support.crest.saddle", "ramp.left.support.crest.saddle.screw-left", "ramp.left.support.crest.saddle.screw-right", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.flap.screw-a", "handoff.ramp-left-entry.flap.screw-b", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.left-guide.screw-a", "handoff.ramp-left-entry.left-guide.screw-b", "handoff.ramp-left-entry.right-guide", "handoff.ramp-left-entry.right-guide.screw-a", "handoff.ramp-left-entry.right-guide.screw-b", "handoff.ramp-left-entry.flap.left-hinge-post", "handoff.ramp-left-entry.flap.left-hinge-post.cap", "handoff.ramp-left-entry.flap.right-stop-post", "handoff.ramp-left-entry.flap.right-stop-post.cap", "handoff.ramp-left-entry.left-guide.upper-post", "handoff.ramp-left-entry.left-guide.upper-post.cap", "handoff.ramp-left-entry.left-guide.lower-post", "handoff.ramp-left-entry.left-guide.lower-post.cap", "handoff.ramp-left-entry.right-guide.upper-post", "handoff.ramp-left-entry.right-guide.upper-post.cap", "handoff.ramp-left-entry.right-guide.lower-post", "handoff.ramp-left-entry.right-guide.lower-post.cap", "ramp.left.exit", "wireform.left-return.upper.rail-left", "wireform.left-return.upper.rail-left.clamp-entry", "wireform.left-return.upper.rail-left.clamp-mid", "wireform.left-return.upper.rail-left.clamp-exit", "wireform.left-return.upper.rail-right", "wireform.left-return.upper.rail-right.clamp-entry", "wireform.left-return.upper.rail-right.clamp-mid", "wireform.left-return.upper.rail-right.clamp-exit", "wireform.left-return.lower.rail-left", "wireform.left-return.lower.rail-left.clamp-entry", "wireform.left-return.lower.rail-left.clamp-mid", "wireform.left-return.lower.rail-left.clamp-exit", "wireform.left-return.lower.rail-right", "wireform.left-return.lower.rail-right.clamp-entry", "wireform.left-return.lower.rail-right.clamp-mid", "wireform.left-return.lower.rail-right.clamp-exit", "wireform.left-return.tie-upper-entry", "wireform.left-return.tie-upper-entry.screw-a", "wireform.left-return.tie-upper-entry.screw-b", "wireform.left-return.tie-upper-mid", "wireform.left-return.tie-upper-mid.screw-a", "wireform.left-return.tie-upper-mid.screw-b", "wireform.left-return.tie-upper-exit", "wireform.left-return.tie-upper-exit.screw-a", "wireform.left-return.tie-upper-exit.screw-b", "wireform.left-return.tie-lower-entry", "wireform.left-return.tie-lower-entry.screw-a", "wireform.left-return.tie-lower-entry.screw-b", "wireform.left-return.tie-lower-mid", "wireform.left-return.tie-lower-mid.screw-a", "wireform.left-return.tie-lower-mid.screw-b", "wireform.left-return.tie-lower-exit", "wireform.left-return.tie-lower-exit.screw-a", "wireform.left-return.tie-lower-exit.screw-b", "wireform.left-return.support.upper", "wireform.left-return.support.upper.cap", "wireform.left-return.support.upper.foot", "wireform.left-return.support.upper.foot.screw-left", "wireform.left-return.support.upper.foot.screw-right", "wireform.left-return.support.upper.collar", "wireform.left-return.support.upper.saddle", "wireform.left-return.support.upper.saddle.screw-left", "wireform.left-return.support.upper.saddle.screw-right", "wireform.left-return.support.mid", "wireform.left-return.support.mid.cap", "wireform.left-return.support.mid.foot", "wireform.left-return.support.mid.foot.screw-left", "wireform.left-return.support.mid.foot.screw-right", "wireform.left-return.support.mid.collar", "wireform.left-return.support.mid.saddle", "wireform.left-return.support.mid.saddle.screw-left", "wireform.left-return.support.mid.saddle.screw-right", "wireform.left-return.support.exit", "wireform.left-return.support.exit.cap", "wireform.left-return.support.exit.foot", "wireform.left-return.support.exit.foot.screw-left", "wireform.left-return.support.exit.foot.screw-right", "wireform.left-return.support.exit.collar", "wireform.left-return.support.exit.saddle", "wireform.left-return.support.exit.saddle.screw-left", "wireform.left-return.support.exit.saddle.screw-right", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.left-guide.screw-a", "handoff.ramp-left-exit.left-guide.screw-b", "handoff.ramp-left-exit.right-guide", "handoff.ramp-left-exit.right-guide.screw-a", "handoff.ramp-left-exit.right-guide.screw-b", "handoff.ramp-left-exit.left-guide.upper-post", "handoff.ramp-left-exit.left-guide.upper-post.cap", "handoff.ramp-left-exit.left-guide.lower-post", "handoff.ramp-left-exit.left-guide.lower-post.cap", "handoff.ramp-left-exit.right-guide.upper-post", "handoff.ramp-left-exit.right-guide.upper-post.cap", "handoff.ramp-left-exit.right-guide.lower-post", "handoff.ramp-left-exit.right-guide.lower-post.cap", "lane.lower.left-in", "lane.lower.left-in.outer", "lane.lower.left-in.outer.screw-a", "lane.lower.left-in.outer.screw-b", "lane.lower.left-in.inner", "lane.lower.left-in.inner.screw-a", "lane.lower.left-in.inner.screw-b", "rollover.lower.left-in", "rollover.lower.left-in.screw-left", "rollover.lower.left-in.screw-right", "insert.lower.left-in-arrow", "insert.lower.left-in-arrow.lens", "lane.lower.left-in.guide-cover", "lane.lower.left-in.guide-cover.screw-upper", "lane.lower.left-in.guide-cover.screw-lower", "lane.lower.left-in.rubber-band", "post.left-in-top", "post.left-in-top.cap", "post.left-in-lower", "post.left-in-lower.cap", "post.drain-left", "post.drain-left.cap"] },
+    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "insert.left-ramp-arrow", "insert.left-ramp-arrow.lens", "ramp.left", "ramp.left.entry", "ramp.left.entrance-lip", "ramp.left.entrance-lip.screw-a", "ramp.left.entrance-lip.screw-b", "ramp.left.side-wall.left", "ramp.left.side-wall.left.rivet-lower", "ramp.left.side-wall.left.rivet-mid", "ramp.left.side-wall.left.rivet-upper", "ramp.left.side-wall.right", "ramp.left.side-wall.right.rivet-lower", "ramp.left.side-wall.right.rivet-mid", "ramp.left.side-wall.right.rivet-upper", "ramp.left.side-rail.left", "ramp.left.side-rail.left.clamp-lower", "ramp.left.side-rail.left.clamp-mid", "ramp.left.side-rail.left.clamp-upper", "ramp.left.side-rail.right", "ramp.left.side-rail.right.clamp-lower", "ramp.left.side-rail.right.clamp-mid", "ramp.left.side-rail.right.clamp-upper", "ramp.left.cross-brace.lower", "ramp.left.cross-brace.lower.screw-left", "ramp.left.cross-brace.lower.screw-right", "ramp.left.cross-brace.mid", "ramp.left.cross-brace.mid.screw-left", "ramp.left.cross-brace.mid.screw-right", "ramp.left.cross-brace.upper", "ramp.left.cross-brace.upper.screw-left", "ramp.left.cross-brace.upper.screw-right", "ramp.left.support.entry", "ramp.left.support.entry.cap", "ramp.left.support.entry.foot", "ramp.left.support.entry.foot.screw-left", "ramp.left.support.entry.foot.screw-right", "ramp.left.support.entry.collar", "ramp.left.support.entry.saddle", "ramp.left.support.entry.saddle.screw-left", "ramp.left.support.entry.saddle.screw-right", "ramp.left.support.lower", "ramp.left.support.lower.cap", "ramp.left.support.lower.foot", "ramp.left.support.lower.foot.screw-left", "ramp.left.support.lower.foot.screw-right", "ramp.left.support.lower.collar", "ramp.left.support.lower.saddle", "ramp.left.support.lower.saddle.screw-left", "ramp.left.support.lower.saddle.screw-right", "ramp.left.support.mid", "ramp.left.support.mid.cap", "ramp.left.support.mid.foot", "ramp.left.support.mid.foot.screw-left", "ramp.left.support.mid.foot.screw-right", "ramp.left.support.mid.collar", "ramp.left.support.mid.saddle", "ramp.left.support.mid.saddle.screw-left", "ramp.left.support.mid.saddle.screw-right", "ramp.left.support.crest", "ramp.left.support.crest.cap", "ramp.left.support.crest.foot", "ramp.left.support.crest.foot.screw-left", "ramp.left.support.crest.foot.screw-right", "ramp.left.support.crest.collar", "ramp.left.support.crest.saddle", "ramp.left.support.crest.saddle.screw-left", "ramp.left.support.crest.saddle.screw-right", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.flap.screw-a", "handoff.ramp-left-entry.flap.screw-b", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.left-guide.screw-a", "handoff.ramp-left-entry.left-guide.screw-b", "handoff.ramp-left-entry.right-guide", "handoff.ramp-left-entry.right-guide.screw-a", "handoff.ramp-left-entry.right-guide.screw-b", "handoff.ramp-left-entry.flap.left-hinge-post", "handoff.ramp-left-entry.flap.left-hinge-post.cap", "handoff.ramp-left-entry.flap.right-stop-post", "handoff.ramp-left-entry.flap.right-stop-post.cap", "handoff.ramp-left-entry.left-guide.upper-post", "handoff.ramp-left-entry.left-guide.upper-post.cap", "handoff.ramp-left-entry.left-guide.lower-post", "handoff.ramp-left-entry.left-guide.lower-post.cap", "handoff.ramp-left-entry.right-guide.upper-post", "handoff.ramp-left-entry.right-guide.upper-post.cap", "handoff.ramp-left-entry.right-guide.lower-post", "handoff.ramp-left-entry.right-guide.lower-post.cap", "handoff.ramp-left-entry.skirt-left", "handoff.ramp-left-entry.skirt-left.screw-a", "handoff.ramp-left-entry.skirt-left.screw-b", "handoff.ramp-left-entry.skirt-right", "handoff.ramp-left-entry.skirt-right.screw-a", "handoff.ramp-left-entry.skirt-right.screw-b", "ramp.left.exit", "wireform.left-return.upper.rail-left", "wireform.left-return.upper.rail-left.clamp-entry", "wireform.left-return.upper.rail-left.clamp-mid", "wireform.left-return.upper.rail-left.clamp-exit", "wireform.left-return.upper.rail-right", "wireform.left-return.upper.rail-right.clamp-entry", "wireform.left-return.upper.rail-right.clamp-mid", "wireform.left-return.upper.rail-right.clamp-exit", "wireform.left-return.lower.rail-left", "wireform.left-return.lower.rail-left.clamp-entry", "wireform.left-return.lower.rail-left.clamp-mid", "wireform.left-return.lower.rail-left.clamp-exit", "wireform.left-return.lower.rail-right", "wireform.left-return.lower.rail-right.clamp-entry", "wireform.left-return.lower.rail-right.clamp-mid", "wireform.left-return.lower.rail-right.clamp-exit", "wireform.left-return.tie-upper-entry", "wireform.left-return.tie-upper-entry.screw-a", "wireform.left-return.tie-upper-entry.screw-b", "wireform.left-return.tie-upper-mid", "wireform.left-return.tie-upper-mid.screw-a", "wireform.left-return.tie-upper-mid.screw-b", "wireform.left-return.tie-upper-exit", "wireform.left-return.tie-upper-exit.screw-a", "wireform.left-return.tie-upper-exit.screw-b", "wireform.left-return.tie-lower-entry", "wireform.left-return.tie-lower-entry.screw-a", "wireform.left-return.tie-lower-entry.screw-b", "wireform.left-return.tie-lower-mid", "wireform.left-return.tie-lower-mid.screw-a", "wireform.left-return.tie-lower-mid.screw-b", "wireform.left-return.tie-lower-exit", "wireform.left-return.tie-lower-exit.screw-a", "wireform.left-return.tie-lower-exit.screw-b", "wireform.left-return.support.upper", "wireform.left-return.support.upper.cap", "wireform.left-return.support.upper.foot", "wireform.left-return.support.upper.foot.screw-left", "wireform.left-return.support.upper.foot.screw-right", "wireform.left-return.support.upper.collar", "wireform.left-return.support.upper.saddle", "wireform.left-return.support.upper.saddle.screw-left", "wireform.left-return.support.upper.saddle.screw-right", "wireform.left-return.support.mid", "wireform.left-return.support.mid.cap", "wireform.left-return.support.mid.foot", "wireform.left-return.support.mid.foot.screw-left", "wireform.left-return.support.mid.foot.screw-right", "wireform.left-return.support.mid.collar", "wireform.left-return.support.mid.saddle", "wireform.left-return.support.mid.saddle.screw-left", "wireform.left-return.support.mid.saddle.screw-right", "wireform.left-return.support.exit", "wireform.left-return.support.exit.cap", "wireform.left-return.support.exit.foot", "wireform.left-return.support.exit.foot.screw-left", "wireform.left-return.support.exit.foot.screw-right", "wireform.left-return.support.exit.collar", "wireform.left-return.support.exit.saddle", "wireform.left-return.support.exit.saddle.screw-left", "wireform.left-return.support.exit.saddle.screw-right", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.left-guide.screw-a", "handoff.ramp-left-exit.left-guide.screw-b", "handoff.ramp-left-exit.right-guide", "handoff.ramp-left-exit.right-guide.screw-a", "handoff.ramp-left-exit.right-guide.screw-b", "handoff.ramp-left-exit.left-guide.upper-post", "handoff.ramp-left-exit.left-guide.upper-post.cap", "handoff.ramp-left-exit.left-guide.lower-post", "handoff.ramp-left-exit.left-guide.lower-post.cap", "handoff.ramp-left-exit.right-guide.upper-post", "handoff.ramp-left-exit.right-guide.upper-post.cap", "handoff.ramp-left-exit.right-guide.lower-post", "handoff.ramp-left-exit.right-guide.lower-post.cap", "lane.lower.left-in", "lane.lower.left-in.outer", "lane.lower.left-in.outer.screw-a", "lane.lower.left-in.outer.screw-b", "lane.lower.left-in.inner", "lane.lower.left-in.inner.screw-a", "lane.lower.left-in.inner.screw-b", "rollover.lower.left-in", "rollover.lower.left-in.screw-left", "rollover.lower.left-in.screw-right", "insert.lower.left-in-arrow", "insert.lower.left-in-arrow.lens", "lane.lower.left-in.guide-cover", "lane.lower.left-in.guide-cover.screw-upper", "lane.lower.left-in.guide-cover.screw-lower", "lane.lower.left-in.rubber-band", "post.left-in-top", "post.left-in-top.cap", "post.left-in-lower", "post.left-in-lower.cap", "post.drain-left", "post.drain-left.cap"] },
     { id: "shot.left-outlane-drain", label: "Left outlane drain", primaryFlipper: "none", deviceIds: ["lane.lower.left-out", "lane.lower.left-out.outer", "lane.lower.left-out.outer.screw-a", "lane.lower.left-out.outer.screw-b", "lane.lower.left-out.inner", "lane.lower.left-out.inner.screw-a", "lane.lower.left-out.inner.screw-b", "rollover.lower.left-out", "rollover.lower.left-out.screw-left", "rollover.lower.left-out.screw-right", "insert.lower.left-out-arrow", "insert.lower.left-out-arrow.lens", "lane.lower.left-out.guide-cover", "lane.lower.left-out.guide-cover.screw-upper", "lane.lower.left-out.guide-cover.screw-lower", "lane.lower.left-out.rubber-band", "post.left-out-top", "post.left-out-top.cap", "post.left-out-lower", "post.left-out-lower.cap", "boundary.left-apron", "boundary.left-apron.screw-a", "boundary.left-apron.screw-b", "boundary.apron-left-guide", "boundary.apron-left-guide.screw-a", "boundary.apron-left-guide.screw-b", "apron.ball-save-lamp", "apron.ball-save-lamp.lens", "apron.shoot-again-lamp", "apron.shoot-again-lamp.lens", "drain.center", "drain.left-guide", "drain.left-guide.screw-upper", "drain.left-guide.screw-lower", "drain.center-mouth", "drain.center-mouth.screw-left", "drain.center-mouth.screw-right"] },
     { id: "shot.right-outlane-drain", label: "Right outlane drain", primaryFlipper: "none", deviceIds: ["lane.lower.right-out", "lane.lower.right-out.inner", "lane.lower.right-out.inner.screw-a", "lane.lower.right-out.inner.screw-b", "lane.lower.right-out.outer", "lane.lower.right-out.outer.screw-a", "lane.lower.right-out.outer.screw-b", "rollover.lower.right-out", "rollover.lower.right-out.screw-left", "rollover.lower.right-out.screw-right", "insert.lower.right-out-arrow", "insert.lower.right-out-arrow.lens", "lane.lower.right-out.guide-cover", "lane.lower.right-out.guide-cover.screw-upper", "lane.lower.right-out.guide-cover.screw-lower", "lane.lower.right-out.rubber-band", "post.right-out-top", "post.right-out-top.cap", "post.right-out-lower", "post.right-out-lower.cap", "boundary.right-apron", "boundary.right-apron.screw-a", "boundary.right-apron.screw-b", "boundary.apron-right-guide", "boundary.apron-right-guide.screw-a", "boundary.apron-right-guide.screw-b", "apron.ball-save-lamp", "apron.ball-save-lamp.lens", "apron.shoot-again-lamp", "apron.shoot-again-lamp.lens", "drain.center", "drain.right-guide", "drain.right-guide.screw-upper", "drain.right-guide.screw-lower", "drain.center-mouth", "drain.center-mouth.screw-left", "drain.center-mouth.screw-right"] },
     { id: "shot.left-sling-rebound", label: "Left sling rebound", primaryFlipper: "none", deviceIds: ["sling.left", "sling.left.rubber-face", "sling.left.top-plastic", "sling.left.top-plastic.screw-outer", "sling.left.top-plastic.screw-inner", "sling.left.top-plastic.screw-nose", "insert.sling.left", "insert.sling.left.lens", "post.left-sling-a", "post.left-sling-a.cap", "post.left-sling-b", "post.left-sling-b.cap"] },

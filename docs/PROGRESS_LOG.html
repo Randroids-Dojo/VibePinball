@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="ball-containment-and-real-lane-corridors" data-date="2026-06-12">
+    <h3>Ball Containment And Real Lane Corridors</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>fix/ball-containment</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>enabled CCD on the ball and added a physical containment box: the playfield glass gained a collider and moved from y 0.88 to y 1.85 so it clears the wireforms and ramp rails that previously poked through it, cabinet inner walls now run deck-to-glass, and an escaped-ball failsafe re-seats any ball that leaves the box. CCD exposed that the right outlane assembly occupied the plunger corridor and only worked through tunneling, so the right side was re-authored: the outlane moved into the strip between the inlane wall and a new vertical divider, the shooter lane became a sealed vertical corridor centered on x 3.27 feeding the right orbit channel, the orbit entry gained a longer lane-guide funnel, and the launched ball now travels plunger to upper playfield with zero phantom contacts. Removed the lateral gravity bias, scaled the plunger impulse by real ball mass so charge maps to launch speed, allowed re-plunging any ball that comes to rest in the shooter lane, sealed the left outlane wedge sliver against the side wall, capped the left dead-strip mouth, re-strung all four lower-lane rubber bands along their walls instead of across corridors, and added deck-level ramp entry skirts so the ball can no longer wedge under the low end of the left ramp. Added a blueprint plot generator at <code>scripts/plot-blueprint.ts</code> for top-down geometry review.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (64 passing, including a new cabinet containment property test across launch charges with flipper mashing and a glass clearance acceptance test); <code>pnpm build</code>; <code>PORT=3017 pnpm exec playwright test</code> (2 passing); headless physics traces confirming full-charge launches reach the upper playfield and weak launches fall back to a re-plungeable rest.</dd>
+      <dt>Assumptions</dt><dd>Balls returning down the shared orbit and shooter channel may come to rest at the plunger and be re-plunged; a one-way gate at the corridor top is logged as a followup rather than blocking this slice.</dd>
+      <dt>GDD coverage</dt><dd><code>REQ-007</code>, <code>REQ-015</code>, and <code>REQ-019</code> remain <code>partial</code> with stronger physical fidelity; <code>docs/gdd/11-physical-board-blueprint.html</code> gained a build log entry.</dd>
+      <dt>Followups</dt><dd>Created <code>F-005</code> (systematic trap clearance audit: wireform rail gap exceeds ball diameter, orbit wall gaps, arch dead-pocket window) and <code>F-006</code> (one-way gate at the shooter corridor top).</dd>
+    </dl>
+  </article>
+
   <article data-slice="physical-board-acceptance-closure" data-date="2026-06-11">
     <h3>Physical Board Acceptance Closure</h3>
     <dl>

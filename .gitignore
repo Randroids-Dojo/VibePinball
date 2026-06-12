@@ -19,3 +19,6 @@ test-results/
 
 # Vercel
 .vercel
+
+# Blueprint debug plot output (scripts/plot-blueprint.ts)
+board-plot.svg

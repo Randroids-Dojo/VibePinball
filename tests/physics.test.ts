@@ -21,16 +21,48 @@ describe("pinball physics", () => {
     }
   });
 
+  it("contains the ball inside the cabinet box across launches and flipper mashing", async () => {
+    const physics = await PinballPhysics.create();
+
+    for (const chargeFrames of [12, 36, 72]) {
+      physics.resetBall();
+
+      const charging = { ...emptyActionState(), plunger: true };
+      for (let i = 0; i < chargeFrames; i += 1) {
+        expectInsideCabinet(step(physics, charging));
+      }
+
+      for (let i = 0; i < 1200; i += 1) {
+        const mashing = {
+          ...emptyActionState(),
+          leftFlipper: i % 40 < 20,
+          rightFlipper: i % 40 >= 20,
+          nudgeUp: i % 180 === 0
+        };
+        expectInsideCabinet(step(physics, mashing));
+      }
+    }
+  });
+
   it("keeps low-speed live balls recoverable after launch settling", async () => {
     const physics = await PinballPhysics.create();
     const beforeRecovery = await launchAndSettle(physics, 36, 900);
 
-    expect(beforeRecovery.ball.z > 4.15 || Math.abs(beforeRecovery.ball.x) < 2.4).toBe(true);
-
+    const restingAtPlunger = beforeRecovery.ball.x > 3.05 && beforeRecovery.ball.z > 4.55;
     let afterRecovery = beforeRecovery;
-    const activeFlippers = { ...emptyActionState(), leftFlipper: true, rightFlipper: true };
-    for (let i = 0; i < 45; i += 1) {
-      afterRecovery = step(physics, activeFlippers);
+    if (restingAtPlunger) {
+      const charging = { ...emptyActionState(), plunger: true };
+      for (let i = 0; i < 40; i += 1) {
+        afterRecovery = step(physics, charging);
+      }
+      for (let i = 0; i < 30; i += 1) {
+        afterRecovery = step(physics);
+      }
+    } else {
+      const activeFlippers = { ...emptyActionState(), leftFlipper: true, rightFlipper: true };
+      for (let i = 0; i < 45; i += 1) {
+        afterRecovery = step(physics, activeFlippers);
+      }
     }
 
     expect(planarDistance(beforeRecovery.ball, afterRecovery.ball)).toBeGreaterThan(1);
@@ -66,3 +98,12 @@ const planarDistance = (
   a: PhysicsSnapshot["ball"],
   b: PhysicsSnapshot["ball"]
 ): number => Math.hypot(a.x - b.x, a.z - b.z);
+
+const expectInsideCabinet = (snapshot: PhysicsSnapshot): void => {
+  const { x, y, z } = snapshot.ball;
+  expect(Math.abs(x), `ball x ${x.toFixed(3)} stays inside the side walls`).toBeLessThanOrEqual(4.5);
+  expect(y, `ball y ${y.toFixed(3)} stays above the deck`).toBeGreaterThanOrEqual(-0.35);
+  expect(y, `ball y ${y.toFixed(3)} stays under the glass`).toBeLessThanOrEqual(2.2);
+  expect(z, `ball z ${z.toFixed(3)} stays behind the backboard`).toBeGreaterThanOrEqual(-8.0);
+  expect(z, `ball z ${z.toFixed(3)} stays inside the cabinet front`).toBeLessThanOrEqual(8.5);
+};
