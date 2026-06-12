@@ -115,9 +115,10 @@ export class PinballPhysics {
     const world = new rapier.World(blueprint.playfield.gravity);
     const ballBody = world.createRigidBody(
       rapier.RigidBodyDesc.dynamic()
-        .setTranslation(3.18, 0.35, 5.55)
+        .setTranslation(3.27, 0.35, 5.55)
         .setLinearDamping(0.08)
         .setAngularDamping(0.1)
+        .setCcdEnabled(true)
     );
     world.createCollider(
       rapier.ColliderDesc.ball(blueprint.scale.ballRadius).setRestitution(0.78).setFriction(0.08),
@@ -138,7 +139,7 @@ export class PinballPhysics {
     this.saucerHeldBy = null;
     this.saucerHoldSeconds = 0;
     this.saucerHoldEventPending = false;
-    this.ball.setTranslation({ x: 3.18, y: 0.35, z: 5.55 }, true);
+    this.ball.setTranslation({ x: 3.27, y: 0.35, z: 5.55 }, true);
     this.ball.setLinvel({ x: 0, y: 0, z: 0 }, true);
     this.ball.setAngvel({ x: 0, y: 0, z: 0 }, true);
   }
@@ -161,6 +162,7 @@ export class PinballPhysics {
     }
 
     this.clampBallSpeed();
+    this.containEscapedBall();
     this.recoverLowSpeedBall(dt);
     this.detectDeviceHits(events, scoringEnabled);
 
@@ -225,7 +227,9 @@ export class PinballPhysics {
     scoringEnabled: boolean
   ): void {
     const pos = this.ball.translation();
-    const inShooterLane = pos.x > 2.72 && pos.z > 4.55 && !this.launched;
+    const vel = this.ball.linvel();
+    const ballSpeed = Math.hypot(vel.x, vel.y, vel.z);
+    const inShooterLane = pos.x > 3.05 && pos.z > 4.55 && ballSpeed < 1.2;
 
     if (actions.plunger && inShooterLane) {
       this.plungerCharge = Math.min(1, this.plungerCharge + dt * 0.85);
@@ -233,9 +237,9 @@ export class PinballPhysics {
       return;
     }
 
-    if (!actions.plunger && this.plungerCharge > 0 && inShooterLane) {
-      const strength = 7.5 + this.plungerCharge * 11;
-      this.ball.applyImpulse({ x: -1.75, y: 0, z: -strength }, true);
+    if (!actions.plunger && this.plungerCharge > 0 && pos.x > 3.05 && pos.z > 4.55) {
+      const launchSpeed = 10 + this.plungerCharge * 14;
+      this.ball.applyImpulse({ x: 0, y: 0, z: -launchSpeed * this.ball.mass() }, true);
       this.plungerCharge = 0;
       this.launched = true;
       this.launchedSeconds = 0;
@@ -440,10 +444,34 @@ export class PinballPhysics {
   private clampBallSpeed(): void {
     const vel = this.ball.linvel();
     const speed = Math.hypot(vel.x, vel.y, vel.z);
-    if (speed > 18) {
-      const scale = 18 / speed;
+    if (speed > 26) {
+      const scale = 26 / speed;
       this.ball.setLinvel({ x: vel.x * scale, y: vel.y * scale, z: vel.z * scale }, true);
     }
+  }
+
+  private containEscapedBall(): void {
+    const pos = this.ball.translation();
+    const halfWidth = blueprint.playfield.width / 2;
+    const halfDepth = blueprint.playfield.depth / 2;
+    const escaped =
+      pos.y < -0.35 ||
+      pos.y > blueprint.cabinet.glassPanel.y + 0.45 ||
+      Math.abs(pos.x) > halfWidth + 0.4 ||
+      pos.z < -(halfDepth + 0.4) ||
+      pos.z > halfDepth + 0.9;
+
+    if (!escaped) {
+      return;
+    }
+
+    this.ball.setTranslation({
+      x: Math.min(Math.max(pos.x, -3.5), 3.5),
+      y: blueprint.playfield.surfaceY + blueprint.scale.ballRadius + 0.04,
+      z: Math.min(Math.max(pos.z, -6.6), 6.8)
+    }, true);
+    this.ball.setLinvel({ x: 0, y: 0, z: 0 }, true);
+    this.ball.setAngvel({ x: 0, y: 0, z: 0 }, true);
   }
 
   private recoverLowSpeedBall(dt: number): void {
@@ -471,6 +499,11 @@ export class PinballPhysics {
     }
 
     if (pos.z > 4.15 && Math.abs(pos.x) < 2.4) {
+      this.lowSpeedSeconds = 0;
+      return;
+    }
+
+    if (pos.x > 3.05 && pos.z > 4.55) {
       this.lowSpeedSeconds = 0;
       return;
     }
@@ -707,6 +740,20 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
     );
   };
 
+  const addCabinetContainment = () => {
+    const glass = blueprint.cabinet.glassPanel;
+    const deck = blueprint.playfield;
+    const halfWidth = deck.width / 2;
+    const halfDepth = deck.depth / 2;
+    const wallHalfHeight = (glass.y + 0.2) / 2;
+
+    addBoxCollider(glass.x, glass.y + 0.05, glass.z, halfWidth + 0.3, 0.06, glass.depth / 2 + 0.3, 0, 0, 0.05);
+    addBoxCollider(-(halfWidth + 0.08), wallHalfHeight, deck.z, 0.08, wallHalfHeight, halfDepth + 0.5, 0, 0, 0.3);
+    addBoxCollider(halfWidth + 0.08, wallHalfHeight, deck.z, 0.08, wallHalfHeight, halfDepth + 0.5, 0, 0, 0.3);
+    addBoxCollider(deck.x, wallHalfHeight, -(halfDepth + 0.08), halfWidth + 0.5, wallHalfHeight, 0.08, 0, 0, 0.3);
+    addBoxCollider(deck.x, wallHalfHeight, halfDepth + 0.45, halfWidth + 0.5, wallHalfHeight, 0.08, 0, 0, 0.3);
+  };
+
   const addFlipper = (flipper: FlipperDevice) => {
     const body = world.createRigidBody(
       rapier.RigidBodyDesc.kinematicPositionBased()
@@ -747,6 +794,7 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
   };
 
   addPlayfieldDeck();
+  addCabinetContainment();
   blueprint.boundaries.forEach(addSegment);
   blueprint.laneWalls.forEach(addSegment);
   blueprint.rubberBands.forEach(addSegment);

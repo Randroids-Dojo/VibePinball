@@ -49,7 +49,24 @@
 
 <section id="nice-to-have">
   <h2>Nice To Have</h2>
-  <p>(none yet)</p>
+  <section data-f="F-005" data-priority="nice-to-have">
+    <h3>F-005: Systematic trap clearance audit of the physical blueprint</h3>
+    <dl>
+      <dt>Context</dt><dd>The ball containment slice (branch <code>fix/ball-containment</code>) fixed the launch corridor, lane dead strips, and the under-ramp pinch found by physics traces, but several authored clearances remain suspect: the wireform rail gap (railOffset 0.25 to 0.26 with 0.05 rails leaves a 0.45 clear gap, wider than the 0.425 ball, so wireform balls fall through or wedge), the right orbit wall gaps at z -3.4 to -4.3 and the matching arch dead-pocket window on the right side, the drain mouth side gaps, and the saucer funnel entry.</dd>
+      <dt>Blocker</dt><dd>None.</dd>
+      <dt>Unblock condition</dt><dd>Add a blueprint acceptance test that computes corridor and gap clearances against ball diameter for every authored pair along reachable paths, then fix the failures.</dd>
+      <dt>PR / Dot reference</dt><dd><code>VibePinball-board-polish-trap-c779ae14</code></dd>
+    </dl>
+  </section>
+  <section data-f="F-006" data-priority="nice-to-have">
+    <h3>F-006: One-way gate at the shooter corridor top</h3>
+    <dl>
+      <dt>Context</dt><dd>The shooter lane and right orbit share one channel. Balls rolling back down the channel come to rest at the plunger and the player re-plunges them, which is physical and consistent but differs from real machines where a one-way gate deflects returning balls into the playfield.</dd>
+      <dt>Blocker</dt><dd>Rapier has no built-in one-way collider; the gate needs either a sensor-driven kinematic flap or velocity-conditional collider toggling.</dd>
+      <dt>Unblock condition</dt><dd>Prototype a velocity-conditional gate at the corridor top (around z 3.9) that passes upward launches and deflects descending balls toward the outlane mouth.</dd>
+      <dt>PR / Dot reference</dt><dd>(not started)</dd>
+    </dl>
+  </section>
 </section>
 
 <section id="resolved">

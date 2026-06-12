@@ -1417,7 +1417,7 @@ const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {
         metalness: 0.1
       })
     );
-    rim.position.set(segment.x, 0.84, segment.z);
+    rim.position.set(segment.x, cabinet.glassPanel.y - 0.03, segment.z);
     rim.rotation.y = segment.angle ?? 0;
     group.add(rim);
   });

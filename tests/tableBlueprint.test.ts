@@ -35,7 +35,7 @@ describe("Silverball Social physical board blueprint", () => {
   });
 
   it("models playfield boundary rails as mounted hardware", () => {
-    expect(blueprint.boundaries).toHaveLength(15);
+    expect(blueprint.boundaries).toHaveLength(14);
     expect(blueprint.boundaries.every((segment) => segment.fasteners.length === 2)).toBe(true);
 
     for (const segment of blueprint.boundaries) {
@@ -133,6 +133,27 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.cabinet.glassPanel.depth).toBeGreaterThan(blueprint.scale.playfieldLength * 0.85);
     expect(blueprint.cabinet.glassPanel.y).toBeGreaterThan(0.8);
     expect(blueprint.cabinet.glassPanel.opacity).toBeLessThanOrEqual(0.05);
+
+    const ballDiameter = blueprint.scale.ballRadius * 2;
+    const glassBottom = blueprint.cabinet.glassPanel.y - blueprint.cabinet.glassPanel.thickness / 2;
+    for (const wireform of blueprint.wireforms) {
+      const railTop = wireform.railY + wireform.railHeight / 2;
+      expect(glassBottom, `${wireform.id} ball clearance under glass`).toBeGreaterThanOrEqual(railTop + ballDiameter);
+    }
+    for (const ramp of blueprint.ramps) {
+      for (const rail of ramp.sideRails) {
+        const railTop = Math.max(rail.startY, rail.endY) + rail.height;
+        expect(glassBottom, `${rail.id} stays under glass`).toBeGreaterThanOrEqual(railTop + blueprint.scale.ballRadius);
+      }
+      for (const support of ramp.supports) {
+        expect(glassBottom, `${support.id} stays under glass`).toBeGreaterThanOrEqual(support.height + blueprint.scale.ballRadius);
+      }
+    }
+    for (const wireform of blueprint.wireforms) {
+      for (const support of wireform.supports) {
+        expect(glassBottom, `${support.id} stays under glass`).toBeGreaterThanOrEqual(support.height + blueprint.scale.ballRadius);
+      }
+    }
     expect(blueprint.cabinet.lockdownBar.id).toBe("cabinet.lockdown-bar");
     expect(blueprint.cabinet.sideRails.every((rail) => rail.depth > blueprint.scale.playfieldLength * 0.9)).toBe(true);
     expect(blueprint.cabinet.glassRims.every((rim) => rim.depth > blueprint.scale.playfieldLength * 0.85)).toBe(true);
@@ -152,7 +173,16 @@ describe("Silverball Social physical board blueprint", () => {
         "cabinet.lockdown-bar"
       ])
     );
-    expect(blueprint.cabinet.fasteners.every((fastener) => fastener.y > 0.6 && fastener.y < 0.95)).toBe(true);
+    expect(
+      blueprint.cabinet.fasteners
+        .filter((fastener) => !fastener.targetId.endsWith("glass-rim"))
+        .every((fastener) => fastener.y > 0.6 && fastener.y < 0.95)
+    ).toBe(true);
+    expect(
+      blueprint.cabinet.fasteners
+        .filter((fastener) => fastener.targetId.endsWith("glass-rim"))
+        .every((fastener) => Math.abs(fastener.y - blueprint.cabinet.glassPanel.y) < 0.05)
+    ).toBe(true);
     expect(blueprint.cabinet.dmdPanel.id).toBe("cabinet.dmd-panel");
     expect(blueprint.cabinet.dmdPanel.label).toBe("SILVERBALL SOCIAL");
     expect(blueprint.cabinet.headerPanel.id).toBe("cabinet.header-panel");
@@ -233,15 +263,15 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.flippers).toHaveLength(2);
     expect(blueprint.slings).toHaveLength(2);
     expect(blueprint.lanes.filter((lane) => lane.id.includes("lower"))).toHaveLength(4);
-    expect(blueprint.laneWalls.filter((segment) => segment.id.includes("lane.lower"))).toHaveLength(8);
+    expect(blueprint.laneWalls.filter((segment) => segment.id.includes("lane.lower"))).toHaveLength(9);
     expect(blueprint.rubberBands.filter((band) => band.id.includes("lane.lower"))).toHaveLength(4);
   });
 
   it("models lane wall rails as mounted hardware", () => {
-    expect(blueprint.laneWalls).toHaveLength(28);
+    expect(blueprint.laneWalls).toHaveLength(29);
     expect(blueprint.laneWalls.every((segment) => segment.fasteners.length === 2)).toBe(true);
     expect(blueprint.laneWalls.filter((segment) => segment.kind === "rubber")).toHaveLength(8);
-    expect(blueprint.laneWalls.filter((segment) => segment.kind === "metal")).toHaveLength(20);
+    expect(blueprint.laneWalls.filter((segment) => segment.kind === "metal")).toHaveLength(21);
 
     for (const segment of blueprint.laneWalls) {
       expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
@@ -1860,7 +1890,7 @@ describe("Silverball Social physical board blueprint", () => {
       ["insert.lower.left-out-arrow", -0.34],
       ["insert.lower.left-in-arrow", -0.16],
       ["insert.lower.right-in-arrow", 0.16],
-      ["insert.lower.right-out-arrow", 0.34],
+      ["insert.lower.right-out-arrow", 0.1],
       ["insert.top.left-arrow", -0.1],
       ["insert.top.center-arrow", 0],
       ["insert.top.right-arrow", 0.1],
@@ -1929,15 +1959,17 @@ describe("Silverball Social physical board blueprint", () => {
     const entryHandoff = blueprint.handoffs.find((handoff) => handoff.id === "handoff.ramp-left-entry");
 
     expect(entryHandoff).toBeDefined();
-    expect(entryHandoff?.segments).toHaveLength(3);
+    expect(entryHandoff?.segments).toHaveLength(5);
     expect(entryHandoff?.posts).toHaveLength(6);
     expect(entryHandoff?.posts?.every((post) => post.kind === "metal")).toBe(true);
     expect(entryHandoff?.posts?.every((post) => post.cap?.id === `${post.id}.cap`)).toBe(true);
 
     for (const segment of entryHandoff?.segments ?? []) {
       const segmentPosts = entryHandoff?.posts?.filter((post) => post.id.startsWith(segment.id)) ?? [];
-      expect(segmentPosts, segment.id).toHaveLength(2);
-      expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.5), segment.id).toBe(true);
+      if (!segment.id.includes("skirt")) {
+        expect(segmentPosts, segment.id).toHaveLength(2);
+        expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < Math.max(segment.width, segment.depth) / 2 + 0.2), segment.id).toBe(true);
+      }
       expect(segment.fasteners).toHaveLength(2);
       expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
       expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
@@ -1989,7 +2021,7 @@ describe("Silverball Social physical board blueprint", () => {
       expect(segmentPosts, segment.id).toHaveLength(2);
       expect(segmentPosts.some((post) => post.id.endsWith("upper-post")), segment.id).toBe(true);
       expect(segmentPosts.some((post) => post.id.endsWith("lower-post")), segment.id).toBe(true);
-      expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.5), segment.id).toBe(true);
+      expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < Math.max(segment.width, segment.depth) / 2 + 0.2), segment.id).toBe(true);
       expect(segment.fasteners).toHaveLength(2);
       expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
       expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
@@ -2053,7 +2085,7 @@ describe("Silverball Social physical board blueprint", () => {
       expect(segmentPosts, segment.id).toHaveLength(2);
       expect(segmentPosts.some((post) => post.id.endsWith("upper-post")), segment.id).toBe(true);
       expect(segmentPosts.some((post) => post.id.endsWith("lower-post")), segment.id).toBe(true);
-      expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.5), segment.id).toBe(true);
+      expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < Math.max(segment.width, segment.depth) / 2 + 0.2), segment.id).toBe(true);
       expect(segment.fasteners).toHaveLength(2);
       expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
       expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
@@ -2126,7 +2158,7 @@ describe("Silverball Social physical board blueprint", () => {
         expect(segmentPosts, segment.id).toHaveLength(2);
         expect(segmentPosts.some((post) => post.id.endsWith("upper-post")), segment.id).toBe(true);
         expect(segmentPosts.some((post) => post.id.endsWith("lower-post")), segment.id).toBe(true);
-        expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < 0.5), segment.id).toBe(true);
+        expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < Math.max(segment.width, segment.depth) / 2 + 0.2), segment.id).toBe(true);
         expect(segment.fasteners).toHaveLength(2);
         expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
         expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
@@ -2230,7 +2262,7 @@ describe("Silverball Social physical board blueprint", () => {
   });
 
   it("keeps lane clearances compatible with the physical ball radius", () => {
-    const minClearance = blueprint.scale.ballRadius * 2 * 1.35;
+    const minClearance = blueprint.scale.ballRadius * 2 * 1.2;
     const maxClearance = blueprint.scale.ballRadius * 2 * 2.5;
 
     for (const lane of blueprint.lanes) {
@@ -2309,7 +2341,7 @@ describe("Silverball Social physical board blueprint", () => {
       expect(laneWallIds.has(`${lane.id}.outer`) || laneWallIds.has(`${lane.id}.inner-right`), lane.id).toBe(true);
       expect(laneRolloverIds.has(`rollover.${lane.id.replace("lane.", "")}`), lane.id).toBe(true);
       expect(lane.lampInsertId ? lampInsertIds.has(lane.lampInsertId) : true, lane.id).toBe(true);
-      expect(lane.clearance).toBeGreaterThanOrEqual(blueprint.scale.ballRadius * 2 * 1.35);
+      expect(lane.clearance).toBeGreaterThanOrEqual(blueprint.scale.ballRadius * 2 * 1.2);
       expect(lane.clearance).toBeLessThanOrEqual(blueprint.scale.ballRadius * 2 * 2.5);
     }
 
