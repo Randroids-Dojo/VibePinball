@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import type { PhysicsSnapshot } from "./physics";
 import {
   silverballSocialBlueprint,
@@ -90,9 +91,32 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   scene.background = new THREE.Color(0x080807);
   scene.fog = new THREE.Fog(0x14110d, 20, 38);
 
-  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+  // Image-based lighting: gives every metal surface (ball, rails, posts) real
+  // reflections. A MeshStandardMaterial with high metalness renders nearly black
+  // without an environment map, which is why the ball looked like dull plastic.
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const environmentTexture = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environment = environmentTexture;
+
+  const FOV = 42;
+  const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 100);
+  const cameraTarget = new THREE.Vector3(0, 0, -0.55);
+  // Fixed viewing angle; resize() dollies along this direction to fit the board.
+  const cameraForward = new THREE.Vector3(0, -12.2, -14.05).normalize();
+  const cameraRight = new THREE.Vector3().crossVectors(cameraForward, new THREE.Vector3(0, 1, 0)).normalize();
+  const cameraUp = new THREE.Vector3().crossVectors(cameraRight, cameraForward).normalize();
+  // World box that must always stay on screen: the full playfield plus glass.
+  const fitMargin = 1.06;
+  const fitCorners: THREE.Vector3[] = [];
+  for (const fx of [-4.35, 4.35]) {
+    for (const fy of [-0.2, 2.0]) {
+      for (const fz of [-7.8, 8.4]) {
+        fitCorners.push(new THREE.Vector3(fx, fy, fz));
+      }
+    }
+  }
   camera.position.set(0, 12.2, 13.5);
-  camera.lookAt(0, 0, -0.55);
+  camera.lookAt(cameraTarget);
 
   const group = new THREE.Group();
   group.rotation.x = -blueprint.playfield.slopeAngle;
@@ -162,8 +186,13 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
   group.add(rightFlipper);
 
   const ball = mesh(
-    new THREE.SphereGeometry(blueprint.scale.ballRadius, 32, 18),
-    new THREE.MeshStandardMaterial({ color: palette.ball, roughness: 0.16, metalness: 0.85 })
+    new THREE.SphereGeometry(blueprint.scale.ballRadius, 48, 32),
+    new THREE.MeshStandardMaterial({
+      color: palette.ball,
+      roughness: 0.05,
+      metalness: 1,
+      envMapIntensity: 1.6
+    })
   );
   ball.castShadow = true;
   group.add(ball);
@@ -305,7 +334,26 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
     renderer.setSize(width, height, false);
-    camera.aspect = width / Math.max(height, 1);
+    const aspect = width / Math.max(height, 1);
+    camera.aspect = aspect;
+
+    // Dolly the camera along its fixed viewing direction so the whole playfield
+    // box stays inside the frustum at any aspect ratio. On portrait phones the
+    // horizontal field of view is narrow, so the board width is the binding
+    // constraint and the camera pulls back further than on a wide desktop.
+    const tanV = Math.tan((FOV * Math.PI) / 360);
+    const tanH = tanV * aspect;
+    let distance = 0;
+    for (const corner of fitCorners) {
+      const rel = corner.clone().sub(cameraTarget);
+      const forwardOffset = rel.dot(cameraForward);
+      const x = Math.abs(rel.dot(cameraRight)) * fitMargin;
+      const y = Math.abs(rel.dot(cameraUp)) * fitMargin;
+      distance = Math.max(distance, x / tanH - forwardOffset, y / tanV - forwardOffset);
+    }
+    distance = Math.min(Math.max(distance, 14), 46);
+    camera.position.copy(cameraForward).multiplyScalar(-distance).add(cameraTarget);
+    camera.lookAt(cameraTarget);
     camera.updateProjectionMatrix();
   };
 
@@ -341,6 +389,8 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
         }
       }
     });
+    environmentTexture.dispose();
+    pmrem.dispose();
     renderer.dispose();
   };
 
