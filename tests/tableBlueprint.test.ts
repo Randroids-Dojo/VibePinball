@@ -1952,11 +1952,12 @@ describe("Silverball Social physical board blueprint", () => {
       expect.arrayContaining([
         "handoff.ramp-left-entry",
         "handoff.ramp-left-exit",
-        "handoff.left-orbit-entry",
-        "handoff.right-orbit-entry",
         "handoff.right-orbit-exit"
       ])
     );
+    // Orbit-entry funnel guides were removed: the open-top orbit is fed by the
+    // orbit.*.inner walls, so the entry guides were vestigial obstructions.
+    expect(blueprint.handoffs.some((handoff) => handoff.id.includes("orbit-entry"))).toBe(false);
     expect(blueprint.handoffs.flatMap((handoff) => handoff.segments).every((segment) => segment.kind === "metal" || segment.kind === "wire")).toBe(true);
   });
 
@@ -2007,142 +2008,6 @@ describe("Silverball Social physical board blueprint", () => {
         "handoff.ramp-left-entry.right-guide",
         ...entryFastenerIds,
         ...entryPostIds
-      ])
-    );
-  });
-
-  it("mounts the left orbit entry guides on capped metal posts", () => {
-    const entryHandoff = blueprint.handoffs.find((handoff) => handoff.id === "handoff.left-orbit-entry");
-
-    expect(entryHandoff).toBeDefined();
-    expect(entryHandoff?.segments).toHaveLength(2);
-    expect(entryHandoff?.posts).toHaveLength(4);
-    expect(entryHandoff?.segments.every((segment) => segment.kind === "wire")).toBe(true);
-    expect(entryHandoff?.posts?.every((post) => post.kind === "metal")).toBe(true);
-    expect(entryHandoff?.posts?.every((post) => post.cap?.id === `${post.id}.cap`)).toBe(true);
-
-    for (const segment of entryHandoff?.segments ?? []) {
-      const segmentPosts = entryHandoff?.posts?.filter((post) => post.id.startsWith(segment.id)) ?? [];
-      expect(segmentPosts, segment.id).toHaveLength(2);
-      expect(segmentPosts.some((post) => post.id.endsWith("upper-post")), segment.id).toBe(true);
-      expect(segmentPosts.some((post) => post.id.endsWith("lower-post")), segment.id).toBe(true);
-      expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < Math.max(segment.width, segment.depth) / 2 + 0.2), segment.id).toBe(true);
-      expect(segment.fasteners).toHaveLength(2);
-      expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
-      expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
-      expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
-      expect(segment.fasteners.every((fastener) => fastener.radius >= 0.026), segment.id).toBe(true);
-    }
-
-    const leftOrbitInsert = blueprint.lampInserts.find((insert) => insert.id === "insert.left-orbit-arrow");
-
-    expect(leftOrbitInsert?.label).toBe("Orbit");
-    expect(leftOrbitInsert?.shape).toBe("arrow");
-    expect(leftOrbitInsert?.lens.id).toBe("insert.left-orbit-arrow.lens");
-    expect(leftOrbitInsert?.lens.targetId).toBe(leftOrbitInsert?.id);
-    expect(leftOrbitInsert?.lens.kind).toBe("plastic");
-    expect(leftOrbitInsert?.lens.width).toBeGreaterThan(leftOrbitInsert?.radius ?? 0);
-    expect(leftOrbitInsert?.lens.depth).toBeGreaterThan(0);
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining([
-        leftOrbitInsert?.id ?? "",
-        leftOrbitInsert?.lens.id ?? "",
-        "handoff.left-orbit-entry.inner-guide",
-        "handoff.left-orbit-entry.outer-guide",
-        ...((entryHandoff?.segments ?? []).flatMap((segment) =>
-          segment.fasteners.map((fastener) => fastener.id)
-        )),
-        ...((entryHandoff?.posts ?? []).flatMap((post) => post.cap ? [post.id, post.cap.id] : [post.id])),
-        "orbit.left.outer.lower",
-        "orbit.left.outer.lower.screw-a",
-        "orbit.left.outer.lower.screw-b",
-        "orbit.left.inner.lower",
-        "orbit.left.inner.lower.screw-a",
-        "orbit.left.inner.lower.screw-b",
-        "orbit.left.outer.mid",
-        "orbit.left.outer.mid.screw-a",
-        "orbit.left.outer.mid.screw-b",
-        "orbit.left.inner.link-lower",
-        "orbit.left.inner.link-lower.screw-a",
-        "orbit.left.inner.link-lower.screw-b",
-        "orbit.left.outer.upper",
-        "orbit.left.outer.upper.screw-a",
-        "orbit.left.outer.upper.screw-b",
-        "orbit.left.outer.link",
-        "orbit.left.outer.link.screw-a",
-        "orbit.left.outer.link.screw-b"
-      ])
-    );
-  });
-
-  it("mounts the right orbit entry guides on capped metal posts", () => {
-    const entryHandoff = blueprint.handoffs.find((handoff) => handoff.id === "handoff.right-orbit-entry");
-
-    expect(entryHandoff).toBeDefined();
-    expect(entryHandoff?.segments).toHaveLength(2);
-    expect(entryHandoff?.posts).toHaveLength(4);
-    expect(entryHandoff?.segments.every((segment) => segment.kind === "wire")).toBe(true);
-    expect(entryHandoff?.posts?.every((post) => post.kind === "metal")).toBe(true);
-    expect(entryHandoff?.posts?.every((post) => post.cap?.id === `${post.id}.cap`)).toBe(true);
-
-    for (const segment of entryHandoff?.segments ?? []) {
-      const segmentPosts = entryHandoff?.posts?.filter((post) => post.id.startsWith(segment.id)) ?? [];
-      expect(segmentPosts, segment.id).toHaveLength(2);
-      expect(segmentPosts.some((post) => post.id.endsWith("upper-post")), segment.id).toBe(true);
-      expect(segmentPosts.some((post) => post.id.endsWith("lower-post")), segment.id).toBe(true);
-      expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < Math.max(segment.width, segment.depth) / 2 + 0.2), segment.id).toBe(true);
-      expect(segment.fasteners).toHaveLength(2);
-      expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
-      expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
-      expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
-      expect(segment.fasteners.every((fastener) => fastener.radius >= 0.026), segment.id).toBe(true);
-    }
-
-    const rightOrbitInsert = blueprint.lampInserts.find((insert) => insert.id === "insert.right-orbit-arrow");
-    const jackpotInsert = blueprint.lampInserts.find((insert) => insert.id === "insert.jackpot");
-
-    expect(rightOrbitInsert?.label).toBe("Orbit");
-    expect(rightOrbitInsert?.shape).toBe("arrow");
-    expect(rightOrbitInsert?.lens.id).toBe("insert.right-orbit-arrow.lens");
-    expect(rightOrbitInsert?.lens.targetId).toBe(rightOrbitInsert?.id);
-    expect(rightOrbitInsert?.lens.kind).toBe("plastic");
-    expect(rightOrbitInsert?.lens.width).toBeGreaterThan(rightOrbitInsert?.radius ?? 0);
-    expect(rightOrbitInsert?.lens.depth).toBeGreaterThan(0);
-    expect(jackpotInsert?.label).toBe("Jackpot");
-    expect(jackpotInsert?.shape).toBe("bar");
-    expect(jackpotInsert?.lens.id).toBe("insert.jackpot.lens");
-    expect(jackpotInsert?.lens.targetId).toBe(jackpotInsert?.id);
-    expect(jackpotInsert?.lens.kind).toBe("plastic");
-    expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining([
-        rightOrbitInsert?.id ?? "",
-        rightOrbitInsert?.lens.id ?? "",
-        jackpotInsert?.id ?? "",
-        jackpotInsert?.lens.id ?? "",
-        "handoff.right-orbit-entry.inner-guide",
-        "handoff.right-orbit-entry.outer-guide",
-        ...((entryHandoff?.segments ?? []).flatMap((segment) =>
-          segment.fasteners.map((fastener) => fastener.id)
-        )),
-        ...((entryHandoff?.posts ?? []).flatMap((post) => post.cap ? [post.id, post.cap.id] : [post.id])),
-        "orbit.right.outer.lower",
-        "orbit.right.outer.lower.screw-a",
-        "orbit.right.outer.lower.screw-b",
-        "orbit.right.inner.lower",
-        "orbit.right.inner.lower.screw-a",
-        "orbit.right.inner.lower.screw-b",
-        "orbit.right.outer.mid",
-        "orbit.right.outer.mid.screw-a",
-        "orbit.right.outer.mid.screw-b",
-        "orbit.right.inner.link-lower",
-        "orbit.right.inner.link-lower.screw-a",
-        "orbit.right.inner.link-lower.screw-b",
-        "orbit.right.outer.upper",
-        "orbit.right.outer.upper.screw-a",
-        "orbit.right.outer.upper.screw-b",
-        "orbit.right.inner.entry",
-        "orbit.right.inner.entry.screw-a",
-        "orbit.right.inner.entry.screw-b"
       ])
     );
   });
