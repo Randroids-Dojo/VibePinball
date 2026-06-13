@@ -585,13 +585,18 @@ const addRolloverWire = (group: THREE.Group, wire: RolloverWire) => {
 };
 
 const addFlipperStop = (group: THREE.Group, stop: FlipperStop) => {
-  addSegment(group, stop, 0.32);
+  const isReturnStop = stop.id.includes("return-stop");
+  if (isReturnStop) {
+    addRail(group, stop.x, stop.z, stop.width, stop.depth, stop.angle ?? 0, palette.rubber, 0.025, 0, 0.05);
+  } else {
+    addSegment(group, stop, 0.32);
+  }
   stop.fasteners.forEach((fastener) => {
     const screw = mesh(
       new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.024, 16),
       new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
-    screw.position.set(fastener.x, 0.49, fastener.z);
+    screw.position.set(fastener.x, isReturnStop ? 0.06 : 0.49, fastener.z);
     group.add(screw);
   });
 };
@@ -1703,6 +1708,7 @@ const addPlungerHardware = (group: THREE.Group, plunger: PlungerDevice) => {
   group.add(knob);
 
   addSegment(group, plunger.gate, 0.42);
+  addSegment(group, plunger.corridorGate, 0.42);
   addPost(group, plunger.gateHingePost);
   addPost(group, plunger.gateStopPost);
 };

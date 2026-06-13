@@ -59,19 +59,31 @@
     </dl>
   </section>
 
-  <section data-f="F-006" data-priority="nice-to-have">
+
+</section>
+
+<section id="resolved">
+  <h2>Resolved</h2>
+  <section data-f="F-008" data-vibereview-session="20260609-191250-9232B7B2" data-priority="blocks-release">
+    <h3>F-008: VibeReview playtest found launcher returns, a left-drift stuck spot, and flipper clip tiles</h3>
+    <dl>
+      <dt>Context</dt><dd>Dev playtest with the VibeReview Chrome extension on the deployed build: the ball floated back into the launcher on most launches, balls drifting left out of the shooter lane immediately stuck, and black tile pieces near the flippers clipped through the bats on every flip. Reproduced in an interactive Chrome session with held plunger inputs; capture uploads were blocked by a port conflict with the running VibeReview app, so the evidence lives in the session trace and this entry.</dd>
+      <dt>Blocker</dt><dd>None.</dd>
+      <dt>Unblock condition</dt><dd>A full-power launch stays in play, no static rest points exist outside the bat cradle and plunger, and no collider sits inside the flipper sweep.</dd>
+      <dt>PR / Dot reference</dt><dd>(this slice)</dd>
+      <dt>Resolved</dt><dd>2026-06-12. One-way corridor gate added, four stuck pockets sealed (inlane pinch, flipper-notch basin, trough feed guide shelf, apron center seal), return stops became sub-ball pads, ball sleeping disabled, and the launch smoke test guards the launch flow with real held-key input. PR TBD.</dd>
+    </dl>
+  </section>
+    <section data-f="F-006" data-priority="nice-to-have">
     <h3>F-006: One-way gate at the shooter corridor top</h3>
     <dl>
       <dt>Context</dt><dd>The shooter lane and right orbit share one channel. Balls rolling back down the channel come to rest at the plunger and the player re-plunges them, which is physical and consistent but differs from real machines where a one-way gate deflects returning balls into the playfield.</dd>
       <dt>Blocker</dt><dd>Rapier has no built-in one-way collider; the gate needs either a sensor-driven kinematic flap or velocity-conditional collider toggling.</dd>
       <dt>Unblock condition</dt><dd>Prototype a velocity-conditional gate at the corridor top (around z 3.9) that passes upward launches and deflects descending balls toward the outlane mouth.</dd>
-      <dt>PR / Dot reference</dt><dd>(not started)</dd>
+      <dt>PR / Dot reference</dt><dd>(this slice)</dd>
+      <dt>Resolved</dt><dd>2026-06-12. Both gates are velocity-keyed flap colliders; the corridor gate sheds blocked balls into the outlane mouth and failed dribbles return to the plunger for replunge. PR TBD.</dd>
     </dl>
   </section>
-</section>
-
-<section id="resolved">
-  <h2>Resolved</h2>
   <section data-f="F-005" data-priority="nice-to-have">
     <h3>F-005: Systematic trap clearance audit of the physical blueprint</h3>
     <dl>

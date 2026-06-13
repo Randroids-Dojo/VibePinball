@@ -31,6 +31,19 @@
 
 <main id="entries">
 
+  <article data-slice="one-way-gates-and-live-flow" data-date="2026-06-12">
+    <h3>One-Way Gates And Live Flow</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>fix/one-way-gate-and-flow</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>fixed the launcher-return and stuck-ball defects reported in the dev's VibeReview playtest, found by playing the build in a real browser with held inputs instead of headless steps. Both one-way gates are now real velocity-keyed flaps instead of static walls: the flap opens for up-table travel and holds against down-table travel, with the new shooter corridor gate angled so blocked balls shed left into the outlane mouth instead of resting on the flap. Failed dribbles still return to the plunger for a replunge, exactly like a real shooter lane, but a full-power launch now provably stays in play. Fixed four stuck spots the trace and Rapier contact dumps exposed: the inlane corridors were pinched below ball width once the rubber bands' protrusion was counted (guides widened, bands now wrap flush), the flipper end rubbers intercepted the inlane exit channel and formed a six-contact basin with the pivot and band post (relocated behind the flippers, ball-search exclusion narrowed from the whole lower center to just the bat cradle zone), the trough feed guide poked into the live apron path and formed a shelf pocket (shortened behind the apron line), and the apron guides sealed the center drain mouth with a 0.22 gap so slow center balls parked above the drain (widened to swallow the ball). Flipper return stops no longer collide or render as ball-height plates inside the bat sweep; they are low pads under the bat. The ball can no longer fall asleep mid-table, and the dev loop exposes the ball snapshot on <code>window.__vpDebug</code> for browser-side physics tracing.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (71 passing); <code>pnpm build</code>; <code>PORT=3022 pnpm exec playwright test</code> (4 passing, including the new <code>tests/launch.smoke.ts</code> asserting a real held-key launch enters play and never returns to the plunger); an interactive Chrome playtest with three plunger hold lengths confirming zero stalls and correct gate behavior; Rapier contact-pair dumps verifying each stuck pocket before and after.</dd>
+      <dt>Assumptions</dt><dd>Velocity-keyed collider toggling is the standard simulation model for one-way gate flaps; weak and mid launches legitimately fall back to the plunger for a replunge as on a real machine.</dd>
+      <dt>GDD coverage</dt><dd>Build log entries added to <code>docs/gdd/11-physical-board-blueprint.html</code> and <code>docs/gdd/03-physics-simulation.html</code>.</dd>
+      <dt>Followups</dt><dd>Resolved <code>F-006</code>. Created and resolved <code>F-008</code> for the playtest findings. <code>F-007</code> stays open: mid-strength launches should survive into play more often once the orbit curve is smoothed.</dd>
+    </dl>
+  </article>
+
   <article data-slice="board-polish-closure" data-date="2026-06-12">
     <h3>Board Polish Closure</h3>
     <dl>
