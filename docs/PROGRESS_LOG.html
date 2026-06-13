@@ -31,6 +31,20 @@
 
 <main id="entries">
 
+  <article data-slice="launch-arc" data-date="2026-06-13">
+    <h3>Smooth Launch Arc Into Play</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>fix/launch-arc</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>fixed the reported launch defect: the ball fell back into the launcher or drifted left, rested, and drained. Headless trajectory tracing showed the launch died at z&#8776;0 because the launch channel had no left wall above z&#8776;3.9, so the ball flew through open space, drifted, and slammed the misaligned orbit entry; and the orbit inner wall had gaps that leaked the ball into dead playfield. Re-authored both orbits as smooth open-top arcs: added an inner channel-entry wall bridging the launch lane to the orbit, gave the outer walls a continuous left-curving arc (the old <code>orbit.*.outer.upper</code> leaned the wrong way for upward travel and bounced launches straight back), and ended the inner wall partway up so a cresting ball spills into the bumper nest and into play, exactly like a real orbit-feeds-pops layout. Raised launch impulse to 16+charge*16 and the speed clamp to 34 for the climb. Both orbits mirrored for consistent flow.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (71 passing); <code>pnpm build</code>; <code>PORT=3025 pnpm exec playwright test</code> (4 passing, including <code>tests/launch.smoke.ts</code> driving a real held-key plunge); headless charge sweep (full to weak) confirming every launch reaches the playfield (minZ -4.9 to -5.5) and generates orbit, bumper, and sling events instead of returning to the plunger.</dd>
+      <dt>Assumptions</dt><dd>The orbit is an open-top feed into the bumper nest rather than a closed loop; this matches common real layouts and is the most robust route for a launched ball to reach play.</dd>
+      <dt>GDD coverage</dt><dd>Build log entries added to <code>docs/gdd/11-physical-board-blueprint.html</code> and <code>docs/gdd/03-physics-simulation.html</code>.</dd>
+      <dt>Followups</dt><dd>Advances <code>F-007</code>: launches now reach play reliably; the top skill-shot rollover is still not directly hit (ball spills into the bumpers below it) and stays open.</dd>
+    </dl>
+  </article>
+
+
   <article data-slice="sleek-glass-hud" data-date="2026-06-12">
     <h3>Sleek Glass HUD</h3>
     <dl>
