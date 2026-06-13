@@ -2320,6 +2320,19 @@ describe("Silverball Social physical board blueprint", () => {
       }
     }
 
+    const apronGuides = blueprint.boundaries.filter((segment) => segment.id.includes("apron-") && segment.id.includes("-guide"));
+    expect(apronGuides).toHaveLength(2);
+    const apronInnerGap = apronGuides.reduce((gap, guide) => {
+      const angle = guide.angle ?? 0;
+      const innerEndX = guide.x - Math.sign(guide.x) * Math.abs(Math.cos(angle)) * guide.width / 2;
+      return gap + Math.abs(innerEndX);
+    }, 0);
+    expect(apronInnerGap, "apron guides leave a ball-wide center drain mouth").toBeGreaterThan(ballDiameter + 0.08);
+
+    const feedGuide = blueprint.drain.trough.feedGuide;
+    const feedGuideUpTableEnd = feedGuide.z - Math.cos(feedGuide.angle ?? 0) * feedGuide.depth / 2;
+    expect(feedGuideUpTableEnd, "trough feed guide stays behind the apron path").toBeGreaterThan(7.15);
+
     const drainPosts = blueprint.posts.filter((post) => post.id.startsWith("post.drain-"));
     expect(drainPosts).toHaveLength(2);
     const drainPostCapRadius = drainPosts[0].cap?.radius ?? drainPosts[0].radius;

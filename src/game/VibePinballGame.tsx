@@ -80,6 +80,7 @@ export function VibePinballGame() {
         }
 
         scene.render(snapshot);
+        (window as unknown as { __vpDebug?: object }).__vpDebug = { ball: snapshot.ball, dt };
         frame = requestAnimationFrame(loop);
       };
 

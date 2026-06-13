@@ -1314,6 +1314,7 @@ export interface PlungerDevice {
   lowerGuides: Segment[];
   guideFasteners: PlungerGuideFastener[];
   gate: Segment;
+  corridorGate: Segment;
   gateHingePost: Post;
   gateStopPost: Post;
 }
@@ -2441,8 +2442,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "boundary.shooter-arch.top", x: 3.18, z: -5.22, width: 0.14, depth: 1.62, angle: 0.46, kind: "metal" },
     { id: "boundary.left-apron", x: -2.42, z: 6.22, width: 1.22, depth: 0.2, angle: -0.36, kind: "metal" },
     { id: "boundary.right-apron", x: 2.42, z: 6.22, width: 1.22, depth: 0.2, angle: 0.36, kind: "metal" },
-    { id: "boundary.apron-left-guide", x: -1.02, z: 6.95, width: 1.85, depth: 0.18, angle: 0.2, kind: "metal" },
-    { id: "boundary.apron-right-guide", x: 1.02, z: 6.95, width: 1.85, depth: 0.18, angle: -0.2, kind: "metal" },
+    { id: "boundary.apron-left-guide", x: -1.18, z: 6.95, width: 1.85, depth: 0.18, angle: 0.2, kind: "metal" },
+    { id: "boundary.apron-right-guide", x: 1.18, z: 6.95, width: 1.85, depth: 0.18, angle: -0.2, kind: "metal" },
     { id: "boundary.trough-back", x: 0, z: 7.38, width: 1.3, depth: 0.14, kind: "metal" },
     { id: "boundary.plunger-stop", x: 3.27, z: 6.6, width: 0.56, depth: 0.16, kind: "rubber" }
   ]),
@@ -2451,10 +2452,10 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "lane.lower.left-out.inner", x: -2.86, z: 4.86, width: 0.1, depth: 1.18, angle: 0.22, kind: "rubber" },
     { id: "lane.lower.left-divider.cap", x: -2.67, z: 4.43, width: 0.1, depth: 0.71, angle: 1.13, kind: "rubber" },
     { id: "lane.lower.left-in.outer", x: -2.21, z: 5.12, width: 0.1, depth: 1.12, angle: 0.253, kind: "rubber" },
-    { id: "lane.lower.left-in.inner", x: -1.71, z: 4.9, width: 0.1, depth: 0.75, angle: 0.18, kind: "rubber" },
-    { id: "lane.lower.right-in.inner", x: 1.71, z: 4.9, width: 0.1, depth: 0.75, angle: -0.18, kind: "rubber" },
+    { id: "lane.lower.left-in.inner", x: -1.62, z: 4.9, width: 0.1, depth: 0.75, angle: 0.18, kind: "rubber" },
+    { id: "lane.lower.right-in.inner", x: 1.62, z: 4.9, width: 0.1, depth: 0.75, angle: -0.18, kind: "rubber" },
     { id: "lane.lower.right-in.outer", x: 2.21, z: 5.12, width: 0.1, depth: 1.12, angle: -0.253, kind: "rubber" },
-    { id: "lane.lower.right-out.inner", x: 2.98, z: 4.95, width: 0.1, depth: 1.7, angle: 0, kind: "rubber" },
+    { id: "lane.lower.right-out.inner", x: 2.98, z: 4.85, width: 0.1, depth: 1.9, angle: 0, kind: "rubber" },
     { id: "lane.lower.right-out.outer", x: 3.56, z: 3.965, width: 0.1, depth: 3.1, angle: 0, kind: "metal" },
     { id: "orbit.left.outer.lower", x: -3.62, z: 0.02, width: 0.1, depth: 2.22, angle: -0.18, kind: "metal" },
     { id: "orbit.left.outer.mid", x: -3.48, z: -2.32, width: 0.1, depth: 2.28, angle: -0.04, kind: "metal" },
@@ -2493,22 +2494,22 @@ export const silverballSocialBlueprint: TableBlueprint = {
     },
     {
       id: "lane.lower.left-in.rubber-band",
-      x: -1.69,
-      z: 4.87,
+      x: -1.63,
+      z: 4.9,
       width: 0.075,
-      depth: 0.91,
-      angle: 0.155,
+      depth: 0.8,
+      angle: 0.18,
       kind: "rubber",
       startPostId: "post.left-in-top",
       endPostId: "post.left-in-lower"
     },
     {
       id: "lane.lower.right-in.rubber-band",
-      x: 1.69,
-      z: 4.87,
+      x: 1.63,
+      z: 4.9,
       width: 0.075,
-      depth: 0.91,
-      angle: -0.155,
+      depth: 0.8,
+      angle: -0.18,
       kind: "rubber",
       startPostId: "post.right-in-top",
       endPostId: "post.right-in-lower"
@@ -2594,15 +2595,15 @@ export const silverballSocialBlueprint: TableBlueprint = {
     },
     {
       id: "flipper.left.end-rubber",
-      x: -2.08,
-      z: 5.4,
+      x: -2.3,
+      z: 5.78,
       width: 0.32,
       depth: 0.1,
       angle: -0.34,
       kind: "rubber",
       fasteners: [
-        { id: "flipper.left.end-rubber.screw-inner", targetId: "flipper.left.end-rubber", x: -2.19, z: 5.44, radius: 0.03, kind: "metal" },
-        { id: "flipper.left.end-rubber.screw-outer", targetId: "flipper.left.end-rubber", x: -1.97, z: 5.36, radius: 0.03, kind: "metal" }
+        { id: "flipper.left.end-rubber.screw-inner", targetId: "flipper.left.end-rubber", x: -2.41, z: 5.82, radius: 0.03, kind: "metal" },
+        { id: "flipper.left.end-rubber.screw-outer", targetId: "flipper.left.end-rubber", x: -2.19, z: 5.74, radius: 0.03, kind: "metal" }
       ]
     },
     {
@@ -2620,30 +2621,30 @@ export const silverballSocialBlueprint: TableBlueprint = {
     },
     {
       id: "flipper.right.end-rubber",
-      x: 2.08,
-      z: 5.4,
+      x: 2.3,
+      z: 5.78,
       width: 0.32,
       depth: 0.1,
       angle: 0.34,
       kind: "rubber",
       fasteners: [
-        { id: "flipper.right.end-rubber.screw-inner", targetId: "flipper.right.end-rubber", x: 2.19, z: 5.44, radius: 0.03, kind: "metal" },
-        { id: "flipper.right.end-rubber.screw-outer", targetId: "flipper.right.end-rubber", x: 1.97, z: 5.36, radius: 0.03, kind: "metal" }
+        { id: "flipper.right.end-rubber.screw-inner", targetId: "flipper.right.end-rubber", x: 2.41, z: 5.82, radius: 0.03, kind: "metal" },
+        { id: "flipper.right.end-rubber.screw-outer", targetId: "flipper.right.end-rubber", x: 2.19, z: 5.74, radius: 0.03, kind: "metal" }
       ]
     }
   ],
   posts: withRubberPostCaps([
     { id: "post.left-out-top", x: -3.85, z: 4.15, radius: 0.13, kind: "rubber" },
     { id: "post.left-out-lower", x: -3.52, z: 5.45, radius: 0.12, kind: "rubber" },
-    { id: "post.left-in-top", x: -1.76, z: 4.42, radius: 0.1, kind: "rubber" },
-    { id: "post.left-in-lower", x: -1.62, z: 5.32, radius: 0.12, kind: "rubber" },
+    { id: "post.left-in-top", x: -1.67, z: 4.42, radius: 0.1, kind: "rubber" },
+    { id: "post.left-in-lower", x: -1.53, z: 5.3, radius: 0.12, kind: "rubber" },
     { id: "post.left-sling-a", x: -2.55, z: 3.25, radius: 0.15, kind: "rubber" },
     { id: "post.left-sling-b", x: -1.18, z: 3.72, radius: 0.15, kind: "rubber" },
     { id: "post.right-sling-a", x: 2.55, z: 3.25, radius: 0.15, kind: "rubber" },
     { id: "post.right-sling-b", x: 1.18, z: 3.72, radius: 0.15, kind: "rubber" },
-    { id: "post.right-in-top", x: 1.76, z: 4.42, radius: 0.1, kind: "rubber" },
-    { id: "post.right-in-lower", x: 1.62, z: 5.32, radius: 0.12, kind: "rubber" },
-    { id: "post.right-out-top", x: 2.91, z: 4.04, radius: 0.09, kind: "rubber" },
+    { id: "post.right-in-top", x: 1.67, z: 4.42, radius: 0.1, kind: "rubber" },
+    { id: "post.right-in-lower", x: 1.53, z: 5.3, radius: 0.12, kind: "rubber" },
+    { id: "post.right-out-top", x: 2.95, z: 4.05, radius: 0.09, kind: "rubber" },
     { id: "post.right-out-lower", x: 3.03, z: 5.68, radius: 0.1, kind: "rubber" },
     { id: "post.center-left", x: -0.75, z: 1.6, radius: 0.12, kind: "rubber" },
     { id: "post.center-right", x: 0.75, z: 1.6, radius: 0.12, kind: "rubber" },
@@ -3965,7 +3966,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "trough.right-wall", x: 0.96, z: 7.55, width: 0.06, depth: 0.44, kind: "metal" },
         { id: "trough.back-wall", x: 0, z: 7.76, width: 1.92, depth: 0.06, kind: "metal" }
       ],
-      feedGuide: { id: "trough.shooter-feed-guide", x: 1.62, z: 7.34, width: 0.08, depth: 0.86, angle: -0.58, kind: "metal" },
+      feedGuide: { id: "trough.shooter-feed-guide", x: 1.78, z: 7.46, width: 0.08, depth: 0.6, angle: -0.58, kind: "metal" },
       fasteners: [
         { id: "trough.left-wall.screw-front", targetId: "trough.left-wall", x: -0.96, z: 7.38, radius: 0.032, kind: "metal" },
         { id: "trough.left-wall.screw-back", targetId: "trough.left-wall", x: -0.96, z: 7.72, radius: 0.032, kind: "metal" },
@@ -3973,8 +3974,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "trough.right-wall.screw-back", targetId: "trough.right-wall", x: 0.96, z: 7.72, radius: 0.032, kind: "metal" },
         { id: "trough.back-wall.screw-left", targetId: "trough.back-wall", x: -0.72, z: 7.76, radius: 0.032, kind: "metal" },
         { id: "trough.back-wall.screw-right", targetId: "trough.back-wall", x: 0.72, z: 7.76, radius: 0.032, kind: "metal" },
-        { id: "trough.shooter-feed-guide.screw-upper", targetId: "trough.shooter-feed-guide", x: 1.38, z: 7.0, radius: 0.032, kind: "metal" },
-        { id: "trough.shooter-feed-guide.screw-lower", targetId: "trough.shooter-feed-guide", x: 1.86, z: 7.68, radius: 0.032, kind: "metal" }
+        { id: "trough.shooter-feed-guide.screw-upper", targetId: "trough.shooter-feed-guide", x: 1.9, z: 7.25, radius: 0.032, kind: "metal" },
+        { id: "trough.shooter-feed-guide.screw-lower", targetId: "trough.shooter-feed-guide", x: 1.66, z: 7.66, radius: 0.032, kind: "metal" }
       ]
     }
   },
@@ -4003,7 +4004,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       color: 0xf6d174,
       layerY: 0.62,
       standoffs: [
-        withPlasticStandoffMounts({ id: "plastic.right-lane-cover.standoff.lower", x: 2.93, z: 4.38, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }),
+        withPlasticStandoffMounts({ id: "plastic.right-lane-cover.standoff.lower", x: 2.98, z: 4.5, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" }),
         withPlasticStandoffMounts({ id: "plastic.right-lane-cover.standoff.upper", x: 2.18, z: 3.28, height: 0.58, radius: 0.045, capRadius: 0.075, kind: "metal" })
       ]
     },
@@ -4224,6 +4225,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       { id: "shooter.lower-right-guide.screw-upper", targetId: "shooter.lower-right-guide", x: 3.56, z: 4.5, radius: 0.034, kind: "metal" }
     ],
     gate: { id: "shooter.one-way-gate", x: 3.06, z: -5.78, width: 0.66, depth: 0.08, angle: 0.34, kind: "metal" },
+    corridorGate: { id: "shooter.corridor-gate", x: 3.25, z: 3.685, width: 0.53, depth: 0.06, angle: 0.53, kind: "metal" },
     gateHingePost: {
       id: "shooter.one-way-gate.hinge-post",
       x: 2.74,

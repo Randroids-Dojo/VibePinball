@@ -1,5 +1,5 @@
 import type { ActionState, TableEvent } from "./types";
-import type { RigidBody, World } from "@dimforge/rapier3d-compat";
+import type { Collider, RigidBody, World } from "@dimforge/rapier3d-compat";
 import {
   silverballSocialBlueprint,
   type FlipperDevice,
@@ -21,8 +21,13 @@ interface FlipperBodies {
   right: RigidBody;
 }
 
+interface OneWayGate {
+  collider: Collider;
+}
+
 interface TableColliderBodies {
   flippers: FlipperBodies;
+  gates: OneWayGate[];
 }
 
 export interface BallSnapshot {
@@ -93,6 +98,7 @@ export class PinballPhysics {
   private readonly world: World;
   private readonly ball: RigidBody;
   private readonly flipperBodies: FlipperBodies;
+  private readonly gates: OneWayGate[];
   private readonly cooldowns = new Map<string, number>();
   private accumulator = 0;
   private plungerCharge = 0;
@@ -115,6 +121,7 @@ export class PinballPhysics {
     this.world = world;
     this.ball = ball;
     this.flipperBodies = tableBodies.flippers;
+    this.gates = tableBodies.gates;
     this.leftFlipperAngle = blueprint.flippers.find((item) => item.side === "left")?.restAngle ?? 0;
     this.rightFlipperAngle = blueprint.flippers.find((item) => item.side === "right")?.restAngle ?? 0;
   }
@@ -131,6 +138,7 @@ export class PinballPhysics {
         .setLinearDamping(0.08)
         .setAngularDamping(0.1)
         .setCcdEnabled(true)
+        .setCanSleep(false)
     );
     world.createCollider(
       rapier.ColliderDesc.ball(blueprint.scale.ballRadius).setRestitution(0.78).setFriction(0.08),
@@ -182,6 +190,7 @@ export class PinballPhysics {
     while (this.accumulator >= PinballPhysics.SUBSTEP) {
       this.advanceFlipperAngles(actions);
       this.updateFlipperBodies(this.leftFlipperAngle, this.rightFlipperAngle);
+      this.updateOneWayGates();
       this.world.step();
       this.accumulator -= PinballPhysics.SUBSTEP;
     }
@@ -219,6 +228,14 @@ export class PinballPhysics {
       plungerCharge: this.plungerCharge,
       events
     };
+  }
+
+  private updateOneWayGates(): void {
+    const vel = this.ball.linvel();
+    const flapOpen = vel.z < -0.6;
+    for (const gate of this.gates) {
+      gate.collider.setEnabled(!flapOpen);
+    }
   }
 
   private advanceFlipperAngles(actions: ActionState): void {
@@ -277,7 +294,7 @@ export class PinballPhysics {
     }
 
     if (!actions.plunger && this.plungerCharge > 0 && pos.x > 3.05 && pos.z > 4.55) {
-      const launchSpeed = 10 + this.plungerCharge * 16;
+      const launchSpeed = 12 + this.plungerCharge * 14;
       this.ball.applyImpulse({ x: 0, y: 0, z: -launchSpeed * this.ball.mass() }, true);
       this.plungerCharge = 0;
       this.launched = true;
@@ -554,7 +571,7 @@ export class PinballPhysics {
       return;
     }
 
-    if (pos.z > 4.15 && Math.abs(pos.x) < 2.4) {
+    if (pos.z > 5.25 && Math.abs(pos.x) < 1.75) {
       this.lowSpeedSeconds = 0;
       return;
     }
@@ -656,6 +673,21 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
       segment.angle ?? 0,
       bounce
     );
+  };
+
+  const addOneWayGate = (segment: Segment): OneWayGate => {
+    const body = world.createRigidBody(
+      rapier.RigidBodyDesc.fixed()
+        .setTranslation(segment.x, 0.16, segment.z)
+        .setRotation(createYawPitchRotation(segment.angle ?? 0))
+    );
+    const collider = world.createCollider(
+      rapier.ColliderDesc.cuboid(segment.width / 2, 0.32, segment.depth / 2)
+        .setRestitution(0.3)
+        .setFriction(0.1),
+      body
+    );
+    return { collider };
   };
 
   const addPost = (x: number, z: number, radius: number, restitution = 0.82) => {
@@ -857,10 +889,15 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
   blueprint.drain.drainGuides.forEach(addSegment);
   blueprint.drain.trough.walls.forEach(addSegment);
   addSegment(blueprint.drain.trough.feedGuide);
-  blueprint.flipperStops.forEach(addSegment);
+  blueprint.flipperStops
+    .filter((stop) => !stop.id.includes("return-stop"))
+    .forEach(addSegment);
   blueprint.slings.forEach((sling) => addSegment(sling.rubberFace));
   blueprint.plunger.lowerGuides.forEach(addSegment);
-  addSegment(blueprint.plunger.gate);
+  const gates = [
+    addOneWayGate(blueprint.plunger.gate),
+    addOneWayGate(blueprint.plunger.corridorGate)
+  ];
   addPost(blueprint.plunger.gateHingePost.x, blueprint.plunger.gateHingePost.z, blueprint.plunger.gateHingePost.radius, 0.58);
   addPost(blueprint.plunger.gateStopPost.x, blueprint.plunger.gateStopPost.z, blueprint.plunger.gateStopPost.radius, 0.58);
   plasticStandoffColliderPosts().forEach(addPlasticStandoff);
@@ -897,6 +934,7 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
     flippers: {
       left: addFlipper(leftFlipper),
       right: addFlipper(rightFlipper)
-    }
+    },
+    gates
   };
 };
