@@ -55,7 +55,8 @@
       <dt>Context</dt><dd>Launched balls deflect into the bumper nest around z -4 because the authored right orbit ends at its mid-table exit sensor; the skill lane at z -6.35 is unreachable from the plunger, leaving the skill-shot award dead, and organic bumper traffic stays low.</dd>
       <dt>Blocker</dt><dd>None.</dd>
       <dt>Unblock condition</dt><dd>Either smooth the orbit outer curve so strong launches carry to the top lanes and skill rollover, or relocate the skill-shot sensor to a position a controlled plunge can reach, then confirm via headless flow traces.</dd>
-      <dt>PR / Dot reference</dt><dd>(not started)</dd>
+      <dt>Update</dt><dd>2026-06-13. The launch-arc slice rebuilt both orbits as smooth open-top arcs that feed the bumper nest, so launches now reliably reach the playfield and generate device events (the original "launch returns or rests then drains" bug). The skill rollover at the very top (z -6.35) is still not directly hit because the ball spills into the bumpers below it; relocating the skill sensor into the launch arc remains the open nicety here.</dd>
+      <dt>PR / Dot reference</dt><dd>(launch arc partially addresses; skill sensor still open)</dd>
     </dl>
   </section>
 

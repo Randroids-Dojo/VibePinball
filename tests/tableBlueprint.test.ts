@@ -268,10 +268,10 @@ describe("Silverball Social physical board blueprint", () => {
   });
 
   it("models lane wall rails as mounted hardware", () => {
-    expect(blueprint.laneWalls).toHaveLength(31);
+    expect(blueprint.laneWalls).toHaveLength(30);
     expect(blueprint.laneWalls.every((segment) => segment.fasteners.length === 2)).toBe(true);
     expect(blueprint.laneWalls.filter((segment) => segment.kind === "rubber")).toHaveLength(8);
-    expect(blueprint.laneWalls.filter((segment) => segment.kind === "metal")).toHaveLength(23);
+    expect(blueprint.laneWalls.filter((segment) => segment.kind === "metal")).toHaveLength(22);
 
     for (const segment of blueprint.laneWalls) {
       expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
@@ -2062,15 +2062,15 @@ describe("Silverball Social physical board blueprint", () => {
         "orbit.left.outer.mid",
         "orbit.left.outer.mid.screw-a",
         "orbit.left.outer.mid.screw-b",
-        "orbit.left.inner.mid",
-        "orbit.left.inner.mid.screw-a",
-        "orbit.left.inner.mid.screw-b",
+        "orbit.left.inner.link-lower",
+        "orbit.left.inner.link-lower.screw-a",
+        "orbit.left.inner.link-lower.screw-b",
         "orbit.left.outer.upper",
         "orbit.left.outer.upper.screw-a",
         "orbit.left.outer.upper.screw-b",
-        "orbit.left.inner.upper",
-        "orbit.left.inner.upper.screw-a",
-        "orbit.left.inner.upper.screw-b"
+        "orbit.left.outer.link",
+        "orbit.left.outer.link.screw-a",
+        "orbit.left.outer.link.screw-b"
       ])
     );
   });
@@ -2134,15 +2134,15 @@ describe("Silverball Social physical board blueprint", () => {
         "orbit.right.outer.mid",
         "orbit.right.outer.mid.screw-a",
         "orbit.right.outer.mid.screw-b",
-        "orbit.right.inner.mid",
-        "orbit.right.inner.mid.screw-a",
-        "orbit.right.inner.mid.screw-b",
+        "orbit.right.inner.link-lower",
+        "orbit.right.inner.link-lower.screw-a",
+        "orbit.right.inner.link-lower.screw-b",
         "orbit.right.outer.upper",
         "orbit.right.outer.upper.screw-a",
         "orbit.right.outer.upper.screw-b",
-        "orbit.right.inner.upper",
-        "orbit.right.inner.upper.screw-a",
-        "orbit.right.inner.upper.screw-b"
+        "orbit.right.inner.entry",
+        "orbit.right.inner.entry.screw-a",
+        "orbit.right.inner.entry.screw-b"
       ])
     );
   });

@@ -294,7 +294,7 @@ export class PinballPhysics {
     }
 
     if (!actions.plunger && this.plungerCharge > 0 && pos.x > 3.05 && pos.z > 4.55) {
-      const launchSpeed = 12 + this.plungerCharge * 14;
+      const launchSpeed = 16 + this.plungerCharge * 16;
       this.ball.applyImpulse({ x: 0, y: 0, z: -launchSpeed * this.ball.mass() }, true);
       this.plungerCharge = 0;
       this.launched = true;
@@ -517,8 +517,8 @@ export class PinballPhysics {
   private clampBallSpeed(): void {
     const vel = this.ball.linvel();
     const speed = Math.hypot(vel.x, vel.y, vel.z);
-    if (speed > 26) {
-      const scale = 26 / speed;
+    if (speed > 34) {
+      const scale = 34 / speed;
       this.ball.setLinvel({ x: vel.x * scale, y: vel.y * scale, z: vel.z * scale }, true);
     }
   }
