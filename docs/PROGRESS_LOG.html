@@ -31,6 +31,20 @@
 
 <main id="entries">
 
+  <article data-slice="remove-orbit-entry-prongs" data-date="2026-06-13">
+    <h3>Remove The Orbit-Entry Prongs</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>fix/declutter-orbit-entry</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>removed both orbit-entry handoff funnel assemblies (<code>handoff.left-orbit-entry</code> and <code>handoff.right-orbit-entry</code>): four guide wires, eight capped posts, and their fasteners. These funneled balls into the old closed-loop orbit mouth; after the open-top orbit redesign they were vestigial clutter, and the right inner-guide was a lone angled prong in the play path that deflected balls back toward the launch lane (reported in a player screenshot). The orbit is now fed entirely by the <code>orbit.*.inner</code> walls. Removed the two dedicated entry-guide acceptance tests and the orbit-entry references from the left and right orbit shot device lists.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (69 passing); <code>pnpm build</code>; <code>PORT=3030 pnpm exec playwright test</code> (4 passing); headless charge sweep confirming every launch (full to weak) still reaches the playfield (minZ -4.0 to -5.5) and no ball escapes the side walls; portrait WebGL capture confirming the upper-right zone is decluttered.</dd>
+      <dt>Assumptions</dt><dd>The orbit-entry funnel guides served the retired closed-loop orbit; the open-top orbit needs no entry funnel, so removal declutters without losing function.</dd>
+      <dt>GDD coverage</dt><dd>Build log entry added to <code>docs/gdd/11-physical-board-blueprint.html</code>.</dd>
+      <dt>Followups</dt><dd>None new.</dd>
+    </dl>
+  </article>
+
+
   <article data-slice="chrome-ball-and-responsive-fit" data-date="2026-06-13">
     <h3>Chrome Ball And Responsive Board Fit</h3>
     <dl>
