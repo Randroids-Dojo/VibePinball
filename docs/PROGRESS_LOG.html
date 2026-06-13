@@ -31,6 +31,20 @@
 
 <main id="entries">
 
+  <article data-slice="chrome-ball-and-responsive-fit" data-date="2026-06-13">
+    <h3>Chrome Ball And Responsive Board Fit</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>fix/ball-shine-mobile-fit</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>the ball looked like dull grey plastic because a high-metalness <code>MeshStandardMaterial</code> renders nearly black without reflections. Added image-based lighting (a PMREM-prefiltered <code>RoomEnvironment</code> as <code>scene.environment</code>) so every metal surface reflects, and set the ball to true chrome (metalness 1, roughness 0.05, envMapIntensity 1.6). On portrait phones the fixed 42&deg; vertical FOV gave a narrow horizontal frustum that clipped the board sides; <code>resize()</code> now dollies the camera along its fixed viewing direction to fit the full playfield bounding box at any aspect ratio, so the whole board is always on screen. VibeKit was checked for a fit helper; it ships only math primitives, so the frustum fit is implemented locally.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (71 passing); <code>pnpm build</code>; <code>PORT=3028 pnpm exec playwright test</code> (4 passing); headless WebGL captures at 393x851 (full board visible, metals reflecting) and 1280x800, plus a real-browser launch confirming play is unaffected.</dd>
+      <dt>Assumptions</dt><dd>Global <code>scene.environment</code> reflections improve all metal hardware, not just the ball; intensity is kept low (0.04 PMREM blur input) so it reads as subtle shine rather than a mirror.</dd>
+      <dt>GDD coverage</dt><dd>Build log entry added to <code>docs/gdd/06-camera-and-rendering.html</code>.</dd>
+      <dt>Followups</dt><dd>None new.</dd>
+    </dl>
+  </article>
+
+
   <article data-slice="launch-arc" data-date="2026-06-13">
     <h3>Smooth Launch Arc Into Play</h3>
     <dl>
