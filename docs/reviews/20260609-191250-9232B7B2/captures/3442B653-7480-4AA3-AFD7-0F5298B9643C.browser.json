@@ -1,0 +1,47 @@
+{
+  "canvases": [
+    {
+      "height": 1992,
+      "label": "3D Silverball Social playfield",
+      "width": 2934
+    }
+  ],
+  "capturedAt": "2026-06-11T09:10:55.304Z",
+  "consoleMessages": [
+    {
+      "level": "warn",
+      "message": "using deprecated parameters for the initialization function; pass a single object instead",
+      "timestamp": "2026-06-11T09:08:49.311Z"
+    }
+  ],
+  "domSummary": {
+    "bodyTextSample": "950 Lane award. BALL 2/3 TARGETS 0/5 LOCKS 0/2 TILT 0/2 LAUNCH 0% Shift or A/L for flippers. Hold Space for plunger. Arrow keys nudge. Enter starts or restarts. Left Nudge L Start Launch Right",
+    "buttons": [
+      "Left",
+      "Nudge L",
+      "Start",
+      "Launch",
+      "Right"
+    ],
+    "headings": [],
+    "interactiveElementCount": 5
+  },
+  "focusedElement": "button",
+  "scroll": {
+    "x": 0,
+    "y": 0
+  },
+  "selectedText": "",
+  "storage": {
+    "localStorage": {},
+    "sessionStorage": {},
+    "note": "redacted before commit"
+  },
+  "title": "VibePinball",
+  "url": "http://localhost:3011/",
+  "viewport": {
+    "devicePixelRatio": 2,
+    "height": 996,
+    "width": 1467
+  }
+}

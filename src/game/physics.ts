@@ -4,14 +4,10 @@ import {
   silverballSocialBlueprint,
   type FlipperDevice,
   type PlasticStandoff,
-  type RampCrossBrace,
-  type RampPath,
-  type RampSideWall,
   type Segment,
   type SaucerDevice,
   type SensorZone,
-  type SlingDevice,
-  type WireformPath
+  type SlingDevice
 } from "./tableBlueprint";
 
 type RapierModule = typeof import("@dimforge/rapier3d-compat");
@@ -61,14 +57,6 @@ export const targetBankColliderSegments = (
     ...target.switchBlades
   ])
 ];
-
-export const rampSideWallColliderSegments = (
-  ramps = blueprint.ramps
-): RampSideWall[] => ramps.flatMap((ramp) => ramp.sideWalls);
-
-export const rampCrossBraceColliderSegments = (
-  ramps = blueprint.ramps
-): RampCrossBrace[] => ramps.flatMap((ramp) => ramp.crossBraces);
 
 export const plasticStandoffColliderPosts = (
   plastics = blueprint.plastics
@@ -384,15 +372,6 @@ export class PinballPhysics {
       }
     }
 
-    for (const ramp of blueprint.ramps) {
-      if (this.isNearZone(pos.x, pos.z, ramp.entry, `ramp-entry-${ramp.id}`, 0.8)) {
-        events.push({ type: "rampEnter", id: ramp.id });
-      }
-      if (this.isNearZone(pos.x, pos.z, ramp.exit, `ramp-exit-${ramp.id}`, 0.8)) {
-        events.push({ type: "rampMade", id: ramp.id });
-      }
-    }
-
     for (const orbit of blueprint.orbits) {
       if (this.isNearZone(pos.x, pos.z, orbit.entry, `orbit-entry-${orbit.id}`, 0.75)) {
         events.push({ type: "orbitMade", id: orbit.id });
@@ -401,13 +380,6 @@ export class PinballPhysics {
         events.push({ type: "lane", id: orbit.exit.id });
       }
     }
-
-    for (const wireform of blueprint.wireforms) {
-      if (this.isNearZone(pos.x, pos.z, wireform.exit, `wireform-exit-${wireform.id}`, 1.0)) {
-        events.push({ type: wireform.id.includes("orbit") ? "orbitMade" : "lane", id: wireform.id });
-      }
-    }
-
   }
 
   private isTouchingSlingFace(x: number, z: number, sling: SlingDevice): boolean {
@@ -698,126 +670,6 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
     );
   };
 
-  const addRamp = (ramp: RampPath) => {
-    const rise = ramp.endY - ramp.startY;
-    const pitch = Math.atan2(rise, ramp.depth);
-    const slopedDepth = Math.hypot(ramp.depth, rise);
-    const centerY = (ramp.startY + ramp.endY) / 2;
-    addBoxCollider(
-      ramp.x,
-      centerY,
-      ramp.z,
-      ramp.width / 2,
-      ramp.floorThickness / 2,
-      slopedDepth / 2,
-      ramp.angle,
-      pitch,
-      0.5
-    );
-
-    for (const wall of rampSideWallColliderSegments([ramp])) {
-      addBoxCollider(
-        wall.x,
-        (wall.startY + wall.endY) / 2,
-        wall.z,
-        wall.width / 2,
-        wall.height / 2,
-        wall.depth / 2,
-        wall.angle,
-        wall.pitch,
-        0.56
-      );
-    }
-
-    for (const brace of rampCrossBraceColliderSegments([ramp])) {
-      addBoxCollider(
-        brace.x,
-        brace.y,
-        brace.z,
-        brace.width / 2,
-        0.02,
-        brace.depth / 2,
-        brace.angle ?? 0,
-        brace.pitch,
-        0.62
-      );
-    }
-
-    for (const rail of ramp.sideRails) {
-      addBoxCollider(
-        rail.x,
-        (rail.startY + rail.endY) / 2,
-        rail.z,
-        rail.width / 2,
-        rail.height / 2,
-        rail.depth / 2,
-        rail.angle,
-        rail.pitch,
-        0.68
-      );
-    }
-
-    const lipY = ramp.startY + 0.12;
-    addBoxCollider(
-      ramp.entranceLip.x,
-      lipY,
-      ramp.entranceLip.z,
-      ramp.entranceLip.width / 2,
-      0.2,
-      ramp.entranceLip.depth / 2,
-      ramp.entranceLip.angle ?? 0,
-      0,
-      0.62
-    );
-    for (const support of ramp.supports) {
-      const body = world.createRigidBody(rapier.RigidBodyDesc.fixed().setTranslation(support.x, support.height / 2, support.z));
-      world.createCollider(
-        rapier.ColliderDesc.cylinder(support.height / 2, support.radius).setRestitution(0.58).setFriction(0.22),
-        body
-      );
-    }
-  };
-
-  const addWireform = (wireform: WireformPath) => {
-    for (const rail of wireform.rails) {
-      addBoxCollider(
-        rail.x,
-        rail.y,
-        rail.z,
-        rail.width / 2,
-        rail.height / 2,
-        rail.depth / 2,
-        rail.angle ?? 0,
-        0,
-        0.7
-      );
-    }
-
-    for (const tie of wireform.ties) {
-      addBoxCollider(
-        tie.x,
-        wireform.railY,
-        tie.z,
-        tie.width / 2,
-        0.025,
-        tie.depth / 2,
-        tie.angle ?? 0,
-        0,
-        0.62
-      );
-    }
-
-    for (const support of wireform.supports) {
-      const body = world.createRigidBody(
-        rapier.RigidBodyDesc.fixed().setTranslation(support.x, support.height / 2, support.z)
-      );
-      world.createCollider(
-        rapier.ColliderDesc.cylinder(support.height / 2, support.radius).setRestitution(0.58).setFriction(0.22),
-        body
-      );
-    }
-  };
-
   const addPlasticStandoff = (standoff: PlasticStandoff) => {
     const body = world.createRigidBody(
       rapier.RigidBodyDesc.fixed().setTranslation(standoff.x, standoff.height / 2, standoff.z)
@@ -901,14 +753,12 @@ const createTableColliders = (rapier: RapierModule, world: World): TableCollider
   addPost(blueprint.plunger.gateHingePost.x, blueprint.plunger.gateHingePost.z, blueprint.plunger.gateHingePost.radius, 0.58);
   addPost(blueprint.plunger.gateStopPost.x, blueprint.plunger.gateStopPost.z, blueprint.plunger.gateStopPost.radius, 0.58);
   plasticStandoffColliderPosts().forEach(addPlasticStandoff);
-  blueprint.ramps.forEach(addRamp);
   blueprint.handoffs
     .flatMap((handoff) => handoff.segments)
     .forEach(addSegment);
   blueprint.handoffs
     .flatMap((handoff) => handoff.posts ?? [])
     .forEach((post) => addPost(post.x, post.z, post.radius, post.kind === "rubber" ? 0.82 : 0.68));
-  blueprint.wireforms.forEach(addWireform);
   blueprint.posts.forEach((post) => addPost(post.x, post.z, post.radius));
   blueprint.bumpers.forEach((bumper) => {
     addPost(bumper.x, bumper.z, bumper.skirtRadius, 0.92);

@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
   plasticStandoffColliderPosts,
-  rampCrossBraceColliderSegments,
-  rampSideWallColliderSegments,
   saucerCupRimColliderSegments,
   targetBankColliderSegments
 } from "../src/game/physics";
@@ -134,26 +132,8 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.cabinet.glassPanel.y).toBeGreaterThan(0.8);
     expect(blueprint.cabinet.glassPanel.opacity).toBeLessThanOrEqual(0.05);
 
-    const ballDiameter = blueprint.scale.ballRadius * 2;
     const glassBottom = blueprint.cabinet.glassPanel.y - blueprint.cabinet.glassPanel.thickness / 2;
-    for (const wireform of blueprint.wireforms) {
-      const railTop = wireform.railY + wireform.railHeight / 2;
-      expect(glassBottom, `${wireform.id} ball clearance under glass`).toBeGreaterThanOrEqual(railTop + ballDiameter);
-    }
-    for (const ramp of blueprint.ramps) {
-      for (const rail of ramp.sideRails) {
-        const railTop = Math.max(rail.startY, rail.endY) + rail.height;
-        expect(glassBottom, `${rail.id} stays under glass`).toBeGreaterThanOrEqual(railTop + blueprint.scale.ballRadius);
-      }
-      for (const support of ramp.supports) {
-        expect(glassBottom, `${support.id} stays under glass`).toBeGreaterThanOrEqual(support.height + blueprint.scale.ballRadius);
-      }
-    }
-    for (const wireform of blueprint.wireforms) {
-      for (const support of wireform.supports) {
-        expect(glassBottom, `${support.id} stays under glass`).toBeGreaterThanOrEqual(support.height + blueprint.scale.ballRadius);
-      }
-    }
+    expect(glassBottom).toBeGreaterThan(blueprint.scale.ballRadius);
     expect(blueprint.cabinet.lockdownBar.id).toBe("cabinet.lockdown-bar");
     expect(blueprint.cabinet.sideRails.every((rail) => rail.depth > blueprint.scale.playfieldLength * 0.9)).toBe(true);
     expect(blueprint.cabinet.glassRims.every((rim) => rim.depth > blueprint.scale.playfieldLength * 0.85)).toBe(true);
@@ -195,18 +175,7 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.cabinet.headerPanel.fasteners.every((fastener) => fastener.id.startsWith("cabinet.header-panel.screw-"))).toBe(true);
     expect(blueprint.cabinet.headerPanel.fasteners.every((fastener) => fastener.targetId === blueprint.cabinet.headerPanel.id)).toBe(true);
     expect(blueprint.cabinet.headerPanel.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
-    expect(blueprint.cabinet.topperLights.map((light) => light.id)).toEqual(
-      expect.arrayContaining([
-        "cabinet.topper-light.left",
-        "cabinet.topper-light.center",
-        "cabinet.topper-light.right"
-      ])
-    );
-    expect(blueprint.cabinet.topperLights).toHaveLength(3);
-    expect(blueprint.cabinet.topperLights.every((light) => light.targetId === blueprint.cabinet.headerPanel.id)).toBe(true);
-    expect(blueprint.cabinet.topperLights.every((light) => light.kind === "lamp")).toBe(true);
-    expect(blueprint.cabinet.topperLights.every((light) => light.y > blueprint.cabinet.headerPanel.y)).toBe(true);
-    expect(blueprint.cabinet.topperLights.every((light) => light.radius > 0 && light.height > 0)).toBe(true);
+    expect(blueprint.cabinet.topperLights).toHaveLength(0);
     expect(blueprint.cabinet.speakerGrilles.map((grille) => grille.id)).toEqual(
       expect.arrayContaining(["cabinet.left-speaker-grille", "cabinet.right-speaker-grille"])
     );
@@ -661,15 +630,17 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
-  it("contains three top lanes, three pop bumpers, five targets, lock saucer, ramp, and orbit return", () => {
+  it("contains three top lanes, three pop bumpers, five targets, lock saucer, and two orbits", () => {
     expect(blueprint.lanes.filter((lane) => lane.id.startsWith("lane.top"))).toHaveLength(3);
     expect(blueprint.laneWalls.filter((segment) => segment.id.startsWith("lane.top"))).toHaveLength(6);
     expect(blueprint.bumpers).toHaveLength(3);
     expect(blueprint.targets).toHaveLength(5);
     expect(blueprint.saucers.map((saucer) => saucer.id)).toContain("lock.saucer");
-    expect(blueprint.ramps.map((ramp) => ramp.id)).toContain("ramp.left");
     expect(blueprint.orbits.map((orbit) => orbit.id)).toEqual(["orbit.left", "orbit.right"]);
-    expect(blueprint.wireforms.map((wireform) => wireform.id)).toContain("wireform.right-orbit-return");
+    // Ramp and wireform returns were removed: the ball never reached them
+    // (max height 0.35), so they were dead elevated hardware.
+    expect(blueprint.ramps).toHaveLength(0);
+    expect(blueprint.wireforms).toHaveLength(0);
   });
 
   it("uses segmented top arch and shooter wrap guides instead of one straight arch", () => {
@@ -872,178 +843,6 @@ describe("Silverball Social physical board blueprint", () => {
     }
   });
 
-  it("models the left ramp as raised hardware with rails, lip, and supports", () => {
-    const ramp = blueprint.ramps.find((item) => item.id === "ramp.left");
-    expect(ramp).toBeDefined();
-    expect(ramp?.width).toBeGreaterThanOrEqual(0.85);
-    expect(ramp?.width).toBeLessThanOrEqual(1.06);
-    expect(ramp?.startY).toBeGreaterThanOrEqual(0.18);
-    expect(ramp?.endY).toBeGreaterThan(ramp?.startY ?? 0);
-    expect(ramp?.endY).toBeLessThanOrEqual(1.05);
-    expect(ramp?.floorThickness).toBeGreaterThan(0);
-    expect(ramp?.sideRailHeight).toBeGreaterThan(blueprint.scale.ballRadius * 1.5);
-    expect(ramp?.sideRailOffset).toBeGreaterThan((ramp?.width ?? 0) / 2);
-    expect(ramp?.sideWalls.map((wall) => wall.id)).toEqual([
-      "ramp.left.side-wall.left",
-      "ramp.left.side-wall.right"
-    ]);
-    for (const wall of ramp?.sideWalls ?? []) {
-      expect(wall.targetId).toBe(ramp?.id);
-      expect(wall.kind).toBe("plastic");
-      expect(wall.width).toBeLessThan(0.08);
-      expect(wall.depth).toBeGreaterThan((ramp?.depth ?? 0) * 0.9);
-      expect(wall.height).toBeGreaterThan(blueprint.scale.ballRadius);
-      expect(wall.height).toBeLessThan(ramp?.sideRailHeight ?? 1);
-      expect(wall.startY).toBeGreaterThan(ramp?.startY ?? 0);
-      expect(wall.endY).toBeGreaterThan(wall.startY);
-      expect(wall.fasteners).toHaveLength(3);
-      expect(wall.fasteners.every((fastener) => fastener.id.startsWith(`${wall.id}.rivet-`))).toBe(true);
-      expect(wall.fasteners.every((fastener) => fastener.targetId === wall.id)).toBe(true);
-      expect(wall.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
-      expect(wall.fasteners.every((fastener) => fastener.radius >= 0.022)).toBe(true);
-      expect(wall.fasteners.every((fastener) => fastener.y > wall.startY)).toBe(true);
-    }
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining(["ramp.left.side-wall.left", "ramp.left.side-wall.right"])
-    );
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining((ramp?.sideWalls ?? []).flatMap((wall) => wall.fasteners.map((fastener) => fastener.id)))
-    );
-    expect(rampSideWallColliderSegments()).toEqual(
-      expect.arrayContaining(ramp?.sideWalls ?? [])
-    );
-    expect(ramp?.sideRails.map((rail) => rail.id)).toEqual([
-      "ramp.left.side-rail.left",
-      "ramp.left.side-rail.right"
-    ]);
-    for (const rail of ramp?.sideRails ?? []) {
-      expect(rail.targetId).toBe(ramp?.id);
-      expect(rail.kind).toBe("metal");
-      expect(rail.width).toBeGreaterThan(0.06);
-      expect(rail.depth).toBeGreaterThan(ramp?.depth ?? 0);
-      expect(rail.height).toBe(ramp?.sideRailHeight);
-      expect(rail.startY).toBeGreaterThan(ramp?.startY ?? 0);
-      expect(rail.endY).toBeGreaterThan(rail.startY);
-      expect(rail.fasteners).toHaveLength(3);
-      expect(rail.fasteners.every((fastener) => fastener.id.startsWith(`${rail.id}.clamp-`))).toBe(true);
-      expect(rail.fasteners.every((fastener) => fastener.targetId === rail.id)).toBe(true);
-      expect(rail.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
-      expect(rail.fasteners.every((fastener) => fastener.radius >= 0.026)).toBe(true);
-      expect(rail.fasteners.every((fastener) => fastener.y > rail.startY)).toBe(true);
-      expect(rail.fasteners.every((fastener) => fastener.y > rail.endY || fastener.y < rail.endY + rail.height + 0.04)).toBe(true);
-    }
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining(["ramp.left.side-rail.left", "ramp.left.side-rail.right"])
-    );
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining((ramp?.sideRails ?? []).flatMap((rail) => rail.fasteners.map((fastener) => fastener.id)))
-    );
-    expect(ramp?.crossBraces).toHaveLength(3);
-    expect(ramp?.crossBraces.map((brace) => brace.id)).toEqual([
-      "ramp.left.cross-brace.lower",
-      "ramp.left.cross-brace.mid",
-      "ramp.left.cross-brace.upper"
-    ]);
-    for (const brace of ramp?.crossBraces ?? []) {
-      expect(brace.targetId).toBe(ramp?.id);
-      expect(brace.kind).toBe("metal");
-      expect(brace.width).toBeGreaterThan((ramp?.width ?? 0));
-      expect(brace.depth).toBeLessThan(0.12);
-      expect(brace.y).toBeGreaterThanOrEqual(ramp?.startY ?? 0);
-      expect(brace.y).toBeLessThanOrEqual((ramp?.endY ?? 0) + 0.08);
-      expect(brace.pitch).toBeGreaterThan(0);
-      expect(brace.fasteners).toHaveLength(2);
-      expect(brace.fasteners.every((fastener) => fastener.id.startsWith(`${brace.id}.screw-`)), brace.id).toBe(true);
-      expect(brace.fasteners.every((fastener) => fastener.targetId === brace.id), brace.id).toBe(true);
-      expect(brace.fasteners.every((fastener) => fastener.kind === "metal"), brace.id).toBe(true);
-      expect(brace.fasteners.every((fastener) => fastener.radius >= 0.024), brace.id).toBe(true);
-      for (const fastener of brace.fasteners) {
-        expect(Math.hypot(fastener.x - brace.x, fastener.z - brace.z), fastener.id).toBeLessThanOrEqual(brace.width / 2);
-        expect(fastener.y, fastener.id).toBeGreaterThan(brace.y);
-      }
-    }
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining(["ramp.left.cross-brace.lower", "ramp.left.cross-brace.mid", "ramp.left.cross-brace.upper"])
-    );
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining((ramp?.crossBraces ?? []).flatMap((brace) => brace.fasteners.map((fastener) => fastener.id)))
-    );
-    expect(rampCrossBraceColliderSegments()).toEqual(
-      expect.arrayContaining(ramp?.crossBraces ?? [])
-    );
-    expect(ramp?.entranceLip.id).toBe("ramp.left.entrance-lip");
-    expect(ramp?.entranceLip.kind).toBe("metal");
-    expect(ramp?.entranceLip.fasteners).toHaveLength(2);
-    expect(ramp?.entranceLip.fasteners.every((fastener) => fastener.id.startsWith(`${ramp?.entranceLip.id}.screw-`))).toBe(true);
-    expect(ramp?.entranceLip.fasteners.every((fastener) => fastener.targetId === ramp?.entranceLip.id)).toBe(true);
-    expect(ramp?.entranceLip.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
-    expect(ramp?.entranceLip.fasteners.every((fastener) => fastener.radius >= 0.032)).toBe(true);
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining(["ramp.left", "ramp.left.entrance-lip"])
-    );
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining((ramp?.entranceLip.fasteners ?? []).map((fastener) => fastener.id))
-    );
-    for (const fastener of ramp?.entranceLip.fasteners ?? []) {
-      expect(
-        Math.hypot(fastener.x - (ramp?.entranceLip.x ?? 0), fastener.z - (ramp?.entranceLip.z ?? 0)),
-        fastener.id
-      ).toBeLessThanOrEqual(Math.max(ramp?.entranceLip.width ?? 0, ramp?.entranceLip.depth ?? 0) / 2);
-    }
-    expect(ramp?.supports).toHaveLength(4);
-    expect(ramp?.supports.every((support) => support.kind === "metal")).toBe(true);
-    expect(ramp?.supports.every((support) => support.height >= (ramp?.startY ?? 0))).toBe(true);
-    expect(ramp?.supports.every((support) => support.height <= (ramp?.endY ?? 0))).toBe(true);
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining(
-        (ramp?.supports ?? []).flatMap((support) => [
-          support.id,
-          support.cap.id,
-          support.foot.id,
-          ...support.foot.fasteners.map((fastener) => fastener.id),
-          support.collar.id,
-          support.saddle.id,
-          ...support.saddle.fasteners.map((fastener) => fastener.id)
-        ])
-      )
-    );
-    for (const support of ramp?.supports ?? []) {
-      expect(support.cap.id).toBe(`${support.id}.cap`);
-      expect(support.cap.kind).toBe("metal");
-      expect(support.cap.radius).toBeGreaterThan(support.radius);
-      expect(support.cap.height).toBeGreaterThan(0);
-      expect(support.foot.id).toBe(`${support.id}.foot`);
-      expect(support.foot.targetId).toBe(support.id);
-      expect(support.foot.kind).toBe("metal");
-      expect(support.foot.radius).toBeGreaterThan(support.radius * 2);
-      expect(support.foot.height).toBeGreaterThan(0);
-      expect(support.foot.fasteners).toHaveLength(2);
-      expect(support.foot.fasteners.every((fastener) => fastener.id.startsWith(`${support.foot.id}.screw-`))).toBe(true);
-      expect(support.foot.fasteners.every((fastener) => fastener.targetId === support.foot.id)).toBe(true);
-      expect(support.foot.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
-      expect(support.foot.fasteners.every((fastener) => fastener.radius >= 0.026)).toBe(true);
-      expect(support.collar.id).toBe(`${support.id}.collar`);
-      expect(support.collar.targetId).toBe(support.id);
-      expect(support.collar.kind).toBe("metal");
-      expect(support.collar.radius).toBeGreaterThan(support.radius);
-      expect(support.collar.height).toBeGreaterThan(0);
-      expect(support.collar.y).toBeGreaterThan(support.height - 0.08);
-      expect(support.collar.y).toBeLessThanOrEqual(support.height);
-      expect(support.saddle.id).toBe(`${support.id}.saddle`);
-      expect(support.saddle.targetId).toBe(support.id);
-      expect(support.saddle.kind).toBe("metal");
-      expect(support.saddle.width).toBeGreaterThan(support.radius * 4);
-      expect(support.saddle.depth).toBeGreaterThan(support.radius);
-      expect(support.saddle.height).toBeGreaterThan(0);
-      expect(support.saddle.y).toBeGreaterThanOrEqual(support.height);
-      expect(support.saddle.fasteners).toHaveLength(2);
-      expect(support.saddle.fasteners.every((fastener) => fastener.id.startsWith(`${support.saddle.id}.screw-`))).toBe(true);
-      expect(support.saddle.fasteners.every((fastener) => fastener.targetId === support.saddle.id)).toBe(true);
-      expect(support.saddle.fasteners.every((fastener) => fastener.kind === "metal")).toBe(true);
-      expect(support.saddle.fasteners.every((fastener) => fastener.radius >= 0.022)).toBe(true);
-    }
-  });
-
   it("uses segmented orbit wall chains and upper gates for the orbit paths", () => {
     for (const orbit of blueprint.orbits) {
       expect(orbit.wallIds.length).toBeGreaterThanOrEqual(6);
@@ -1091,160 +890,6 @@ describe("Silverball Social physical board blueprint", () => {
         ...((rightGateSegment?.fasteners ?? []).map((fastener) => fastener.id)),
         ...rightGatePosts.flatMap((post) => [post.id, post.cap?.id ?? ""])
       ])
-    );
-  });
-
-  it("models wireform returns as elevated rail pairs with supports", () => {
-    const ballDiameter = blueprint.scale.ballRadius * 2;
-    const railHalfWidth = 0.025;
-
-    expect(blueprint.wireforms.map((wireform) => wireform.id)).toEqual(
-      expect.arrayContaining(["wireform.left-return", "wireform.right-orbit-return"])
-    );
-
-    for (const wireform of blueprint.wireforms) {
-      expect(wireform.railY).toBeGreaterThanOrEqual(0.85);
-      expect(wireform.railY).toBeLessThanOrEqual(1.45);
-      expect(wireform.railHeight).toBeGreaterThan(0);
-      expect(wireform.railOffset).toBeGreaterThan(0.1);
-      expect(wireform.railOffset * 2 - railHalfWidth * 2).toBeLessThan(ballDiameter);
-      expect(wireform.tieWidth).toBeGreaterThan(wireform.railOffset * 2);
-      expect(wireform.segments.length).toBeGreaterThanOrEqual(2);
-      expect(wireform.rails).toHaveLength(wireform.segments.length * 2);
-      expect(new Set(wireform.rails.map((rail) => rail.sourceSegmentId))).toEqual(
-        new Set(wireform.segments.map((segment) => segment.id))
-      );
-      for (const rail of wireform.rails) {
-        expect(rail.id, rail.id).toBe(`${rail.sourceSegmentId}.rail-${rail.side}`);
-        expect(rail.targetId, rail.id).toBe(wireform.id);
-        expect(rail.kind, rail.id).toBe("wire");
-        expect(rail.y, rail.id).toBe(wireform.railY);
-        expect(rail.height, rail.id).toBe(wireform.railHeight);
-        expect(rail.width, rail.id).toBeGreaterThanOrEqual(railHalfWidth * 2);
-        expect(rail.depth, rail.id).toBeGreaterThan(0);
-        expect(rail.fasteners, rail.id).toHaveLength(3);
-        expect(rail.fasteners.every((fastener) => fastener.id.startsWith(`${rail.id}.clamp-`)), rail.id).toBe(true);
-        expect(rail.fasteners.every((fastener) => fastener.targetId === rail.id), rail.id).toBe(true);
-        expect(rail.fasteners.every((fastener) => fastener.kind === "metal"), rail.id).toBe(true);
-        expect(rail.fasteners.every((fastener) => fastener.radius >= 0.024), rail.id).toBe(true);
-        expect(rail.fasteners.every((fastener) => fastener.y > wireform.railY), rail.id).toBe(true);
-      }
-      expect(wireform.ties.length).toBeGreaterThanOrEqual(wireform.segments.length * 3);
-      expect(wireform.ties.every((tie) => tie.id.startsWith(`${wireform.id}.tie-`))).toBe(true);
-      expect(wireform.ties.every((tie) => tie.kind === "wire")).toBe(true);
-      expect(wireform.ties.every((tie) => tie.width >= wireform.tieWidth)).toBe(true);
-      expect(wireform.ties.every((tie) => tie.depth > 0)).toBe(true);
-      expect(wireform.ties.every((tie) => tie.fasteners.length === 2)).toBe(true);
-      for (const tie of wireform.ties) {
-        expect(tie.fasteners.every((fastener) => fastener.id.startsWith(`${tie.id}.screw-`)), tie.id).toBe(true);
-        expect(tie.fasteners.every((fastener) => fastener.targetId === tie.id), tie.id).toBe(true);
-        expect(tie.fasteners.every((fastener) => fastener.kind === "metal"), tie.id).toBe(true);
-        expect(tie.fasteners.every((fastener) => fastener.radius >= 0.024), tie.id).toBe(true);
-        expect(tie.fasteners.every((fastener) => fastener.y > wireform.railY), tie.id).toBe(true);
-      }
-      expect(wireform.supports.length).toBeGreaterThanOrEqual(3);
-      expect(wireform.supports.every((support) => support.kind === "metal")).toBe(true);
-      expect(wireform.supports.every((support) => support.height <= wireform.railY)).toBe(true);
-      expect(wireform.supports.every((support) => support.height >= 0.85)).toBe(true);
-      for (const support of wireform.supports) {
-        expect(support.cap.id).toBe(`${support.id}.cap`);
-        expect(support.cap.kind).toBe("metal");
-        expect(support.cap.radius).toBeGreaterThan(support.radius);
-        expect(support.cap.height).toBeGreaterThan(0);
-        expect(support.foot.id).toBe(`${support.id}.foot`);
-        expect(support.foot.targetId).toBe(support.id);
-        expect(support.foot.kind).toBe("metal");
-        expect(support.foot.radius).toBeGreaterThan(support.radius * 2);
-        expect(support.foot.height).toBeGreaterThan(0);
-        expect(support.foot.fasteners).toHaveLength(2);
-        expect(support.foot.fasteners.every((fastener) => fastener.id.startsWith(`${support.foot.id}.screw-`)), support.id).toBe(true);
-        expect(support.foot.fasteners.every((fastener) => fastener.targetId === support.foot.id), support.id).toBe(true);
-        expect(support.foot.fasteners.every((fastener) => fastener.kind === "metal"), support.id).toBe(true);
-        expect(support.foot.fasteners.every((fastener) => fastener.radius >= 0.026), support.id).toBe(true);
-        expect(support.collar.id).toBe(`${support.id}.collar`);
-        expect(support.collar.targetId).toBe(support.id);
-        expect(support.collar.kind).toBe("metal");
-        expect(support.collar.radius).toBeGreaterThan(support.radius);
-        expect(support.collar.height).toBeGreaterThan(0);
-        expect(support.collar.y).toBeGreaterThan(support.height - 0.08);
-        expect(support.collar.y).toBeLessThanOrEqual(support.height);
-        expect(support.saddle.id).toBe(`${support.id}.saddle`);
-        expect(support.saddle.targetId).toBe(support.id);
-        expect(support.saddle.kind).toBe("metal");
-        expect(support.saddle.width).toBeGreaterThan(support.radius * 4);
-        expect(support.saddle.depth).toBeGreaterThan(support.radius);
-        expect(support.saddle.height).toBeGreaterThan(0);
-        expect(support.saddle.y).toBeGreaterThanOrEqual(support.height);
-        expect(support.saddle.fasteners).toHaveLength(2);
-        expect(support.saddle.fasteners.every((fastener) => fastener.id.startsWith(`${support.saddle.id}.screw-`)), support.id).toBe(true);
-        expect(support.saddle.fasteners.every((fastener) => fastener.targetId === support.saddle.id), support.id).toBe(true);
-        expect(support.saddle.fasteners.every((fastener) => fastener.kind === "metal"), support.id).toBe(true);
-        expect(support.saddle.fasteners.every((fastener) => fastener.radius >= 0.022), support.id).toBe(true);
-        expect(support.height + support.cap.height).toBeLessThanOrEqual(wireform.railY + wireform.railHeight);
-      }
-    }
-
-    const leftReturn = blueprint.wireforms.find((wireform) => wireform.id === "wireform.left-return");
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining(
-        (leftReturn?.supports ?? []).flatMap((support) => [
-          support.id,
-          support.cap.id,
-          support.foot.id,
-          ...support.foot.fasteners.map((fastener) => fastener.id),
-          support.collar.id,
-          support.saddle.id,
-          ...support.saddle.fasteners.map((fastener) => fastener.id)
-        ])
-      )
-    );
-
-    const rightReturn = blueprint.wireforms.find((wireform) => wireform.id === "wireform.right-orbit-return");
-    expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining(
-        (rightReturn?.supports ?? []).flatMap((support) => [
-          support.id,
-          support.cap.id,
-          support.foot.id,
-          ...support.foot.fasteners.map((fastener) => fastener.id),
-          support.collar.id,
-          support.saddle.id,
-          ...support.saddle.fasteners.map((fastener) => fastener.id)
-        ])
-      )
-    );
-
-    expect(blueprint.orbits.find((orbit) => orbit.id === "orbit.left")?.returnWireformId).toBe("wireform.left-return");
-    expect(blueprint.orbits.find((orbit) => orbit.id === "orbit.right")?.returnWireformId).toBe(
-      "wireform.right-orbit-return"
-    );
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining(["wireform.left-return.upper.rail-left", "wireform.left-return.lower.rail-right"])
-    );
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining((leftReturn?.rails ?? []).flatMap((rail) => rail.fasteners.map((fastener) => fastener.id)))
-    );
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining(
-        (leftReturn?.ties ?? []).flatMap((tie) => [
-          tie.id,
-          ...tie.fasteners.map((fastener) => fastener.id)
-        ])
-      )
-    );
-    expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining(["wireform.right-orbit-return.upper.rail-left", "wireform.right-orbit-return.lower.rail-right"])
-    );
-    expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining((rightReturn?.rails ?? []).flatMap((rail) => rail.fasteners.map((fastener) => fastener.id)))
-    );
-    expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining(
-        (rightReturn?.ties ?? []).flatMap((tie) => [
-          tie.id,
-          ...tie.fasteners.map((fastener) => fastener.id)
-        ])
-      )
     );
   });
 
@@ -1533,7 +1178,6 @@ describe("Silverball Social physical board blueprint", () => {
       expect(orbit.entry.id).toContain("entry");
       expect(orbit.exit.id).toContain("exit");
       expect(orbit.wallIds.length).toBeGreaterThanOrEqual(6);
-      expect(blueprint.wireforms.some((wireform) => wireform.id === orbit.returnWireformId)).toBe(true);
     }
   });
 
@@ -1890,7 +1534,7 @@ describe("Silverball Social physical board blueprint", () => {
     expect(saucer?.ejectStrength).toBeGreaterThan(1);
   });
 
-  it("defines lamp inserts and ramp handoff hardware as authored board details", () => {
+  it("defines lamp inserts as authored board details", () => {
     const expectedArrowAngles = new Map([
       ["insert.lower.left-out-arrow", -0.34],
       ["insert.lower.left-in-arrow", -0.16],
@@ -1899,7 +1543,6 @@ describe("Silverball Social physical board blueprint", () => {
       ["insert.top.left-arrow", -0.1],
       ["insert.top.center-arrow", 0],
       ["insert.top.right-arrow", 0.1],
-      ["insert.left-ramp-arrow", -0.38],
       ["insert.left-orbit-arrow", -0.58],
       ["insert.right-orbit-arrow", 0.58],
       ["insert.skill-shot", 0.28]
@@ -1918,7 +1561,6 @@ describe("Silverball Social physical board blueprint", () => {
         "insert.top.left-arrow",
         "insert.top.center-arrow",
         "insert.top.right-arrow",
-        "insert.left-ramp-arrow",
         "insert.right-orbit-arrow",
         "insert.lock-ready",
         "insert.skill-shot",
@@ -1948,163 +1590,12 @@ describe("Silverball Social physical board blueprint", () => {
         expect(insert.angle, insert.id).toBeCloseTo(expectedArrowAngles.get(insert.id) ?? Number.NaN);
       }
     }
-    expect(blueprint.handoffs.map((handoff) => handoff.id)).toEqual(
-      expect.arrayContaining([
-        "handoff.ramp-left-entry",
-        "handoff.ramp-left-exit",
-        "handoff.right-orbit-exit"
-      ])
-    );
-    // Orbit-entry funnel guides were removed: the open-top orbit is fed by the
-    // orbit.*.inner walls, so the entry guides were vestigial obstructions.
+    // Only the upper-orbit gates remain. Ramp, wireform returns, and their
+    // entry/exit funnel handoffs were removed as dead elevated hardware.
+    expect(blueprint.handoffs.map((handoff) => handoff.id)).toEqual(["handoff.upper-orbit-gates"]);
     expect(blueprint.handoffs.some((handoff) => handoff.id.includes("orbit-entry"))).toBe(false);
+    expect(blueprint.handoffs.some((handoff) => handoff.id.includes("ramp"))).toBe(false);
     expect(blueprint.handoffs.flatMap((handoff) => handoff.segments).every((segment) => segment.kind === "metal" || segment.kind === "wire")).toBe(true);
-  });
-
-  it("mounts the ramp entry flap and guide wires on capped metal posts", () => {
-    const entryHandoff = blueprint.handoffs.find((handoff) => handoff.id === "handoff.ramp-left-entry");
-
-    expect(entryHandoff).toBeDefined();
-    expect(entryHandoff?.segments).toHaveLength(5);
-    expect(entryHandoff?.posts).toHaveLength(6);
-    expect(entryHandoff?.posts?.every((post) => post.kind === "metal")).toBe(true);
-    expect(entryHandoff?.posts?.every((post) => post.cap?.id === `${post.id}.cap`)).toBe(true);
-
-    for (const segment of entryHandoff?.segments ?? []) {
-      const segmentPosts = entryHandoff?.posts?.filter((post) => post.id.startsWith(segment.id)) ?? [];
-      if (!segment.id.includes("skirt")) {
-        expect(segmentPosts, segment.id).toHaveLength(2);
-        expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < Math.max(segment.width, segment.depth) / 2 + 0.2), segment.id).toBe(true);
-      }
-      expect(segment.fasteners).toHaveLength(2);
-      expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
-      expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
-      expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
-      expect(segment.fasteners.every((fastener) => fastener.radius >= (segment.kind === "wire" ? 0.026 : 0.032)), segment.id).toBe(true);
-    }
-
-    const leftRampInsert = blueprint.lampInserts.find((insert) => insert.id === "insert.left-ramp-arrow");
-    const leftRampShot = blueprint.shots.find((shot) => shot.id === "shot.left-ramp");
-    const entryPostIds = (entryHandoff?.posts ?? []).flatMap((post) =>
-      post.cap ? [post.id, post.cap.id] : [post.id]
-    );
-    const entryFastenerIds = (entryHandoff?.segments ?? []).flatMap((segment) =>
-      segment.fasteners.map((fastener) => fastener.id)
-    );
-
-    expect(leftRampInsert?.label).toBe("Ramp");
-    expect(leftRampInsert?.shape).toBe("arrow");
-    expect(leftRampInsert?.lens.id).toBe("insert.left-ramp-arrow.lens");
-    expect(leftRampInsert?.lens.targetId).toBe(leftRampInsert?.id);
-    expect(leftRampInsert?.lens.kind).toBe("plastic");
-    expect(leftRampInsert?.lens.width).toBeGreaterThan(leftRampInsert?.radius ?? 0);
-    expect(leftRampInsert?.lens.depth).toBeGreaterThan(0);
-    expect(leftRampShot?.deviceIds).toEqual(
-      expect.arrayContaining([
-        leftRampInsert?.id ?? "",
-        leftRampInsert?.lens.id ?? "",
-        "handoff.ramp-left-entry.flap",
-        "handoff.ramp-left-entry.left-guide",
-        "handoff.ramp-left-entry.right-guide",
-        ...entryFastenerIds,
-        ...entryPostIds
-      ])
-    );
-  });
-
-  it("mounts return handoff guides on capped metal posts", () => {
-    const returnHandoffs = blueprint.handoffs.filter((handoff) =>
-      handoff.id === "handoff.ramp-left-exit" || handoff.id === "handoff.right-orbit-exit"
-    );
-
-    expect(returnHandoffs).toHaveLength(2);
-    for (const handoff of returnHandoffs) {
-      expect(handoff.segments).toHaveLength(2);
-      expect(handoff.posts).toHaveLength(4);
-      expect(handoff.posts?.every((post) => post.kind === "metal")).toBe(true);
-      expect(handoff.posts?.every((post) => post.cap?.id === `${post.id}.cap`)).toBe(true);
-      for (const segment of handoff.segments) {
-        const segmentPosts = handoff.posts?.filter((post) => post.id.startsWith(segment.id)) ?? [];
-        expect(segmentPosts, segment.id).toHaveLength(2);
-        expect(segmentPosts.some((post) => post.id.endsWith("upper-post")), segment.id).toBe(true);
-        expect(segmentPosts.some((post) => post.id.endsWith("lower-post")), segment.id).toBe(true);
-        expect(segmentPosts.every((post) => Math.hypot(post.x - segment.x, post.z - segment.z) < Math.max(segment.width, segment.depth) / 2 + 0.2), segment.id).toBe(true);
-        expect(segment.fasteners).toHaveLength(2);
-        expect(segment.fasteners.every((fastener) => fastener.id.startsWith(`${segment.id}.screw-`)), segment.id).toBe(true);
-        expect(segment.fasteners.every((fastener) => fastener.targetId === segment.id), segment.id).toBe(true);
-        expect(segment.fasteners.every((fastener) => fastener.kind === "metal"), segment.id).toBe(true);
-        expect(segment.fasteners.every((fastener) => fastener.radius >= 0.026), segment.id).toBe(true);
-      }
-    }
-
-    expect(blueprint.shots.find((shot) => shot.id === "shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining([
-        "handoff.ramp-left-exit.left-guide",
-        "handoff.ramp-left-exit.right-guide",
-        ...((returnHandoffs.find((handoff) => handoff.id === "handoff.ramp-left-exit")?.segments ?? []).flatMap((segment) =>
-          segment.fasteners.map((fastener) => fastener.id)
-        )),
-        ...((returnHandoffs.find((handoff) => handoff.id === "handoff.ramp-left-exit")?.posts ?? []).flatMap((post) =>
-          post.cap ? [post.id, post.cap.id] : [post.id]
-        )),
-        "lane.lower.left-in",
-        "lane.lower.left-in.outer",
-        "lane.lower.left-in.outer.screw-a",
-        "lane.lower.left-in.outer.screw-b",
-        "lane.lower.left-in.inner",
-        "lane.lower.left-in.inner.screw-a",
-        "lane.lower.left-in.inner.screw-b",
-        "rollover.lower.left-in",
-        "rollover.lower.left-in.screw-left",
-        "rollover.lower.left-in.screw-right",
-        "insert.lower.left-in-arrow",
-        "insert.lower.left-in-arrow.lens",
-        "lane.lower.left-in.guide-cover",
-        "lane.lower.left-in.guide-cover.screw-upper",
-        "lane.lower.left-in.guide-cover.screw-lower",
-        "lane.lower.left-in.rubber-band",
-        "post.left-in-top",
-        "post.left-in-top.cap",
-        "post.left-in-lower",
-        "post.left-in-lower.cap",
-        "post.drain-left",
-        "post.drain-left.cap"
-      ])
-    );
-    expect(blueprint.shots.find((shot) => shot.id === "shot.right-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining([
-        "handoff.right-orbit-exit.left-guide",
-        "handoff.right-orbit-exit.right-guide",
-        ...((returnHandoffs.find((handoff) => handoff.id === "handoff.right-orbit-exit")?.segments ?? []).flatMap((segment) =>
-          segment.fasteners.map((fastener) => fastener.id)
-        )),
-        ...((returnHandoffs.find((handoff) => handoff.id === "handoff.right-orbit-exit")?.posts ?? []).flatMap((post) =>
-          post.cap ? [post.id, post.cap.id] : [post.id]
-        )),
-        "lane.lower.right-in",
-        "lane.lower.right-in.outer",
-        "lane.lower.right-in.outer.screw-a",
-        "lane.lower.right-in.outer.screw-b",
-        "lane.lower.right-in.inner",
-        "lane.lower.right-in.inner.screw-a",
-        "lane.lower.right-in.inner.screw-b",
-        "rollover.lower.right-in",
-        "rollover.lower.right-in.screw-left",
-        "rollover.lower.right-in.screw-right",
-        "insert.lower.right-in-arrow",
-        "insert.lower.right-in-arrow.lens",
-        "lane.lower.right-in.guide-cover",
-        "lane.lower.right-in.guide-cover.screw-upper",
-        "lane.lower.right-in.guide-cover.screw-lower",
-        "lane.lower.right-in.rubber-band",
-        "post.right-in-top",
-        "post.right-in-top.cap",
-        "post.right-in-lower",
-        "post.right-in-lower.cap",
-        "post.drain-right",
-        "post.drain-right.cap"
-      ])
-    );
   });
 
   it("models the painted playfield deck and major shot decals as authored board details", () => {
@@ -2116,7 +1607,6 @@ describe("Silverball Social physical board blueprint", () => {
     expect(artById.get("playfield.art.bumper-burst")?.kind).toBe("zone");
     expect(artById.get("playfield.art.left-lane-stripe")?.kind).toBe("stripe");
     expect(artById.get("playfield.art.right-lane-stripe")?.kind).toBe("stripe");
-    expect(artById.get("playfield.art.left-ramp-arrow")?.kind).toBe("arrow");
     expect(artById.get("playfield.art.left-orbit-arrow")?.kind).toBe("arrow");
     expect(artById.get("playfield.art.right-orbit-arrow")?.kind).toBe("arrow");
     expect(artById.get("playfield.art.lock-label")?.label).toBe("LOCK");
@@ -2221,14 +1711,10 @@ describe("Silverball Social physical board blueprint", () => {
     const laneWallIds = new Set(blueprint.laneWalls.map((wall) => wall.id));
     const laneRolloverIds = new Set(blueprint.rolloverWires.map((wire) => wire.id));
     const lampInsertIds = new Set(blueprint.lampInserts.flatMap((insert) => [insert.id, insert.lens.id]));
-    const leftRamp = blueprint.ramps.find((ramp) => ramp.id === "ramp.left");
     const rightOrbit = blueprint.orbits.find((orbit) => orbit.id === "orbit.right");
-    const rightOrbitReturn = blueprint.wireforms.find((wireform) => wireform.id === rightOrbit?.returnWireformId);
-    const leftRampReturn = blueprint.wireforms.find((wireform) => wireform.id === "wireform.left-return");
     const shotById = new Map(blueprint.shots.map((shot) => [shot.id, shot]));
     const majorShotIds = [
       "shot.left-orbit",
-      "shot.left-ramp",
       "shot.center-bank",
       "shot.lock-saucer",
       "shot.right-orbit",
@@ -2263,22 +1749,16 @@ describe("Silverball Social physical board blueprint", () => {
     expect(blueprint.targetBank.id).toBe("target-bank.social");
     expect(blueprint.saucers.map((saucer) => saucer.id)).toContain("lock.saucer");
 
-    expect(leftRamp).toBeDefined();
-    expect(leftRamp?.entry.id).toBe("ramp.left.entry");
-    expect(leftRamp?.exit.id).toBe("ramp.left.exit");
-    expect(leftRamp?.sideRails.length).toBeGreaterThanOrEqual(2);
-    expect(leftRampReturn?.rails.length).toBeGreaterThanOrEqual(2);
-    expect(shotById.get("shot.left-ramp")?.deviceIds).toEqual(
-      expect.arrayContaining(["ramp.left.entry", "ramp.left.exit", "lane.lower.left-in"])
-    );
+    expect(blueprint.ramps).toHaveLength(0);
+    expect(blueprint.wireforms).toHaveLength(0);
 
     expect(rightOrbit).toBeDefined();
     expect(rightOrbit?.entry.id).toBe("orbit.right.entry");
     expect(rightOrbit?.exit.id).toBe("orbit.right.exit");
-    expect(rightOrbitReturn?.rails.length).toBeGreaterThanOrEqual(2);
     expect(shotById.get("shot.right-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining(["orbit.right.entry", "orbit.right.exit", "lane.lower.right-in"])
+      expect.arrayContaining(["orbit.right.entry", "orbit.right.exit", "orbit.right.outer.link", "lane.top.right"])
     );
+    expect(shotById.get("shot.right-orbit")?.deviceIds.some((id) => id.startsWith("pop-b"))).toBe(true);
 
     for (const lane of blueprint.lanes) {
       expect(laneWallIds.has(`${lane.id}.inner`) || laneWallIds.has(`${lane.id}.inner-left`), lane.id).toBe(true);

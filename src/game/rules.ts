@@ -11,8 +11,6 @@ const eventScores: Record<TableEvent["type"], number> = {
   lockEnter: 2500,
   lockHeld: 0,
   lockEject: 0,
-  rampEnter: 0,
-  rampMade: 1500,
   orbitMade: 1250,
   launch: 0,
   skillShot: 5000,
@@ -119,14 +117,6 @@ export const applyTableEvent = (
 
   if (event.type === "lockEject") {
     return state;
-  }
-
-  if (event.type === "rampMade") {
-    return {
-      ...award(state, eventScores.rampMade),
-      bonus: state.bonus + 200,
-      message: "Left ramp."
-    };
   }
 
   if (event.type === "orbitMade") {

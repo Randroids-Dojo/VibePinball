@@ -1043,7 +1043,6 @@ export interface OrbitPath {
   entry: SensorZone;
   exit: SensorZone;
   wallIds: string[];
-  returnWireformId: string;
 }
 
 export interface DrainDevice extends SensorZone {
@@ -2326,11 +2325,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
         { id: "cabinet.header-panel.screw-bottom-right", targetId: "cabinet.header-panel", x: 2.88, y: 2.44, z: -8.42, radius: 0.036, kind: "metal" }
       ]
     },
-    topperLights: [
-      { id: "cabinet.topper-light.left", targetId: "cabinet.header-panel", x: -2.55, y: 3.32, z: -8.68, radius: 0.16, height: 0.16, color: 0xf1c453, emissive: 0x5f3c08, kind: "lamp" },
-      { id: "cabinet.topper-light.center", targetId: "cabinet.header-panel", x: 0, y: 3.38, z: -8.68, radius: 0.18, height: 0.18, color: 0x5fd4ff, emissive: 0x124e68, kind: "lamp" },
-      { id: "cabinet.topper-light.right", targetId: "cabinet.header-panel", x: 2.55, y: 3.32, z: -8.68, radius: 0.16, height: 0.16, color: 0xf1c453, emissive: 0x5f3c08, kind: "lamp" }
-    ],
+    topperLights: [],
     speakerGrilles: withSpeakerGrilleFasteners([
       {
         id: "cabinet.left-speaker-grille",
@@ -3308,210 +3303,8 @@ export const silverballSocialBlueprint: TableBlueprint = {
       ]
     }
   ],
-  ramps: [
-    withRampSideRails({
-      id: "ramp.left",
-      label: "Left ramp",
-      x: -2.22,
-      z: -0.72,
-      width: 0.92,
-      depth: 4.55,
-      angle: -0.2,
-      startY: 0.28,
-      endY: 0.95,
-      floorThickness: 0.08,
-      sideRailHeight: 0.42,
-      sideRailOffset: 0.52,
-      entranceLip: withRampEntranceLipFasteners({ id: "ramp.left.entrance-lip", x: -2.02, z: 1.38, width: 0.94, depth: 0.08, angle: -0.2, kind: "metal" }),
-      supports: [
-        withElevatedSupportMounts({
-          id: "ramp.left.support.entry",
-          x: -1.92,
-          z: 1.02,
-          height: 0.36,
-          radius: 0.045,
-          cap: { id: "ramp.left.support.entry.cap", radius: 0.078, height: 0.035, kind: "metal" },
-          kind: "metal"
-        }),
-        withElevatedSupportMounts({
-          id: "ramp.left.support.lower",
-          x: -2.1,
-          z: -0.08,
-          height: 0.52,
-          radius: 0.045,
-          cap: { id: "ramp.left.support.lower.cap", radius: 0.078, height: 0.035, kind: "metal" },
-          kind: "metal"
-        }),
-        withElevatedSupportMounts({
-          id: "ramp.left.support.mid",
-          x: -2.34,
-          z: -1.18,
-          height: 0.74,
-          radius: 0.045,
-          cap: { id: "ramp.left.support.mid.cap", radius: 0.078, height: 0.035, kind: "metal" },
-          kind: "metal"
-        }),
-        withElevatedSupportMounts({
-          id: "ramp.left.support.crest",
-          x: -2.56,
-          z: -2.28,
-          height: 0.94,
-          radius: 0.045,
-          cap: { id: "ramp.left.support.crest.cap", radius: 0.078, height: 0.035, kind: "metal" },
-          kind: "metal"
-        })
-      ],
-      entry: { id: "ramp.left.entry", x: -2.08, z: 1.42, radius: 0.48 },
-      exit: { id: "ramp.left.exit", x: -2.48, z: 4.72, radius: 0.42 },
-      returnSide: "left"
-    })
-  ],
+  ramps: [],
   handoffs: [
-    {
-      id: "handoff.ramp-left-entry",
-      label: "Left ramp entry flap",
-      segments: withHandoffFasteners([
-        { id: "handoff.ramp-left-entry.flap", x: -1.78, z: 1.63, width: 0.74, depth: 0.06, angle: -0.2, kind: "metal" },
-        { id: "handoff.ramp-left-entry.left-guide", x: -2.6, z: 1.14, width: 0.07, depth: 0.86, angle: -0.36, kind: "wire" },
-        { id: "handoff.ramp-left-entry.right-guide", x: -1.58, z: 1.06, width: 0.07, depth: 0.84, angle: -0.06, kind: "wire" },
-        { id: "handoff.ramp-left-entry.skirt-left", x: -2.98, z: 0.78, width: 0.08, depth: 1.6, angle: -0.2, kind: "metal" },
-        { id: "handoff.ramp-left-entry.skirt-right", x: -2.07, z: 0.78, width: 0.08, depth: 1.6, angle: -0.2, kind: "metal" }
-      ]),
-      posts: [
-        {
-          id: "handoff.ramp-left-entry.flap.left-hinge-post",
-          x: -2.13,
-          z: 1.7,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.ramp-left-entry.flap.left-hinge-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        },
-        {
-          id: "handoff.ramp-left-entry.flap.right-stop-post",
-          x: -1.43,
-          z: 1.56,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.ramp-left-entry.flap.right-stop-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        },
-        {
-          id: "handoff.ramp-left-entry.left-guide.upper-post",
-          x: -2.45,
-          z: 0.75,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.ramp-left-entry.left-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        },
-        {
-          id: "handoff.ramp-left-entry.left-guide.lower-post",
-          x: -2.76,
-          z: 1.52,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.ramp-left-entry.left-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        },
-        {
-          id: "handoff.ramp-left-entry.right-guide.upper-post",
-          x: -1.55,
-          z: 0.64,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.ramp-left-entry.right-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        },
-        {
-          id: "handoff.ramp-left-entry.right-guide.lower-post",
-          x: -1.61,
-          z: 1.46,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.ramp-left-entry.right-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        }
-      ]
-    },
-    {
-      id: "handoff.ramp-left-exit",
-      label: "Left wireform to inlane handoff",
-      segments: withHandoffFasteners([
-        { id: "handoff.ramp-left-exit.left-guide", x: -2.38, z: 4.45, width: 0.06, depth: 0.78, angle: -0.22, kind: "wire" },
-        { id: "handoff.ramp-left-exit.right-guide", x: -1.8, z: 4.56, width: 0.06, depth: 0.76, angle: 0.18, kind: "wire" }
-      ]),
-      posts: [
-        {
-          id: "handoff.ramp-left-exit.left-guide.upper-post",
-          x: -2.29,
-          z: 4.07,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.ramp-left-exit.left-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        },
-        {
-          id: "handoff.ramp-left-exit.left-guide.lower-post",
-          x: -2.47,
-          z: 4.83,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.ramp-left-exit.left-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        },
-        {
-          id: "handoff.ramp-left-exit.right-guide.upper-post",
-          x: -1.87,
-          z: 4.19,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.ramp-left-exit.right-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        },
-        {
-          id: "handoff.ramp-left-exit.right-guide.lower-post",
-          x: -1.73,
-          z: 4.93,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.ramp-left-exit.right-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        }
-      ]
-    },
-    {
-      id: "handoff.right-orbit-exit",
-      label: "Right orbit return handoff",
-      segments: withHandoffFasteners([
-        { id: "handoff.right-orbit-exit.left-guide", x: 1.82, z: 4.52, width: 0.06, depth: 0.78, angle: -0.18, kind: "wire" },
-        { id: "handoff.right-orbit-exit.right-guide", x: 2.38, z: 4.42, width: 0.06, depth: 0.74, angle: 0.22, kind: "wire" }
-      ]),
-      posts: [
-        {
-          id: "handoff.right-orbit-exit.left-guide.upper-post",
-          x: 1.89,
-          z: 4.14,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.right-orbit-exit.left-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        },
-        {
-          id: "handoff.right-orbit-exit.left-guide.lower-post",
-          x: 1.75,
-          z: 4.9,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.right-orbit-exit.left-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        },
-        {
-          id: "handoff.right-orbit-exit.right-guide.upper-post",
-          x: 2.3,
-          z: 4.06,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.right-orbit-exit.right-guide.upper-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        },
-        {
-          id: "handoff.right-orbit-exit.right-guide.lower-post",
-          x: 2.46,
-          z: 4.78,
-          radius: 0.052,
-          kind: "metal",
-          cap: { id: "handoff.right-orbit-exit.right-guide.lower-post.cap", radius: 0.078, height: 0.032, kind: "metal" }
-        }
-      ]
-    },
     {
       id: "handoff.upper-orbit-gates",
       label: "Upper orbit gates",
@@ -3555,108 +3348,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
       ]
     }
   ],
-  wireforms: [
-    withWireformRails(withWireformTieFasteners({
-      id: "wireform.left-return",
-      label: "Left ramp return",
-      railY: 1.08,
-      railHeight: 0.22,
-      railOffset: 0.15,
-      tieWidth: 0.56,
-      exit: { id: "wireform.left-return.exit", x: -2.18, z: 4.86, radius: 0.4 },
-      segments: [
-        { id: "wireform.left-return.upper", x: -2.72, z: -1.4, width: 0.08, depth: 2.9, angle: -0.2, kind: "wire" },
-        { id: "wireform.left-return.lower", x: -2.44, z: 2.28, width: 0.08, depth: 3.5, angle: 0.08, kind: "wire" }
-      ],
-      ties: [
-        { id: "wireform.left-return.tie-upper-entry", x: -2.98, z: -2.46, width: 0.58, depth: 0.055, angle: -0.2, kind: "wire" },
-        { id: "wireform.left-return.tie-upper-mid", x: -2.72, z: -1.4, width: 0.58, depth: 0.055, angle: -0.2, kind: "wire" },
-        { id: "wireform.left-return.tie-upper-exit", x: -2.46, z: -0.34, width: 0.58, depth: 0.055, angle: -0.2, kind: "wire" },
-        { id: "wireform.left-return.tie-lower-entry", x: -2.58, z: 0.98, width: 0.58, depth: 0.055, angle: 0.08, kind: "wire" },
-        { id: "wireform.left-return.tie-lower-mid", x: -2.44, z: 2.28, width: 0.58, depth: 0.055, angle: 0.08, kind: "wire" },
-        { id: "wireform.left-return.tie-lower-exit", x: -2.3, z: 3.58, width: 0.58, depth: 0.055, angle: 0.08, kind: "wire" }
-      ],
-      supports: [
-        withElevatedSupportMounts({
-          id: "wireform.left-return.support.upper",
-          x: -2.54,
-          z: -2.42,
-          height: 1.02,
-          radius: 0.04,
-          cap: { id: "wireform.left-return.support.upper.cap", radius: 0.07, height: 0.032, kind: "metal" },
-          kind: "metal"
-        }),
-        withElevatedSupportMounts({
-          id: "wireform.left-return.support.mid",
-          x: -2.62,
-          z: 0.12,
-          height: 1.04,
-          radius: 0.04,
-          cap: { id: "wireform.left-return.support.mid.cap", radius: 0.07, height: 0.032, kind: "metal" },
-          kind: "metal"
-        }),
-        withElevatedSupportMounts({
-          id: "wireform.left-return.support.exit",
-          x: -2.24,
-          z: 3.86,
-          height: 0.98,
-          radius: 0.04,
-          cap: { id: "wireform.left-return.support.exit.cap", radius: 0.07, height: 0.032, kind: "metal" },
-          kind: "metal"
-        })
-      ]
-    })),
-    withWireformRails(withWireformTieFasteners({
-      id: "wireform.right-orbit-return",
-      label: "Right orbit return",
-      railY: 1.16,
-      railHeight: 0.24,
-      railOffset: 0.15,
-      tieWidth: 0.58,
-      exit: { id: "wireform.right-orbit-return.exit", x: 2.18, z: 4.86, radius: 0.4 },
-      segments: [
-        { id: "wireform.right-orbit-return.upper", x: 2.88, z: -3.2, width: 0.08, depth: 3.3, angle: 0.22, kind: "wire" },
-        { id: "wireform.right-orbit-return.lower", x: 2.5, z: 1.15, width: 0.08, depth: 4.4, angle: -0.08, kind: "wire" }
-      ],
-      ties: [
-        { id: "wireform.right-orbit-return.tie-upper-entry", x: 2.52, z: -4.42, width: 0.6, depth: 0.055, angle: 0.22, kind: "wire" },
-        { id: "wireform.right-orbit-return.tie-upper-mid", x: 2.88, z: -3.2, width: 0.6, depth: 0.055, angle: 0.22, kind: "wire" },
-        { id: "wireform.right-orbit-return.tie-upper-exit", x: 3.24, z: -1.98, width: 0.6, depth: 0.055, angle: 0.22, kind: "wire" },
-        { id: "wireform.right-orbit-return.tie-lower-entry", x: 2.68, z: -0.44, width: 0.6, depth: 0.055, angle: -0.08, kind: "wire" },
-        { id: "wireform.right-orbit-return.tie-lower-mid", x: 2.5, z: 1.15, width: 0.6, depth: 0.055, angle: -0.08, kind: "wire" },
-        { id: "wireform.right-orbit-return.tie-lower-exit", x: 2.32, z: 2.74, width: 0.6, depth: 0.055, angle: -0.08, kind: "wire" }
-      ],
-      supports: [
-        withElevatedSupportMounts({
-          id: "wireform.right-orbit-return.support.upper",
-          x: 2.78,
-          z: -4.42,
-          height: 1.1,
-          radius: 0.04,
-          cap: { id: "wireform.right-orbit-return.support.upper.cap", radius: 0.07, height: 0.032, kind: "metal" },
-          kind: "metal"
-        }),
-        withElevatedSupportMounts({
-          id: "wireform.right-orbit-return.support.mid",
-          x: 2.72,
-          z: -1.08,
-          height: 1.12,
-          radius: 0.04,
-          cap: { id: "wireform.right-orbit-return.support.mid.cap", radius: 0.07, height: 0.032, kind: "metal" },
-          kind: "metal"
-        }),
-        withElevatedSupportMounts({
-          id: "wireform.right-orbit-return.support.exit",
-          x: 2.28,
-          z: 3.78,
-          height: 1.02,
-          radius: 0.04,
-          cap: { id: "wireform.right-orbit-return.support.exit.cap", radius: 0.07, height: 0.032, kind: "metal" },
-          kind: "metal"
-        })
-      ]
-    }))
-  ],
+  wireforms: [],
   orbits: [
     {
       id: "orbit.left",
@@ -3670,8 +3362,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
         "orbit.left.outer.upper",
         "orbit.left.inner.lower",
         "orbit.left.inner.link-lower"
-      ],
-      returnWireformId: "wireform.left-return"
+      ]
     },
     {
       id: "orbit.right",
@@ -3686,8 +3377,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
         "orbit.right.inner.entry",
         "orbit.right.inner.lower",
         "orbit.right.inner.link-lower"
-      ],
-      returnWireformId: "wireform.right-orbit-return"
+      ]
     }
   ],
   drain: {
@@ -4029,18 +3719,6 @@ export const silverballSocialBlueprint: TableBlueprint = {
       kind: "stripe"
     },
     {
-      id: "playfield.art.left-ramp-arrow",
-      label: "RAMP",
-      x: -1.78,
-      z: 1.04,
-      width: 0.72,
-      depth: 0.42,
-      angle: -0.22,
-      color: 0x9fd0ff,
-      layerY: 0.045,
-      kind: "arrow"
-    },
-    {
       id: "playfield.art.left-orbit-arrow",
       label: "ORBIT",
       x: -3.02,
@@ -4098,7 +3776,6 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "insert.top.left-arrow", label: "Top Left", x: -1.05, z: -6.48, radius: 0.16, angle: -0.1, color: 0x5fd4ff, shape: "arrow" },
     { id: "insert.top.center-arrow", label: "Top Center", x: 0, z: -6.62, radius: 0.16, angle: 0, color: 0x5fd4ff, shape: "arrow" },
     { id: "insert.top.right-arrow", label: "Top Right", x: 1.05, z: -6.48, radius: 0.16, angle: 0.1, color: 0x5fd4ff, shape: "arrow" },
-    { id: "insert.left-ramp-arrow", label: "Ramp", x: -1.72, z: 0.74, radius: 0.2, angle: -0.38, color: 0x9fd0ff, shape: "arrow" },
     { id: "insert.left-orbit-arrow", label: "Orbit", x: -2.82, z: 0.42, radius: 0.2, angle: -0.58, color: 0x76ff8f, shape: "arrow" },
     { id: "insert.right-orbit-arrow", label: "Orbit", x: 2.82, z: 0.42, radius: 0.2, angle: 0.58, color: 0x76ff8f, shape: "arrow" },
     { id: "insert.lock-ready", label: "Lock", x: 0.9, z: -2.92, radius: 0.18, color: 0xff4b4b, shape: "bar" },
@@ -4161,7 +3838,6 @@ export const silverballSocialBlueprint: TableBlueprint = {
   },
   shots: [
     { id: "shot.left-orbit", label: "Left orbit", primaryFlipper: "right", deviceIds: ["playfield.art.left-orbit-arrow", "insert.left-orbit-arrow", "insert.left-orbit-arrow.lens", "orbit.left.entry", "orbit.left.outer.lower", "orbit.left.outer.lower.screw-a", "orbit.left.outer.lower.screw-b", "orbit.left.inner.lower", "orbit.left.inner.lower.screw-a", "orbit.left.inner.lower.screw-b", "orbit.left.outer.mid", "orbit.left.outer.mid.screw-a", "orbit.left.outer.mid.screw-b", "orbit.left.inner.link-lower", "orbit.left.inner.link-lower.screw-a", "orbit.left.inner.link-lower.screw-b", "orbit.left.outer.upper", "orbit.left.outer.upper.screw-a", "orbit.left.outer.upper.screw-b", "orbit.left.outer.link", "orbit.left.outer.link.screw-a", "orbit.left.outer.link.screw-b", "boundary.top-arch.left-curve", "boundary.top-arch.center", "boundary.top-arch.right-curve", "orbit.left.exit", "handoff.upper-orbit-gates.left", "handoff.upper-orbit-gates.left.screw-a", "handoff.upper-orbit-gates.left.screw-b", "handoff.upper-orbit-gates.left.hinge-post", "handoff.upper-orbit-gates.left.hinge-post.cap", "handoff.upper-orbit-gates.left.stop-post", "handoff.upper-orbit-gates.left.stop-post.cap", "lane.top.left", "lane.top.left.outer", "lane.top.left.outer.screw-a", "lane.top.left.outer.screw-b", "lane.top.left.inner", "lane.top.left.inner.screw-a", "lane.top.left.inner.screw-b", "rollover.top.left", "rollover.top.left.screw-left", "rollover.top.left.screw-right", "insert.top.left-arrow", "insert.top.left-arrow.lens", "lane.top.left.guide-cover", "lane.top.left.guide-cover.screw-left", "lane.top.left.guide-cover.screw-right", "lane.top.left.rubber-band", "post.top-lane-left", "post.top-lane-left.cap", "post.top-lane-left-outer", "post.top-lane-left-outer.cap", "post.top-lane-left-inner", "post.top-lane-left-inner.cap", "pop-a", "pop-a.skirt", "pop-a.chrome-ring", "pop-a.lamp-lens", "pop-a.cap-screw-upper", "pop-a.cap-screw-left", "pop-a.cap-screw-right", "post.pop-a.upper", "post.pop-a.upper.cap", "post.pop-a.outer", "post.pop-a.outer.cap", "post.pop-a.inner", "post.pop-a.inner.cap", "pop-a.left-ring-rubber", "pop-a.left-ring-rubber.screw-a", "pop-a.left-ring-rubber.screw-b", "pop-a.right-ring-rubber", "pop-a.right-ring-rubber.screw-a", "pop-a.right-ring-rubber.screw-b"] },
-    { id: "shot.left-ramp", label: "Left ramp", primaryFlipper: "right", deviceIds: ["playfield.art.left-ramp-arrow", "insert.left-ramp-arrow", "insert.left-ramp-arrow.lens", "ramp.left", "ramp.left.entry", "ramp.left.entrance-lip", "ramp.left.entrance-lip.screw-a", "ramp.left.entrance-lip.screw-b", "ramp.left.side-wall.left", "ramp.left.side-wall.left.rivet-lower", "ramp.left.side-wall.left.rivet-mid", "ramp.left.side-wall.left.rivet-upper", "ramp.left.side-wall.right", "ramp.left.side-wall.right.rivet-lower", "ramp.left.side-wall.right.rivet-mid", "ramp.left.side-wall.right.rivet-upper", "ramp.left.side-rail.left", "ramp.left.side-rail.left.clamp-lower", "ramp.left.side-rail.left.clamp-mid", "ramp.left.side-rail.left.clamp-upper", "ramp.left.side-rail.right", "ramp.left.side-rail.right.clamp-lower", "ramp.left.side-rail.right.clamp-mid", "ramp.left.side-rail.right.clamp-upper", "ramp.left.cross-brace.lower", "ramp.left.cross-brace.lower.screw-left", "ramp.left.cross-brace.lower.screw-right", "ramp.left.cross-brace.mid", "ramp.left.cross-brace.mid.screw-left", "ramp.left.cross-brace.mid.screw-right", "ramp.left.cross-brace.upper", "ramp.left.cross-brace.upper.screw-left", "ramp.left.cross-brace.upper.screw-right", "ramp.left.support.entry", "ramp.left.support.entry.cap", "ramp.left.support.entry.foot", "ramp.left.support.entry.foot.screw-left", "ramp.left.support.entry.foot.screw-right", "ramp.left.support.entry.collar", "ramp.left.support.entry.saddle", "ramp.left.support.entry.saddle.screw-left", "ramp.left.support.entry.saddle.screw-right", "ramp.left.support.lower", "ramp.left.support.lower.cap", "ramp.left.support.lower.foot", "ramp.left.support.lower.foot.screw-left", "ramp.left.support.lower.foot.screw-right", "ramp.left.support.lower.collar", "ramp.left.support.lower.saddle", "ramp.left.support.lower.saddle.screw-left", "ramp.left.support.lower.saddle.screw-right", "ramp.left.support.mid", "ramp.left.support.mid.cap", "ramp.left.support.mid.foot", "ramp.left.support.mid.foot.screw-left", "ramp.left.support.mid.foot.screw-right", "ramp.left.support.mid.collar", "ramp.left.support.mid.saddle", "ramp.left.support.mid.saddle.screw-left", "ramp.left.support.mid.saddle.screw-right", "ramp.left.support.crest", "ramp.left.support.crest.cap", "ramp.left.support.crest.foot", "ramp.left.support.crest.foot.screw-left", "ramp.left.support.crest.foot.screw-right", "ramp.left.support.crest.collar", "ramp.left.support.crest.saddle", "ramp.left.support.crest.saddle.screw-left", "ramp.left.support.crest.saddle.screw-right", "handoff.ramp-left-entry.flap", "handoff.ramp-left-entry.flap.screw-a", "handoff.ramp-left-entry.flap.screw-b", "handoff.ramp-left-entry.left-guide", "handoff.ramp-left-entry.left-guide.screw-a", "handoff.ramp-left-entry.left-guide.screw-b", "handoff.ramp-left-entry.right-guide", "handoff.ramp-left-entry.right-guide.screw-a", "handoff.ramp-left-entry.right-guide.screw-b", "handoff.ramp-left-entry.flap.left-hinge-post", "handoff.ramp-left-entry.flap.left-hinge-post.cap", "handoff.ramp-left-entry.flap.right-stop-post", "handoff.ramp-left-entry.flap.right-stop-post.cap", "handoff.ramp-left-entry.left-guide.upper-post", "handoff.ramp-left-entry.left-guide.upper-post.cap", "handoff.ramp-left-entry.left-guide.lower-post", "handoff.ramp-left-entry.left-guide.lower-post.cap", "handoff.ramp-left-entry.right-guide.upper-post", "handoff.ramp-left-entry.right-guide.upper-post.cap", "handoff.ramp-left-entry.right-guide.lower-post", "handoff.ramp-left-entry.right-guide.lower-post.cap", "handoff.ramp-left-entry.skirt-left", "handoff.ramp-left-entry.skirt-left.screw-a", "handoff.ramp-left-entry.skirt-left.screw-b", "handoff.ramp-left-entry.skirt-right", "handoff.ramp-left-entry.skirt-right.screw-a", "handoff.ramp-left-entry.skirt-right.screw-b", "ramp.left.exit", "wireform.left-return.upper.rail-left", "wireform.left-return.upper.rail-left.clamp-entry", "wireform.left-return.upper.rail-left.clamp-mid", "wireform.left-return.upper.rail-left.clamp-exit", "wireform.left-return.upper.rail-right", "wireform.left-return.upper.rail-right.clamp-entry", "wireform.left-return.upper.rail-right.clamp-mid", "wireform.left-return.upper.rail-right.clamp-exit", "wireform.left-return.lower.rail-left", "wireform.left-return.lower.rail-left.clamp-entry", "wireform.left-return.lower.rail-left.clamp-mid", "wireform.left-return.lower.rail-left.clamp-exit", "wireform.left-return.lower.rail-right", "wireform.left-return.lower.rail-right.clamp-entry", "wireform.left-return.lower.rail-right.clamp-mid", "wireform.left-return.lower.rail-right.clamp-exit", "wireform.left-return.tie-upper-entry", "wireform.left-return.tie-upper-entry.screw-a", "wireform.left-return.tie-upper-entry.screw-b", "wireform.left-return.tie-upper-mid", "wireform.left-return.tie-upper-mid.screw-a", "wireform.left-return.tie-upper-mid.screw-b", "wireform.left-return.tie-upper-exit", "wireform.left-return.tie-upper-exit.screw-a", "wireform.left-return.tie-upper-exit.screw-b", "wireform.left-return.tie-lower-entry", "wireform.left-return.tie-lower-entry.screw-a", "wireform.left-return.tie-lower-entry.screw-b", "wireform.left-return.tie-lower-mid", "wireform.left-return.tie-lower-mid.screw-a", "wireform.left-return.tie-lower-mid.screw-b", "wireform.left-return.tie-lower-exit", "wireform.left-return.tie-lower-exit.screw-a", "wireform.left-return.tie-lower-exit.screw-b", "wireform.left-return.support.upper", "wireform.left-return.support.upper.cap", "wireform.left-return.support.upper.foot", "wireform.left-return.support.upper.foot.screw-left", "wireform.left-return.support.upper.foot.screw-right", "wireform.left-return.support.upper.collar", "wireform.left-return.support.upper.saddle", "wireform.left-return.support.upper.saddle.screw-left", "wireform.left-return.support.upper.saddle.screw-right", "wireform.left-return.support.mid", "wireform.left-return.support.mid.cap", "wireform.left-return.support.mid.foot", "wireform.left-return.support.mid.foot.screw-left", "wireform.left-return.support.mid.foot.screw-right", "wireform.left-return.support.mid.collar", "wireform.left-return.support.mid.saddle", "wireform.left-return.support.mid.saddle.screw-left", "wireform.left-return.support.mid.saddle.screw-right", "wireform.left-return.support.exit", "wireform.left-return.support.exit.cap", "wireform.left-return.support.exit.foot", "wireform.left-return.support.exit.foot.screw-left", "wireform.left-return.support.exit.foot.screw-right", "wireform.left-return.support.exit.collar", "wireform.left-return.support.exit.saddle", "wireform.left-return.support.exit.saddle.screw-left", "wireform.left-return.support.exit.saddle.screw-right", "wireform.left-return.exit", "handoff.ramp-left-exit.left-guide", "handoff.ramp-left-exit.left-guide.screw-a", "handoff.ramp-left-exit.left-guide.screw-b", "handoff.ramp-left-exit.right-guide", "handoff.ramp-left-exit.right-guide.screw-a", "handoff.ramp-left-exit.right-guide.screw-b", "handoff.ramp-left-exit.left-guide.upper-post", "handoff.ramp-left-exit.left-guide.upper-post.cap", "handoff.ramp-left-exit.left-guide.lower-post", "handoff.ramp-left-exit.left-guide.lower-post.cap", "handoff.ramp-left-exit.right-guide.upper-post", "handoff.ramp-left-exit.right-guide.upper-post.cap", "handoff.ramp-left-exit.right-guide.lower-post", "handoff.ramp-left-exit.right-guide.lower-post.cap", "lane.lower.left-in", "lane.lower.left-in.outer", "lane.lower.left-in.outer.screw-a", "lane.lower.left-in.outer.screw-b", "lane.lower.left-in.inner", "lane.lower.left-in.inner.screw-a", "lane.lower.left-in.inner.screw-b", "rollover.lower.left-in", "rollover.lower.left-in.screw-left", "rollover.lower.left-in.screw-right", "insert.lower.left-in-arrow", "insert.lower.left-in-arrow.lens", "lane.lower.left-in.guide-cover", "lane.lower.left-in.guide-cover.screw-upper", "lane.lower.left-in.guide-cover.screw-lower", "lane.lower.left-in.rubber-band", "post.left-in-top", "post.left-in-top.cap", "post.left-in-lower", "post.left-in-lower.cap", "post.drain-left", "post.drain-left.cap"] },
     { id: "shot.left-outlane-drain", label: "Left outlane drain", primaryFlipper: "none", deviceIds: ["lane.lower.left-out", "lane.lower.left-out.outer", "lane.lower.left-out.outer.screw-a", "lane.lower.left-out.outer.screw-b", "lane.lower.left-out.inner", "lane.lower.left-out.inner.screw-a", "lane.lower.left-out.inner.screw-b", "rollover.lower.left-out", "rollover.lower.left-out.screw-left", "rollover.lower.left-out.screw-right", "insert.lower.left-out-arrow", "insert.lower.left-out-arrow.lens", "lane.lower.left-out.guide-cover", "lane.lower.left-out.guide-cover.screw-upper", "lane.lower.left-out.guide-cover.screw-lower", "lane.lower.left-out.rubber-band", "post.left-out-top", "post.left-out-top.cap", "post.left-out-lower", "post.left-out-lower.cap", "boundary.left-apron", "boundary.left-apron.screw-a", "boundary.left-apron.screw-b", "boundary.apron-left-guide", "boundary.apron-left-guide.screw-a", "boundary.apron-left-guide.screw-b", "apron.ball-save-lamp", "apron.ball-save-lamp.lens", "apron.shoot-again-lamp", "apron.shoot-again-lamp.lens", "drain.center", "drain.left-guide", "drain.left-guide.screw-upper", "drain.left-guide.screw-lower", "drain.center-mouth", "drain.center-mouth.screw-left", "drain.center-mouth.screw-right"] },
     { id: "shot.right-outlane-drain", label: "Right outlane drain", primaryFlipper: "none", deviceIds: ["lane.lower.right-out", "lane.lower.right-out.inner", "lane.lower.right-out.inner.screw-a", "lane.lower.right-out.inner.screw-b", "lane.lower.right-out.outer", "lane.lower.right-out.outer.screw-a", "lane.lower.right-out.outer.screw-b", "rollover.lower.right-out", "rollover.lower.right-out.screw-left", "rollover.lower.right-out.screw-right", "insert.lower.right-out-arrow", "insert.lower.right-out-arrow.lens", "lane.lower.right-out.guide-cover", "lane.lower.right-out.guide-cover.screw-upper", "lane.lower.right-out.guide-cover.screw-lower", "lane.lower.right-out.rubber-band", "post.right-out-top", "post.right-out-top.cap", "post.right-out-lower", "post.right-out-lower.cap", "boundary.right-apron", "boundary.right-apron.screw-a", "boundary.right-apron.screw-b", "boundary.apron-right-guide", "boundary.apron-right-guide.screw-a", "boundary.apron-right-guide.screw-b", "apron.ball-save-lamp", "apron.ball-save-lamp.lens", "apron.shoot-again-lamp", "apron.shoot-again-lamp.lens", "drain.center", "drain.right-guide", "drain.right-guide.screw-upper", "drain.right-guide.screw-lower", "drain.center-mouth", "drain.center-mouth.screw-left", "drain.center-mouth.screw-right"] },
     { id: "shot.left-sling-rebound", label: "Left sling rebound", primaryFlipper: "none", deviceIds: ["sling.left", "sling.left.rubber-face", "sling.left.top-plastic", "sling.left.top-plastic.screw-outer", "sling.left.top-plastic.screw-inner", "sling.left.top-plastic.screw-nose", "insert.sling.left", "insert.sling.left.lens", "post.left-sling-a", "post.left-sling-a.cap", "post.left-sling-b", "post.left-sling-b.cap"] },
@@ -4171,7 +3847,7 @@ export const silverballSocialBlueprint: TableBlueprint = {
     { id: "shot.bonus-ladder", label: "Bonus ladder", primaryFlipper: "none", deviceIds: ["insert.bonus-1", "insert.bonus-1.lens", "insert.bonus-2", "insert.bonus-2.lens", "insert.bonus-3", "insert.bonus-3.lens"] },
     { id: "shot.center-bank", label: "Center target bank", primaryFlipper: "either", deviceIds: ["playfield.art.social-sweep", "target-bank.social", "target-bank.frame-top-rail", "target-bank.frame-top-rail.screw-a", "target-bank.frame-top-rail.screw-b", "target-bank.frame-bottom-rail", "target-bank.frame-bottom-rail.screw-a", "target-bank.frame-bottom-rail.screw-b", "target-bank.frame-left-cheek", "target-bank.frame-left-cheek.screw-a", "target-bank.frame-left-cheek.screw-b", "target-bank.frame-right-cheek", "target-bank.frame-right-cheek.screw-a", "target-bank.frame-right-cheek.screw-b", "target-bank.divider-1", "target-bank.divider-1.screw-a", "target-bank.divider-1.screw-b", "target-bank.divider-2", "target-bank.divider-2.screw-a", "target-bank.divider-2.screw-b", "target-bank.divider-3", "target-bank.divider-3.screw-a", "target-bank.divider-3.screw-b", "target-bank.divider-4", "target-bank.divider-4.screw-a", "target-bank.divider-4.screw-b", "target-bank.switch-rail", "target-bank.switch-rail.screw-left-outer", "target-bank.switch-rail.screw-left-inner", "target-bank.switch-rail.screw-right-inner", "target-bank.switch-rail.screw-right-outer", "target-bank.post-left-upper", "target-bank.post-left-upper.cap", "target-bank.post-left-lower", "target-bank.post-left-lower.cap", "target-bank.post-right-upper", "target-bank.post-right-upper.cap", "target-bank.post-right-lower", "target-bank.post-right-lower.cap", "target-bank-1", "target-bank-1.face", "insert.social-s", "insert.social-s.lens", "target-bank-1.leaf-switch.front-blade", "target-bank-1.leaf-switch.rear-blade", "target-bank-1.mount-plate", "target-bank-1.mount-screw-left", "target-bank-1.mount-screw-right", "target-bank-1.rear-stop", "target-bank-2", "target-bank-2.face", "insert.social-o", "insert.social-o.lens", "target-bank-2.leaf-switch.front-blade", "target-bank-2.leaf-switch.rear-blade", "target-bank-2.mount-plate", "target-bank-2.mount-screw-left", "target-bank-2.mount-screw-right", "target-bank-2.rear-stop", "target-bank-3", "target-bank-3.face", "insert.social-c", "insert.social-c.lens", "target-bank-3.leaf-switch.front-blade", "target-bank-3.leaf-switch.rear-blade", "target-bank-3.mount-plate", "target-bank-3.mount-screw-left", "target-bank-3.mount-screw-right", "target-bank-3.rear-stop", "target-bank-4", "target-bank-4.face", "insert.social-i", "insert.social-i.lens", "target-bank-4.leaf-switch.front-blade", "target-bank-4.leaf-switch.rear-blade", "target-bank-4.mount-plate", "target-bank-4.mount-screw-left", "target-bank-4.mount-screw-right", "target-bank-4.rear-stop", "target-bank-5", "target-bank-5.face", "insert.social-a", "insert.social-a.lens", "target-bank-5.leaf-switch.front-blade", "target-bank-5.leaf-switch.rear-blade", "target-bank-5.mount-plate", "target-bank-5.mount-screw-left", "target-bank-5.mount-screw-right", "target-bank-5.rear-stop"] },
     { id: "shot.lock-saucer", label: "Lock saucer", primaryFlipper: "left", deviceIds: ["playfield.art.lock-label", "insert.lock-ready", "insert.lock-ready.lens", "lock.saucer", "lock.saucer.capture-sensor", "lock.saucer.held-ball-marker", "lock.saucer.eject-coil", "lock.saucer.eject-coil.bracket", "lock.saucer.eject-coil.bracket.screw-left", "lock.saucer.eject-coil.bracket.screw-right", "lock.saucer.cup", "lock.saucer.cup.screw-left", "lock.saucer.cup.screw-back", "lock.saucer.cup.screw-right", "lock.saucer.back-wall", "lock.saucer.back-wall.screw-a", "lock.saucer.back-wall.screw-b", "lock.saucer.left-entry-wall", "lock.saucer.left-entry-wall.screw-a", "lock.saucer.left-entry-wall.screw-b", "lock.saucer.right-entry-wall", "lock.saucer.right-entry-wall.screw-a", "lock.saucer.right-entry-wall.screw-b", "lock.saucer.left-post", "lock.saucer.left-post.cap", "lock.saucer.right-post", "lock.saucer.right-post.cap", "lock.saucer.eject-guide", "lock.saucer.eject-guide.screw-a", "lock.saucer.eject-guide.screw-b"] },
-    { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "insert.right-orbit-arrow", "insert.right-orbit-arrow.lens", "insert.jackpot", "insert.jackpot.lens", "orbit.right.entry", "orbit.right.outer.lower", "orbit.right.outer.lower.screw-a", "orbit.right.outer.lower.screw-b", "orbit.right.inner.lower", "orbit.right.inner.lower.screw-a", "orbit.right.inner.lower.screw-b", "orbit.right.outer.mid", "orbit.right.outer.mid.screw-a", "orbit.right.outer.mid.screw-b", "orbit.right.inner.link-lower", "orbit.right.inner.link-lower.screw-a", "orbit.right.inner.link-lower.screw-b", "orbit.right.outer.upper", "orbit.right.outer.upper.screw-a", "orbit.right.outer.upper.screw-b", "orbit.right.inner.entry", "orbit.right.inner.entry.screw-a", "orbit.right.inner.entry.screw-b", "boundary.top-arch.right-curve", "boundary.top-arch.center", "boundary.top-arch.left-curve", "orbit.right.exit", "handoff.upper-orbit-gates.right", "handoff.upper-orbit-gates.right.screw-a", "handoff.upper-orbit-gates.right.screw-b", "handoff.upper-orbit-gates.right.hinge-post", "handoff.upper-orbit-gates.right.hinge-post.cap", "handoff.upper-orbit-gates.right.stop-post", "handoff.upper-orbit-gates.right.stop-post.cap", "wireform.right-orbit-return.upper.rail-left", "wireform.right-orbit-return.upper.rail-left.clamp-entry", "wireform.right-orbit-return.upper.rail-left.clamp-mid", "wireform.right-orbit-return.upper.rail-left.clamp-exit", "wireform.right-orbit-return.upper.rail-right", "wireform.right-orbit-return.upper.rail-right.clamp-entry", "wireform.right-orbit-return.upper.rail-right.clamp-mid", "wireform.right-orbit-return.upper.rail-right.clamp-exit", "wireform.right-orbit-return.lower.rail-left", "wireform.right-orbit-return.lower.rail-left.clamp-entry", "wireform.right-orbit-return.lower.rail-left.clamp-mid", "wireform.right-orbit-return.lower.rail-left.clamp-exit", "wireform.right-orbit-return.lower.rail-right", "wireform.right-orbit-return.lower.rail-right.clamp-entry", "wireform.right-orbit-return.lower.rail-right.clamp-mid", "wireform.right-orbit-return.lower.rail-right.clamp-exit", "wireform.right-orbit-return.tie-upper-entry", "wireform.right-orbit-return.tie-upper-entry.screw-a", "wireform.right-orbit-return.tie-upper-entry.screw-b", "wireform.right-orbit-return.tie-upper-mid", "wireform.right-orbit-return.tie-upper-mid.screw-a", "wireform.right-orbit-return.tie-upper-mid.screw-b", "wireform.right-orbit-return.tie-upper-exit", "wireform.right-orbit-return.tie-upper-exit.screw-a", "wireform.right-orbit-return.tie-upper-exit.screw-b", "wireform.right-orbit-return.tie-lower-entry", "wireform.right-orbit-return.tie-lower-entry.screw-a", "wireform.right-orbit-return.tie-lower-entry.screw-b", "wireform.right-orbit-return.tie-lower-mid", "wireform.right-orbit-return.tie-lower-mid.screw-a", "wireform.right-orbit-return.tie-lower-mid.screw-b", "wireform.right-orbit-return.tie-lower-exit", "wireform.right-orbit-return.tie-lower-exit.screw-a", "wireform.right-orbit-return.tie-lower-exit.screw-b", "wireform.right-orbit-return.support.upper", "wireform.right-orbit-return.support.upper.cap", "wireform.right-orbit-return.support.upper.foot", "wireform.right-orbit-return.support.upper.foot.screw-left", "wireform.right-orbit-return.support.upper.foot.screw-right", "wireform.right-orbit-return.support.upper.collar", "wireform.right-orbit-return.support.upper.saddle", "wireform.right-orbit-return.support.upper.saddle.screw-left", "wireform.right-orbit-return.support.upper.saddle.screw-right", "wireform.right-orbit-return.support.mid", "wireform.right-orbit-return.support.mid.cap", "wireform.right-orbit-return.support.mid.foot", "wireform.right-orbit-return.support.mid.foot.screw-left", "wireform.right-orbit-return.support.mid.foot.screw-right", "wireform.right-orbit-return.support.mid.collar", "wireform.right-orbit-return.support.mid.saddle", "wireform.right-orbit-return.support.mid.saddle.screw-left", "wireform.right-orbit-return.support.mid.saddle.screw-right", "wireform.right-orbit-return.support.exit", "wireform.right-orbit-return.support.exit.cap", "wireform.right-orbit-return.support.exit.foot", "wireform.right-orbit-return.support.exit.foot.screw-left", "wireform.right-orbit-return.support.exit.foot.screw-right", "wireform.right-orbit-return.support.exit.collar", "wireform.right-orbit-return.support.exit.saddle", "wireform.right-orbit-return.support.exit.saddle.screw-left", "wireform.right-orbit-return.support.exit.saddle.screw-right", "wireform.right-orbit-return.exit", "handoff.right-orbit-exit.left-guide", "handoff.right-orbit-exit.left-guide.screw-a", "handoff.right-orbit-exit.left-guide.screw-b", "handoff.right-orbit-exit.right-guide", "handoff.right-orbit-exit.right-guide.screw-a", "handoff.right-orbit-exit.right-guide.screw-b", "handoff.right-orbit-exit.left-guide.upper-post", "handoff.right-orbit-exit.left-guide.upper-post.cap", "handoff.right-orbit-exit.left-guide.lower-post", "handoff.right-orbit-exit.left-guide.lower-post.cap", "handoff.right-orbit-exit.right-guide.upper-post", "handoff.right-orbit-exit.right-guide.upper-post.cap", "handoff.right-orbit-exit.right-guide.lower-post", "handoff.right-orbit-exit.right-guide.lower-post.cap", "lane.lower.right-in", "lane.lower.right-in.outer", "lane.lower.right-in.outer.screw-a", "lane.lower.right-in.outer.screw-b", "lane.lower.right-in.inner", "lane.lower.right-in.inner.screw-a", "lane.lower.right-in.inner.screw-b", "rollover.lower.right-in", "rollover.lower.right-in.screw-left", "rollover.lower.right-in.screw-right", "insert.lower.right-in-arrow", "insert.lower.right-in-arrow.lens", "lane.lower.right-in.guide-cover", "lane.lower.right-in.guide-cover.screw-upper", "lane.lower.right-in.guide-cover.screw-lower", "lane.lower.right-in.rubber-band", "post.right-in-top", "post.right-in-top.cap", "post.right-in-lower", "post.right-in-lower.cap", "post.drain-right", "post.drain-right.cap"] },
+    { id: "shot.right-orbit", label: "Right orbit", primaryFlipper: "left", deviceIds: ["playfield.art.right-orbit-arrow", "insert.right-orbit-arrow", "insert.right-orbit-arrow.lens", "insert.jackpot", "insert.jackpot.lens", "orbit.right.entry", "orbit.right.outer.lower", "orbit.right.outer.lower.screw-a", "orbit.right.outer.lower.screw-b", "orbit.right.inner.lower", "orbit.right.inner.lower.screw-a", "orbit.right.inner.lower.screw-b", "orbit.right.outer.mid", "orbit.right.outer.mid.screw-a", "orbit.right.outer.mid.screw-b", "orbit.right.inner.link-lower", "orbit.right.inner.link-lower.screw-a", "orbit.right.inner.link-lower.screw-b", "orbit.right.outer.upper", "orbit.right.outer.upper.screw-a", "orbit.right.outer.upper.screw-b", "orbit.right.outer.link", "orbit.right.outer.link.screw-a", "orbit.right.outer.link.screw-b", "orbit.right.inner.entry", "orbit.right.inner.entry.screw-a", "orbit.right.inner.entry.screw-b", "boundary.top-arch.right-curve", "boundary.top-arch.center", "boundary.top-arch.left-curve", "orbit.right.exit", "handoff.upper-orbit-gates.right", "handoff.upper-orbit-gates.right.screw-a", "handoff.upper-orbit-gates.right.screw-b", "handoff.upper-orbit-gates.right.hinge-post", "handoff.upper-orbit-gates.right.hinge-post.cap", "handoff.upper-orbit-gates.right.stop-post", "handoff.upper-orbit-gates.right.stop-post.cap", "lane.top.right", "lane.top.right.outer", "lane.top.right.outer.screw-a", "lane.top.right.outer.screw-b", "lane.top.right.inner", "lane.top.right.inner.screw-a", "lane.top.right.inner.screw-b", "rollover.top.right", "rollover.top.right.screw-left", "rollover.top.right.screw-right", "insert.top.right-arrow", "insert.top.right-arrow.lens", "lane.top.right.guide-cover", "lane.top.right.guide-cover.screw-left", "lane.top.right.guide-cover.screw-right", "lane.top.right.rubber-band", "post.top-lane-right", "post.top-lane-right.cap", "post.top-lane-right-outer", "post.top-lane-right-outer.cap", "post.top-lane-right-inner", "post.top-lane-right-inner.cap", "pop-b", "pop-b.skirt", "pop-b.chrome-ring", "pop-b.lamp-lens", "pop-b.cap-screw-upper", "pop-b.cap-screw-left", "pop-b.cap-screw-right", "post.pop-b.upper", "post.pop-b.upper.cap", "post.pop-b.outer", "post.pop-b.outer.cap", "post.pop-b.inner", "post.pop-b.inner.cap", "pop-b.left-ring-rubber", "pop-b.left-ring-rubber.screw-a", "pop-b.left-ring-rubber.screw-b", "pop-b.right-ring-rubber", "pop-b.right-ring-rubber.screw-a", "pop-b.right-ring-rubber.screw-b"] },
     { id: "shot.skill-shot", label: "Skill shot", primaryFlipper: "plunger", deviceIds: ["trough.shooter-feed-guide", "trough.shooter-feed-guide.screw-upper", "trough.shooter-feed-guide.screw-lower", "trough.eject-coil", "trough.eject-coil.bracket", "trough.eject-coil.bracket.screw-left", "trough.eject-coil.bracket.screw-right", "shooter.plunger", "shooter.plunger-spring", "shooter.plunger-spring.front-retainer", "shooter.plunger-spring.back-retainer", "shooter.plunger-stop-collar", "shooter.plunger-knob", "shooter.lane-groove", "shooter.plunger-housing", "shooter.plunger-housing.screw-front-left", "shooter.plunger-housing.screw-front-right", "shooter.plunger-housing.screw-back-left", "shooter.plunger-housing.screw-back-right", "shooter.lower-left-guide", "shooter.lower-left-guide.screw-lower", "shooter.lower-left-guide.screw-upper", "shooter.lower-right-guide", "shooter.lower-right-guide.screw-lower", "shooter.lower-right-guide.screw-upper", "boundary.shooter-arch.top", "boundary.top-arch.right-curve", "lane.top.center", "lane.top.center.inner-left", "lane.top.center.inner-left.screw-a", "lane.top.center.inner-left.screw-b", "lane.top.center.inner-right", "lane.top.center.inner-right.screw-a", "lane.top.center.inner-right.screw-b", "rollover.top.center", "rollover.top.center.screw-left", "rollover.top.center.screw-right", "insert.top.center-arrow", "insert.top.center-arrow.lens", "lane.top.center.guide-cover", "lane.top.center.guide-cover.screw-left", "lane.top.center.guide-cover.screw-right", "lane.top.center.rubber-band", "post.top-lane-center-left", "post.top-lane-center-left.cap", "post.top-lane-center-right", "post.top-lane-center-right.cap", "lane.top.right", "lane.top.right.inner", "lane.top.right.inner.screw-a", "lane.top.right.inner.screw-b", "lane.top.right.outer", "lane.top.right.outer.screw-a", "lane.top.right.outer.screw-b", "rollover.top.right", "rollover.top.right.screw-left", "rollover.top.right.screw-right", "insert.top.right-arrow", "insert.top.right-arrow.lens", "lane.top.right.guide-cover", "lane.top.right.guide-cover.screw-left", "lane.top.right.guide-cover.screw-right", "lane.top.right.rubber-band", "post.top-lane-right-inner", "post.top-lane-right-inner.cap", "post.top-lane-right-outer", "post.top-lane-right-outer.cap", "post.top-lane-right", "post.top-lane-right.cap", "pop-b", "pop-b.skirt", "pop-b.chrome-ring", "pop-b.lamp-lens", "pop-b.cap-screw-upper", "pop-b.cap-screw-left", "pop-b.cap-screw-right", "post.pop-b.upper", "post.pop-b.upper.cap", "post.pop-b.outer", "post.pop-b.outer.cap", "post.pop-b.inner", "post.pop-b.inner.cap", "pop-b.left-ring-rubber", "pop-b.left-ring-rubber.screw-a", "pop-b.left-ring-rubber.screw-b", "pop-b.right-ring-rubber", "pop-b.right-ring-rubber.screw-a", "pop-b.right-ring-rubber.screw-b", "pop-c", "pop-c.skirt", "pop-c.chrome-ring", "pop-c.lamp-lens", "pop-c.cap-screw-upper", "pop-c.cap-screw-left", "pop-c.cap-screw-right", "post.pop-c.lower-left", "post.pop-c.lower-left.cap", "post.pop-c.lower-right", "post.pop-c.lower-right.cap", "post.pop-c.upper", "post.pop-c.upper.cap", "pop-c.lower-left-ring-rubber", "pop-c.lower-left-ring-rubber.screw-a", "pop-c.lower-left-ring-rubber.screw-b", "pop-c.lower-right-ring-rubber", "pop-c.lower-right-ring-rubber.screw-a", "pop-c.lower-right-ring-rubber.screw-b", "lane.shooter.skill", "lane.shooter.skill.outer", "lane.shooter.skill.outer.screw-a", "lane.shooter.skill.outer.screw-b", "lane.shooter.skill.inner", "lane.shooter.skill.inner.screw-a", "lane.shooter.skill.inner.screw-b", "rollover.shooter.skill", "rollover.shooter.skill.screw-left", "rollover.shooter.skill.screw-right", "lane.shooter.skill.guide-cover", "lane.shooter.skill.guide-cover.screw-inner", "lane.shooter.skill.guide-cover.screw-outer", "lane.shooter.skill.rubber-band", "post.shooter-skill-lane-inner", "post.shooter-skill-lane-inner.cap", "post.shooter-skill-lane-outer", "post.shooter-skill-lane-outer.cap", "insert.skill-shot", "insert.skill-shot.lens", "shooter.one-way-gate", "shooter.one-way-gate.hinge-post", "shooter.one-way-gate.hinge-post.cap", "shooter.one-way-gate.stop-post", "shooter.one-way-gate.stop-post.cap"] }
   ]
 };

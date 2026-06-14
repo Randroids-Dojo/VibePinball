@@ -142,7 +142,7 @@
     },
     {
       "id": "REQ-010",
-      "requirement": "The table includes at least one aimable ramp and one aimable orbit path.",
+      "requirement": "The table includes two aimable open-top orbit paths (no ramp).",
       "gddRef": "docs/gdd/02-table-layout.html#ramps-and-orbits",
       "status": "partial",
       "implementationRefs": [
@@ -154,7 +154,8 @@
         "tests/tableBlueprint.test.ts",
         "tests/playable.smoke.ts"
       ],
-      "followupRefs": []
+      "followupRefs": [],
+      "notes": "Ramp removed 2026-06-14 as dead elevated hardware; table is orbit-only by design."
     },
     {
       "id": "REQ-011",
