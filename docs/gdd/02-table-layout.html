@@ -25,12 +25,12 @@
 
   <section id="upper-playfield">
     <h3>Upper playfield</h3>
-    <p>The upper third contains a bumper nest, rollover lanes, a skill-shot lane, and one orbit or return path that can feed the ball back toward the flippers.</p>
+    <p>The upper third contains a bumper nest, rollover lanes, a skill-shot lane, and orbit paths whose open tops feed the ball back toward the flippers by spilling into the bumper nest.</p>
   </section>
 
   <section id="ramps-and-orbits">
-    <h3>Ramps and orbits</h3>
-    <p>The table includes at least one primary ramp and one orbit path. These shots are intentionally aimable from the flippers and support combo scoring without requiring deep modern rules.</p>
+    <h3>Orbits</h3>
+    <p>The table includes two aimable orbit paths (left and right). They are open-top: a shot up an orbit wraps over the top and spills into the bumper nest and back toward the flippers, rather than riding a raised wireform return. The design intentionally has no ramp. The earlier authored ramp and raised wireform returns were removed because the ball never reached them (its height never exceeded the playfield surface), so they were dead elevated hardware, not aimable shots.</p>
   </section>
 
   <section id="target-bank">
@@ -52,6 +52,7 @@
 <section data-role="build-log">
   <h2>Build log</h2>
   <ul>
+    <li data-date="2026-06-14">Removed the left ramp, both raised wireform returns, and their entry/exit funnel handoffs as dead elevated hardware. A multi-ball trace showed the ball never rises above the playfield surface (max height 0.35 vs ramp top 0.95 and wireforms at 1.08), so these were unreachable bloat. The table is now two open-top orbits with no ramp; GDD spec updated to match. Files: <code>src/game/tableBlueprint.ts</code>, <code>src/game/physics.ts</code>, <code>src/game/rules.ts</code>, <code>src/game/types.ts</code>, <code>tests/tableBlueprint.test.ts</code>. PR TBD.</li>
     <li data-date="2026-06-11">Generated fixed metal collider segments from the authored lock-saucer cup rim so the lock device's visible cup now has physical bowl-edge collision while keeping the entry path open. Files: <code>src/game/physics.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/193">PR 193</a>.</li>
     <li data-date="2026-06-11">Routed authored elevated plastic-cover metal standoffs into the fixed physics collider path so the lane, sling, bumper-nest, and shooter-arch plastic supports now behave as physical posts. Files: <code>src/game/physics.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/191">PR 191</a>.</li>
     <li data-date="2026-06-11">Routed the authored left-ramp metal cross braces into the fixed physics collider path so the raised ramp support structure now has physical surfaces matching its visible brace hardware. Files: <code>src/game/physics.ts</code>, <code>tests/tableBlueprint.test.ts</code>. <a href="https://github.com/Randroids-Dojo/VibePinball/pull/189">PR 189</a>.</li>

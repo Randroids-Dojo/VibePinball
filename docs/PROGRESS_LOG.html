@@ -31,6 +31,20 @@
 
 <main id="entries">
 
+  <article data-slice="strip-dead-elevated-hardware" data-date="2026-06-14">
+    <h3>Strip The Dead Elevated Hardware Layer</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>chore/declutter-board</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>removed every piece of the elevated hardware layer the ball provably never reaches. A multi-ball trace showed the ball's height never exceeds 0.35 (playfield surface), while the ramp top sits at 0.95 and the wireform rails at 1.08-1.16. Removed: the left ramp (floor, side walls, side rails, cross braces, supports, entrance lip, and all fasteners), both wireform return paths, the ramp entry/exit and right-orbit-exit funnel handoffs, and the decorative cabinet topper lamps. Also removed the orphaned ramp arrow art and lamp insert, the <code>shot.left-ramp</code> path, the <code>rampEnter</code>/<code>rampMade</code> events and their scoring, the <code>returnWireformId</code> orbit field, and the now-unused ramp collider selectors. The table is now two open-top orbits with no ramp. Per explicit direction the GDD spec was corrected to match (orbit-only, no ramp; returns by spilling into the bumper nest).</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (66 passing; 4 obsolete ramp/wireform/handoff tests removed); <code>pnpm build</code> (lint clean); <code>PORT=3031 pnpm exec playwright test</code> (4 passing); a post-removal flow trace confirming launches still reach the playfield (minZ -5.46) with orbit, bumper, sling, and lane events, and a desktop capture showing the open, decluttered playfield.</dd>
+      <dt>Assumptions</dt><dd>The user explicitly approved correcting the GDD to remove bloat. A ramp the ball cannot climb has no gameplay intent, so it was removed rather than kept as a non-functional feature.</dd>
+      <dt>GDD coverage</dt><dd>Amended <code>REQ-010</code> to an orbit-only table; build log entry added to <code>docs/gdd/02-table-layout.html</code>.</dd>
+      <dt>Followups</dt><dd>None new. Dead render helpers (<code>addRampDevice</code>, <code>addWireformPath</code>, <code>addCabinetTopperLight</code>) iterate now-empty arrays and render nothing; they can be swept in a later code-only cleanup.</dd>
+    </dl>
+  </article>
+
+
   <article data-slice="remove-orbit-entry-prongs" data-date="2026-06-13">
     <h3>Remove The Orbit-Entry Prongs</h3>
     <dl>

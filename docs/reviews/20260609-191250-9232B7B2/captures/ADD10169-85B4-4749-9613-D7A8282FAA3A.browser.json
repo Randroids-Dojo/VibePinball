@@ -1,0 +1,52 @@
+{
+  "canvases" : [
+    {
+      "height" : 1992,
+      "label" : "3D Silverball Social playfield",
+      "width" : 2934
+    }
+  ],
+  "capturedAt" : "2026-06-11T03:41:32.837Z",
+  "consoleMessages" : [
+    {
+      "level" : "warn",
+      "message" : "using deprecated parameters for the initialization function; pass a single object instead",
+      "timestamp" : "2026-06-11T03:40:30.871Z"
+    }
+  ],
+  "domSummary" : {
+    "bodyTextSample" : "0 Ball launched. Aim for the skill shot. BALL 1\/3 TARGETS 0\/5 LOCKS 0\/2 TILT 0\/2 LAUNCH 0% Shift or A\/L for flippers. Hold Space for plunger. Arrow keys nudge. Enter starts or restarts. Left Nudge L Start Launch Right",
+    "buttons" : [
+      "Left",
+      "Nudge L",
+      "Start",
+      "Launch",
+      "Right"
+    ],
+    "headings" : [
+
+    ],
+    "interactiveElementCount" : 5
+  },
+  "focusedElement" : "button",
+  "scroll" : {
+    "x" : 0,
+    "y" : 0
+  },
+  "selectedText" : "",
+  "storage" : {
+    "localStorage" : {
+
+    },
+    "sessionStorage" : {
+      "__next_debug_channel:peyUzYywJSa2UvFy3tTtz" : "[\"Ok4xNzgxMTQ5MjMwNTY3LjQ0MTQKMzoiJEVPYmplY3QuZGVmaW5lUHJvcGVydHkoKCk9PntjdHguY29tcG9uZW50TW9kLnByZWxvYWRTdHlsZShmdWxsSHJlZixjdHgucmVuZGVyT3B0cy5jcm9zc09yaWdpbixjdHgubm9uY2UpfSxcIm5hbWVcIix7dmFsdWU6XCJcIn0pIgoyOnsibmFtZSI6IlByZWxvYWRzIiwia2V5IjpudWxsLCJlbnYiOiJTZXJ2ZXIiLCJzdGFjayI6W10sInByb3BzIjp7InByZWxvYWRDYWxsYmFja3MiOlsiJDMiXX19CjQ6eyJ0aW1lIjozLjg1MDMzMjk5OTk5ODV9CjU6eyJ0aW1lIjo0LjA0Nzc0OTk5OTk5NzkwNDV9CjY6W10KODpbXQphOltbIkFycmF5Lm1hcCIsIiIsMCwwLDAsMCxmYWxzZV1dCmI6W1siQXJyYXkubWFwIiwiIiwwLDAsMCwwLGZhbHNlXV0KYzpbWyJBcnJheS5tYXAiLCIiLDAsMCwwLDAsZmFsc2VdXQpmOklbIltwcm9qZWN0XS9ub2RlX21vZHVsZXMvLnBucG0vbmV4dEAxNi4yLjlfQGJhYmVsK2NvcmVANy4yOS43X0BwbGF5d3JpZ2h0K3Rlc3RAMS42MC4wX3JlYWN0LWRvbUAxOS4yLjdfcmVhY3RAMTkuMi43X19yZWFjdEAxOS4yLjcvbm9kZV9tb2R1bGVzL25leHQvZGlzdC9jbGllbnQvY29tcG9uZW50cy9sYXlvdXQtcm91dGVyLmpzIFthcHAtY2xpZW50XSAoZWNtYXNjcmlwdCkiLFsiL19uZXh0L3N0YXRpYy9jaHVua3MvMTV6d19uZXh0X2Rpc3RfMC1ud3dpOC5fLmpzIiwiL19uZXh0L3N0YXRpYy9jaHVua3MvYXBwX2xheW91dF90c3hfMHYzaHBkcS5fLmpzIl0sImRlZmF1bHQiXQoxMjpJWyJbcHJvamVjdF0vbm9kZV9tb2R1bGVzLy5wbnBtL25leHRAMTYuMi45X0BiYWJlbCtjb3JlQDcuMjkuN19AcGxheXdyaWdodCt0ZXN0QDEuNjAuMF9yZWFjdC1kb21AMTkuMi43X3JlYWN0QDE5LjIuN19fcmVhY3RAMTkuMi43L25vZGVfbW9kdWxlcy9uZXh0L2Rpc3QvY2xpZW50L2NvbXBvbmVudHMvcmVuZGVyLWZyb20tdGVtcGxhdGUtY29udGV4dC5qcyBbYXBwLWNsaWVudF0gKGVjbWFzY3JpcHQpIixbIi9fbmV4dC9zdGF0aWMvY2h1bmtzLzE1endfbmV4dF9kaXN0XzAtbnd3aTguXy5qcyIsIi9fbmV4dC9zdGF0aWMvY2h1bmtzL2FwcF9sYXlvdXRfdHN4XzB2M2hwZHEuXy5qcyJdLCJkZWZhdWx0Il0KMTM6e30KMTQ6W1siUHJvbWlzZS5hbGwiLCIiLDAsMCwwLDAsdHJ1ZV1dCjExOnsiY2hpbGRyZW4iOlsiJCIsIiRMMTIiLG51bGwsIiQxMyIsbnVsbCwiJDE0IiwxXX0KMTU6W1siUHJvbWlzZS5hbGwiLCIiLDAsMCwwLDAsdHJ1ZV1dCjEwOnsicGFyYWxsZWxSb3V0ZXJLZXkiOiJjaGlsZHJlbiIsImVycm9yIjoiJHVuZGVmaW5lZCIsImVycm9yU3R5bGVzIjoiJHVuZGVmaW5lZCIsImVycm9yU2NyaXB0cyI6IiR1bmRlZmluZWQiLCJ0ZW1wbGF0ZSI6WyIkIiwiJDkiLG51bGwsIiQxMSIsbnVsbCwiJDE1IiwwXSwidGVtcGxhdGVTdHlsZXMiOiIkdW5kZWZpbmVkIiwidGVtcGxhdGVTY3JpcHRzIjoiJHVuZGVmaW5lZCIsIm5vdEZvdW5kIjoiJFkiLCJmb3JiaWRkZW4iOiIkdW5kZWZpbmVkIiwidW5hdXRob3JpemVkIjoiJHVuZGVmaW5lZCIsInNlZ21lbnRWaWV3Qm91bmRhcmllcyI6IiRZIn0KMTY6W1siUHJvbWlzZS5hbGwiLCIiLDAsMCwwLDAsdHJ1ZV1dCmU6eyJuYW1lIjoiUm9vdExheW91dCIsImtleSI6bnVsbCwiZW52IjoiU2VydmVyIiwic3RhY2siOltdLCJwcm9wcyI6eyJjaGlsZHJlbiI6WyIkIiwiJExmIixudWxsLCIkMTAiLG51bGwsIiQxNiIsMV0sInBhcmFtcyI6IiRZIn19CjE3OnsidGltZSI6NC44MDE5MTcwMDAwMDA2ODV9CjE4OltbIlJvb3RMYXlvdXQiLCIvVXNlcnMvcmFuZHJvaWQvRG9jdW1lbnRzL0Rldi9WaWJlUGluYmFsbC8ubmV4dC9kZXYvc2VydmVyL2NodW5rcy9zc3IvXzA3Y3g5dHUuXy5qcyIsMTksNDYzLDE4LDEsZmFsc2VdXQoxOTp7InRpbWUiOjUuMDA5NTAwMDAwMDAwMTE2fQoxYTpbWyJSb290TGF5b3V0IiwiL1VzZXJzL3JhbmRyb2lkL0RvY3VtZW50cy9EZXYvVmliZVBpbmJhbGwvLm5leHQvZGV2L3NlcnZlci9jaHVua3Mvc3NyL18wN2N4OXR1Ll8uanMiLDIxLDQ3MCwxOCwxLGZhbHNlXV0KMWI6W1siUHJvbWlzZS5hbGwiLCIiLDAsMCwwLDAsdHJ1ZV1dCjFkOltbIlByb21pc2UuYWxsIiwiIiwwLDAsMCwwLHRydWVdXQoxZjpbXQoyMTp7Im5hbWUiOiJOb3RGb3VuZCIsImtleSI6bnVsbCwiZW52IjoiU2VydmVyIiwic3RhY2siOltdLCJwcm9wcyI6e319CjIyOnsidGltZSI6NS4xNzQ1NDIwMDAwMDA2NTZ9CjIzOnsibmFtZSI6IkhUVFBBY2Nlc3NFcnJvckZhbGxiYWNrIiwia2V5IjpudWxsLCJlbnYiOiJTZXJ2ZXIiLCJvd25lciI6IiQyMSIsInN0YWNrIjpbXSwicHJvcHMiOnsic3RhdHVzIjo0MDQsIm1lc3NhZ2UiOiJUaGlzIHBhZ2UgY291bGQgbm90IGJlIGZvdW5kLiJ9fQoyNDp7InRpbWUiOjUuMzczMTY2OTk5OTk3OTJ9CjI1OnsidGltZSI6NS41NDU5NTc5OTk5OTg3OTF9CjI2OltdCjI3OltdCjI4OltdCjI5OltdCjJhOltdCjJiOltdCjJjOltdCjJkOltbIlByb21pc2UuYWxsIiwiIiwwLDAsMCwwLHRydWVdXQoyZTpbWyJQcm9taXNlLmFsbCIsIiIsMCwwLDAsMCx0cnVlXV0KMmY6W1siUHJvbWlzZS5hbGwiLCIiLDAsMCwwLDAsdHJ1ZV1dCjMwOltbIlByb21pc2UuYWxsIiwiIiwwLDAsMCwwLHRydWVdXQozMjp7Im5hbWUiOiJIb21lIiwia2V5IjpudWxsLCJlbnYiOiJTZXJ2ZXIiLCJzdGFjayI6W1siUHJvbWlzZS5hbGwiLCIiLDAsMCwwLDAsdHJ1ZV1dLCJwcm9wcyI6eyJwYXJhbXMiOiIkQDMzIiwic2VhcmNoUGFyYW1zIjoiJEAzNCJ9fQozNTp7InRpbWUiOjYuMDQ2NTgyOTk5OTk5MzczfQozNjpbWyJIb21lIiwiL1VzZXJzL3JhbmRyb2lkL0RvY3VtZW50cy9EZXYvVmliZVBpbmJhbGwvLm5leHQvZGV2L3NlcnZlci9jaHVua3Mvc3NyL1tyb290LW9mLXRoZS1zZXJ2ZXJdX18xZmNsbDJ4Ll8uanMiLDU2LDQ2Myw1NSwxLGZhbHNlXV0KMzc6eyJ0aW1lIjo2LjEyMTcwNzk5OTk5ODc2Mn0KMzk6W1siQXJyYXkubWFwIiwiIiwwLDAsMCwwLGZhbHNlXSxbIkFycmF5Lm1hcCIsIi"
+    }
+  },
+  "title" : "VibePinball",
+  "url" : "http:\/\/localhost:3011\/",
+  "viewport" : {
+    "devicePixelRatio" : 2,
+    "height" : 996,
+    "width" : 1467
+  }
+}

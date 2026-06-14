@@ -18,8 +18,6 @@ export type TableEvent =
   | { type: "lockEnter"; id: string }
   | { type: "lockHeld"; id: string }
   | { type: "lockEject"; id: string }
-  | { type: "rampEnter"; id: string }
-  | { type: "rampMade"; id: string }
   | { type: "orbitMade"; id: string }
   | { type: "launch" }
   | { type: "skillShot" }
