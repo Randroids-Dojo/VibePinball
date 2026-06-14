@@ -12,12 +12,10 @@ import {
   type CabinetHardware,
   type CabinetHeaderPanel,
   type CabinetSideArtPanel,
-  type CabinetTopperLight,
   type DrainDevice,
   type DrainGuide,
   type ElevatedSupportCollar,
   type ElevatedSupportFoot,
-  type ElevatedSupportSaddle,
   type FlipperStop,
   type HandoffSegment,
   type LampInsert,
@@ -29,11 +27,6 @@ import {
   type PlungerDevice,
   type PopBumperGuardSegment,
   type Post,
-  type RampCrossBrace,
-  type RampEntranceLip,
-  type RampPath,
-  type RampSideRailFastener,
-  type RampSideWall,
   type RolloverWire,
   type SaucerEjectCoil,
   type SaucerWallSegment,
@@ -45,9 +38,6 @@ import {
   type TroughEjectCoil,
   type TroughFastener,
   type TroughOptoPair,
-  type WireformRailFastener,
-  type WireformTieFastener,
-  type WireformPath
 } from "./tableBlueprint";
 
 export interface PinballScene {
@@ -310,16 +300,11 @@ export const createPinballScene = (canvas: HTMLCanvasElement): PinballScene => {
     addInsert(group, saucer.x, saucer.z + 0.64, 0xff4b4b);
   });
 
-  blueprint.ramps.forEach((rampDevice) => {
-    addRampDevice(group, rampDevice);
-  });
-
   blueprint.handoffs.forEach((handoff) => {
     handoff.segments.forEach((segment) => addHandoffSegment(group, segment));
     handoff.posts?.forEach((post) => addPost(group, post));
   });
 
-  blueprint.wireforms.forEach((wireform) => addWireformPath(group, wireform));
 
   blueprint.slings.forEach((sling) => {
     addSlingTriangle(group, sling);
@@ -429,124 +414,6 @@ const addRail = (
   group.add(rail);
 };
 
-const addRampDevice = (group: THREE.Group, ramp: RampPath) => {
-  const rise = ramp.endY - ramp.startY;
-  const pitch = Math.atan2(rise, ramp.depth);
-  const slopedDepth = Math.hypot(ramp.depth, rise);
-  const centerY = (ramp.startY + ramp.endY) / 2;
-  const floor = mesh(
-    new THREE.BoxGeometry(ramp.width, ramp.floorThickness, slopedDepth),
-    new THREE.MeshStandardMaterial({
-      color: palette.rampFloor,
-      transparent: true,
-      opacity: 0.46,
-      roughness: 0.18,
-      metalness: 0.08
-    })
-  );
-  floor.position.set(ramp.x, centerY, ramp.z);
-  floor.rotation.set(pitch, ramp.angle, 0);
-  group.add(floor);
-
-  ramp.crossBraces.forEach((brace) => addRampCrossBrace(group, brace));
-  ramp.sideWalls.forEach((wall) => addRampSideWall(group, wall));
-
-  ramp.sideRails.forEach((rail) => {
-    addRail(
-      group,
-      rail.x,
-      rail.z,
-      rail.width,
-      rail.depth,
-      rail.angle,
-      palette.clearBlue,
-      (rail.startY + rail.endY) / 2,
-      rail.pitch,
-      rail.height
-    );
-    rail.fasteners.forEach((fastener) => addRampSideRailFastener(group, fastener));
-  });
-  addRampEntranceLip(group, ramp.entranceLip, ramp.startY + 0.12);
-
-  ramp.supports.forEach((support) => {
-    addElevatedSupportFoot(group, support.x, support.z, support.foot);
-
-    const supportMesh = mesh(
-      new THREE.CylinderGeometry(support.radius, support.radius, support.height, 16),
-      new THREE.MeshStandardMaterial({ color: palette.steel, roughness: 0.18, metalness: 0.82 })
-    );
-    supportMesh.position.set(support.x, support.height / 2, support.z);
-    group.add(supportMesh);
-
-    addElevatedSupportCollar(group, support.x, support.z, support.collar);
-    addElevatedSupportSaddle(group, support.x, support.z, support.saddle);
-
-    const cap = mesh(
-      new THREE.CylinderGeometry(support.cap.radius, support.cap.radius, support.cap.height, 18),
-      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
-    );
-    cap.position.set(support.x, support.height + support.cap.height / 2, support.z);
-    group.add(cap);
-  });
-};
-
-const addRampSideWall = (group: THREE.Group, wall: RampSideWall) => {
-  const panel = mesh(
-    new THREE.BoxGeometry(wall.width, wall.height, wall.depth),
-    new THREE.MeshStandardMaterial({
-      color: palette.clearBlue,
-      transparent: true,
-      opacity: 0.36,
-      roughness: 0.12,
-      metalness: 0.02
-    })
-  );
-  panel.position.set(wall.x, (wall.startY + wall.endY) / 2, wall.z);
-  panel.rotation.set(wall.pitch, wall.angle, 0);
-  group.add(panel);
-
-  wall.fasteners.forEach((fastener) => {
-    const rivet = mesh(
-      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
-      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
-    );
-    rivet.position.set(fastener.x, fastener.y, fastener.z);
-    group.add(rivet);
-  });
-};
-
-const addRampCrossBrace = (group: THREE.Group, brace: RampCrossBrace) => {
-  addRail(
-    group,
-    brace.x,
-    brace.z,
-    brace.width,
-    brace.depth,
-    brace.angle ?? 0,
-    palette.steelBright,
-    brace.y,
-    brace.pitch,
-    0.04
-  );
-  brace.fasteners.forEach((fastener) => {
-    const screw = mesh(
-      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
-      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
-    );
-    screw.position.set(fastener.x, fastener.y, fastener.z);
-    group.add(screw);
-  });
-};
-
-const addRampSideRailFastener = (group: THREE.Group, fastener: RampSideRailFastener) => {
-  const screw = mesh(
-    new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
-  );
-  screw.position.set(fastener.x, fastener.y, fastener.z);
-  group.add(screw);
-};
-
 const addSegment = (
   group: THREE.Group,
   segment: { x: number; z: number; width: number; depth: number; angle?: number; kind: string },
@@ -606,18 +473,6 @@ const addHandoffSegment = (group: THREE.Group, segment: HandoffSegment) => {
       new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
     );
     screw.position.set(fastener.x, segment.kind === "metal" ? 0.725 : 1.005, fastener.z);
-    group.add(screw);
-  });
-};
-
-const addRampEntranceLip = (group: THREE.Group, lip: RampEntranceLip, y: number) => {
-  addSegment(group, lip, y);
-  lip.fasteners.forEach((fastener) => {
-    const screw = mesh(
-      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.14, metalness: 0.88 })
-    );
-    screw.position.set(fastener.x, y + 0.225, fastener.z);
     group.add(screw);
   });
 };
@@ -908,78 +763,6 @@ const addRing = (group: THREE.Group, x: number, z: number, radius: number, tubeR
   group.add(ring);
 };
 
-const addWireformPath = (group: THREE.Group, wireform: WireformPath) => {
-  wireform.rails.forEach((rail) => {
-    addRail(
-      group,
-      rail.x,
-      rail.z,
-      rail.width,
-      rail.depth,
-      rail.angle ?? 0,
-      0xf4d35e,
-      rail.y,
-      0,
-      rail.height
-    );
-    rail.fasteners.forEach((fastener) => addWireformRailFastener(group, fastener));
-  });
-  wireform.ties.forEach((tie) => {
-    addRail(
-      group,
-      tie.x,
-      tie.z,
-      tie.width,
-      tie.depth,
-      tie.angle ?? 0,
-      0xf4d35e,
-      wireform.railY,
-      0,
-      0.035
-    );
-    tie.fasteners.forEach((fastener) => addWireformTieFastener(group, fastener));
-  });
-  wireform.supports.forEach((support) => {
-    addElevatedSupportFoot(group, support.x, support.z, support.foot);
-
-    const supportMesh = mesh(
-      new THREE.CylinderGeometry(support.radius, support.radius, support.height, 16),
-      new THREE.MeshStandardMaterial({ color: palette.steel, roughness: 0.18, metalness: 0.82 })
-    );
-    supportMesh.position.set(support.x, support.height / 2, support.z);
-    group.add(supportMesh);
-
-    addElevatedSupportCollar(group, support.x, support.z, support.collar);
-    addElevatedSupportSaddle(group, support.x, support.z, support.saddle);
-
-    const supportCap = mesh(
-      new THREE.CylinderGeometry(support.cap.radius, support.cap.radius, support.cap.height, 18),
-      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
-    );
-    supportCap.position.set(support.x, support.height + support.cap.height / 2, support.z);
-    group.add(supportCap);
-  });
-  addInsert(group, wireform.exit.x, wireform.exit.z, 0x76ff8f);
-};
-
-const addWireformRailFastener = (group: THREE.Group, fastener: WireformRailFastener) => {
-  const clamp = mesh(
-    new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.022, 16),
-    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
-  );
-  clamp.position.set(fastener.x, fastener.y, fastener.z);
-  group.add(clamp);
-};
-
-const addWireformTieFastener = (group: THREE.Group, fastener: WireformTieFastener) => {
-  const screw = mesh(
-    new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.02, 16),
-    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
-  );
-  screw.position.set(fastener.x, fastener.y, fastener.z);
-  group.add(screw);
-};
-
 const addElevatedSupportFoot = (
   group: THREE.Group,
   x: number,
@@ -1015,30 +798,6 @@ const addElevatedSupportCollar = (
   );
   ring.position.set(x, collar.y, z);
   group.add(ring);
-};
-
-const addElevatedSupportSaddle = (
-  group: THREE.Group,
-  x: number,
-  z: number,
-  saddle: ElevatedSupportSaddle
-) => {
-  const bracket = mesh(
-    new THREE.BoxGeometry(saddle.width, saddle.height, saddle.depth),
-    new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.18, metalness: 0.86 })
-  );
-  bracket.position.set(x, saddle.y, z);
-  bracket.rotation.y = saddle.angle;
-  group.add(bracket);
-
-  saddle.fasteners.forEach((fastener) => {
-    const screw = mesh(
-      new THREE.CylinderGeometry(fastener.radius, fastener.radius, 0.018, 16),
-      new THREE.MeshStandardMaterial({ color: palette.steelBright, roughness: 0.16, metalness: 0.88 })
-    );
-    screw.position.set(fastener.x, saddle.y + saddle.height / 2 + 0.006, fastener.z);
-    group.add(screw);
-  });
 };
 
 const addPlasticCover = (
@@ -1324,7 +1083,6 @@ const addCabinetShell = (scene: THREE.Scene, cabinet: CabinetHardware) => {
   dmd.position.set(cabinet.dmdPanel.x, cabinet.dmdPanel.y, cabinet.dmdPanel.z);
   scene.add(dmd);
   addCabinetHeaderPanel(scene, cabinet.headerPanel);
-  cabinet.topperLights.forEach((light) => addCabinetTopperLight(scene, light));
 
   cabinet.speakerGrilles.forEach((grille) => {
     const panel = mesh(
@@ -1455,22 +1213,6 @@ const addCabinetHeaderPanel = (scene: THREE.Scene, panel: CabinetHeaderPanel) =>
   });
 
   addBackboxLabel(scene, panel.label, panel.x, panel.y, panel.z + panel.depth * 0.66, panel.width * 0.64, panel.height * 0.34);
-};
-
-const addCabinetTopperLight = (scene: THREE.Scene, light: CabinetTopperLight) => {
-  const lamp = mesh(
-    new THREE.CylinderGeometry(light.radius, light.radius * 0.92, light.height, 24),
-    new THREE.MeshStandardMaterial({
-      color: light.color,
-      emissive: light.emissive,
-      emissiveIntensity: 0.7,
-      roughness: 0.18,
-      metalness: 0.05
-    })
-  );
-  lamp.position.set(light.x, light.y, light.z);
-  lamp.rotation.x = Math.PI / 2;
-  scene.add(lamp);
 };
 
 const addCabinetHardware = (group: THREE.Group, cabinet: CabinetHardware) => {

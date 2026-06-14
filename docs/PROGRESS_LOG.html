@@ -31,6 +31,20 @@
 
 <main id="entries">
 
+  <article data-slice="render-dead-code-cleanup" data-date="2026-06-14">
+    <h3>Sweep The Dead Render Helpers</h3>
+    <dl>
+      <dt>Branch</dt><dd><code>chore/render-cleanup</code></dd>
+      <dt>PR</dt><dd>TBD</dd>
+      <dt>Changed</dt><dd>removed the render helpers left dead after the elevated-hardware removal: <code>addRampDevice</code> and its ramp sub-builders (<code>addRampSideWall</code>, <code>addRampCrossBrace</code>, <code>addRampSideRailFastener</code>, <code>addRampEntranceLip</code>), the wireform builders (<code>addWireformPath</code>, <code>addWireformRailFastener</code>, <code>addWireformTieFastener</code>), <code>addCabinetTopperLight</code>, and the now-orphaned <code>addElevatedSupportSaddle</code> (the shared foot/collar helpers stay, still used by plastic covers). Removed their three call sites that iterated the now-empty <code>ramps</code>/<code>wireforms</code>/<code>topperLights</code> arrays and the ten orphaned type imports. No behavior change: the deleted code only ever ran over empty arrays. <code>render.ts</code> shrank from 1923 to 1746 lines.</dd>
+      <dt>Verification</dt><dd>dash grep; <code>git diff --check</code>; <code>pnpm exec tsc --noEmit</code>; <code>pnpm exec vitest run tests/</code> (65 passing); <code>pnpm build</code> (lint clean); <code>PORT=3033 pnpm exec playwright test</code> (4 passing, canvas renders).</dd>
+      <dt>Assumptions</dt><dd>The empty <code>ramps</code>/<code>wireforms</code>/<code>topperLights</code> blueprint arrays are kept and asserted empty by tests, so the removal cannot silently regress.</dd>
+      <dt>GDD coverage</dt><dd>No spec change; build log entry added to <code>docs/gdd/06-camera-and-rendering.html</code>.</dd>
+      <dt>Followups</dt><dd>None.</dd>
+    </dl>
+  </article>
+
+
   <article data-slice="strip-dead-elevated-hardware" data-date="2026-06-14">
     <h3>Strip The Dead Elevated Hardware Layer</h3>
     <dl>
