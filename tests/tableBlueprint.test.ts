@@ -1758,6 +1758,7 @@ describe("Silverball Social physical board blueprint", () => {
     expect(shotById.get("shot.right-orbit")?.deviceIds).toEqual(
       expect.arrayContaining(["orbit.right.entry", "orbit.right.exit", "orbit.right.outer.link", "lane.top.right"])
     );
+    expect(shotById.get("shot.right-orbit")?.deviceIds.some((id) => id.startsWith("pop-b"))).toBe(true);
 
     for (const lane of blueprint.lanes) {
       expect(laneWallIds.has(`${lane.id}.inner`) || laneWallIds.has(`${lane.id}.inner-left`), lane.id).toBe(true);
