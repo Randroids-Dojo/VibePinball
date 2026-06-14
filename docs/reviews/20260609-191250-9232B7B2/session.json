@@ -1,86 +1,86 @@
 {
-  "artifactRootPath" : "\/Users\/randroid\/Documents\/Dev\/VibePinball\/docs\/reviews\/20260609-191250-9232B7B2",
-  "captures" : [
+  "artifactRootPath": "docs/reviews/20260609-191250-9232B7B2",
+  "captures": [
     {
-      "browserSnapshotRelativePath" : "captures\/ADD10169-85B4-4749-9613-D7A8282FAA3A.browser.json",
-      "browserTitle" : "VibePinball",
-      "browserURL" : "http:\/\/localhost:3011\/",
-      "createdAt" : "2026-06-11T03:41:33.063Z",
-      "id" : "ADD10169-85B4-4749-9613-D7A8282FAA3A",
-      "note" : "Chrome extension playtest retry: drag interaction on the Launch button successfully behaved as a held plunger input. The ball launched and the HUD moved to the live-ball message.",
-      "rating" : 4,
-      "screenshotRelativePath" : "captures\/ADD10169-85B4-4749-9613-D7A8282FAA3A.png",
-      "severity" : "note",
-      "tags" : [
+      "browserSnapshotRelativePath": "captures/ADD10169-85B4-4749-9613-D7A8282FAA3A.browser.json",
+      "browserTitle": "VibePinball",
+      "browserURL": "http://localhost:3011/",
+      "createdAt": "2026-06-11T03:41:33.063Z",
+      "id": "ADD10169-85B4-4749-9613-D7A8282FAA3A",
+      "note": "Chrome extension playtest retry: drag interaction on the Launch button successfully behaved as a held plunger input. The ball launched and the HUD moved to the live-ball message.",
+      "rating": 4,
+      "screenshotRelativePath": "captures/ADD10169-85B4-4749-9613-D7A8282FAA3A.png",
+      "severity": "note",
+      "tags": [
         "playtest",
         "chrome",
         "mechanics"
       ]
     },
     {
-      "browserSnapshotRelativePath" : "captures\/694B4089-DAD1-4780-8B3B-9FD983FEA984.browser.json",
-      "browserTitle" : "(1) Randroid88 - Twitch",
-      "browserURL" : "https:\/\/www.twitch.tv\/randroid88",
-      "createdAt" : "2026-06-11T03:54:19.154Z",
-      "id" : "694B4089-DAD1-4780-8B3B-9FD983FEA984",
-      "note" : "Blocked Chrome mechanics playtest: Chrome is running and the native host manifest is valid, but the selected Default Chrome profile reports the Codex Chrome Extension is not installed or enabled. Re-enable the selected profile before using Chrome plus VibeReview for physical mechanics signoff.",
-      "rating" : 2,
-      "screenshotRelativePath" : "captures\/694B4089-DAD1-4780-8B3B-9FD983FEA984.png",
-      "severity" : "issue",
-      "tags" : [
+      "browserSnapshotRelativePath": "captures/694B4089-DAD1-4780-8B3B-9FD983FEA984.browser.json",
+      "browserTitle": "(1) Randroid88 - Twitch",
+      "browserURL": "https://www.twitch.tv/randroid88",
+      "createdAt": "2026-06-11T03:54:19.154Z",
+      "id": "694B4089-DAD1-4780-8B3B-9FD983FEA984",
+      "note": "Blocked Chrome mechanics playtest: Chrome is running and the native host manifest is valid, but the selected Default Chrome profile reports the Codex Chrome Extension is not installed or enabled. Re-enable the selected profile before using Chrome plus VibeReview for physical mechanics signoff.",
+      "rating": 2,
+      "screenshotRelativePath": "captures/694B4089-DAD1-4780-8B3B-9FD983FEA984.png",
+      "severity": "issue",
+      "tags": [
         "chrome",
         "vibereview",
         "playtest"
       ]
     },
     {
-      "browserSnapshotRelativePath" : "captures\/BABCF596-17A7-4B09-A0A5-D02A2C59B55E.browser.json",
-      "browserTitle" : "(1) Randroid88 - Twitch",
-      "browserURL" : "https:\/\/www.twitch.tv\/randroid88",
-      "createdAt" : "2026-06-11T04:07:28.174Z",
-      "id" : "BABCF596-17A7-4B09-A0A5-D02A2C59B55E",
-      "note" : "Chrome plus VibeReview mechanics playtest is blocked. Google Chrome is installed and running, and the native host manifest is valid, but the selected Default Chrome profile reports the Codex Chrome Extension missing or disabled. Physics and mechanics still need a held-input playtest through the requested Chrome extension path after the extension is restored.",
-      "rating" : 2,
-      "screenshotRelativePath" : "captures\/BABCF596-17A7-4B09-A0A5-D02A2C59B55E.png",
-      "severity" : "blocksRelease",
-      "tags" : [
+      "browserSnapshotRelativePath": "captures/BABCF596-17A7-4B09-A0A5-D02A2C59B55E.browser.json",
+      "browserTitle": "(1) Randroid88 - Twitch",
+      "browserURL": "https://www.twitch.tv/randroid88",
+      "createdAt": "2026-06-11T04:07:28.174Z",
+      "id": "BABCF596-17A7-4B09-A0A5-D02A2C59B55E",
+      "note": "Chrome plus VibeReview mechanics playtest is blocked. Google Chrome is installed and running, and the native host manifest is valid, but the selected Default Chrome profile reports the Codex Chrome Extension missing or disabled. Physics and mechanics still need a held-input playtest through the requested Chrome extension path after the extension is restored.",
+      "rating": 2,
+      "screenshotRelativePath": "captures/BABCF596-17A7-4B09-A0A5-D02A2C59B55E.png",
+      "severity": "blocksRelease",
+      "tags": [
         "chrome",
         "vibereview",
         "playtest"
       ]
     },
     {
-      "browserSnapshotRelativePath" : "captures\/3442B653-7480-4AA3-AFD7-0F5298B9643C.browser.json",
-      "browserTitle" : "VibePinball",
-      "browserURL" : "http:\/\/localhost:3011\/",
-      "createdAt" : "2026-06-11T09:10:55.556Z",
-      "id" : "3442B653-7480-4AA3-AFD7-0F5298B9643C",
-      "note" : "Chrome mechanics playtest on localhost:3011: ball one drained in about three seconds after launch with no target or lock progress, then ball two reached a lane award and appeared to stall. Repeated flipper and nudge input left the HUD at Ball 2, Targets 0\/5, Locks 0\/2, score 950, and message Lane award.",
-      "rating" : 2,
-      "screenshotRelativePath" : "captures\/3442B653-7480-4AA3-AFD7-0F5298B9643C.png",
-      "severity" : "issue",
-      "tags" : [
+      "browserSnapshotRelativePath": "captures/3442B653-7480-4AA3-AFD7-0F5298B9643C.browser.json",
+      "browserTitle": "VibePinball",
+      "browserURL": "http://localhost:3011/",
+      "createdAt": "2026-06-11T09:10:55.556Z",
+      "id": "3442B653-7480-4AA3-AFD7-0F5298B9643C",
+      "note": "Chrome mechanics playtest on localhost:3011: ball one drained in about three seconds after launch with no target or lock progress, then ball two reached a lane award and appeared to stall. Repeated flipper and nudge input left the HUD at Ball 2, Targets 0/5, Locks 0/2, score 950, and message Lane award.",
+      "rating": 2,
+      "screenshotRelativePath": "captures/3442B653-7480-4AA3-AFD7-0F5298B9643C.png",
+      "severity": "issue",
+      "tags": [
         "physics",
         "mechanics",
         "playtest"
       ]
     }
   ],
-  "createdAt" : "2026-06-10T00:12:50.812Z",
-  "docsProfile" : {
-    "docsDirectoryPath" : "\/Users\/randroid\/Documents\/Dev\/VibePinball\/docs",
-    "hasFollowupsHTML" : true,
-    "hasFunFactorHTML" : true,
-    "hasLegacyMarkdown" : false,
-    "hasOpenQuestionsHTML" : true,
-    "hasPlaytestHTML" : true,
-    "kind" : "fullSpiralHTML",
-    "projectRootPath" : "\/Users\/randroid\/Documents\/Dev\/VibePinball"
+  "createdAt": "2026-06-10T00:12:50.812Z",
+  "docsProfile": {
+    "docsDirectoryPath": "docs",
+    "hasFollowupsHTML": true,
+    "hasFunFactorHTML": true,
+    "hasLegacyMarkdown": false,
+    "hasOpenQuestionsHTML": true,
+    "hasPlaytestHTML": true,
+    "kind": "fullSpiralHTML",
+    "projectRootPath": "."
   },
-  "endedAt" : "2026-06-13T01:31:01.506Z",
-  "id" : "20260609-191250-9232B7B2",
-  "projectRootPath" : "\/Users\/randroid\/Documents\/Dev\/VibePinball",
-  "resumedAt" : "2026-06-13T01:31:01.505Z",
-  "status" : "ended",
-  "title" : "VibePinball"
+  "endedAt": "2026-06-13T01:31:01.506Z",
+  "id": "20260609-191250-9232B7B2",
+  "projectRootPath": ".",
+  "resumedAt": "2026-06-13T01:31:01.505Z",
+  "status": "ended",
+  "title": "VibePinball"
 }

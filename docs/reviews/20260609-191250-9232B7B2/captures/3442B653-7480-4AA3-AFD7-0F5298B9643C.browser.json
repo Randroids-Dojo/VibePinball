@@ -1,52 +1,47 @@
 {
-  "canvases" : [
+  "canvases": [
     {
-      "height" : 1992,
-      "label" : "3D Silverball Social playfield",
-      "width" : 2934
+      "height": 1992,
+      "label": "3D Silverball Social playfield",
+      "width": 2934
     }
   ],
-  "capturedAt" : "2026-06-11T09:10:55.304Z",
-  "consoleMessages" : [
+  "capturedAt": "2026-06-11T09:10:55.304Z",
+  "consoleMessages": [
     {
-      "level" : "warn",
-      "message" : "using deprecated parameters for the initialization function; pass a single object instead",
-      "timestamp" : "2026-06-11T09:08:49.311Z"
+      "level": "warn",
+      "message": "using deprecated parameters for the initialization function; pass a single object instead",
+      "timestamp": "2026-06-11T09:08:49.311Z"
     }
   ],
-  "domSummary" : {
-    "bodyTextSample" : "950 Lane award. BALL 2\/3 TARGETS 0\/5 LOCKS 0\/2 TILT 0\/2 LAUNCH 0% Shift or A\/L for flippers. Hold Space for plunger. Arrow keys nudge. Enter starts or restarts. Left Nudge L Start Launch Right",
-    "buttons" : [
+  "domSummary": {
+    "bodyTextSample": "950 Lane award. BALL 2/3 TARGETS 0/5 LOCKS 0/2 TILT 0/2 LAUNCH 0% Shift or A/L for flippers. Hold Space for plunger. Arrow keys nudge. Enter starts or restarts. Left Nudge L Start Launch Right",
+    "buttons": [
       "Left",
       "Nudge L",
       "Start",
       "Launch",
       "Right"
     ],
-    "headings" : [
-
-    ],
-    "interactiveElementCount" : 5
+    "headings": [],
+    "interactiveElementCount": 5
   },
-  "focusedElement" : "button",
-  "scroll" : {
-    "x" : 0,
-    "y" : 0
+  "focusedElement": "button",
+  "scroll": {
+    "x": 0,
+    "y": 0
   },
-  "selectedText" : "",
-  "storage" : {
-    "localStorage" : {
-
-    },
-    "sessionStorage" : {
-      "__next_debug_channel:nBDAfUO5ywl8ZboCEfjpP" : "[\"Ok4xNzgxMTY4OTI5MDQwLjY2ODUKMzoiJEVPYmplY3QuZGVmaW5lUHJvcGVydHkoKCk9PntjdHguY29tcG9uZW50TW9kLnByZWxvYWRTdHlsZShmdWxsSHJlZixjdHgucmVuZGVyT3B0cy5jcm9zc09yaWdpbixjdHgubm9uY2UpfSxcIm5hbWVcIix7dmFsdWU6XCJcIn0pIgoyOnsibmFtZSI6IlByZWxvYWRzIiwia2V5IjpudWxsLCJlbnYiOiJTZXJ2ZXIiLCJzdGFjayI6W10sInByb3BzIjp7InByZWxvYWRDYWxsYmFja3MiOlsiJDMiXX19CjQ6eyJ0aW1lIjo0LjEwNTYyNTAwMDAwMDE0NTV9CjU6eyJ0aW1lIjo0LjMxODI1MDAwMDAwMDI2Mn0KNjpbXQo4OltdCmE6W1siQXJyYXkubWFwIiwiIiwwLDAsMCwwLGZhbHNlXV0KYjpbWyJBcnJheS5tYXAiLCIiLDAsMCwwLDAsZmFsc2VdXQpjOltbIkFycmF5Lm1hcCIsIiIsMCwwLDAsMCxmYWxzZV1dCmY6SVsiW3Byb2plY3RdL25vZGVfbW9kdWxlcy8ucG5wbS9uZXh0QDE2LjIuOV9AYmFiZWwrY29yZUA3LjI5LjdfQHBsYXl3cmlnaHQrdGVzdEAxLjYwLjBfcmVhY3QtZG9tQDE5LjIuN19yZWFjdEAxOS4yLjdfX3JlYWN0QDE5LjIuNy9ub2RlX21vZHVsZXMvbmV4dC9kaXN0L2NsaWVudC9jb21wb25lbnRzL2xheW91dC1yb3V0ZXIuanMgW2FwcC1jbGllbnRdIChlY21hc2NyaXB0KSIsWyIvX25leHQvc3RhdGljL2NodW5rcy8xNXp3X25leHRfZGlzdF8wLW53d2k4Ll8uanMiLCIvX25leHQvc3RhdGljL2NodW5rcy9hcHBfbGF5b3V0X3RzeF8wdjNocGRxLl8uanMiXSwiZGVmYXVsdCJdCjEyOklbIltwcm9qZWN0XS9ub2RlX21vZHVsZXMvLnBucG0vbmV4dEAxNi4yLjlfQGJhYmVsK2NvcmVANy4yOS43X0BwbGF5d3JpZ2h0K3Rlc3RAMS42MC4wX3JlYWN0LWRvbUAxOS4yLjdfcmVhY3RAMTkuMi43X19yZWFjdEAxOS4yLjcvbm9kZV9tb2R1bGVzL25leHQvZGlzdC9jbGllbnQvY29tcG9uZW50cy9yZW5kZXItZnJvbS10ZW1wbGF0ZS1jb250ZXh0LmpzIFthcHAtY2xpZW50XSAoZWNtYXNjcmlwdCkiLFsiL19uZXh0L3N0YXRpYy9jaHVua3MvMTV6d19uZXh0X2Rpc3RfMC1ud3dpOC5fLmpzIiwiL19uZXh0L3N0YXRpYy9jaHVua3MvYXBwX2xheW91dF90c3hfMHYzaHBkcS5fLmpzIl0sImRlZmF1bHQiXQoxMzp7fQoxNDpbWyJQcm9taXNlLmFsbCIsIiIsMCwwLDAsMCx0cnVlXV0KMTE6eyJjaGlsZHJlbiI6WyIkIiwiJEwxMiIsbnVsbCwiJDEzIixudWxsLCIkMTQiLDFdfQoxNTpbWyJQcm9taXNlLmFsbCIsIiIsMCwwLDAsMCx0cnVlXV0KMTA6eyJwYXJhbGxlbFJvdXRlcktleSI6ImNoaWxkcmVuIiwiZXJyb3IiOiIkdW5kZWZpbmVkIiwiZXJyb3JTdHlsZXMiOiIkdW5kZWZpbmVkIiwiZXJyb3JTY3JpcHRzIjoiJHVuZGVmaW5lZCIsInRlbXBsYXRlIjpbIiQiLCIkOSIsbnVsbCwiJDExIixudWxsLCIkMTUiLDBdLCJ0ZW1wbGF0ZVN0eWxlcyI6IiR1bmRlZmluZWQiLCJ0ZW1wbGF0ZVNjcmlwdHMiOiIkdW5kZWZpbmVkIiwibm90Rm91bmQiOiIkWSIsImZvcmJpZGRlbiI6IiR1bmRlZmluZWQiLCJ1bmF1dGhvcml6ZWQiOiIkdW5kZWZpbmVkIiwic2VnbWVudFZpZXdCb3VuZGFyaWVzIjoiJFkifQoxNjpbWyJQcm9taXNlLmFsbCIsIiIsMCwwLDAsMCx0cnVlXV0KZTp7Im5hbWUiOiJSb290TGF5b3V0Iiwia2V5IjpudWxsLCJlbnYiOiJTZXJ2ZXIiLCJzdGFjayI6W10sInByb3BzIjp7ImNoaWxkcmVuIjpbIiQiLCIkTGYiLG51bGwsIiQxMCIsbnVsbCwiJDE2IiwxXSwicGFyYW1zIjoiJFkifX0KMTc6eyJ0aW1lIjo1LjE3MDkxNzAwMDAwMDM3Mn0KMTg6W1siUm9vdExheW91dCIsIi9Vc2Vycy9yYW5kcm9pZC9Eb2N1bWVudHMvRGV2L1ZpYmVQaW5iYWxsLy5uZXh0L2Rldi9zZXJ2ZXIvY2h1bmtzL3Nzci9fMDdjeDl0dS5fLmpzIiwxOSw0NjMsMTgsMSxmYWxzZV1dCjE5OnsidGltZSI6NS4zOTUwMDAwMDAwMDA0Mzd9CjFhOltbIlJvb3RMYXlvdXQiLCIvVXNlcnMvcmFuZHJvaWQvRG9jdW1lbnRzL0Rldi9WaWJlUGluYmFsbC8ubmV4dC9kZXYvc2VydmVyL2NodW5rcy9zc3IvXzA3Y3g5dHUuXy5qcyIsMjEsNDcwLDE4LDEsZmFsc2VdXQoxYjpbWyJQcm9taXNlLmFsbCIsIiIsMCwwLDAsMCx0cnVlXV0KMWQ6W1siUHJvbWlzZS5hbGwiLCIiLDAsMCwwLDAsdHJ1ZV1dCjFmOltdCjIxOnsibmFtZSI6Ik5vdEZvdW5kIiwia2V5IjpudWxsLCJlbnYiOiJTZXJ2ZXIiLCJzdGFjayI6W10sInByb3BzIjp7fX0KMjI6eyJ0aW1lIjo1LjU4NTU4MzAwMDAwMDA0Mn0KMjM6eyJuYW1lIjoiSFRUUEFjY2Vzc0Vycm9yRmFsbGJhY2siLCJrZXkiOm51bGwsImVudiI6IlNlcnZlciIsIm93bmVyIjoiJDIxIiwic3RhY2siOltdLCJwcm9wcyI6eyJzdGF0dXMiOjQwNCwibWVzc2FnZSI6IlRoaXMgcGFnZSBjb3VsZCBub3QgYmUgZm91bmQuIn19CjI0OnsidGltZSI6NS44MjkxMjUwMDAwMDAyMDR9CjI1OnsidGltZSI6Ni4wMjYyMDgwMDAwMDAyMjR9CjI2OltdCjI3OltdCjI4OltdCjI5OltdCjJhOltdCjJiOltdCjJjOltdCjJkOltbIlByb21pc2UuYWxsIiwiIiwwLDAsMCwwLHRydWVdXQoyZTpbWyJQcm9taXNlLmFsbCIsIiIsMCwwLDAsMCx0cnVlXV0KMmY6W1siUHJvbWlzZS5hbGwiLCIiLDAsMCwwLDAsdHJ1ZV1dCjMwOltbIlByb21pc2UuYWxsIiwiIiwwLDAsMCwwLHRydWVdXQozMjp7Im5hbWUiOiJIb21lIiwia2V5IjpudWxsLCJlbnYiOiJTZXJ2ZXIiLCJzdGFjayI6W1siUHJvbWlzZS5hbGwiLCIiLDAsMCwwLDAsdHJ1ZV1dLCJwcm9wcyI6eyJwYXJhbXMiOiIkQDMzIiwic2VhcmNoUGFyYW1zIjoiJEAzNCJ9fQozNTp7InRpbWUiOjYuNTg1MzMyOTk5OTk5OTkxfQozNjpbWyJIb21lIiwiL1VzZXJzL3JhbmRyb2lkL0RvY3VtZW50cy9EZXYvVmliZVBpbmJhbGwvLm5leHQvZGV2L3NlcnZlci9jaHVua3Mvc3NyL1tyb290LW9mLXRoZS1zZXJ2ZXJdX18xZmNsbDJ4Ll8uanMiLDU2LDQ2Myw1NSwxLGZhbHNlXV0KMzc6eyJ0aW1lIjo2LjY2Njc5MTk5OTk5OTk4N30KMzk6W1siQXJyYXkubWFwIiwiIiwwLDAsMCwwLGZhbHNlXSxbIkFycmF5Lm1hcC"
-    }
+  "selectedText": "",
+  "storage": {
+    "localStorage": {},
+    "sessionStorage": {},
+    "note": "redacted before commit"
   },
-  "title" : "VibePinball",
-  "url" : "http:\/\/localhost:3011\/",
-  "viewport" : {
-    "devicePixelRatio" : 2,
-    "height" : 996,
-    "width" : 1467
+  "title": "VibePinball",
+  "url": "http://localhost:3011/",
+  "viewport": {
+    "devicePixelRatio": 2,
+    "height": 996,
+    "width": 1467
   }
 }

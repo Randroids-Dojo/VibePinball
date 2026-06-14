@@ -1756,7 +1756,7 @@ describe("Silverball Social physical board blueprint", () => {
     expect(rightOrbit?.entry.id).toBe("orbit.right.entry");
     expect(rightOrbit?.exit.id).toBe("orbit.right.exit");
     expect(shotById.get("shot.right-orbit")?.deviceIds).toEqual(
-      expect.arrayContaining(["orbit.right.entry", "orbit.right.exit", "lane.lower.right-in"])
+      expect.arrayContaining(["orbit.right.entry", "orbit.right.exit", "orbit.right.outer.link", "lane.top.right"])
     );
 
     for (const lane of blueprint.lanes) {
